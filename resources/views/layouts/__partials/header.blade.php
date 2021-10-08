@@ -1,0 +1,76 @@
+<?php
+    //$fullName = explode(" ", $_SESSION['name']);
+    //$firstName = strtolower($fullName[0]);
+?>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Navbar brand -->
+            <a class="navbar-brand mt-10 mt-lg-0" href="{{route('painel')}}">
+                <img src="{{asset('img/logo-login-sistema.png')}}" height="40" alt="" loading="lazy" />
+            </a>
+            <!-- Left links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item space-item-navbar">
+                    <a class="nav-link " href="{{route('admin')}}">Admin</a>
+                </li>
+                <li class="nav-item space-item-navbar">
+                    <a class="nav-link" href="{{route('bi')}}">BI</a>
+                </li>
+                <li class="nav-item space-item-navbar">
+                    <a class="nav-link" href="{{route('compras')}}">Compras</a>
+                </li>
+                <li class="nav-item space-item-navbar">
+                    <a class="nav-link" href="{{route('compliance')}}">Compliance</a>
+                </li>
+                <li class="nav-item space-item-navbar">
+                    <a class="nav-link" href="{{route('contabil')}}">Contábil</a>
+                </li>
+                <li class="nav-item space-item-navbar">
+                    <a class="nav-link" href="{{route('financeiro')}}">Financeiro</a>
+                </li>
+                <li class="nav-item space-item-navbar">
+                    <a class="nav-link" href="{{route('rh')}}">Gestão de Pessoas</a>
+                </li>
+                <li class="nav-item space-item-navbar">
+                    <a class="nav-link" href="{{route('juridico')}}">Jurídico</a>
+                </li>
+                <li class="nav-item dropdown space-item-navbar ">
+                    <a class="nav-link dropdown-toggle" href="{{route('relatorio')}}" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Relatório
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Left links -->
+        </div>
+        <!-- Collapsible wrapper -->
+
+        <!-- Right elements -->
+        <div class="d-flex align-items-center">
+            <!-- Avatar -->
+            <li class="nav-item dropdown  d-flex align-items-center hidden-arrow space-item-navbar">
+                <a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration:none; color:black;">
+                    <i class="bi bi-person-fill"></i>
+                    <span>Pedroenrick</span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li><a class="dropdown-item" href="#">My profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="{{route('logout')}}">Sair</a></li>
+                </ul>
+            </li>
+        </div>
+        <!-- Right elements -->
+    </div>
+    <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->
