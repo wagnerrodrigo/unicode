@@ -3,8 +3,9 @@
 @include('../layouts/__partials/header')
 
 @section('content')
-<div class="container d-flex flex-column" style="align-items: center; justify-content: space-evenly;">
-
+<div class="container d-flex flex-column" style="align-items: center; justify-content: space-evenly; padding:20px;">
+<div class="card">
+    <div class="card-header" style="padding: 10px">
     <div style="padding:10px">
         <h1>
             Cadastro Fornecedores
@@ -65,11 +66,17 @@
                 <strong>Cargo Funcao</strong>
                 <input class="form-control mt-1" type="text" placeholder="Cargo Função" name="cargo_funcao" style="width: 358px" />
             </div>
-        </div>
 
-        <div>
-            <button type="submit" class="btn btn-success">Adicionar</button>
+            
         </div>
+        <div class="col-sm-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-success me-1 mb-1">
+                    <i data-feather="check-circle"></i>Adicionar
+                </button>
+                <button type="reset" class="btn btn-danger me-1 mb-1">Cancelar</button>
+            </div>
     </form>
+    </div>
+    </div>
 </div>
 @endsection

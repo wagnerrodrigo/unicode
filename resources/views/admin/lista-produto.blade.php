@@ -11,7 +11,6 @@
                 <div class="row d-flex" style="justify-content: space-between;">
                     <div class="col-8 col-md-6 order-md-1 order-last" style="width: 33%;">
                         <h3>Produtos </h3>
-                        <p class="text-subtitle text-muted"> <a href="https://github.com/fiduswriter/Simple-DataTables/wiki"></a>.</p>
                     </div>
                     
                     <div class="col-8 col-md-6 order-md-2 order-first" style="width: 33%;">
@@ -24,7 +23,7 @@
                     </div>
                 </div>
                 <div  class="col-8 col-md-6 order-md-1 pb-3" >
-                        <a class="btn btn-success">adicionar</a>
+                    <a class="btn btn-success">adicionar</a>
                 </div>
             </div>
             <section class="section">

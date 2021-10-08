@@ -3,14 +3,14 @@
 @include('../layouts/__partials/header')
 
 @section('content')
+
 <div id="app">
     <div id="main">
         <div class="main-content container-fluid">
             <div class="page-title">
                 <div class="row d-flex" style="justify-content: space-between;">
                     <div class="col-8 col-md-6 order-md-1 order-last" style="width: 33%;">
-                        <h3>Fornecedor </h3>
-                        <p class="text-subtitle text-muted"> <a href="https://github.com/fiduswriter/Simple-DataTables/wiki"></a>.</p>
+                        <h3 style="padding-bottom:20px;">Lista de Serviço </h3>
                     </div>
                     
                     <div class="col-8 col-md-6 order-md-2 order-first" style="width: 33%;">
@@ -29,7 +29,7 @@
             <section class="section">
                 <div class="card">
                     <div class="card-header">
-                        Lista de Fornecedor
+                        Serviços
                     </div>
                     <div class="card-body">
                         <table class='table table-striped' id="table1">
