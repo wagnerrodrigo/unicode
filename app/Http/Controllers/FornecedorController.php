@@ -14,7 +14,9 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-        return view('admin.fornecedor.lista-fornecedor');
+        $fornecedores = Fornecedor::all();
+
+        return view('admin.fornecedor.lista-fornecedor', compact('fornecedores'));
     }
 
     //mostra form de cadastro de fornecedores
@@ -54,7 +56,8 @@ class FornecedorController extends Controller
         $fornecedor->save();
 
         echo "<script> alert('Fornecedor criado com sucesso!!') </script>";
-        return view('admin.fornecedor.cadastro-fornecedor');
+        
+        return redirect('/fornecedores');
     }
 
     /**
@@ -65,7 +68,7 @@ class FornecedorController extends Controller
      */
     public function show($id)
     {
-        //
+    
     }
 
     /**
@@ -76,7 +79,7 @@ class FornecedorController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
