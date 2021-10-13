@@ -38,7 +38,7 @@
                                     <th>Departamento</th>
                                     <th>Carteira</th>
                                     <th>Status</th>
-                                    <th>ação</th>
+                                    <th style="text-align: center;">Ação</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,7 +50,8 @@
                                         <span class="badge bg-success">Active</span>
                                     </td>
                                     <td>
-                                        <a href="#" class="btn icon btn-primary "><i class="bi bi-pen-fill"></i></a>
+                                        <a href="modal-centro-custo"  data-bs-toggle="modal" data-bs-target="#inlineForm" class="btn icon btn-primary " style="padding: 8px 12px;"  ><i class="bi bi-pen-fill"></i></a>
+                                        <a href="#" class="btn icon btn-danger "   style="padding: 8px 12px;"  ><i class="bi bi-trash"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -62,7 +63,8 @@
                                     </td>
                                     <td>
                                         <a href="#" class="btn icon btn-primary "><i class="bi bi-pen-fill"></i></a>
-                                    </td>
+                                        <a href="#" class="btn icon btn-danger "   style="padding: 8px 12px;"  ><i class="bi bi-trash"></i></a>
+                                    </td>                                    
                                 </tr>
                                 <tr>
                                     <td>COIMBRA E FERREIRA SOCIEDADE DE ADVOGADOS</td>
@@ -73,6 +75,7 @@
                                     </td>
                                     <td>
                                         <a href="#" class="btn icon btn-primary "><i class="bi bi-pen-fill"></i></a>
+                                        <a href="#" class="btn icon btn-danger "   style="padding: 8px 12px;"  ><i class="bi bi-trash"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -84,6 +87,7 @@
                                     </td>
                                     <td>
                                         <a href="#" class="btn icon btn-primary "><i class="bi bi-pen-fill"></i></a>
+                                        <a href="#" class="btn icon btn-danger "   style="padding: 8px 12px;"  ><i class="bi bi-trash"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -95,6 +99,7 @@
                                     </td>
                                     <td>
                                         <a href="#" class="btn icon btn-primary "><i class="bi bi-pen-fill"></i></a>
+                                        <a href="#" class="btn icon btn-danger "   style="padding: 8px 12px;"  ><i class="bi bi-trash"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -106,6 +111,7 @@
                                     </td>
                                     <td>
                                         <a href="#" class="btn icon btn-primary "><i class="bi bi-pen-fill"></i></a>
+                                        <a href="#" class="btn icon btn-danger "   style="padding: 8px 12px;"  ><i class="bi bi-trash"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -117,6 +123,7 @@
                                     </td>
                                     <td>
                                         <a href="#" class="btn icon btn-primary "><i class="bi bi-pen-fill"></i></a>
+                                        <a href="#" class="btn icon btn-danger "   style="padding: 8px 12px;"  ><i class="bi bi-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
