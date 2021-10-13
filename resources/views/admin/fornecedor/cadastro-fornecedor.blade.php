@@ -1,6 +1,5 @@
 @extends('layouts.templates.template')
 @section('title', 'Fornecedor')
-@include('../layouts/__partials/header')
 
 @section('content')
 <div class="container d-flex flex-column" style="align-items: center; justify-content: space-evenly; padding:20px;">
