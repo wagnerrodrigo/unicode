@@ -14,7 +14,13 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-        return view('admin.fornecedor');
+        return view('admin.fornecedor.lista-fornecedor');
+    }
+
+    //mostra form de cadastro de fornecedores
+    public function cadastro()
+    {
+        return view('admin.fornecedor.cadastro-fornecedor');
     }
 
     /**
@@ -48,7 +54,7 @@ class FornecedorController extends Controller
         $fornecedor->save();
 
         echo "<script> alert('Fornecedor criado com sucesso!!') </script>";
-        return view('admin.fornecedor');
+        return view('admin.fornecedor.cadastro-fornecedor');
     }
 
     /**

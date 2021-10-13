@@ -34,6 +34,7 @@ Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('finance
 
 //rotas Fornecedor
 Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('fornecedores');
+Route::get('/cadastro-fornecedores', [FornecedorController::class, 'cadastro'])->name('cadastro-fornecedores');
 Route::post('/fornecedores', [FornecedorController::class, 'store'])->name('fornecedores');
 
 //rotas Serviço
