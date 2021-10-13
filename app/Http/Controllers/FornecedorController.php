@@ -15,7 +15,6 @@ class FornecedorController extends Controller
     public function index()
     {
         $fornecedores = Fornecedor::all();
-        
 
         return view('admin.fornecedor.lista-fornecedor', compact('fornecedores'));
     }
@@ -57,7 +56,8 @@ class FornecedorController extends Controller
         $fornecedor->save();
 
         echo "<script> alert('Fornecedor criado com sucesso!!') </script>";
-        return request('admin.fornecedor.lista-fornecedor');
+        
+        return redirect('/fornecedores');
     }
 
     /**
