@@ -15,6 +15,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\PainelController;
 use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\NotaFiscalController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
