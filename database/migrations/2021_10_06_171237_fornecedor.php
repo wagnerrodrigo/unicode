@@ -21,7 +21,7 @@ class Fornecedor extends Migration
             $table->string('email_secundario', 64)->unique();
             $table->string('telefone');
             $table->string('inscricao_estadual');
-            $table->string('ramo_atuaca');
+            $table->string('ramo_atuacao');
             $table->string('ponto_contato');
             $table->string('cargo_funcao');
             $table->timestamps();
