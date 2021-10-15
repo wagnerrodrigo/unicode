@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Contrato extends Model
 {
-    use  HasFactory, Notifiable;
+    use  HasFactory;
 
     /**
      * The attributes that are mass assignable.

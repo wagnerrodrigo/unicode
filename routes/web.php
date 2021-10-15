@@ -18,6 +18,9 @@ use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\NotaFiscalController;
 use App\Http\Controllers\PlanoContaController;
 use App\Http\Controllers\CantaBancariaController;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\DespesaController;
+use App\Http\Controllers\ContratoController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -39,6 +42,20 @@ Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('finance
 Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('fornecedores');
 Route::get('/cadastro-fornecedores', [FornecedorController::class, 'cadastro'])->name('cadastro-fornecedores');
 Route::post('/fornecedores', [FornecedorController::class, 'store'])->name('fornecedores');
+Route::get('/fornecedores/{id}', [FornecedorController::class, 'show'])->name('edit-fornecedores');
+
+//rotas Usuarios
+Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios');
+Route::get('/cadastro-usuarios', [UsuarioController::class, 'cadastro'])->name('cadastro-usuarios');
+Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuarios');
+Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('edit-usuarios');
+
+//rotas Despesas
+Route::get('/despesas', [DespesaController::class, 'index'])->name('despesas');
+
+//rotas Contratos
+Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos');
+
 
 //rotas Serviço
 Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos');
