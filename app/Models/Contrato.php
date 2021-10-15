@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contrato extends Model
 {
-    use  HasFactory, Notifiable;
+    use  HasFactory;
 
     /**
      * The attributes that are mass assignable.

@@ -3,12 +3,26 @@
 
 @section('content')
 
+@if($fornecedores == [''] || $fornecedores == null)
+    <div id="main" style="margin-top: 5px;">
+        <div class="main-content container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    <h1>Lista Fornecedores</h1>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">
+                        <i class="bi bi-plus-circle"></i> Novo Fornecedor
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+@else
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
                 <h1>Lista Fornecedores</h1>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#xlarge">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">
                     <i class="bi bi-plus-circle"></i> Novo Fornecedor
                 </button>
             </div>
@@ -31,7 +45,10 @@
                             <td>{{$fornecedor->email}}</td>
                             <td>{{$fornecedor->telefone}}</td>
                             <td>
-                                <a href="{{route('cadastro-fornecedores')}}" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
+                                <form method="GET" action="/fornecedores/{{$fornecedor->id}}" data-bs-toggle="modal" data-bs-target="#xlarge-view" class="btn btn-primary" style="padding: 8px 12px;">
+                                    @csrf
+                                    <i class="bi bi-eye-fill"></i>
+                                </form>
                                 <a href="{{route('cadastro-fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
 
                             </td>
@@ -41,9 +58,9 @@
                 </table>
             </div>
         </div>
-
     </div>
 </div>
+@endif
 
 <!-- Inicio Modal Adicionar-->
 <div class="me-1 mb-1 d-inline-block">
@@ -68,24 +85,23 @@
 
                             <div class="px-5 mb-3">
                                 <div>
-                                    <strong>CNPJ</strong>
+                                    <strong>CPF/CNPJ</strong>
                                 </div>
                                 <div>
-                                    <input class="form-control mt-1" type="text" placeholder="CNPJ" name="cnpj" style="width: 358px" />
+                                    <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" name="cnpj" style="width: 358px" />
                                 </div>
                             </div>
                         </div>
 
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>Telefone</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Telefone" name="telefone" style="width: 358px" />
-                            </div>
-
-
-                            <div class="px-5 mb-3">
                                 <strong>Email</strong>
                                 <input class="form-control mt-1" type="email" placeholder="E-mail" name="email" style="width: 358px" />
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Email Secundário(Opcional)</strong>
+                                <input class="form-control mt-1" type="email" placeholder="E-mail" name="email_secundario" style="width: 358px" />
                             </div>
                         </div>
 
@@ -96,8 +112,8 @@
                             </div>
 
                             <div class="px-5 mb-3">
-                                <strong>Ramo Atuacao</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Ramo atuação" name="ramo_atuacao" style="width: 358px" />
+                                <strong>Telefone</strong>
+                                <input class="form-control mt-1" type="text" placeholder="Telefone" name="telefone" style="width: 358px" />
                             </div>
                         </div>
 
@@ -114,16 +130,114 @@
 
                         </div>
 
+                        <div class="d-flex" style="width: 100%">
+
+                            <div class="px-5 mb-3">
+                                <strong>Ramo Atuacao</strong>
+                                <input class="form-control mt-1" type="text" placeholder="Ramo atuação" name="ramo_atuacao" style="width: 358px" />
+                            </div>
+                        </div>
+
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary me-1 mb-1">
+                        <button type="submit" class="btn btn-success me-1 mb-1">
                             <i data-feather="check-circle"></i>Adicionar
                         </button>
                         <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
                     </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fim modal Adicionar -->
 
+<!-- Inicio modal view -->
+<div class="me-1 mb-1 d-inline-block">
+    <!-- Extra Large Modal -->
+    <div class="modal fade text-left w-100" id="xlarge-view" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel16">Fornecedor</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x" data-feather="x"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="d-flex mt-10" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>Nome</strong>
+                            <span>{{$fornecedor->nome}}</span>
+                        </div>
+
+                        <div class="px-5 mb-3">
+                            <div>
+                                <strong>CPF/CNPJ</strong>
+                                <span>{{$fornecedor->cnpj}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mt-10" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>E-mail</strong>
+                            <span>{{$fornecedor->email}}</span>
+                        </div>
+
+                        <div class="px-5 mb-3">
+                            <div>
+                                <strong>Telefone</strong>
+                                <span>{{$fornecedor->telefone}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>Inscrição Estadual</strong>
+                            <span>{{$fornecedor->inscricao_estadual}}</span>
+                        </div>
+
+                        <div class="px-5 mb-3">
+                            <strong>Telefone</strong>
+                            <span>{{$fornecedor->telefone}}</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>Ponto Contato</strong>
+                            <span>{{$fornecedor->ponto_contato}}</span>
+                        </div>
+
+                        <div class="px-5 mb-3">
+                            <strong>Cargo Funcao</strong>
+                            <span>{{$fornecedor->cargo_funcao}}</span>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex" style="width: 100%">
+
+                        <div class="px-5 mb-3">
+                            <strong>Ramo Atuacao</strong>
+                            <span>{{$fornecedor->ramo_atuacao}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-warning me-1 mb-1">
+                            <i data-feather="check-circle"></i>Editar
+                        </button>
+                        <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal" aria-label="Close">
+                            <span>Cancelar</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

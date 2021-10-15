@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fornecedor;
 use Illuminate\Http\Request;
+use App\Models\Usuario;
 
-class FornecedorController extends Controller
+
+class UsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,14 +15,14 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-        $fornecedores = Fornecedor::all();
-        return view('admin.fornecedor.lista-fornecedor', compact('fornecedores'));
+        $usuarios = Usuario::all();
+        return view('admin.usuarios.lista-usuarios', compact('usuarios'));
     }
 
     //mostra form de cadastro de fornecedores
     public function cadastro()
     {
-        return view('admin.fornecedor.cadastro-fornecedor');
+        return view('admin.usuarios.cadastra-usuarios');
     }
 
     /**
@@ -41,22 +42,21 @@ class FornecedorController extends Controller
      */
     public function store(Request $request)
     {
-        $fornecedor = new Fornecedor();
+        $usuario = new Usuario();
 
-        $fornecedor->nome = $request->nome;
-        $fornecedor->cnpj = $request->cnpj;
-        $fornecedor->email = $request->email;
-        $fornecedor->telefone = $request->telefone;
-        $fornecedor->inscricao_estadual = $request->inscricao_estadual;
-        $fornecedor->ramo_atuacao = $request->ramo_atuacao;
-        $fornecedor->ponto_contato = $request->ponto_contato;
-        $fornecedor->cargo_funcao = $request->cargo_funcao;
+        $usuario->nome = $request->nome;
+        $usuario->cpf = $request->cpf;
+        $usuario->email = $request->email;
+        $usuario->email_secundario = $request->email_secundario;
+        $usuario->telefone = $request->telefone;
+        $usuario->endereco = $request->endereco;
+        $usuario->cargo_funcao = $request->cargo_funcao;
 
-        $fornecedor->save();
+        $usuario->save();
 
-        echo "<script> alert('Fornecedor criado com sucesso!!') </script>";
+        echo "<script> alert('Usuario criado com sucesso!!') </script>";
 
-        return redirect('/fornecedores');
+        return redirect('/usuarios');
     }
 
     /**
@@ -67,8 +67,8 @@ class FornecedorController extends Controller
      */
     public function show($id)
     {
-        $fornecedor = Fornecedor::all()->where("id = $id");
-        return view('admin.fornecedor.view-fornecedor', compact('fornecedor'));
+        //$fornecedor = Fornecedor::all()->where("id = $id");
+        //return view('admin.fornecedor.view-fornecedor', compact('fornecedor'));
     }
 
     /**

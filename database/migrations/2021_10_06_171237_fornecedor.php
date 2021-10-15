@@ -24,7 +24,6 @@ class Fornecedor extends Migration
             $table->string('ramo_atuaca');
             $table->string('ponto_contato');
             $table->string('cargo_funcao');
-            $table->timestamp('created_at')->nullable();
             $table->timestamps();
         });
     }
