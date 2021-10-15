@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produto;
 use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
@@ -14,12 +15,13 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        return view('admin.produto');
+        $produtos = Produto::all();
+        return view('admin.produto.produto', compact('produtos'));
     }
 
 
     public function list(){
-        return view('admin.lista-produto');
+        return view('admin.produto.lista-produto');
     }
 
     /**
@@ -40,7 +42,22 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $produto = new Produto();
+    
+        $produto->nome = $request->nome;
+        $produto->cnpj = $request->cnpj;
+        $produto->email = $request->email;
+        $produto->telefone = $request->telefone;
+        $produto->inscricao_estadual = $request->inscricao_estadual;
+        $produto->ramo_atuacao = $request->ramo_atuacao;
+        $produto->ponto_contato = $request->ponto_contato;
+        $produto->cargo_funcao = $request->cargo_funcao;
+
+        $produto->save();
+
+        echo "<script> alert('Produto criado com sucesso!!') </script>";
+        
+        return redirect('/produto');
     }
 
     /**
