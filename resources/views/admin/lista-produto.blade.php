@@ -1,6 +1,6 @@
 @extends('layouts.templates.template')
 @section('title', 'Produto')
-@include('../layouts/__partials/header')
+
 
 @section('content')
 
