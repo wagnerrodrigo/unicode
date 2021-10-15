@@ -16,6 +16,7 @@ use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\PainelController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\NotaFiscalController;
+use App\Http\Controllers\PlanoContaController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -48,6 +49,10 @@ Route::get('/produtos/listas',[ProdutoController::class, 'list'])->name('lista-p
 
 //rotas Centro de custo
 Route::get('/centros-custos',[CentroCusto::class,'index'])->name('centros-custos');
+
+// rotas Plano de contas
+Route::get('/planos-contas',[PlanoContaController::class,'index'])->name('planos-contas');
+Route::get('/cadastro-planos-contas',[PlanoContaController::class,'cadastro'])->name('cadastro-planos-contas');
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {
