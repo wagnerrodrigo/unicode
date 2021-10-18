@@ -14,8 +14,8 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-        $fornecedores = Fornecedor::all();
-        return view('admin.fornecedor.lista-fornecedor', compact('fornecedores'));
+       
+        return view('admin.fornecedor.lista-fornecedor');
     }
 
     //mostra form de cadastro de fornecedores

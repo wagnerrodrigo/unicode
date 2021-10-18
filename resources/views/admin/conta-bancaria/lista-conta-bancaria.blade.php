@@ -9,7 +9,7 @@
             <div class="card-header">
                 <h1>Lista Contas Bancárias</h1>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#xlarge">
-                    <i class="bi bi-plus-circle"></i> Novo conta bancária
+                    <i class="bi bi-plus-circle"></i> Nova conta bancária
                 </button>
             </div>
             <div class="card-body">
