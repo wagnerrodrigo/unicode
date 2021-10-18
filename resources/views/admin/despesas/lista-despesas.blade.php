@@ -65,55 +65,115 @@
                         @csrf
                         <div class="d-flex mt-10" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>Nome</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Nome" name="nome" style="width: 358px" />
-                            </div>
-
-                            <div class="px-5 mb-3">
-                                <div>
-                                    <strong>Valor</strong>
-                                </div>
-                                <div>
-                                    <input class="form-control mt-1" type="text" placeholder="Valor" name="valor_despesa" style="width: 358px" />
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Parcelas</strong>
-                                <select class="form-control" name="parcelas" id="parcelas" style="width: 358px">
-                                    <option selected value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
+                                <strong>Coligada</strong>
+                                <select class="form-control" name="coligada" id="coligada" style="width: 358px">
+                                    <option selected value="empresa_1">Empresa 1</option>
+                                    <option value="empresa_2">Empresa 2</option>
+                                    <option value="empresa_3">Empresa 3</option>
+                                    <option value="empresa_4">Empresa 4</option>
+                                    <option value="empresa_5">Empresa 5</option>
+                                    <option value="empresa_6">Empresa 6</option>
                                 </select>
                             </div>
 
                             <div class="px-5 mb-3">
-                                <strong>Valor das Parcelas</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Valor parcelas" name="valor_parcelas" style="width: 358px" />
+                                <div>
+                                    <strong>Matriz/Filial</strong>
+                                    <select class="form-control" name="matriz_filial" id="matriz_filial" style="width: 358px">
+                                        <option selected value="empresa_1">Empresa 1</option>
+                                        <option value="empresa_2">Empresa 2</option>
+                                        <option value="empresa_3">Empresa 3</option>
+                                        <option value="empresa_4">Empresa 4</option>
+                                        <option value="empresa_5">Empresa 5</option>
+                                        <option value="empresa_6">Empresa 6</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Credor</strong>
+                                <select class="form-control" name="credor" id="credor" style="width: 358px">
+                                    <option selected value="credor_1">Credor 1</option>
+                                    <option value="credor_2">Credor 2</option>
+                                    <option value="credor_3">Credor 3</option>
+                                    <option value="credor_4">Credor 4</option>
+                                    <option value="credor_5">Credor 5</option>
+                                    <option value="credor_6">Credor 6</option>
+                                </select>
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Credor Endereço</strong>
+                                <select class="form-control" name="credor_endereco" id="credor_endereco" style="width: 358px">
+                                    <option selected value="credor_endereco_1">Endereço 1</option>
+                                    <option value="credor_endereco_2">Endereço 2</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>Vencimento</strong>
-                                <input class="form-control mt-1" type="date" placeholder="Vencimento" name="vencimento" style="width: 358px" />
+                                <strong>Situação</strong>
+                                <select class="form-control" name="status" id="status" style="width: 358px">
+                                    <option selected value="pendente">Pendente</option>
+                                    <option value="pago">Pago</option>
+                                    <option value="aprovado">Aprovado</option>
+                                    <option value="rejeitado">Rejeitado</option>
+                                </select>
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Tipo Documento</strong>
+                                <select class="form-control" name="tipo_documento" id="tipo_documento" style="width: 358px">
+                                    <option selected value="boleto">Boleto</option>
+                                </select>
                             </div>
                         </div>
 
-                </div>
-                <div class="modal-footer">
-                    <div class="col-sm-12 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success me-1 mb-1">
-                            <i data-feather="check-circle"></i>Adicionar
-                        </button>
-                        <a href="{{route('despesas')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
-                    </div>
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Número</strong>
+                                <input type="text" placeholder="Informe o numero" class="form-control" name="numero_documento" style="width: 358px" />
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Série</strong>
+                                <input type="text" placeholder="Série" class="form-control" name="serie_documento" style="width: 58px" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Data Emissão</strong>
+                                <input type="date" class="form-control" name="data_emissao" style="width: 358px" />
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Moeda</strong>
+                                <select class="form-control" name="moeda" id="moeda" style="width: 358px">
+                                    <option selected value="real">BRL</option>
+                                    <option value="dolar">USD</option>
+                                    <option value="euro">EUR</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Descrição</strong>
+                                <textarea cols="110" rows="5" class="form-control" name="descricao"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-success me-1 mb-1">
+                                    <i data-feather="check-circle"></i>Adicionar
+                                </button>
+                                <a href="{{route('despesas')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                            </div>
                     </form>
                 </div>
             </div>
