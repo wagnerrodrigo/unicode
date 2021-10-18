@@ -74,7 +74,6 @@ Route::get('/servicos/listas', [ServicoController::class, 'list'])->name('lista-
 
 //rotas Produto
 Route::get('/produtos',[ProdutoController::class, 'index'])->name('produtos');
-Route::get('/produtos/listas',[ProdutoController::class, 'list'])->name('lista-produto');
 
 //rotas Centro de custo
 Route::get('/centros-custos',[CentroCusto::class,'index'])->name('centros-custos');

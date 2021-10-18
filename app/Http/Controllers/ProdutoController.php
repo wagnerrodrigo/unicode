@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
 {
-     
+
     /**
      * Display a listing of the resource.
      *
@@ -15,13 +15,12 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        $produtos = Produto::all();
-        return view('admin.produto.produto', compact('produtos'));
+        return view('admin.produto.lista-produto');
     }
 
 
-    public function list(){
-        return view('admin.produto.lista-produto');
+    public function list()
+    {
     }
 
     /**
@@ -43,7 +42,7 @@ class ProdutoController extends Controller
     public function store(Request $request)
     {
         $produto = new Produto();
-    
+
         $produto->nome = $request->nome;
         $produto->cnpj = $request->cnpj;
         $produto->email = $request->email;
@@ -56,7 +55,7 @@ class ProdutoController extends Controller
         $produto->save();
 
         echo "<script> alert('Produto criado com sucesso!!') </script>";
-        
+
         return redirect('/produto');
     }
 
