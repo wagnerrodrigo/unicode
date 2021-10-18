@@ -70,7 +70,6 @@ Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos'
 
 //rotas Serviço
 Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos');
-Route::get('/servicos/listas', [ServicoController::class, 'list'])->name('lista-servico');
 
 //rotas Produto
 Route::get('/produtos',[ProdutoController::class, 'index'])->name('produtos');

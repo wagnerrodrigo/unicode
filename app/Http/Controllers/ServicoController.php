@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class ServicoController extends Controller
 {
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -14,11 +14,11 @@ class ServicoController extends Controller
      */
     public function index()
     {
-        return view('admin.servico');
+        return view('admin.servico.lista-servico');
     }
 
-    public function list(){
-        return view('admin.lista-servico');
+    public function list()
+    {
     }
     /**
      * Show the form for creating a new resource.
