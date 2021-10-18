@@ -1,5 +1,5 @@
 @extends('layouts.templates.template')
-@section('title', 'Lista Despesas')
+@section('title', 'Lista Receita')
 
 @section('content')
 
@@ -7,9 +7,9 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Lista Despesas</h1>
+                <h1>Lista Receita</h1>
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">
-                    <i class="bi bi-plus-circle"></i> Nova Despesa
+                    <i class="bi bi-plus-circle"></i> Nova Receita
                 </button>
             </div>
             <div class="card-body">
@@ -55,13 +55,13 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel16">Nova Despesa</h4>
+                    <h4 class="modal-title" id="myModalLabel16">Nova Receita</h4>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <i class="bi bi-x" data-feather="x"></i>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{route('despesas')}}" method="POST" style="padding: 10px;">
+                    <form action="{{route('receitas')}}" method="POST" style="padding: 10px;">
                         @csrf
                         <div class="d-flex mt-10" style="width: 100%">
                             <div class="px-5 mb-3">
@@ -112,7 +112,7 @@
                         <button type="submit" class="btn btn-success me-1 mb-1">
                             <i data-feather="check-circle"></i>Adicionar
                         </button>
-                        <a href="{{route('despesas')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                        <a href="{{route('receitas')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
                     </div>
                     </form>
                 </div>

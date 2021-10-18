@@ -21,6 +21,9 @@ use App\Http\Controllers\CantaBancariaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\DespesaController;
 use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\MovimentoController;
+use App\Http\Controllers\LancamentoController;
+use App\Http\Controllers\ReceitaController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -31,7 +34,6 @@ Route::get('/login{error?}', [LoginController::class, 'index'])->name('autentica
 Route::post('/login', [LoginController::class, 'authentication'])->name('autenticacao');
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-//Route::get('/', [function(){return view('page-login');}]);
 
 Route::get('/home', [PainelController::class, 'index'])->name('painel');
 Route::get('/nota', [NotaFiscalController::class, 'index'])->name('nota');
@@ -52,6 +54,15 @@ Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('edit-usu
 
 //rotas Despesas
 Route::get('/despesas', [DespesaController::class, 'index'])->name('despesas');
+
+//rotas Lançamentos
+Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
+
+//rotas Receitas
+Route::get('/receitas', [ReceitaController::class, 'index'])->name('receitas');
+
+//rotas Movimentos
+Route::get('/movimentos', [MovimentoController::class, 'index'])->name('movimentos');
 
 //rotas Contratos
 Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos');
