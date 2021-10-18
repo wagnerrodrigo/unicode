@@ -18,6 +18,7 @@ use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\NotaFiscalController;
 use App\Http\Controllers\PlanoContaController;
 use App\Http\Controllers\CantaBancariaController;
+use App\Http\Controllers\ContaPagarController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\DespesaController;
 use App\Http\Controllers\ContratoController;
@@ -75,6 +76,9 @@ Route::get('/cadastro-planos-contas',[PlanoContaController::class,'cadastro'])->
 // rotas Contas Bancárias
 Route::get('/contas-bancarias',[CantaBancariaController::class,'index'])->name('contas-bancarias');
 Route::get('/cadastro-contas-bancarias',[CantaBancariaController::class,'cadastro'])->name('cadastro-contas-bancarias');
+
+// rotas de Contas a pagar 
+Route::get('contas-pagar ',[ContaPagarController::class,'index'])->name('/contas-pagar');
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {
