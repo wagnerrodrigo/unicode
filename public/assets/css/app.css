@@ -405,6 +405,9 @@ footer {
 .form-group.with-title dataTable-input {
     padding-top: 2rem;
 }
+.input-add{
+    width: 17rem;
+}
 .form-group.with-title .form-control:focus ~ label,
 .form-group.with-title dataTable-input:focus ~ label {
     border-left: 1px solid #5a8dee;
