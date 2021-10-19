@@ -87,7 +87,7 @@ Route::get('/contas-bancarias',[CantaBancariaController::class,'index'])->name('
 Route::get('/cadastro-contas-bancarias',[CantaBancariaController::class,'cadastro'])->name('cadastro-contas-bancarias');
 
 // rotas de Contas a pagar 
-Route::get('contas-pagar ',[ContaPagarController::class,'index'])->name('/contas-pagar');
+Route::get('/contas ',[ContaPagarController::class,'index'])->name('contas-pagar');
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {
