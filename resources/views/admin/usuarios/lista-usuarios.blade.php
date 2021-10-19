@@ -9,7 +9,7 @@
             <div class="card-header">
                 <h1>Lista Usuários</h1>
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">
-                    <i class="bi bi-plus-circle"></i> Novo Fornecedor
+                    <i class="bi bi-plus-circle"></i> Novo Usuário
                 </button>
             </div>
             <div class="card-body">
@@ -24,22 +24,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($usuarios as $usuario)
                         <tr>
-                            <td>{{$usuario->nome}}</td>
-                            <td>{{$usuario->cpf}}</td>
-                            <td>{{$usuario->email}}</td>
-                            <td>{{$usuario->telefone}}</td>
+                            <td>Usuário teste</td>
+                            <td>12345678910</td>
+                            <td>teste@email.com</td>
+                            <td>(32) 9 98492-5186</td>
                             <td>
-                                <form method="GET" action="/usuarios/{{$usuario->id}}" data-bs-toggle="modal" data-bs-target="#xlarge-view" class="btn btn-primary" style="padding: 8px 12px;">
+                                <form method="GET" action="/usuarios" data-bs-toggle="modal" data-bs-target="#xlarge-view" class="btn btn-primary" style="padding: 8px 12px;">
                                     @csrf
                                     <i class="bi bi-eye-fill"></i>
                                 </form>
                                 <a href="{{route('cadastro-usuarios')}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
-
                             </td>
                         </tr>
-                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -106,7 +103,7 @@
                             <div class="px-5 mb-3">
                                 <strong>Endereco</strong>
                                 <input class="form-control mt-1" type="text" placeholder="Endereco" name="endereco" style="width: 358px" />
-                            </div>                           
+                            </div>
                         </div>
                 </div>
                 <div class="modal-footer">

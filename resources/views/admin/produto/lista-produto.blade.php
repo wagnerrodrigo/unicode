@@ -9,7 +9,7 @@
         <div class="card">
             <div class="card-header">
                 <h1>Lista Produtos</h1>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#xlarge">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">
                     <i class="bi bi-plus-circle"></i> Novo Produto
                 </button>
             </div>
@@ -122,12 +122,10 @@
 
 
 
+<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
 
 <script src="assets/js/feather-icons/feather.min.js"></script>
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-<script src="assets/js/app.js"></script>
-
-<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
 <script src="assets/js/vendors.js"></script>
 
 <script src="assets/js/main.js"></script>

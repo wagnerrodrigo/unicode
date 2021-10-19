@@ -79,7 +79,7 @@ Route::get('/produtos',[ProdutoController::class, 'index'])->name('produtos');
 Route::get('/centros-custos',[CentroCusto::class,'index'])->name('centros-custos');
 
 // rotas Plano de contas
-Route::get('/planos-contas',[PlanoContaController::class,'index'])->name('planos-contas');
+Route::get('/plano-contas',[PlanoContaController::class,'index'])->name('plano-contas');
 Route::get('/cadastro-planos-contas',[PlanoContaController::class,'cadastro'])->name('cadastro-planos-contas');
 
 // rotas Contas Bancárias

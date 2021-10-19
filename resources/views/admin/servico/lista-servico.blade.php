@@ -9,13 +9,13 @@
         <div class="card">
             <div class="card-header">
                 <h1>Lista Serviços</h1>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#xlarge">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">
                     <i class="bi bi-plus-circle"></i>
                     <label>Novo Serviço</label>
                 </button>
             </div>
             <div class="card-body">
-                <table class='table table-striped' id="table_servico">
+                <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
                             <th>Código</th>
@@ -35,15 +35,14 @@
                             <td>Individual</td>
                             <td>
                                 <!-- mudar para cadastro de fonecedores -->
-                                <a href="{{route('cadastro-fornecedores')}}" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
-                                <a href="{{route('cadastro-fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
+                                <a href="{{route('fornecedores')}}" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
+                                <a href="{{route('fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -111,7 +110,6 @@
                         <a href="{{route('servicos')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
                     </div>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -119,14 +117,10 @@
 </div>
 <!-- fim modal -->
 
-
-
+<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
 
 <script src="assets/js/feather-icons/feather.min.js"></script>
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-<script src="assets/js/app.js"></script>
-
-<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
 <script src="assets/js/vendors.js"></script>
 
 <script src="assets/js/main.js"></script>
