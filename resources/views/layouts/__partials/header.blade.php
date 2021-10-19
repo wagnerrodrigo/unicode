@@ -1,7 +1,3 @@
-<?php
-    //$fullName = explode(" ", $_SESSION['name']);
-    //$firstName = strtolower($fullName[0]);
-?>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <!-- Container wrapper -->
@@ -30,8 +26,17 @@
                 <li class="nav-item space-item-navbar">
                     <a class="nav-link" href="{{route('contabil')}}">Contábil</a>
                 </li>
-                <li class="nav-item space-item-navbar">
-                    <a class="nav-link" href="{{route('financeiro')}}">Financeiro</a>
+                <li class="nav-item dropdown space-item-navbar">
+                    <a class="nav-link dropdown-toggle" href="/#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Financeiro
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="financeiro">
+                        <li><a class="dropdown-item" href="{{route('fornecedores')}}">Fornecedores</a></li>
+                        <li><a class="dropdown-item" href="{{route('produtos')}}">Produtos</a></li>
+                        <li><a class="dropdown-item" href="{{route('servicos')}}">Serviços</a></li>
+                        <li><a class="dropdown-item" href="{{route('despesas')}}">Despesas</a></li>
+                        <li><a class="dropdown-item" href="{{route('plano-contas')}}">Plano de contas</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item space-item-navbar">
                     <a class="nav-link" href="{{route('rh')}}">Gestão de Pessoas</a>
@@ -39,16 +44,10 @@
                 <li class="nav-item space-item-navbar">
                     <a class="nav-link" href="{{route('juridico')}}">Jurídico</a>
                 </li>
-                <li class="nav-item dropdown space-item-navbar ">
-                    <a class="nav-link dropdown-toggle" href="{{route('relatorio')}}" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Relatório
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
+                <li class="nav-item space-item-navbar">
+                    <a class="nav-link" href="{{route('relatorio')}}">Relatório</a>
                 </li>
+
             </ul>
             <!-- Left links -->
         </div>
@@ -73,4 +72,7 @@
     </div>
     <!-- Container wrapper -->
 </nav>
+
+<script src="assets/js/app.js"></script>
+
 <!-- Navbar -->

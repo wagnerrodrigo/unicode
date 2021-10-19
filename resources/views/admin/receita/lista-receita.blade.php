@@ -65,47 +65,105 @@
                         @csrf
                         <div class="d-flex mt-10" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>Nome</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Nome" name="nome" style="width: 358px" />
-                            </div>
-
-                            <div class="px-5 mb-3">
-                                <div>
-                                    <strong>Valor</strong>
-                                </div>
-                                <div>
-                                    <input class="form-control mt-1" type="text" placeholder="Valor" name="valor_despesa" style="width: 358px" />
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Parcelas</strong>
-                                <select class="form-control" name="parcelas" id="parcelas" style="width: 358px">
-                                    <option selected value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
+                                <strong>Coligada</strong>
+                                <select class="form-control input-add" name="coligada" id="coligada">
+                                    <option selected value="coligada_1">Coligada 1</option>
+                                    <option value="coligada_2">Coligada 2</option>
                                 </select>
                             </div>
 
                             <div class="px-5 mb-3">
-                                <strong>Valor das Parcelas</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Valor parcelas" name="valor_parcelas" style="width: 358px" />
+                                <div>
+                                    <strong>Matriz/Filial</strong>
+                                    <select class="form-control input-add" name="matriz_filial" id="matriz_filial">
+                                        <option selected value="filial_1">Filial 1</option>
+                                        <option value="filial_2">Filial 2</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>Vencimento</strong>
-                                <input class="form-control mt-1" type="date" placeholder="Vencimento" name="vencimento" style="width: 358px" />
+                                <strong>Devedor</strong>
+                                <select class="form-control input-add" name="devedor" id="devedor">
+                                    <option selected value="devedor_1">Devedor 1</option>
+                                    <option value="devedor_2">Devedor 2</option>
+                                </select>
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Endereço Devedor</strong>
+                                <select class="form-control input-add" name="endereco_devedor" id="endereco_devedor">
+                                    <option selected value="endereco_devedor_1">Endereço 1</option>
+                                    <option value="endereco_devedor_2">Endereço 2</option>
+                                </select>
                             </div>
                         </div>
 
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Situação Documento</strong>
+                                <select class="form-control input-add" name="situacao_documento" id="situacao_documento">
+                                    <option selected value="situacao_1">Situação 1</option>
+                                    <option value="situacao_2">Situação 2</option>
+                                </select>
+                            </div>
+                            <div class="px-5 mb-3">
+                                <strong>Tipo Documento</strong>
+                                <select class="form-control input-add" name="tipo_documento" id="tipo_documento">
+                                    <option selected value="tipo_1">Tipo 1</option>
+                                    <option value="tipo_2">Tipo 2</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Número</strong>
+                                <input class="form-control input-add" type="text" name="numero_documento" placeholder="Número" />
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Série</strong>
+                                <input class="form-control" type="text" name="serie" placeholder="serie" style="width: 58px" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Data Emissão</strong>
+                                <input class="form-control input-add" type="date" name="data" placeholder="data" />
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Moeda</strong>
+                                <select class="form-control input-add" name="moeda" id="moeda">
+                                    <option selected value="brl">BRL</option>
+                                    <option value="usd">USD</option>
+                                    <option value="eur">EUR</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Valor total</strong>
+                                <input class="form-control input-add" type="text" name="valor_total" value="0" readonly />
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Quantidade Parcelas</strong>
+                                <input class="form-control input-add" type="text" name="parcelas" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Descrição</strong>
+                                <textarea cols="110" rows="5" class="form-control" name="descricao"></textarea>
+                            </div>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 d-flex justify-content-end">
@@ -122,11 +180,10 @@
 </div>
 <!-- Fim modal Adicionar -->
 
+<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
+
 <script src="assets/js/feather-icons/feather.min.js"></script>
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-<script src="assets/js/app.js"></script>
-
-<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
 <script src="assets/js/vendors.js"></script>
 
 <script src="assets/js/main.js"></script>

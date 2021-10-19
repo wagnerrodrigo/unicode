@@ -19,11 +19,10 @@ class FornecedorController extends Controller
     }
 
     //mostra form de cadastro de fornecedores
-    public function cadastro()
+    public function cadastro(Request $request)
     {
         return view('admin.fornecedor.cadastro-fornecedor');
     }
-
     /**
      * Show the form for creating a new resource.
      *
