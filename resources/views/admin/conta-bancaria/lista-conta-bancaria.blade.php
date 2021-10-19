@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header">
                 <h1>Lista Contas Bancárias</h1>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#xlarge">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">
                     <i class="bi bi-plus-circle"></i> Nova conta bancária
                 </button>
             </div>
@@ -16,10 +16,10 @@
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>CPF/CNPJ</th>
-                            <th>Email</th>
-                            <th>Telefone</th>
+                            <th>ID</th>
+                            <th>Razão Social</th>
+                            <th>Banco</th>
+                            <th>Tipo</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -60,64 +60,38 @@
                     <!-- muda a rota-->
                     <form action="#" method="POST" style="padding: 10px;">
                         @csrf
-                        <div class="d-flex mt-10" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Nome</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Nome" name="nome" style="width: 358px" />
-                            </div>
-
+                        <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <div>
-                                    <strong>CNPJ</strong>
+                                    <strong>Razão Social</strong>
                                 </div>
                                 <div>
-                                    <input class="form-control mt-1" type="text" placeholder="CNPJ" name="cnpj" style="width: 358px" />
+                                    <input class="form-control mt-1" type="text" placeholder="Razão Social" name="razao-social" style="width: 358px" />
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="d-flex" style="width: 100%">
-                             <div class="px-5 mb-3">
-                                <strong>Email</strong>
-                                <input class="form-control mt-1" type="email" placeholder="E-mail" name="email" style="width: 358px" />
-                            </div>
 
                             <div class="px-5 mb-3">
-                                <strong>Email Secundario</strong>
-                                <input class="form-control mt-1" type="email" placeholder="E-mail" name="email_secundario" style="width: 358px" />
-                            </div>
-                        </div>
-
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Inscrição Estadual</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Incrição estadual" name="inscricao_estadual" style="width: 358px" />
-                            </div>
-
-                            <div class="px-5 mb-3">
-                                <strong>Ramo Atuacao</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Ramo atuação" name="ramo_atuacao" style="width: 358px" />
+                                <strong>Banco</strong>
+                                <select class="form-control" name="banco" id="banco" style="width: 358px">
+                                    <option selected value="tipo_1">Banco do Brasil</option>
+                                    <option value="tipo_2">HSBC Brasil S.A</option>
+                                    <option value="tipo_3"> Caixa Econômica Federal</option>
+                                    <option value="tipo_4">Santander </option>
+                                    <option value="tipo_5">Itaú</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Ponto Contato</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Ponto contato" name="ponto_contato" style="width: 358px" />
+                        <div class="px-5 mb-3">
+                            <strong>Tipo</strong>
+                            <div>
+                                <input value="pessoa-fisica" type="radio" name="forma_servico" checked />
+                                <label for="pessoa-fisica">Pessoa Fisica</label>
                             </div>
-
-                            <div class="px-5 mb-3">
-                                <strong>Cargo Funcao</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Cargo Função" name="cargo_funcao" style="width: 358px" />
-                            </div>
-
-                        </div>
-
-
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Telefone</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Telefone" name="telefone" style="width: 358px" />
+                            <div>
+                                <input value="pessoa-juridica" type="radio" name="forma_servico" />
+                                <label for="pessoa-juridica">Pessoa juridica</label>
                             </div>
                         </div>
                 </div>
@@ -137,6 +111,9 @@
     </div>
 </div>
 <!-- fim modal -->
+
+
+
 
 <script src="assets/js/feather-icons/feather.min.js"></script>
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
