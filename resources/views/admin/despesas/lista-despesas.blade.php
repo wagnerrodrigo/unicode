@@ -172,60 +172,59 @@
                             </div>
                         </div>
 
-                        <h3>Itens</h3>
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Produto/serviços</strong>
-                                <select class="form-control" name="produto" id="produto" style="width: 358px">
-                                    <option selected value="produto_1">Produto 1</option>
-                                    <option value="produto_2">Produto 2</option>
-                                    <option value="produto_3">Produto 3</option>
-                                </select>
-                            </div>
+                        <!-- inicio do itens -->
+                        <div class="d-flex ">
+                            <h3 style="padding-right: 10px;">Itens</h3>
+                            <a href="{{route('itens-despesas')}}" class="btn btn-success round " data-toggle="modal" data-target="#Itens">
+                                <i class="bi bi-plus-lg"></i>
+                            </a>
+                        </div>
+                        <!-- Inicio da tabela de itens -->
 
-                            <div class="px-5 mb-3">
-                                <strong>Classificação Contábil</strong>
-                                <select class="form-control" name="class_contabil" id="class_contabil" style="width: 358px">
-                                    <option selected value="class_1">Classificação 1</option>
-                                    <option value="class_2">Classificação 2</option>
-                                    <option value="class_3">Classificação 3</option>
-                                </select>
+                        <div class="card-content">
+                            <div class="card-body">
+
+                            </div>
+                            <!-- table bordered -->
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Produto/serviços</th>
+                                            <th>Quantidade</th>
+                                            <th>Valor Unitário</th>
+                                            <th>Centro de custos</th>
+                                            <th>Remover</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-bold-500">Moniotr</td>
+                                            <td>10</td>
+                                            <td class="text-bold-500">R$150</td>
+                                            <td>CERCRED - SOLUÇÕES DE CONTACT CENTER E RECUPERAÇÃO DE CRÉDITO LTDA</td>
+                                            <td>
+                                                <!-- mudar a rota -->
+                                                <a href="#" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Quantidade</strong>
-                                <input type="text" class="form-control" name="quantidade" style="width: 358px" />
-                            </div>
-
-                            <div class="px-5 mb-3">
-                                <strong>Valor Unitário</strong>
-                                <input type="text" class="form-control" name="valor_unitario" style="width: 358px">
-                            </div>
-                        </div>
-
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Centro de custos</strong>
-                                <select class="form-control" name="centro_custo" id="centro_custo" style="width: 358px">
-                                    <option selected value="centro_custo_1">Centro Custo 1</option>
-                                    <option value="centro_custo_2">Centro Custo 2</option>
-                                    <option value="centro_custo_3">Centro Custo 3</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Descrição</strong>
-                                <textarea cols="110" rows="5" class="form-control" name="descricao"></textarea>
-                            </div>
+                        <!-- Fim da tabela de itens -->
+                        <div class="d-flex justify-content-center" style="width: 100%; padding-top: 50px;">
                             <div class="px-5 mb-3">
                                 <strong>Valor Total</strong>
                                 <input type="text" class="form-control" value="R$100.000,00" name="valor" style="width: 120px" readonly>
                             </div>
                         </div>
+                        <!-- fim do itens -->
+
+
+
 
                         <div class="modal-footer">
                             <div class="col-sm-12 d-flex justify-content-end">

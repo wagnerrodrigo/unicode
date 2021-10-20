@@ -16,4 +16,11 @@ class DespesaController extends Controller
         //$fornecedores = Despesa::all();
         return view('admin.despesas.lista-despesas');
     }
+
+
+    public function addItens()
+    {
+        //$fornecedores = Despesa::all();
+        return view('admin.despesas.modal-itens');
+    }
 }
