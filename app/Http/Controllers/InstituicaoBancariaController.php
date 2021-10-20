@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CantaBancariaController extends Controller
+class InstituicaoBancariaController extends Controller
 {
-     
+
     /**
      * Display a listing of the resource.
      *
@@ -14,12 +14,12 @@ class CantaBancariaController extends Controller
      */
     public function index()
     {
-        return view('admin.conta-bancaria.lista-conta-bancaria');
+        return view('admin.banco.lista-instituicao-bancaria');
     }
 
 
-    public function cadastro(){
-        return view('admin.plano-conta.cadastro-plano-conta');
+    public function cadastro()
+    {
     }
 
     /**
@@ -40,7 +40,7 @@ class CantaBancariaController extends Controller
      */
     public function store(Request $request)
     {
-       //
+        //
     }
 
     /**
