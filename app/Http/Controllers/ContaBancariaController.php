@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CentroCusto extends Controller
+class ContaBancariaController extends Controller
 {
-
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('admin.centro-custo.centro-custo');
+        return view('admin.banco.lista-conta-bancaria');
+    }
+
+
+    public function cadastro()
+    {
     }
 
     /**

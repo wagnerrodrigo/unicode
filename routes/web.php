@@ -17,7 +17,7 @@ use App\Http\Controllers\PainelController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\NotaFiscalController;
 use App\Http\Controllers\PlanoContaController;
-use App\Http\Controllers\CantaBancariaController;
+use App\Http\Controllers\ContaBancariaController;
 use App\Http\Controllers\ContaPagarController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\DespesaController;
@@ -25,6 +25,7 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\MovimentoController;
 use App\Http\Controllers\LancamentoController;
 use App\Http\Controllers\ReceitaController;
+use App\Http\Controllers\InstituicaoBancariaController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -55,7 +56,7 @@ Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('edit-usu
 
 //rotas Despesas
 Route::get('/despesas', [DespesaController::class, 'index'])->name('despesas');
-Route::get('/itens-despesas', [DespesaController::class, 'addItens'])->name('itens-despesas');
+Route::get('/despesas/adicionar', [DespesaController::class, 'addDespesa'])->name('add-despesas');
 
 //rotas Lançamentos
 Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
@@ -74,21 +75,21 @@ Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos'
 Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos');
 
 //rotas Produto
-Route::get('/produtos',[ProdutoController::class, 'index'])->name('produtos');
+Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos');
 
 //rotas Centro de custo
-Route::get('/centros-custos',[CentroCusto::class,'index'])->name('centros-custos');
+Route::get('/centro-custos', [CentroCusto::class, 'index'])->name('centro-custos');
 
 // rotas Plano de contas
-Route::get('/plano-contas',[PlanoContaController::class,'index'])->name('plano-contas');
-Route::get('/cadastro-planos-contas',[PlanoContaController::class,'cadastro'])->name('cadastro-planos-contas');
+Route::get('/plano-contas', [PlanoContaController::class, 'index'])->name('plano-contas');
+Route::get('/cadastro-planos-contas', [PlanoContaController::class, 'cadastro'])->name('cadastro-planos-contas');
 
 // rotas Contas Bancárias
-Route::get('/contas-bancarias',[CantaBancariaController::class,'index'])->name('contas-bancarias');
-Route::get('/cadastro-contas-bancarias',[CantaBancariaController::class,'cadastro'])->name('cadastro-contas-bancarias');
+Route::get('/contas-bancarias', [ContaBancariaController::class, 'index'])->name('contas-bancarias');
+Route::get('/bancos', [InstituicaoBancariaController::class, 'index'])->name('instituicoes-bancarias');
 
 // rotas de Contas a pagar 
-Route::get('/contas ',[ContaPagarController::class,'index'])->name('contas-pagar');
+Route::get('/contas ', [ContaPagarController::class, 'index'])->name('contas-pagar');
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {

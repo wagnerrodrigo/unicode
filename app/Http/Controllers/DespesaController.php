@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class DespesaController extends Controller
 {
-/**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -17,10 +17,8 @@ class DespesaController extends Controller
         return view('admin.despesas.lista-despesas');
     }
 
-
-    public function addItens()
+    public function addDespesa()
     {
-        //$fornecedores = Despesa::all();
-        return view('admin.despesas.modal-itens');
+        return view('admin.despesas.add-despesas');
     }
 }
