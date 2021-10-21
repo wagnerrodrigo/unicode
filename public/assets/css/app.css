@@ -406,7 +406,11 @@ footer {
     padding-top: 2rem;
 }
 .input-add{
-    width: 17rem;
+    width: 30rem;
+}
+
+.select-tab{
+    width: 35rem;
 }
 .form-group.with-title .form-control:focus ~ label,
 .form-group.with-title dataTable-input:focus ~ label {

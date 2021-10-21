@@ -21,4 +21,9 @@ class DespesaController extends Controller
     {
         return view('admin.despesas.add-despesas');
     }
+
+    public function store()
+    {
+        return view('admin.despesas.add-despesas');
+    }
 }

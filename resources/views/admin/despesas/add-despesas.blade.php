@@ -7,18 +7,17 @@
         <div class="card">
             <div class="card-header">
                 <h1>Nova Despesa</h1>
-            </div>
-            <div class="card-body">
-                <!--inicio Tab -->
-                <div class="list-group list-group-horizontal-sm mb-1 text-center" role="tablist">
-                    <a class="list-group-item list-group-item-action active" id="list-despesa-list" data-bs-toggle="list" href="#list-despesa" role="tab">Despesa com Fornecedor</a>
-                    <a class="list-group-item list-group-item-action" id="list-despesa-pessoal-list" data-bs-toggle="list" href="#list-despesa-pessoal" role="tab">Despesa com Pessoal</a>
-
+                <div class="list-group list-group-horizontal-sm mb-1 text-center d-flex justify-content-center" role="tablist">
+                    <a class="list-group-item list-group-item-action active select-tab" id="list-despesa-list" data-bs-toggle="list" href="#list-despesa" role="tab">Despesa com Fornecedor</a>
+                    <a class="list-group-item list-group-item-action select-tab" id="list-despesa-pessoal-list" data-bs-toggle="list" href="#list-despesa-pessoal" role="tab">Despesa com Pessoal</a>
                 </div>
+            </div>
+            <div class="card-body d-flex justify-content-center">
+                <!--inicio Tab -->
                 <div class="tab-content text-justify">
                     <!--inicio Tab Despesas-->
-                    <div class="tab-pane fade show active" id="list-despesa" role="tabpanel" aria-labelledby="list-despesa-list">
-                        <form action="{{route('despesas')}}" method="POST" style="padding: 10px;">
+                    <div class="justify-content-center tab-pane fade show active " id="list-despesa" role="tabpanel" aria-labelledby="list-despesa-list">
+                        <form action="/despesas/adicionar" method="POST" style="padding: 10px;">
                             @csrf
                             <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
@@ -123,48 +122,12 @@
                                     <input type="text" class="form-control input-add" name="parcelas" />
                                 </div>
                             </div>
-
-                            <h3>Itens</h3>
                             <div class="d-flex" style="width: 100%">
                                 <div class="px-5 mb-3">
-                                    <strong>Produto/serviços</strong>
-                                    <select class="form-control input-add" name="produto" id="produto">
-                                        <option selected value="produto_1">Produto 1</option>
-                                        <option value="produto_2">Produto 2</option>
-                                        <option value="produto_3">Produto 3</option>
-                                    </select>
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <strong>Classificação Contábil</strong>
-                                    <select class="form-control input-add" name="class_contabil" id="class_contabil">
-                                        <option selected value="class_1">Classificação 1</option>
-                                        <option value="class_2">Classificação 2</option>
-                                        <option value="class_3">Classificação 3</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Quantidade</strong>
-                                    <input type="text" class="form-control input-add" name="quantidade" />
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <strong>Valor Unitário</strong>
-                                    <input type="text" class="form-control input-add" name="valor_unitario">
-                                </div>
-                            </div>
-
-                            <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Centro de custos</strong>
-                                    <select class="form-control input-add" name="centro_custo" id="centro_custo">
-                                        <option selected value="centro_custo_1">Centro Custo 1</option>
-                                        <option value="centro_custo_2">Centro Custo 2</option>
-                                        <option value="centro_custo_3">Centro Custo 3</option>
-                                    </select>
+                                    <h3>Itens</h3>
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlarge">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
                                 </div>
                             </div>
 
@@ -320,6 +283,60 @@
         </div>
     </div>
 </div>
+
+
+<div class="me-1 mb-1 d-inline-block">
+    <!--Extra Large Modal -->
+    <div class="modal fade text-left w-100" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel16">Selecionar item</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x" data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- muda a rota-->
+                    <form action="/despesas/adicionar" method="POST" style="padding: 10px;">
+                        @csrf
+                        <div class="d-flex mt-10" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>produto</strong>
+                                <input class="form-control mt-1" type="text" placeholder="produto" name="produto" style="width: 358px" />
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <div>
+                                    <strong>Valor</strong>
+                                </div>
+                                <div>
+                                    <input class="form-control mt-1" type="text" placeholder="Valor" name="valor_produto" style="width: 358px" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Quantidade</strong>
+                                <input class="form-control mt-1" type="date" placeholder="Quantidade" name="quantidade" style="width: 358px" />
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success me-1 mb-1">
+                            <i data-feather="check-circle"></i>Selecionar
+                        </button>
+                        <!-- muda a rota-->
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fim modal Adicionar -->
 
 <script src="{{asset('assets/js/feather-icons/feather.min.js')}}"></script>
 <script src="{{asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
