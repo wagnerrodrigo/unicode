@@ -116,10 +116,22 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex" style="width: 100%">
+                            <div class="d-flex" style="width: 100%;">
                                 <div class="px-5 mb-3">
                                     <strong>Quantidade Parcelas</strong>
                                     <input type="text" class="form-control input-add" name="parcelas" />
+                                </div>
+
+                                <div class="px-5 mb-3">
+                                    <strong>Centro de custo</strong>
+                                    <select class="form-control input-add" name="centro_de_custo" id="centro_de_custo">
+                                        <option selected value="centro_de_custo_1">Centro de custo 1</option>
+                                        <option value="centro_de_custo_2">Centro de custo 2</option>
+                                        <option value="centro_de_custo_3">Centro de custo 3</option>
+                                        <option value="centro_de_custo_4">Centro de custo 4</option>
+                                        <option value="centro_de_custo_5">Centro de custo 5</option>
+                                        <option value="centro_de_custo_6">Centro de custo 6</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="d-flex" style="width: 100%">
@@ -129,6 +141,37 @@
                                         <i class="bi bi-plus"></i>
                                     </button>
                                 </div>
+                            </div>
+
+                            <div class="d-flex" style="width: 100%; margin: 15px;">
+                                <!-- Inicio da tabela de itens -->
+                                <div class="table-responsive">
+                                    <table class="table table-bordered mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Produto/serviços</th>
+                                                <th>Quantidade</th>
+                                                <th>Valor Unitário</th>
+                                                <th>Rateio</th>
+                                                <th>Remover</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-bold-500">Monitor</td>
+                                                <td>10</td>
+                                                <td class="text-bold-500">R$150</td>
+                                                <td>CERCRED - SOLUÇÕES DE CONTACT CENTER E RECUPERAÇÃO DE CRÉDITO LTDA</td>
+                                                <td>
+                                                    <!-- mudar a rota -->
+                                                    <a href="#" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Fim da tabela de itens -->
+
                             </div>
 
                             <div class="d-flex" style="width: 100%">
@@ -319,7 +362,7 @@
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Quantidade</strong>
-                                <input class="form-control mt-1" type="date" placeholder="Quantidade" name="quantidade" style="width: 358px" />
+                                <input class="form-control mt-1" type="text" placeholder="Quantidade" name="quantidade" style="width: 358px" />
                             </div>
                         </div>
                 </div>

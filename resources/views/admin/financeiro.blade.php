@@ -23,7 +23,7 @@
                 <p class="card-text">lista e cadastrar centro de custo.</p>
             </div>
             <div class="card-footer">
-                <a href="{{route('centros-custos')}}" class="btn btn-primary">acessar</a>
+                <a href="{{route('centro-custos')}}" class="btn btn-primary">acessar</a>
             </div>
         </div>
 
@@ -107,7 +107,7 @@
                 <p class="card-text">Lista e cadastrar Planos de Contas </p>
             </div>
             <div class="card-footer">
-                <a href="{{route('planos-contas')}}" class="btn btn-primary">acessar</a>
+                <a href="{{route('plano-contas')}}" class="btn btn-primary">acessar</a>
             </div>
         </div>
 
