@@ -56,6 +56,7 @@ Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('edit-usu
 
 //rotas Despesas
 Route::get('/despesas', [DespesaController::class, 'index'])->name('despesas');
+Route::get('/despesas/adicionar', [DespesaController::class, 'addDespesa'])->name('add-despesas');
 
 //rotas Lançamentos
 Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');

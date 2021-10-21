@@ -15,8 +15,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::all();
-        return view('admin.usuarios.lista-usuarios', compact('usuarios'));
+        return view('admin.usuarios.lista-usuarios');
     }
 
     //mostra form de cadastro de fornecedores
