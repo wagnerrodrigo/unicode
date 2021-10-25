@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Servico;
 use Illuminate\Http\Request;
 
 class ServicoController extends Controller
@@ -14,7 +15,10 @@ class ServicoController extends Controller
      */
     public function index()
     {
-        return view('admin.servico.lista-servico');
+        $servicos = Servico::all();
+
+        //if($servicos->data_fim !== null)
+        return view('admin.servico.lista-servico', compact('servicos'));
     }
 
     public function list()
@@ -38,7 +42,17 @@ class ServicoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $servico = new Servico();
+        $servico->nome = $request->nome;
+        $servico->nome_generico = $request->nome_generico;
+        $servico->tipo = $request->tipo;
+        $servico->forma_servico = $request->forma_servico;
+        $servico->data_fim = null;
+        $servico->save();
+
+        echo "<script> alert('Serviço criado com sucesso!!') </script>";
+
+        return redirect()->route('servicos');
     }
 
     /**
@@ -49,7 +63,8 @@ class ServicoController extends Controller
      */
     public function show($id)
     {
-        //
+        $servicos = Servico::find($id);
+        return view('admin.servico.servico', compact('servicos'));
     }
 
     /**
@@ -81,8 +96,11 @@ class ServicoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $servicos = Servico::find($id);
+
+        $servicos->data_fim = $request->data_fim;
+        redirect()->route('servicos');
     }
 }

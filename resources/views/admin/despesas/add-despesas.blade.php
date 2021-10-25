@@ -134,6 +134,17 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="d-flex" style="width: 100%;">
+                                <div class="px-5 mb-3">
+                                    <strong>Rateio</strong>
+                                    <select class="form-control input-add" name="rateio" id="rateio">
+                                        <option selected value=""></option>
+                                        <option value="rateio_por_item">Por item</option>
+                                        <option value="rateio_por_despesa">Pela despesa</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="d-flex" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <h3>Itens</h3>
@@ -171,7 +182,6 @@
                                     </table>
                                 </div>
                                 <!-- Fim da tabela de itens -->
-
                             </div>
 
                             <div class="d-flex" style="width: 100%">

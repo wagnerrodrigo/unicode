@@ -16,9 +16,15 @@
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
+                    @if( $servicos === null || $servicos->isEmpty())
+                    <tbody>
+                        <tr>
+                            <td>Nenhum Serviço Cadastrado</td>
+                        </tr>
+                    </tbody>
+                    @else
                     <thead>
                         <tr>
-                            <th>Código</th>
                             <th>Serviço</th>
                             <th>Nome Genérico</th>
                             <th>Tipo</th>
@@ -27,19 +33,28 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($servicos as $servico)
                         <tr>
-                            <td>1</td>
-                            <td>Computador</td>
-                            <td>Computador Financeiro</td>
-                            <td>Tipo 1</td>
-                            <td>Individual</td>
+                            <td>{{$servico->nome}}</td>
+                            <td>{{$servico->nome_generico}}</td>
+                            <td>{{$servico->tipo}}</td>
+                            <td>{{$servico->forma_servico}}</td>
+
                             <td>
                                 <!-- mudar para cadastro de fonecedores -->
-                                <a href="{{route('fornecedores')}}" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
-                                <a href="{{route('fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
+                                <form class="btn btn-success" href="/delete/servico/{{$servico->id}}" style="padding: 8px 12px;">
+                                    <select hidden name="data_fim">
+                                        <option selected value="Date();"></option>
+                                    </select>
+                                    <button><i class="bi bi-trash-fill"></i></button>
+                               
+                                </form>
+                                <a href="servicos/{{$servico->id}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
+                    @endif
                 </table>
             </div>
         </div>
@@ -65,7 +80,7 @@
                         <div class="d-flex mt-10" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Servico</strong>
-                                <input class="form-control mt-1" type="text" placeholder="serviço" name="servico" style="width: 358px" />
+                                <input class="form-control mt-1" type="text" placeholder="serviço" name="nome" style="width: 358px" />
                             </div>
 
                             <div class="px-5 mb-3">
@@ -81,10 +96,10 @@
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Tipo</strong>
-                                <select class="form-control" name="tipo_servico" id="tipo_servico" style="width: 358px">
-                                    <option selected value="tipo_1">Tipo 1</option>
-                                    <option value="tipo_2">Tipo 2</option>
-                                    <option value="tipo_3">Tipo 3</option>
+                                <select class="form-control" name="tipo" id="tipo_servico" style="width: 358px">
+                                    <option selected value="Tipo 1">Tipo 1</option>
+                                    <option value="Tipo 2">Tipo 2</option>
+                                    <option value="Tipo 3">Tipo 3</option>
                                 </select>
                             </div>
 

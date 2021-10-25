@@ -71,12 +71,14 @@ Route::get('/movimentos', [MovimentoController::class, 'index'])->name('moviment
 //rotas Contratos
 Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos');
 
-
 //rotas Serviço
 Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos');
+Route::get('/servicos/{id}', [ServicoController::class, 'show'])->name('list-servico');
+Route::post('/servicos', [ServicoController::class, 'store'])->name('servicos-create');
 
 //rotas Produto
 Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos');
+Route::post('/produtos', [ProdutoController::class, 'store'])->name('produtos-create');
 
 //rotas Centro de custo
 Route::get('/centro-custos', [CentroCusto::class, 'index'])->name('centro-custos');

@@ -1,61 +1,51 @@
 @extends('layouts.templates.template')
-@section('title', 'Produto')
+@section('title', 'Serviço')
 
 
 @section('content')
-
-
 
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Lista Produtos</h1>
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">
-                    <i class="bi bi-plus-circle"></i> Novo Produto
-                </button>
+                <h1>{{$servicos->nome}}</h1>
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
-                    @if($produtos === null || $produtos->isEmpty())
-                    <tbody>
-                        <tr>
-                            <td>Nenhum produto Cadastrado</td>
-                        </tr>
-                    </tbody>
-                    @else
                     <thead>
                         <tr>
                             <th>Código</th>
-                            <th>Produto</th>
+                            <th>Serviço</th>
                             <th>Nome Genérico</th>
                             <th>Tipo</th>
                             <th>Forma do Produto</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
-
                     <tbody>
-                        @foreach($produtos as $produto)
                         <tr>
-                            <td>{{$produto->id}}</td>
-                            <td>{{$produto->nome}}</td>
-                            <td>{{$produto->nome_generico}}</td>
-                            <td>{{$produto->tipo}}</td>
-                            <td>{{$produto->forma_produto}}</td>
-                            <td>
-                                <!-- mudar para cadastro de fonecedores -->
-                                <a href="{{route('cadastro-fornecedores')}}" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
-                                <a href="{{route('cadastro-fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
-                            </td>
+                            <td>{{$servicos->id}}</td>
+                            <td>{{$servicos->nome}}</td>
+                            <td>{{$servicos->nome_generico}}</td>
+                            <td>{{$servicos->tipo}}</td>
+                            <td>{{$servicos->forma_servico}}</td>
+
                         </tr>
-                        @endforeach
                     </tbody>
-                    @endif
+
                 </table>
             </div>
-        </div>
+            <div class="card-footer">
+                <form class="btn btn-success" href="/delete/servico/{{$servicos->id}}" style="padding: 8px 12px;">
+                    <select hidden name="data_fim">
+                        <option selected value="Date();"></option>
+                    </select>
+                    <button><i class="bi bi-pensil"></i></button>
 
+                </form>
+                <a href="servicos/{{$servicos->id}}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -66,19 +56,19 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel16">Novo Produto</h4>
+                    <h4 class="modal-title" id="myModalLabel16">Novo Serviço</h4>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <i class="bi bi-x" data-feather="x"></i>
                     </button>
                 </div>
                 <div class="modal-body">
                     <!-- mudar para produto  -->
-                    <form action="{{route('produtos')}}" method="POST" style="padding: 10px;">
+                    <form action="{{route('servicos')}}" method="POST" style="padding: 10px;">
                         @csrf
                         <div class="d-flex mt-10" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>Produto</strong>
-                                <input class="form-control mt-1" type="text" placeholder="produto" name="nome" style="width: 358px" />
+                                <strong>Servico</strong>
+                                <input class="form-control mt-1" type="text" placeholder="serviço" name="nome" style="width: 358px" />
                             </div>
 
                             <div class="px-5 mb-3">
@@ -94,7 +84,7 @@
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Tipo</strong>
-                                <select class="form-control" name="tipo" id="tipo" style="width: 358px">
+                                <select class="form-control" name="tipo" id="tipo_servico" style="width: 358px">
                                     <option selected value="Tipo 1">Tipo 1</option>
                                     <option value="Tipo 2">Tipo 2</option>
                                     <option value="Tipo 3">Tipo 3</option>
@@ -102,13 +92,13 @@
                             </div>
 
                             <div class="px-5 mb-3">
-                                <strong>Forma Produto</strong>
+                                <strong>Forma Servico</strong>
                                 <div>
-                                    <input value="generico" type="radio" name="forma_produto" checked />
+                                    <input value="generico" type="radio" name="forma_servico" checked />
                                     <label for="generico">Genérico</label>
                                 </div>
                                 <div>
-                                    <input value="individual" type="radio" name="forma_produto" />
+                                    <input value="individual" type="radio" name="forma_servico" />
                                     <label for="individual">Individual</label>
                                 </div>
                             </div>
@@ -120,18 +110,15 @@
                             <i data-feather="check-circle"></i>Adicionar
                         </button>
                         <!-- mudar para produto -->
-                        <a href="{{route('produtos')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                        <a href="{{route('servicos')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
                     </div>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- fim modal -->
-
-
 
 <script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
 

@@ -15,7 +15,9 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        return view('admin.produto.lista-produto');
+        $produtos = Produto::all();
+
+        return view('admin.produto.lista-produto', compact('produtos'));
     }
 
 
@@ -23,40 +25,19 @@ class ProdutoController extends Controller
     {
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $produto = new Produto();
-
         $produto->nome = $request->nome;
-        $produto->cnpj = $request->cnpj;
-        $produto->email = $request->email;
-        $produto->telefone = $request->telefone;
-        $produto->inscricao_estadual = $request->inscricao_estadual;
-        $produto->ramo_atuacao = $request->ramo_atuacao;
-        $produto->ponto_contato = $request->ponto_contato;
-        $produto->cargo_funcao = $request->cargo_funcao;
-
+        $produto->nome_generico = $request->nome_generico;
+        $produto->tipo = $request->tipo;
+        $produto->forma_produto = $request->forma_produto;
+        $produto->data_fim = null;
         $produto->save();
 
         echo "<script> alert('Produto criado com sucesso!!') </script>";
 
-        return redirect('/produto');
+        return redirect()->route('produtos');
     }
 
     /**
