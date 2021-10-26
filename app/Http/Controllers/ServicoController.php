@@ -19,12 +19,15 @@ class ServicoController extends Controller
     {
         $servicos = Servico::all();
         $servicosAtivos = [];
+        $servicosInativos = [];
         for ($i = 0; $i < count($servicos); $i++) {
             if ($servicos[$i]->data_fim === null) {
                 $servicosAtivos[] = $servicos[$i];
+            }else{
+                $servicosInativos[] = $servicos[$i];
             };
         }
-
+        dd($servicosAtivos, $servicosInativos);
         return view('admin.servico.lista-servico', compact('servicosAtivos'));
     }
 
@@ -89,7 +92,7 @@ class ServicoController extends Controller
         $servicos->forma_servico = $request->forma_servico;
         $servicos->update();
 
-        return view('admin.servico.servico', compact('servicos'));
+        redirect()->route('servicos');
     }
 
     /**

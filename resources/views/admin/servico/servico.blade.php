@@ -1,5 +1,5 @@
 @extends('layouts.templates.template')
-@section('title', "produto - {{$servicos->nome}}")
+@section('title', "produto")
 
 
 @section('content')

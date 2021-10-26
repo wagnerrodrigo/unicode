@@ -9,7 +9,7 @@
         <div class="card">
             <div class="card-header">
                 <h1>Lista Serviços</h1>
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#xlarge">
                     <i class="bi bi-plus-circle"></i>
                     <label>Novo Serviço</label>
                 </button>
@@ -45,7 +45,7 @@
                                     <div class="mr-5">
                                         <form method="POST" action="servicos/delete/{{$servico->id}}"> 
                                         @csrf
-                                            <button class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
+                                            <button class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
 
                                         </form>
                                     </div>
