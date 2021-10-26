@@ -16,7 +16,7 @@
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
-                    @if( $servicos === null || $servicos->isEmpty())
+                    @if( $servicosAtivos === null || empty($servicosAtivos))
                     <tbody>
                         <tr>
                             <td>Nenhum Serviço Cadastrado</td>
@@ -33,7 +33,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($servicos as $servico)
+                        @foreach($servicosAtivos as $servico)
                         <tr>
                             <td>{{$servico->nome}}</td>
                             <td>{{$servico->nome_generico}}</td>

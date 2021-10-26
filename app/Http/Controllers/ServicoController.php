@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Carbon\Carbon;
 use App\Models\Servico;
 
@@ -17,8 +18,14 @@ class ServicoController extends Controller
     public function index()
     {
         $servicos = Servico::all();
-        //if($servicos->data_fim !== null)
-        return view('admin.servico.lista-servico', compact('servicos'));
+        $servicosAtivos = [];
+        for ($i = 0; $i < count($servicos); $i++) {
+            if ($servicos[$i]->data_fim === null) {
+                $servicosAtivos[] = $servicos[$i];
+            };
+        }
+
+        return view('admin.servico.lista-servico', compact('servicosAtivos'));
     }
 
     public function list()
@@ -109,7 +116,7 @@ class ServicoController extends Controller
 
         $servicos->data_fim = Carbon::now()->toDateTimeString();
         $servicos->update();
-       
+
         redirect()->route('servicos');
     }
 }
