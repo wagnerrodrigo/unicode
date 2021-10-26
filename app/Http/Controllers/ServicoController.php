@@ -27,7 +27,7 @@ class ServicoController extends Controller
                 $servicosInativos[] = $servicos[$i];
             };
         }
-        dd($servicosAtivos, $servicosInativos);
+        
         return view('admin.servico.lista-servico', compact('servicosAtivos'));
     }
 
