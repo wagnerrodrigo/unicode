@@ -41,15 +41,19 @@
                             <td>{{$servico->forma_servico}}</td>
 
                             <td>
+                                <div class="d-flex">
+                                    <div class="mr-5">
+                                        <form method="POST" action="servicos/delete/{{$servico->id}}"> 
+                                        @csrf
+                                            <button class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
+
+                                        </form>
+                                    </div>
+                                    <div class="ml-5" style="margin-left:5px">
+                                        <a href="servicos/{{$servico->id}}" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
+                                    </div>
+                                </div>
                                 <!-- mudar para cadastro de fonecedores -->
-                                <form class="btn btn-success" href="/delete/servico/{{$servico->id}}" style="padding: 8px 12px;">
-                                    <select hidden name="data_fim">
-                                        <option selected value="Date();"></option>
-                                    </select>
-                                    <button><i class="bi bi-trash-fill"></i></button>
-                               
-                                </form>
-                                <a href="servicos/{{$servico->id}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
                             </td>
                         </tr>
                         @endforeach

@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Carbon\Carbon;
 use App\Models\Servico;
+
 use Illuminate\Http\Request;
 
 class ServicoController extends Controller
@@ -16,7 +17,7 @@ class ServicoController extends Controller
     public function index()
     {
         $servicos = Servico::all();
-
+        dd($servicos);
         //if($servicos->data_fim !== null)
         return view('admin.servico.lista-servico', compact('servicos'));
     }
@@ -73,9 +74,16 @@ class ServicoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $servicos = Servico::find($id);
+        $servicos->nome = $request->nome;
+        $servicos->nome_generico = $request->nome_generico;
+        $servicos->tipo = $request->tipo;
+        $servicos->forma_servico = $request->forma_servico;
+        $servicos->update();
+
+        return view('admin.servico.servico', compact('servicos'));
     }
 
     /**
@@ -96,11 +104,13 @@ class ServicoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         $servicos = Servico::find($id);
 
-        $servicos->data_fim = $request->data_fim;
+        $servicos->data_fim = Carbon::now()->toDateTimeString();
+        $servicos->update();
+       
         redirect()->route('servicos');
     }
 }

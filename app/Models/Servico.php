@@ -10,9 +10,10 @@ class Servico extends Model
     use HasFactory;
 
     protected $fillable = [
-        'codigo',
-        'descricao',
-        'data_inicio',
+        'nome',
+        'nome_generico',
+        'tipo',
+        'forma_servico',
         'data_fim'
     ];
 }

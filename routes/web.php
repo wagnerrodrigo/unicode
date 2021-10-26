@@ -75,6 +75,8 @@ Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos'
 Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos');
 Route::get('/servicos/{id}', [ServicoController::class, 'show'])->name('list-servico');
 Route::post('/servicos', [ServicoController::class, 'store'])->name('servicos-create');
+Route::post('/servicos/editar/{id}', [ServicoController::class, 'edit'])->name('servicos-edit');
+Route::post('/servicos/delete/{id}', [ServicoController::class, 'destroy'])->name('servicos-destroy');
 
 //rotas Produto
 Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos');
