@@ -17,7 +17,6 @@ class ServicoController extends Controller
     public function index()
     {
         $servicos = Servico::all();
-        dd($servicos);
         //if($servicos->data_fim !== null)
         return view('admin.servico.lista-servico', compact('servicos'));
     }
