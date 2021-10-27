@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Fornecedor;
 use Illuminate\Http\Request;
 
@@ -14,22 +15,19 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-       
-        return view('admin.fornecedor.lista-fornecedor');
-    }
+        $fornecedores = Fornecedor::all();
 
-    //mostra form de cadastro de fornecedores
-    public function cadastro(Request $request)
-    {
-        return view('admin.fornecedor.cadastro-fornecedor');
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
+        $fornecedoresAtivos = [];
+        $fornecedoresInativos = [];
+
+        for ($i = 0; $i < count($fornecedores); $i++) {
+            if ($fornecedores[$i]->data_fim === null) {
+                $fornecedoresAtivos[] = $fornecedores[$i];
+            } else {
+                $fornecedoresInativos[] = $fornecedores[$i];
+            };
+        }
+        return view('admin.fornecedor.lista-fornecedor', compact('fornecedoresAtivos'));
     }
 
     /**
@@ -41,21 +39,24 @@ class FornecedorController extends Controller
     public function store(Request $request)
     {
         $fornecedor = new Fornecedor();
-
-        $fornecedor->nome = $request->nome;
-        $fornecedor->cnpj = $request->cnpj;
-        $fornecedor->email = $request->email;
-        $fornecedor->telefone = $request->telefone;
+        $fornecedor->data_fim = null;
+        $fornecedor->nome_fantasia = $request->nome_fantasia;
+        $fornecedor->razao_social = $request->razao_social;
         $fornecedor->inscricao_estadual = $request->inscricao_estadual;
-        $fornecedor->ramo_atuacao = $request->ramo_atuacao;
+        $fornecedor->cnpj = $request->cnpj;
+        $fornecedor->tipo_pessoa = $request->tipo_pessoa;
+        $fornecedor->telefone = $request->telefone;
+        $fornecedor->email = $request->email;
+        $fornecedor->email_secundario = $request->email_secundario;
         $fornecedor->ponto_contato = $request->ponto_contato;
         $fornecedor->cargo_funcao = $request->cargo_funcao;
+        $fornecedor->ramo_atuacao = $request->ramo_atuacao;
 
         $fornecedor->save();
 
         echo "<script> alert('Fornecedor criado com sucesso!!') </script>";
 
-        return redirect('/fornecedores');
+        return redirect()->route('fornecedores');
     }
 
     /**
@@ -66,8 +67,8 @@ class FornecedorController extends Controller
      */
     public function show($id)
     {
-        $fornecedor = Fornecedor::all()->where("id = $id");
-        return view('admin.fornecedor.view-fornecedor', compact('fornecedor'));
+        $fornecedor = Fornecedor::find($id);
+        return view('admin.fornecedor.fornecedor', compact('fornecedor'));
     }
 
     /**
@@ -76,20 +77,22 @@ class FornecedorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-    }
+        $fornecedor = Fornecedor::find($id);
+        $fornecedor->nome_fantasia = $request->nome_fantasia;
+        $fornecedor->razao_social = $request->razao_social;
+        $fornecedor->inscricao_estadual = $request->inscricao_estadual;
+        $fornecedor->tipo_pessoa = $request->tipo_pessoa;
+        $fornecedor->telefone = $request->telefone;
+        $fornecedor->email = $request->email;
+        $fornecedor->email_secundario = $request->email_secundario;
+        $fornecedor->ponto_contato = $request->ponto_contato;
+        $fornecedor->cargo_funcao = $request->cargo_funcao;
+        $fornecedor->ramo_atuacao = $request->ramo_atuacao;
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $fornecedor->update();
+        return redirect()->route('fornecedores');
     }
 
     /**
@@ -100,6 +103,10 @@ class FornecedorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $fornecedores = Fornecedor::find($id);
+
+        $fornecedores->data_fim = Carbon::now()->toDateTimeString();
+        $fornecedores->update();
+        return redirect()->route('fornecedores');
     }
 }

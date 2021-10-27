@@ -8,7 +8,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>{{$servicos->nome}}</h1>
+                <h1>{{$servico->nome}}</h1>
             </div>
             <div class="card-body">
                 <div class="card-body">
@@ -16,7 +16,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="nome">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome" value="{{$servicos->nome}}" disabled>
+                                <input type="text" class="form-control" id="nome" name="nome" value="{{$servico->nome}}" disabled>
                             </div>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="descricao">Descrição</label>
-                                <textarea class="form-control" id="descricao" name="descricao" disabled>{{$servicos->nome_generico}}</textarea>
+                                <textarea class="form-control" id="descricao" name="descricao" disabled>{{$servico->nome_generico}}</textarea>
                             </div>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="valor">Tipo</label>
-                                <input type="text" class="form-control" id="valor" name="valor" value="{{$servicos->tipo}}" disabled>
+                                <input type="text" class="form-control" id="valor" name="valor" value="{{$servico->tipo}}" disabled>
                             </div>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="valor">Forma Serviço</label>
-                                <input type="text" class="form-control" id="categoria" name="categoria" value="{{$servicos->forma_servico}}" disabled>
+                                <input type="text" class="form-control" id="categoria" name="categoria" value="{{$servico->forma_servico}}" disabled>
                             </div>
                         </div>
                     </div>
@@ -68,12 +68,12 @@
                     </div>
                     <div class="modal-body">
                         <!-- mudar para produto  -->
-                        <form action="/servicos/editar/{{$servicos->id}}" method="POST" style="padding: 10px;">
+                        <form action="/servicos/editar/{{$servico->id}}" method="POST" style="padding: 10px;">
                             @csrf
                             <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>Servico</strong>
-                                    <input class="form-control mt-1" value="{{$servicos->nome}}" type="text" placeholder="serviço" name="nome" style="width: 358px" />
+                                    <input class="form-control mt-1" value="{{$servico->nome}}" type="text" placeholder="serviço" name="nome" style="width: 358px" />
                                 </div>
 
                                 <div class="px-5 mb-3">
@@ -81,7 +81,7 @@
                                         <strong>Nome Genérico</strong>
                                     </div>
                                     <div>
-                                        <input class="form-control mt-1" value="{{$servicos->nome_generico}}" type="text" placeholder="Nome" name="nome_generico" style="width: 358px" />
+                                        <input class="form-control mt-1" value="{{$servico->nome_generico}}" type="text" placeholder="Nome" name="nome_generico" style="width: 358px" />
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                     <strong>Tipo</strong>
                                     <select class="form-control" name="tipo" id="tipo_servico" style="width: 358px">
                                         <option selected value="Tipo 1">Tipo 1</option>
-                                        <option value="{{$servicos->nome}}">{{$servicos->nome}}</option>
+                                        <option value="{{$servico->nome}}">{{$servico->nome}}</option>
                                         <option value="Tipo 2">Tipo 2</option>
                                         <option value="Tipo 3">Tipo 3</option>
                                     </select>
@@ -99,9 +99,9 @@
 
                                 <div class="px-5 mb-3">
                                     <strong>Forma Servico</strong>
-                                    @if($servicos->forma_servico === 'generico')
+                                    @if($servico->forma_servico === 'generico')
                                     <div>
-                                        <input value="{{$servicos->nome}}" type="radio" name="forma_servico" checked />
+                                        <input value="{{$servico->nome}}" type="radio" name="forma_servico" checked />
                                         <label for="generico">Genérico</label>
                                     </div>
                                     <div>
@@ -114,7 +114,7 @@
                                         <label for="generico">Genérico</label>
                                     </div>
                                     <div>
-                                        <input value="{{$servicos->nome}}" type="radio" checked name="forma_servico" />
+                                        <input value="{{$servico->nome}}" type="radio" checked name="forma_servico" />
                                         <label for="individual">Individual</label>
                                     </div>
                                     @endif

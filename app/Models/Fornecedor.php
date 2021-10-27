@@ -12,13 +12,17 @@ class Fornecedor extends Model
     protected $table = 'fornecedores';
 
     protected $fillable = [
-        'nome',
-        'cnpj',
-        'email',
-        'telefone',
+        'nome_fantasia',
+        'razao_social',
         'inscricao_estadual',
-        'ramo_atuacao',
+        'cnpj',
+        'tipo_pessoa',
+        'telefone',
+        'email',
+        'email_secundario',
         'ponto_contato',
-        'cargo_funcao'
+        'cargo_funcao',
+        'ramo_atuacao',
+        'data_fim'
     ];
 }
