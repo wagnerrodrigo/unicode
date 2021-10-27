@@ -15,9 +15,6 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-
-
-
         $fornecedores = Fornecedor::all();
 
         $fornecedoresAtivos = [];
@@ -69,9 +66,6 @@ class FornecedorController extends Controller
         $fornecedor->cargo_funcao = $request->cargo_funcao;
         $fornecedor->ramo_atuacao = $request->ramo_atuacao;
 
-
-        //dd($fornecedor);
-
         $fornecedor->save();
 
         echo "<script> alert('Fornecedor criado com sucesso!!') </script>";
@@ -87,8 +81,8 @@ class FornecedorController extends Controller
      */
     public function show($id)
     {
-        $fornecedor = Fornecedor::all()->where("id = $id");
-        return view('admin.fornecedor.view-fornecedor', compact('fornecedor'));
+        $fornecedor = Fornecedor::find($id);
+        return view('admin.fornecedor.fornecedor', compact('fornecedor'));
     }
 
     /**
@@ -97,8 +91,22 @@ class FornecedorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        $fornecedor = Fornecedor::find($id);
+        $fornecedor->nome_fantasia = $request->nome_fantasia;
+        $fornecedor->razao_social = $request->razao_social;
+        $fornecedor->inscricao_estadual = $request->inscricao_estadual;
+        $fornecedor->tipo_pessoa = $request->tipo_pessoa;
+        $fornecedor->telefone = $request->telefone;
+        $fornecedor->email = $request->email;
+        $fornecedor->email_secundario = $request->email_secundario;
+        $fornecedor->ponto_contato = $request->ponto_contato;
+        $fornecedor->cargo_funcao = $request->cargo_funcao;
+        $fornecedor->ramo_atuacao = $request->ramo_atuacao;
+
+        $fornecedor->update();
+        return redirect()->route('fornecedores');
     }
 
     /**
@@ -125,7 +133,6 @@ class FornecedorController extends Controller
 
         $fornecedores->data_fim = Carbon::now()->toDateTimeString();
         $fornecedores->update();
-
-        redirect()->route('fornecedores');
+        return redirect()->route('fornecedores');
     }
 }

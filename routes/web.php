@@ -45,8 +45,9 @@ Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('finance
 //rotas Fornecedor
 Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('fornecedores');
 Route::get('/cadastro-fornecedores', [FornecedorController::class, 'cadastro'])->name('cadastro-fornecedores');
+Route::get('/fornecedores/{id}', [FornecedorController::class, 'show'])->name('show-fornecedor');
 Route::post('/fornecedores', [FornecedorController::class, 'store'])->name('fornecedores');
-Route::get('/fornecedores/{id}', [FornecedorController::class, 'show'])->name('edit-fornecedores');
+Route::post('/fornecedores/editar/{id}', [FornecedorController::class, 'edit'])->name('edit-fornecedores');
 Route::post('/fornecedores/delete/{id}', [FornecedorController::class, 'destroy'])->name('destroy-fornecedores');
 
 //rotas Usuarios

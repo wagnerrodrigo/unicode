@@ -14,6 +14,13 @@
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
+                    @if( $fornecedoresAtivos === null || empty($fornecedoresAtivos))
+                    <tbody>
+                        <tr>
+                            <td>Nenhum Fornecedor Cadastrado</td>
+                        </tr>
+                    </tbody>
+                    @else
                     <thead>
                         <tr>
                             <th>Razão Social</th>
@@ -23,13 +30,7 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    @if( $fornecedoresAtivos === null || empty($fornecedoresAtivos))
-                    <tbody>
-                        <tr>
-                            <td>Nenhum Fornecedor Cadastrado</td>
-                        </tr>
-                    </tbody>
-                    @else
+
                     <tbody>
                         @foreach($fornecedoresAtivos as $fornecedor)
                         <tr>
@@ -38,7 +39,7 @@
                             <td>{{$fornecedor->email}}</td>
                             <td>{{$fornecedor->telefone}}</td>
                             <td>
-                                <a href="{{route('cadastro-fornecedores')}}" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
+                                <a href="fornecedores/{{$fornecedor->id}}" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
                                 <button data-bs-toggle="modal" data-bs-target="#delete{{$fornecedor->id}}" class="btn btn-danger" style="padding: 8px 12px;">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>

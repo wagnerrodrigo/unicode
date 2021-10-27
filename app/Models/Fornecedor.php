@@ -13,7 +13,7 @@ class Fornecedor extends Model
 
     protected $fillable = [
         'nome_fantasia',
-        'nome',
+        'razao_social',
         'inscricao_estadual',
         'cnpj',
         'tipo_pessoa',
