@@ -30,20 +30,6 @@ class FornecedorController extends Controller
         return view('admin.fornecedor.lista-fornecedor', compact('fornecedoresAtivos'));
     }
 
-    //mostra form de cadastro de fornecedores
-    public function cadastro(Request $request)
-    {
-        return view('admin.fornecedor.cadastro-fornecedor');
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -107,18 +93,6 @@ class FornecedorController extends Controller
 
         $fornecedor->update();
         return redirect()->route('fornecedores');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**

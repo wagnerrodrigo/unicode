@@ -14,32 +14,77 @@
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
+                @if( $contasAtivas === null || empty($contasAtivas))
+                    <tbody>
+                        <tr>
+                            <td>Nenhuma Conta Bancária Cadastrado</td>
+                        </tr>
+                    </tbody>
+                    @else
                     <thead>
                         <tr>
                             <th>Descrição</th>
                             <th>Número Conta</th>
                             <th>Digito Conta</th>
                             <th>Tipo Conta</th>
-                            <th>Moeda</th>
+                            <th>Titular</th>
                             <th>Situação</th>
-                            <th></th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($contasAtivas as $conta)
                         <tr>
-                            <td>Descrição</td>
-                            <td>Número Conta</td>
-                            <td>Digito Conta</td>
-                            <td>Tipo Conta</td>
-                            <td>Moeda</td>
-                            <td>Situação</td>
+                            <td>{{$conta->descricao}}</td>
+                            <td>{{$conta->numero_conta}}</td>
+                            <td>{{$conta->digito_conta}}</td>
+                            <td>{{$conta->tipo_conta}}</td>
+                            <td>{{$conta->titular}}</td>
+                            <td>{{$conta->situacao}}</td>
                             <td>
                                 <!-- muda a rota-->
-                                <a href="#" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
-                                <a href="#" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
+                                <a href="/contas-bancarias/{{$conta->id}}" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{$conta->id}}" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
                             </td>
+
                         </tr>
+
+                        <!-- Inicio Modal Delete-->
+                        <div class="modal-danger me-1 mb-1 d-inline-block">
+                            <!--Danger theme Modal -->
+                            <div class="modal fade text-left" id="delete{{$conta->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger">
+                                            <h5 class="modal-title white" id="myModalLabel120">EXCLUSÃO</h5>
+                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                <i data-feather="x"></i>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Deseja realmente excluir a CONTA BANCÁRIA: {{$conta->numero_conta}}?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                                <i class="bx bx-x d-block d-sm-none"></i>
+                                                <span class="d-none d-sm-block">Cancelar</span>
+                                            </button>
+                                            <form action="/contas-bancarias/delete/{{$conta->id}}" method="POST">
+                                                @csrf
+                                                <button class="btn btn-danger ml-1">
+                                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                                    <span class="d-none d-sm-block">Excluir</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fim Modal Delete-->
+                        @endforeach
                     </tbody>
+                    @endif
                 </table>
             </div>
         </div>
@@ -61,18 +106,18 @@
                 </div>
                 <div class="modal-body">
                     <!-- muda a rota-->
-                    <form action="#" method="POST" style="padding: 10px;">
+                    <form action="/contas-bancarias" method="POST" style="padding: 10px;">
                         @csrf
                         <div class="d-flex mt-10" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Número Conta</strong>
-                                <input class="form-control mt-1 input-add" type="text" placeholder="Código" name="codigo" />
+                                <input class="form-control mt-1 input-add" type="text" placeholder="numero_conta" name="numero_conta" />
                             </div>
 
                             <div class="px-5 mb-3">
                                 <div>
                                     <strong>Digito Conta</strong>
-                                    <input class="form-control mt-1 input-add" type="text" placeholder="Razão Social" name="razao_social" />
+                                    <input class="form-control mt-1 input-add" type="text" placeholder="Digito" name="digito_conta" />
                                 </div>
                             </div>
                         </div>
@@ -80,22 +125,33 @@
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Tipo Conta</strong>
-                                <input class="form-control mt-1 input-add" type="email" placeholder="Nome do Banco" name="nome_banco" />
+                                <input class="form-control mt-1 input-add" type="text" placeholder="Tipo Conta" name="tipo_conta" />
                             </div>
                             <div class="px-5 mb-3">
-                                <strong>Moeda</strong>
-                                <input class="form-control mt-1 input-add" type="email" placeholder="Nome do Banco" name="nome_banco" />
+                                <strong>Instuição Bancária</strong>
+                                <input class="form-control mt-1 input-add" type="text" placeholder="Instuição Bancária" name="instituicao_bancaria" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Titular</strong>
+                                <input class="form-control mt-1 input-add" type="text" placeholder="Nome do Titular" name="titular" />
+                            </div>
+                            <div class="px-5 mb-3">
+                                <strong>Agência</strong>
+                                <input class="form-control mt-1 input-add" type="text" placeholder="Agência" name="agencia" />
                             </div>
                         </div>
 
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Situação</strong>
-                                <input class="form-control mt-1 input-add" type="email" placeholder="Nome do Banco" name="nome_banco" />
+                                <input class="form-control mt-1 input-add" type="text" placeholder="Situação" name="situacao" />
                             </div>
                             <div class="px-5 mb-3">
                                 <strong>Descrição</strong>
-                                <input class="form-control mt-1 input-add" type="email" placeholder="Nome do Banco" name="nome_banco" />
+                                <input class="form-control mt-1 input-add" type="text" placeholder="Descrição" name="descricao" />
                             </div>
                         </div>
                 </div>

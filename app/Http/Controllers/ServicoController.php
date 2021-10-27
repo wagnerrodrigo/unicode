@@ -60,8 +60,6 @@ class ServicoController extends Controller
         $servico->data_fim = null;
         $servico->save();
 
-        echo "<script> alert('Serviço criado com sucesso!!') </script>";
-
         return redirect()->route('servicos');
     }
 
@@ -73,8 +71,8 @@ class ServicoController extends Controller
      */
     public function show($id)
     {
-        $servicos = Servico::find($id);
-        return view('admin.servico.servico', compact('servicos'));
+        $servico = Servico::find($id);
+        return view('admin.servico.servico', compact('servico'));
     }
 
     /**
@@ -91,8 +89,7 @@ class ServicoController extends Controller
         $servicos->tipo = $request->tipo;
         $servicos->forma_servico = $request->forma_servico;
         $servicos->update();
-
-        redirect()->route('servicos');
+        return redirect()->route('servicos');
     }
 
     /**
@@ -115,11 +112,10 @@ class ServicoController extends Controller
      */
     public function destroy($id)
     {
-        $servicos = Servico::find($id);
+        $servico = Servico::find($id);
 
-        $servicos->data_fim = Carbon::now()->toDateTimeString();
-        $servicos->update();
-
-        redirect()->route('servicos');
+        $servico->data_fim = Carbon::now()->toDateTimeString();
+        $servico->update();
+        return redirect()->route('servicos');
     }
 }

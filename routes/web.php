@@ -44,7 +44,6 @@ Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('finance
 
 //rotas Fornecedor
 Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('fornecedores');
-Route::get('/cadastro-fornecedores', [FornecedorController::class, 'cadastro'])->name('cadastro-fornecedores');
 Route::get('/fornecedores/{id}', [FornecedorController::class, 'show'])->name('show-fornecedor');
 Route::post('/fornecedores', [FornecedorController::class, 'store'])->name('fornecedores');
 Route::post('/fornecedores/editar/{id}', [FornecedorController::class, 'edit'])->name('edit-fornecedores');
@@ -59,7 +58,7 @@ Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('edit-usu
 //rotas Despesas
 Route::get('/despesas', [DespesaController::class, 'index'])->name('despesas');
 Route::get('/despesas/adicionar', [DespesaController::class, 'addDespesa'])->name('add-despesas');
-Route::POST('/despesas/adicionar', [DespesaController::class, 'store'])->name('add-despesas');
+Route::post('/despesas/adicionar', [DespesaController::class, 'store'])->name('add-despesas');
 
 //rotas Lançamentos
 Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
@@ -77,7 +76,7 @@ Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos'
 Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos');
 Route::get('/servicos/{id}', [ServicoController::class, 'show'])->name('list-servico');
 Route::post('/servicos', [ServicoController::class, 'store'])->name('servicos-create');
-Route::post('/servicos/editar/{id}', [ServicoController::class, 'edit'])->name('servicos-edit');
+Route::post('/servicos/editar/{id}', [ServicoController::class, 'edit']);
 Route::post('/servicos/delete/{id}', [ServicoController::class, 'destroy'])->name('servicos-destroy');
 
 //rotas Produto
@@ -93,6 +92,12 @@ Route::get('/cadastro-planos-contas', [PlanoContaController::class, 'cadastro'])
 
 // rotas Contas Bancárias
 Route::get('/contas-bancarias', [ContaBancariaController::class, 'index'])->name('contas-bancarias');
+Route::get('/contas-bancarias/{id}', [ContaBancariaController::class, 'show'])->name('contas-bancarias-show');
+Route::post('/contas-bancarias', [ContaBancariaController::class, 'store']);
+Route::post('/contas-bancarias/editar/{id}', [ContaBancariaController::class, 'edit']);
+Route::post('/contas-bancarias/delete/{id}', [ContaBancariaController::class, 'destroy']);
+
+//rotas Instituições Bancárias
 Route::get('/bancos', [InstituicaoBancariaController::class, 'index'])->name('instituicoes-bancarias');
 
 // rotas de Contas a pagar 
