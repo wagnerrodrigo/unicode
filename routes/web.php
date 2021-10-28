@@ -81,7 +81,11 @@ Route::post('/servicos/delete/{id}', [ServicoController::class, 'destroy'])->nam
 
 //rotas Produto
 Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos');
+Route::get('/produtos/{id}',[ProdutoController::class, 'show'])->name('lista-produto');
 Route::post('/produtos', [ProdutoController::class, 'store'])->name('produtos-create');
+Route::post('/produtos/editar/{id}',[ProdutoController::class, 'edit']);
+Route::post('/produtos/delete/{id}',[ProdutoController::class, 'destroy']);
+
 
 //rotas Centro de custo
 Route::get('/centro-custos', [CentroCusto::class, 'index'])->name('centro-custos');
@@ -101,7 +105,7 @@ Route::post('/contas-bancarias/delete/{id}', [ContaBancariaController::class, 'd
 Route::get('/bancos', [InstituicaoBancariaController::class, 'index'])->name('instituicoes-bancarias');
 
 // rotas de Contas a pagar 
-Route::get('/contas ', [ContaPagarController::class, 'index'])->name('contas-pagar');
+Route::get('/contas', [ContaPagarController::class, 'index'])->name('contas-pagar');
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {

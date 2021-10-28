@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
@@ -48,7 +49,8 @@ class ProdutoController extends Controller
      */
     public function show($id)
     {
-        //
+        $produto = Produto::find($id);
+        return view('admin.produto.produto', compact('produto'));
     }
 
     /**
@@ -57,9 +59,15 @@ class ProdutoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $produto = Produto::find($id);
+        $produto->nome = $request->nome;
+        $produto->nome_generico = $request->nome_generico;
+        $produto->tipo = $request->tipo;
+        $produto->forma_produto = $request->forma_produto;
+        $produto->update();
+        return redirect()->route('produtos');
     }
 
     /**
@@ -82,6 +90,9 @@ class ProdutoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $produto = Produto::find($id);
+        $produto->data_fim = Carbon::now()->toDateTimeString();
+        $produto->update();
+        return redirect()->route('produto');
     }
 }
