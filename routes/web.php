@@ -75,9 +75,9 @@ Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos'
 //rotas Serviço
 Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos');
 Route::get('/servicos/{id}', [ServicoController::class, 'show'])->name('list-servico');
-Route::post('/servicos', [ServicoController::class, 'store'])->name('servicos-create');
+Route::post('/servicos', [ServicoController::class, 'store']);
 Route::post('/servicos/editar/{id}', [ServicoController::class, 'edit']);
-Route::post('/servicos/delete/{id}', [ServicoController::class, 'destroy'])->name('servicos-destroy');
+Route::post('/servicos/delete/{id}', [ServicoController::class, 'destroy']);
 
 //rotas Produto
 Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos');
@@ -101,7 +101,7 @@ Route::post('/contas-bancarias/delete/{id}', [ContaBancariaController::class, 'd
 Route::get('/bancos', [InstituicaoBancariaController::class, 'index'])->name('instituicoes-bancarias');
 
 // rotas de Contas a pagar 
-Route::get('/contas ', [ContaPagarController::class, 'index'])->name('contas-pagar');
+Route::get('/contas', [ContaPagarController::class, 'index'])->name('contas-pagar');
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {

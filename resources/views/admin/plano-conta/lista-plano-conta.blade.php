@@ -31,8 +31,8 @@
                             <td>test campo</td>
                             <td>
                                 <!-- muda a rota-->
-                                <a href="{{route('cadastro-fornecedores')}}" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
-                                <a href="{{route('cadastro-fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
+                                <a href="{{route('fornecedores')}}" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
+                                <a href="{{route('fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
 
                             </td>
                         </tr>

@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header">
                 <h1>Lista Fornecedores</h1>
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#xlarge">
                     <i class="bi bi-plus-circle"></i> Novo Fornecedor
                 </button>
             </div>
