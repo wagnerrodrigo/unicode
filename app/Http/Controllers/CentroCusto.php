@@ -14,7 +14,7 @@ class CentroCusto extends Controller
      */
     public function index()
     {
-        return view('admin.centro-custo.centro-custo');
+        return view('admin.centro-custo.lista-centro-custo');
     }
 
     /**

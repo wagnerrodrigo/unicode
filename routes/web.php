@@ -74,18 +74,19 @@ Route::get('/movimentos', [MovimentoController::class, 'index'])->name('moviment
 Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos');
 
 //rotas Serviço
-Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos');
-Route::get('/servicos/{id}', [ServicoController::class, 'show'])->name('list-servico');
-Route::post('/servicos', [ServicoController::class, 'store']);
+Route::get('/servicos',              [ServicoController::class, 'index'])->name('servicos');
+Route::get('/servicos/{id}',         [ServicoController::class, 'show'])->name('list-servico');
+Route::post('/servicos',             [ServicoController::class, 'store']);
 Route::post('/servicos/editar/{id}', [ServicoController::class, 'edit']);
 Route::post('/servicos/delete/{id}', [ServicoController::class, 'destroy']);
 
 //rotas Produto
 Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos');
-Route::post('/produtos', [ProdutoController::class, 'store'])->name('produtos-create');
+Route::post('/produtos', [ProdutoController::class, 'store']);
 
 //rotas Centro de custo
 Route::get('/centro-custos', [CentroCusto::class, 'index'])->name('centro-custos');
+Route::get('/centro-custos/{id}', [CentroCusto::class, 'show']);
 
 // rotas Plano de contas
 Route::get('/plano-contas', [PlanoContaController::class, 'index'])->name('plano-contas');

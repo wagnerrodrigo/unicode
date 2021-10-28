@@ -29,13 +29,51 @@
                             <td>centro de custos T.I</td>
                             <td>Responsavel pelo setor</td>
                             <td>
-                                <span class="badge bg-success">Active</span>
+                                <span class="badge bg-success">Ativo</span>
                             </td>
                             <td>
-                                <a href="modal-centro-custo" data-bs-toggle="modal" data-bs-target="#inlineForm" class="btn icon btn-primary " style="padding: 8px 12px;"><i class="bi bi-pen-fill"></i></a>
-                                <a href="#" class="btn icon btn-danger " style="padding: 8px 12px;"><i class="bi bi-trash"></i></a>
+                                <a href="/centro-custos/id" class="btn icon btn-primary " style="padding: 8px 12px;">
+                                    <i class="bi bi-eye-fill"></i>
+                                </a>
+                                <button data-bs-toggle="modal" data-bs-target="#delete" class="btn btn-danger" style="padding: 8px 12px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
                             </td>
                         </tr>
+
+                        <!-- Inicio Modal Delete-->
+                        <div class="modal-danger me-1 mb-1 d-inline-block">
+                            <!--Danger theme Modal -->
+                            <div class="modal fade text-left" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger">
+                                            <h5 class="modal-title white" id="myModalLabel120">EXCLUSÃO</h5>
+                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                <i data-feather="x"></i>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Deseja realmente excluir o serviço?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                                <i class="bx bx-x d-block d-sm-none"></i>
+                                                <span class="d-none d-sm-block">Cancelar</span>
+                                            </button>
+                                            <form action="centro-custos/delete/" method="POST">
+                                                @csrf
+                                                <button class="btn btn-danger ml-1">
+                                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                                    <span class="d-none d-sm-block">Excluir</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fim Modal Delete-->
                     </tbody>
                 </table>
             </div>

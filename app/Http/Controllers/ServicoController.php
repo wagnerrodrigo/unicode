@@ -72,7 +72,7 @@ class ServicoController extends Controller
     public function show($id)
     {
         $servico = Servico::find($id);
-        return view('admin.servico.servico', compact('servico'));
+        return view('admin.servico.detalhe-servico', compact('servico'));
     }
 
     /**
