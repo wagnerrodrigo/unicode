@@ -122,3 +122,7 @@ Route::prefix('/painel')->group(function () {
     Route::middleware('autenticacaoMiddleware')->get('/relatorio', [RelatorioController::class, 'index'])->name('relatorio');
     Route::middleware('autenticacaoMiddleware')->get('/contratos', [GestaoDeContratosController::class, 'index'])->name('contratos');
 });
+
+
+Route::post('/cep', [FornecedorController::class, 'buscaCep']);
+Route::get('/cep', [FornecedorController::class, 'testeCep']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Fornecedor;
 use Illuminate\Http\Request;
+use App\Models\ViaCep;
 
 class FornecedorController extends Controller
 {
@@ -108,5 +109,20 @@ class FornecedorController extends Controller
         $fornecedores->data_fim = Carbon::now()->toDateTimeString();
         $fornecedores->update();
         return redirect()->route('fornecedores');
+    }
+
+    public function testeCep()
+    {
+        return view('testeCep');
+    }
+
+    public function buscaCep(Request $request)
+    {
+        $codigoPostal = $request->cep;
+        $endereco = ViaCep::getEndereco($codigoPostal);
+
+        
+
+        return response()->json($endereco);
     }
 }

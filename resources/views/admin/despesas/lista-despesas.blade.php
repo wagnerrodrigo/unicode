@@ -63,18 +63,20 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Selecione o tipo de despesa:
-                    <div>
-                        <span>Fornecedor</span>
-                        <input type="radio" checked value="fornecedor" name="despesa">
-                    </div>
-                    <div>
-                        <span>Pessoal</span>
-                        <input type="radio" value="pessoal" name="despesa">
-                    </div>
-                    <div>
-                        <span>Jurídico</span>
-                        <input type="radio" value="juridico" name="despesa">
+                    <h3>Selecione o tipo de despesa:</h3>
+                    <div class="d-flex">
+                        <div class="p-1">
+                            <input type="radio" checked value="fornecedor" name="despesa">
+                            <strong>Fornecedor</strong>
+                        </div>
+                        <div class="p-1">
+                            <input type="radio" value="pessoal" name="despesa">
+                            <strong>Pessoal</strong>
+                        </div>
+                        <div class="p-1">
+                            <input type="radio" value="juridico" name="despesa">
+                            <strong>Jurídico</strong>
+                        </div>
                     </div>
                 </div>
 
@@ -96,6 +98,7 @@
 <script src="assets/js/main.js"></script>
 
 <script>
+    //seleciona tipo de despesa
     document.getElementById("btnDespesa").onclick = function() {
         var radios = document.getElementsByName("despesa");
         for (var i = 0; i < radios.length; i++) {
