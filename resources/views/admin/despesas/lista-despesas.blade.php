@@ -63,15 +63,25 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Qual tipo de Despesa deseja adicionar?
+                    Selecione o tipo de despesa:
+                    <div>
+                        <span>Fornecedor</span>
+                        <input type="radio" checked value="fornecedor" name="despesa">
+                    </div>
+                    <div>
+                        <span>Pessoal</span>
+                        <input type="radio" value="pessoal" name="despesa">
+                    </div>
+                    <div>
+                        <span>Jurídico</span>
+                        <input type="radio" value="juridico" name="despesa">
+                    </div>
                 </div>
+
                 <div class="modal-footer">
-                    <a href="{{route('despesa-fornecedor')}}" class="btn btn-success">
-                        Fornecedor
-                    </a>
-                    <a href="{{route('despesa-pessoal')}}" class="btn btn-secondary">
-                        Pessoal
-                    </a>
+                    <button type="button" class="btn btn-success" id="btnDespesa">
+                        Adicionar
+                    </button>
                 </div>
             </div>
         </div>
@@ -84,5 +94,24 @@
 <script src="assets/js/vendors.js"></script>
 
 <script src="assets/js/main.js"></script>
+
+<script>
+    document.getElementById("btnDespesa").onclick = function() {
+        var radios = document.getElementsByName("despesa");
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                if (radios[i].value == "fornecedor") {
+                    window.location.href = "/despesas/adicionar/fornecedor";
+                }
+                if (radios[i].value == "pessoal") {
+                    window.location.href = "/despesas/adicionar/pessoal";
+                }
+                if (radios[i].value == "juridico") {
+                    window.location.href = "/despesas/adicionar/juridico";
+                }
+            }
+        }
+    };
+</script>
 
 @endsection
