@@ -26,7 +26,7 @@ use App\Http\Controllers\MovimentoController;
 use App\Http\Controllers\LancamentoController;
 use App\Http\Controllers\ReceitaController;
 use App\Http\Controllers\ApiViaCepController;
-use App\Http\Controllers\InstituicaoBancariaController;
+use App\Http\Controllers\InstituicaoFinanceiraController;
 use App\Http\Controllers\EnderecoController;
 use Illuminate\Support\Facades\Route;
 

@@ -53,7 +53,7 @@
         <div class="d-flex align-items-center">
             <!-- Avatar -->
             <li class="nav-item dropdown  d-flex align-items-center hidden-arrow space-item-navbar" style="padding: 10px;">
-                <a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration:none; color:black;">
+                <a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration:none; color:white;">
                     <i class="bi bi-person-fill"></i>
                     <span>Pedroenrick</span>
                 </a>
