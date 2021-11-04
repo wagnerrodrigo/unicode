@@ -36,53 +36,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="numero_conta">Numero Conta</label>
-                                <input type="text" class="form-control" id="numero_conta" name="numero_conta" value="{{$instituicao->numero_conta}}" disabled>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="digito_conta">Digito da Conta</label>
-                                <input type="text" class="form-control" id="digito_conta" name="digito_conta" value="{{$instituicao->digito_conta}}" disabled>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="agencia">Agência</label>
-                                <input type="text" class="form-control" id="agencia" name="agencia" value="{{$instituicao->agencia}}" disabled>
-                            </div>
-                        </div>
-                    </div>
-
-
-                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="tipo_conta">Tipo Conta</label>
-                                <input type="text" class="form-control" id="tipo_conta" name="tipo_conta" value="{{$instituicao->tipo_conta}}" disabled>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="titular">Titular</label>
-                                <input type="text" class="form-control" id="titular" name="titular" value="{{$instituicao->titular}}" disabled>
-                            </div>
-                        </div>
-                    </div>
-
-
+                    
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -154,61 +108,10 @@
                             </div>
 
 
-
-                            <div class="d-flex mt-10" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Codigo</strong>
-                                    <input type="text" class="form-control mt-1" id="codigo" type="text"  placeholder="codigo"  name="codigo" value="{{$instituicao->codigo}}" style="width: 358px" >
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <div>
-                                        <strong>Numero Conta</strong>
-                                    </div>
-                                    <div>
-                                         <input type="text" class="form-control mt-1" id="numero_conta" type="text"  placeholder="numero_conta"  name="numero_conta" value="{{$instituicao->numero_conta}}" style="width: 358px" >
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
                              <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
-                                    <strong>Digito Conta</strong>
-                                    <input type="text" class="form-control mt-1" id="digito_conta" type="text"  placeholder="digito_conta"  name="digito_conta" value="{{$instituicao->digito_conta}}" style="width: 358px" >
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <div>
-                                        <strong>Agencia</strong>
-                                    </div>
-                                    <div>
-                                         <input type="text" class="form-control mt-1" id="agencia" type="text"  placeholder="agencia"  name="agencia" value="{{$instituicao->agencia}}" style="width: 358px" >
-                                    </div>
-                                </div>
-                            </div>
-
-
-                              <div class="d-flex mt-10" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Tipo Conta</strong>
-                                    <select class="form-control" name="descricao" id="descricao" style="width: 358px">
-                                        <option value="Tipo 1">Tipo 1</option>
-                                        <option value="{{$instituicao->tipo_conta}}">{{$instituicao->tipo_conta}}</option>
-                                        <option value="{{$instituicao->tipo_conta}}">{{$instituicao->tipo_conta}}</option>
-                                        <option value="{{$instituicao->tipo_conta}}">{{$instituicao->tipo_conta}}</option>
-                                    </select>                                    
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <div>
-                                        <strong>Ttular</strong>
-                                    </div>
-                                    <div>
-                                         <input type="text" class="form-control mt-1" id="titular" type="text"  placeholder="titular"  name="titular" value="{{$instituicao->titular}}" style="width: 358px" >
-                                    </div>
+                                    <strong>Codigo</strong>
+                                    <input type="text" class="form-control mt-1" id="codigo" type="text"  placeholder="codigo"  name="codigo" value="{{$instituicao->digito_conta}}" style="width: 358px" >
                                 </div>
                             </div>
 
@@ -232,13 +135,12 @@
 
                             <div class="d-flex" style="width: 100%">
                                 <div class="px-5 mb-3">
-                                    <strong>Descricao</strong>
+                                    <strong>Descricao </strong>
                                     <textarea cols="110" rows="5" class="form-control" name="descricao" value="{{$instituicao->descricao}}"></textarea>
                                 </div>
                              
                             </div>
                     </div>
-
 
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">

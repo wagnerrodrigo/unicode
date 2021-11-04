@@ -18,11 +18,6 @@ class InstituicaoFinanceira extends Migration
             $table->string('nome');
             $table->string('cnpj');
             $table->string('codigo');
-            $table->string('numero_conta');
-            $table->string('digito_conta');
-            $table->string('agencia');
-            $table->string('tipo_conta');
-            $table->string('titular');
             $table->string('situacao');
             $table->string('razao_social');
             $table->string('descricao');

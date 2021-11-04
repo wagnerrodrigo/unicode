@@ -133,46 +133,6 @@
                                     <strong>Código Banco </strong>
                                     <input class="form-control mt-1 input-add" type="text" placeholder="Código do banco" name="codigo" />
                                 </div>
-
-                                <div class="px-5 mb-3">
-                                    <strong>Numero Conta</strong>
-                                    <input class="form-control mt-1 input-add" type="text" placeholder="numero da conta" name="numero_conta" />
-                                </div>
-                            </div>
-
-                            <div class="d-flex mt-10" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <div>
-                                        <strong>Digito Conta</strong>
-                                        <input class="form-control mt-1 input-add" type="text" placeholder="digito da conta" name="digito_conta" />
-                                    </div>
-                                </div>
-                                <div class="px-5 mb-3">
-                                    <div>
-                                        <strong>Agencia</strong>
-                                        <input class="form-control mt-1 input-add" type="text" placeholder="agencia" name="agencia" maxlength="4" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="d-flex mt-10" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Tipo Conta</strong>
-                                    <select class="form-control input-add"  name="tipo_conta" id="tipo_conta">
-                                        <option selected>Selecione um tipo de conta</option>
-                                        <option value="Conta Salário">Conta Salário</option>
-                                        <option value="Conta Corrente">Conta Corrente</option>
-                                        <option value="Conta Eletrônica">Conta Eletrônica</option>
-                                        <option value="Conta Poupaça">Conta Poupaça</option>
-                                    </select>
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <div>
-                                        <strong>titular</strong>
-                                        <input class="form-control mt-1 input-add" type="text" placeholder="titular" name="titular" />
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="d-flex mt-10" style="width: 100%">
