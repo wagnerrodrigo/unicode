@@ -25,7 +25,7 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\MovimentoController;
 use App\Http\Controllers\LancamentoController;
 use App\Http\Controllers\ReceitaController;
-use App\Http\Controllers\InstituicaoBancariaController;
+use App\Http\Controllers\InstituicaoFinanceiraController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -102,7 +102,11 @@ Route::post('/contas-bancarias/editar/{id}', [ContaBancariaController::class, 'e
 Route::post('/contas-bancarias/delete/{id}', [ContaBancariaController::class, 'destroy']);
 
 //rotas Instituições Bancárias
-Route::get('/bancos', [InstituicaoBancariaController::class, 'index'])->name('instituicoes-bancarias');
+Route::get('/instituicoes-financeira', [InstituicaoFinanceiraController::class, 'index'])->name('instituicoes-financeira');
+Route::get('/instituicoes-financeira/{id}', [InstituicaoFinanceiraController::class, 'show'])->name('instituicoes-financeira-show');
+Route::post('/instituicoes-financeira',[InstituicaoFinanceiraController::class, 'store']);
+Route::post('/instituicoes-financeira/editar/{id}',[InstituicaoFinanceiraController::class,'edit']);
+Route::post('/instituicoes-financeira/delete/{id',[InstituicaoFinanceiraController::class,'destroy']);
 
 // rotas de Contas a pagar 
 Route::get('/contas', [ContaPagarController::class, 'index'])->name('contas-pagar');
