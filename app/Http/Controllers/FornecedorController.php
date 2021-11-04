@@ -114,4 +114,8 @@ class FornecedorController extends Controller
     {
         return view('testeCep');
     }
+
+    public function formFornecedores(){
+        return view('admin.fornecedor.add-fornecedor');
+    }
 }

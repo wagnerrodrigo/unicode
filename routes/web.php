@@ -27,6 +27,7 @@ use App\Http\Controllers\LancamentoController;
 use App\Http\Controllers\ReceitaController;
 use App\Http\Controllers\ApiViaCepController;
 use App\Http\Controllers\InstituicaoBancariaController;
+use App\Http\Controllers\EnderecoController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -44,6 +45,7 @@ Route::get('/nota', [NotaFiscalController::class, 'index'])->name('nota');
 Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('financeiro');
 
 //rotas Fornecedor
+Route::get('/fornecedores/adicionar', [FornecedorController::class, 'formFornecedores'])->name('add-fornecedor');
 Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('fornecedores');
 Route::get('/fornecedores/{id}', [FornecedorController::class, 'show'])->name('show-fornecedor');
 Route::post('/fornecedores', [FornecedorController::class, 'store'])->name('fornecedores');
@@ -106,6 +108,8 @@ Route::get('/bancos', [InstituicaoBancariaController::class, 'index'])->name('in
 
 // rotas de Contas a pagar 
 Route::get('/contas', [ContaPagarController::class, 'index'])->name('contas-pagar');
+
+Route::post('/enderecos', [EnderecoController::class, 'store']);
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {
