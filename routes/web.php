@@ -25,7 +25,9 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\MovimentoController;
 use App\Http\Controllers\LancamentoController;
 use App\Http\Controllers\ReceitaController;
-use App\Http\Controllers\InstituicaoFinanceiraController;
+use App\Http\Controllers\ApiViaCepController;
+use App\Http\Controllers\InstituicaoBancariaController;
+use App\Http\Controllers\EnderecoController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -43,6 +45,7 @@ Route::get('/nota', [NotaFiscalController::class, 'index'])->name('nota');
 Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('financeiro');
 
 //rotas Fornecedor
+Route::get('/fornecedores/adicionar', [FornecedorController::class, 'formFornecedores'])->name('add-fornecedor');
 Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('fornecedores');
 Route::get('/fornecedores/{id}', [FornecedorController::class, 'show'])->name('show-fornecedor');
 Route::post('/fornecedores', [FornecedorController::class, 'store'])->name('fornecedores');
@@ -57,7 +60,9 @@ Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('edit-usu
 
 //rotas Despesas
 Route::get('/despesas', [DespesaController::class, 'index'])->name('despesas');
-Route::get('/despesas/adicionar', [DespesaController::class, 'addDespesa'])->name('add-despesas');
+Route::get('/despesas/adicionar/fornecedor', [DespesaController::class, 'despesaFornecedor'])->name('despesa-fornecedor');
+Route::get('/despesas/adicionar/pessoal', [DespesaController::class, 'despesaPessoal'])->name('despesa-pessoal');
+Route::get('/despesas/adicionar/juridico', [DespesaController::class, 'despesaJuridico'])->name('despesa-juridico');
 Route::post('/despesas/adicionar', [DespesaController::class, 'store'])->name('add-despesas');
 
 //rotas Lançamentos
@@ -73,22 +78,20 @@ Route::get('/movimentos', [MovimentoController::class, 'index'])->name('moviment
 Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos');
 
 //rotas Serviço
-Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos');
-Route::get('/servicos/{id}', [ServicoController::class, 'show'])->name('list-servico');
-Route::post('/servicos', [ServicoController::class, 'store'])->name('servicos-create');
+Route::get('/servicos',              [ServicoController::class, 'index'])->name('servicos');
+Route::get('/servicos/{id}',         [ServicoController::class, 'show'])->name('list-servico');
+Route::post('/servicos',             [ServicoController::class, 'store']);
 Route::post('/servicos/editar/{id}', [ServicoController::class, 'edit']);
-Route::post('/servicos/delete/{id}', [ServicoController::class, 'destroy'])->name('servicos-destroy');
+Route::post('/servicos/delete/{id}', [ServicoController::class, 'destroy']);
 
 //rotas Produto
 Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos');
-Route::get('/produtos/{id}',[ProdutoController::class, 'show'])->name('lista-produto');
-Route::post('/produtos', [ProdutoController::class, 'store'])->name('produtos-create');
-Route::post('/produtos/editar/{id}',[ProdutoController::class, 'edit']);
-Route::post('/produtos/delete/{id}',[ProdutoController::class, 'destroy']);
+Route::post('/produtos', [ProdutoController::class, 'store']);
 
 
 //rotas Centro de custo
 Route::get('/centro-custos', [CentroCusto::class, 'index'])->name('centro-custos');
+Route::get('/centro-custos/{id}', [CentroCusto::class, 'show']);
 
 // rotas Plano de contas
 Route::get('/plano-contas', [PlanoContaController::class, 'index'])->name('plano-contas');
@@ -111,6 +114,8 @@ Route::post('/instituicoes-financeira/delete/{id',[InstituicaoFinanceiraControll
 // rotas de Contas a pagar 
 Route::get('/contas', [ContaPagarController::class, 'index'])->name('contas-pagar');
 
+Route::post('/enderecos', [EnderecoController::class, 'store']);
+
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {
     //Route::middleware('autenticacaoMiddleware')->get('/home', [PainelController::class, 'index'])->name('painel');
@@ -127,3 +132,7 @@ Route::prefix('/painel')->group(function () {
     Route::middleware('autenticacaoMiddleware')->get('/relatorio', [RelatorioController::class, 'index'])->name('relatorio');
     Route::middleware('autenticacaoMiddleware')->get('/contratos', [GestaoDeContratosController::class, 'index'])->name('contratos');
 });
+
+
+Route::post('/cep', [ApiViaCepController::class, 'buscaCep']);
+Route::get('/cep', [FornecedorController::class, 'testeCep']);

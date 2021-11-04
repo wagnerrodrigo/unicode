@@ -109,4 +109,13 @@ class FornecedorController extends Controller
         $fornecedores->update();
         return redirect()->route('fornecedores');
     }
+
+    public function testeCep()
+    {
+        return view('testeCep');
+    }
+
+    public function formFornecedores(){
+        return view('admin.fornecedor.add-fornecedor');
+    }
 }

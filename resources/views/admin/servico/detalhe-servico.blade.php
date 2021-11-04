@@ -1,5 +1,5 @@
 @extends('layouts.templates.template')
-@section('title', "Serviço")
+@section('title', "Detalhe Serviço")
 
 
 @section('content')
@@ -12,35 +12,42 @@
             </div>
             <div class="card-body">
                 <div class="card-body">
-                    <div class="row">
+                    <div class="d-flex">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>Nome</strong>
+                                </div>
+                                <span>{{$servico->nome}}</span>
+                            </div>
+                        </div>
+
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="nome">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome" value="{{$servico->nome}}" disabled>
+                                <div>
+                                    <strong for="raz_social">Descrição</strong>
+                                </div>
+                                <span>{{$servico->nome_generico}}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
+
+                    <div class="d-flex">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="descricao">Descrição</label>
-                                <textarea class="form-control" id="descricao" name="descricao" disabled>{{$servico->nome_generico}}</textarea>
+                                <div>
+                                    <strong>Tipo</strong>
+                                </div>
+                                <span>{{$servico->tipo}}</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="valor">Tipo</label>
-                                <input type="text" class="form-control" id="valor" name="valor" value="{{$servico->tipo}}" disabled>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="valor">Forma Serviço</label>
-                                <input type="text" class="form-control" id="categoria" name="categoria" value="{{$servico->forma_servico}}" disabled>
+                                <div>
+                                    <strong for="raz_social">Forma Serviço</strong>
+                                </div>
+                                <span>{{$servico->forma_servico}}</span>
                             </div>
                         </div>
                     </div>
@@ -123,7 +130,7 @@
                     </div>
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary me-1 mb-1" >
+                            <button type="submit" class="btn btn-primary me-1 mb-1">
                                 <i data-feather="check-circle"></i>Salvar
                             </button>
                             <!-- mudar para produto -->
@@ -135,15 +142,16 @@
             </div>
         </div>
     </div>
-    <!-- fim modal -->
+</div>
+<!-- fim modal -->
 
-    <script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
 
-    <script src="assets/js/feather-icons/feather.min.js"></script>
-    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="assets/js/vendors.js"></script>
+<script src="assets/js/feather-icons/feather.min.js"></script>
+<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="assets/js/vendors.js"></script>
 
-    <script src="assets/js/main.js"></script>
+<script src="assets/js/main.js"></script>
 
 
-    @endsection
+@endsection

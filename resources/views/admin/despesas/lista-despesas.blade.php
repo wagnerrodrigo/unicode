@@ -8,9 +8,9 @@
         <div class="card">
             <div class="card-header">
                 <h1>Lista Despesas</h1>
-                <a class="btn btn-success" href="{{route('add-despesas')}}">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-add-despesa">
                     <i class="bi bi-plus-circle"></i> Nova Despesa
-                </a>
+                </button>
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
@@ -48,10 +48,47 @@
     </div>
 </div>
 
-<!-- Inicio Modal Adicionar-->
+<div class="modal-primary me-1 mb-1 d-inline-block">
 
+    <!--primary theme Modal -->
+    <div class="modal fade text-left" id="modal-add-despesa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title white" id="myModalLabel160">
+                        Adicionar despesa
+                    </h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h3>Selecione o tipo de despesa:</h3>
+                    <div class="d-flex">
+                        <div class="p-1">
+                            <input type="radio" checked value="fornecedor" name="despesa">
+                            <strong>Fornecedor</strong>
+                        </div>
+                        <div class="p-1">
+                            <input type="radio" value="pessoal" name="despesa">
+                            <strong>Pessoal</strong>
+                        </div>
+                        <div class="p-1">
+                            <input type="radio" value="juridico" name="despesa">
+                            <strong>Jurídico</strong>
+                        </div>
+                    </div>
+                </div>
 
-<!-- Fim modal Adicionar -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="btnDespesa">
+                        Adicionar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="assets/js/feather-icons/feather.min.js"></script>
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
@@ -59,5 +96,25 @@
 <script src="assets/js/vendors.js"></script>
 
 <script src="assets/js/main.js"></script>
+
+<script>
+    //seleciona tipo de despesa
+    document.getElementById("btnDespesa").onclick = function() {
+        var radios = document.getElementsByName("despesa");
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                if (radios[i].value == "fornecedor") {
+                    window.location.href = "/despesas/adicionar/fornecedor";
+                }
+                if (radios[i].value == "pessoal") {
+                    window.location.href = "/despesas/adicionar/pessoal";
+                }
+                if (radios[i].value == "juridico") {
+                    window.location.href = "/despesas/adicionar/juridico";
+                }
+            }
+        }
+    };
+</script>
 
 @endsection

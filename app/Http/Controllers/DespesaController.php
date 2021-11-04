@@ -17,9 +17,19 @@ class DespesaController extends Controller
         return view('admin.despesas.lista-despesas');
     }
 
-    public function addDespesa()
+    public function despesaFornecedor()
     {
-        return view('admin.despesas.add-despesas');
+        return view('admin.despesas.add-despesa-fornecedor');
+    }
+
+    public function despesaPessoal()
+    {
+        return view('admin.despesas.add-despesa-pessoal');
+    }
+
+    public function despesaJuridico()
+    {
+        return view('admin.despesas.add-despesa-juridico');
     }
 
     public function store()

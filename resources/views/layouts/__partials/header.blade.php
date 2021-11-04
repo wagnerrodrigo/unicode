@@ -5,28 +5,24 @@
 
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Navbar brand -->
-            <a class="navbar-brand mt-10 mt-lg-0" href="{{route('painel')}}">
-                <img src="{{asset('img/logo-login-sistema.png')}}" height="40" alt="" loading="lazy" />
-            </a>
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item space-item-navbar">
+                <li class="nav-item space-item-navbar" style="padding: 10px;">
                     <a class="nav-link " href="{{route('admin')}}">Admin</a>
                 </li>
-                <li class="nav-item space-item-navbar">
+                <li class="nav-item space-item-navbar" style="padding: 10px;">
                     <a class="nav-link" href="{{route('bi')}}">BI</a>
                 </li>
-                <li class="nav-item space-item-navbar">
+                <li class="nav-item space-item-navbar" style="padding: 10px;">
                     <a class="nav-link" href="{{route('compras')}}">Compras</a>
                 </li>
-                <li class="nav-item space-item-navbar">
+                <li class="nav-item space-item-navbar" style="padding: 10px;">
                     <a class="nav-link" href="{{route('compliance')}}">Compliance</a>
                 </li>
-                <li class="nav-item space-item-navbar">
+                <li class="nav-item space-item-navbar" style="padding: 10px;">
                     <a class="nav-link" href="{{route('contabil')}}">Contábil</a>
                 </li>
-                <li class="nav-item dropdown space-item-navbar">
+                <li class="nav-item dropdown space-item-navbar" style="padding: 10px;">
                     <a class="nav-link dropdown-toggle" href="/#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Financeiro
                     </a>
@@ -38,13 +34,13 @@
                         <li><a class="dropdown-item" href="{{route('plano-contas')}}">Plano de contas</a></li>
                     </ul>
                 </li>
-                <li class="nav-item space-item-navbar">
+                <li class="nav-item space-item-navbar" style="padding: 10px;">
                     <a class="nav-link" href="{{route('rh')}}">Gestão de Pessoas</a>
                 </li>
-                <li class="nav-item space-item-navbar">
+                <li class="nav-item space-item-navbar" style="padding: 10px;">
                     <a class="nav-link" href="{{route('juridico')}}">Jurídico</a>
                 </li>
-                <li class="nav-item space-item-navbar">
+                <li class="nav-item space-item-navbar" style="padding: 10px;">
                     <a class="nav-link" href="{{route('relatorio')}}">Relatório</a>
                 </li>
 
@@ -56,7 +52,7 @@
         <!-- Right elements -->
         <div class="d-flex align-items-center">
             <!-- Avatar -->
-            <li class="nav-item dropdown  d-flex align-items-center hidden-arrow space-item-navbar">
+            <li class="nav-item dropdown  d-flex align-items-center hidden-arrow space-item-navbar" style="padding: 10px;">
                 <a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration:none; color:black;">
                     <i class="bi bi-person-fill"></i>
                     <span>Pedroenrick</span>
