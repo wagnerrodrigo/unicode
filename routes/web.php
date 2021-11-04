@@ -25,6 +25,7 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\MovimentoController;
 use App\Http\Controllers\LancamentoController;
 use App\Http\Controllers\ReceitaController;
+use App\Http\Controllers\ApiViaCepController;
 use App\Http\Controllers\InstituicaoBancariaController;
 use Illuminate\Support\Facades\Route;
 
@@ -124,5 +125,5 @@ Route::prefix('/painel')->group(function () {
 });
 
 
-Route::post('/cep', [FornecedorController::class, 'buscaCep']);
+Route::post('/cep', [ApiViaCepController::class, 'buscaCep']);
 Route::get('/cep', [FornecedorController::class, 'testeCep']);

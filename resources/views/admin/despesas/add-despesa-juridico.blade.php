@@ -46,28 +46,6 @@
 
                             <div class="d-flex" style="width: 100%">
                                 <div class="px-5 mb-3">
-                                    <strong>Funcionário</strong>
-                                    <select class="form-control input-add" name="funcionario" id="funcionario">
-                                        <option selected value="funcionario_1">Credor 1</option>
-                                        <option value="funcionario_2">Funcionário 2</option>
-                                        <option value="funcionario_3">Funcionário 3</option>
-                                        <option value="funcionario_4">Funcionário 4</option>
-                                        <option value="funcionario_5">Funcionário 5</option>
-                                        <option value="funcionario_6">Funcionário 6</option>
-                                    </select>
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <strong>Funcionário Endereço</strong>
-                                    <select class="form-control input-add" name="funcionario_endereco" id="funcionario_endereco">
-                                        <option selected value="funcionario_endereco_1">Endereço 1</option>
-                                        <option value="funcionario_endereco_2">Endereço 2</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
                                     <strong>Situação</strong>
                                     <select class="form-control input-add" name="status" id="status">
                                         <option selected value="pendente">Pendente</option>
@@ -88,17 +66,29 @@
                             <div class="d-flex" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>Tipo Despesa</strong>
-                                    <select class="form-control input-add" name="tipo_despesa" id="tipo_despesa">
-                                        <option selected value="reembolso">Reembolso</option>
-                                        <option selected value="adiantamento">Adiantamento</option>
-                                        <option selected value="salario">Salário</option>
-
-                                    </select>
+                                    <input class="form-control input-add" value="Despesas Jurídicas" readonly name="tipo_despesa" id="tipo_despesa" />
                                 </div>
 
                                 <div class="px-5 mb-3">
-                                    <strong>Valor</strong>
-                                    <input type="text" placeholder="Valor" class="form-control input-add" name="valor" />
+                                    <strong>Descrição</strong>
+                                    <select class="form-control input-add" name="descricao" id="descricao">
+                                        <option selected value="adiantamento_a_terceiros">Adiantamento a Terceiros</option>
+                                        <option value="bloqueio_judicial">Bloqueio Judicial</option>
+                                        <option value="cartorio">Cartório</option>
+                                        <option value="correspondente_audiencia_diligencia">Correspondente/Audiência/Diligência</option>
+                                        <option value="custas">Custas</option>
+                                        <option value="depositos_recursais">Depósitos Recursais</option>
+                                        <option value="despesas_de_processos_trabalhistas">Despesas de Processos Trabalhistas</option>
+                                        <option value="estadia_de_veiculos">Estadia de Veículos</option>
+                                        <option value="localizacao">Localização</option>
+                                        <option value="notificacoes_protestos">Notificações/Protestos</option>
+                                        <option value="publicacoes_juridicas">Publicações Jurídicas</option>
+                                        <option value="reembolso_a_efetuar">Reembolso a efetuar</option>
+                                        <option value="remocao_estadia">Remoção/Estadia</option>
+                                        <option value="remocao_guincho">Remoção/Guincho</option>
+                                        <option value="repasse">Repasse</option>
+                                        <option value="trabalhista_condenacao">Trabalhista Condenação</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -118,12 +108,13 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex" style="width: 100%">
+                            <div class="d-flex">
                                 <div class="px-5 mb-3">
-                                    <strong>Descrição</strong>
-                                    <textarea cols="110" rows="5" class="form-control" name="descricao"></textarea>
+                                    <strong>Valor</strong>
+                                    <input type="text" placeholder="Valor" class="form-control input-add" name="valor" />
                                 </div>
                             </div>
+
                             <div class="card-footer">
                                 <div class="col-sm-12 d-flex justify-content-end">
                                     <button type="submit" class="btn btn-success me-1 mb-1">
