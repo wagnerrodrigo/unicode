@@ -10,56 +10,68 @@
             <div class="card-header">
                 <h1>{{$instituicao->nome}}</h1>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="font-size: 18px;">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="d-flex">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="nome">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome" value="{{$instituicao->nome}}" disabled>
+                                <div>
+                                    <strong for="nome">Nome</strong>
+                                </div>
+                                <span>{{$instituicao->nome}}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="d-flex">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="cnpj">CNPJ</label>
-                                <textarea class="form-control" id="cnpj" name="cnpj" disabled>{{$instituicao->cnpj}}</textarea>
+                                <div>
+                                    <strong for="cnpj">CNPJ</strong>
+                                </div>
+                                <span>{{$instituicao->cnpj}}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="d-flex">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="codigo">Código</label>
-                                <input type="text" class="form-control" id="codigo" name="codigo" value="{{$instituicao->codigo}}" disabled>
+                                <div>
+                                    <strong for="codigo">Código</strong>
+                                </div>
+                                <span> {{$instituicao->codigo}} </span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="d-flex">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="situacao">Situacao</label>
-                                <input type="text" class="form-control" id="situacao" name="situacao" value="{{$instituicao->situacao}}" disabled>
+                                <div>
+                                    <strong for="situacao">Situacao</strong>
+                                </div>
+                                <span>{{$instituicao->situacao}}</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="d-flex">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="razao_social">Razao Social</label>
-                                <input type="text" class="form-control" id="razao_social" name="razao_social" value="{{$instituicao->razao_social}}" disabled>
+                                <div>
+                                    <strong for="razao_social">Razao Social</strong>
+                                </div>
+                                <span>{{$instituicao->razao_social}}</span>
                             </div>
                         </div>
                     </div>
 
-                     <div class="row">
-                        <div class="col-md-12">
+                     <div class="d-flex">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="descricao">Descricao</label>
-                                <input type="text" class="form-control" id="descricao" name="descricao" value="{{$instituicao->descricao}}" disabled>
+                                <div>
+                                    <strong for="descricao">Descricao</strong>
+                                </div>
+                                <span>{{$instituicao->descricao}}</span>
                             </div>
                         </div>
                     </div>
@@ -82,7 +94,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel16">Novo Serviço</h4>
+                        <h4 class="modal-title" id="myModalLabel16">Nova Instituição financeira</h4>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <i class="bi bi-x" data-feather="x"></i>
                         </button>
@@ -94,7 +106,7 @@
                             <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>Nome</strong>
-                                    <input type="text" class="form-control mt-1" id="nome" type="text"  placeholder="nome"  name="nome" value="{{$instituicao->nome}}" style="width: 358px" >
+                                    <input type="text" class="form-control mt-1" id="nome" placeholder="nome"  name="nome" value="{{$instituicao->nome}}" style="width: 358px" >
                                 </div>
 
                                 <div class="px-5 mb-3">
@@ -102,7 +114,7 @@
                                         <strong>CNPJ</strong>
                                     </div>
                                     <div>
-                                        <input type="text" class="form-control mt-1" id="cnpj" type="text"  placeholder="cnpj"  name="cnpj" value="{{$instituicao->cnpj}}" style="width: 358px" >
+                                        <input type="text" class="form-control mt-1" id="cnpj" placeholder="cnpj"  name="cnpj" value="{{$instituicao->cnpj}}" style="width: 358px" >
                                     </div>
                                 </div>
                             </div>
@@ -111,13 +123,13 @@
                              <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>Codigo</strong>
-                                    <input type="text" class="form-control mt-1" id="codigo" type="text"  placeholder="codigo"  name="codigo" value="{{$instituicao->codigo}}" style="width: 358px" >
+                                    <input type="text" class="form-control mt-1" id="codigo" placeholder="codigo"  name="codigo" value="{{$instituicao->codigo}}" style="width: 358px" >
                                 </div>
 
-                                
+
                                 <div class="px-5 mb-3">
                                     <strong>Situacao</strong>
-                                    <input type="text" class="form-control mt-1" id="situacao" type="text"  placeholder="situacao"  name="situacao" value="{{$instituicao->situacao}}" style="width: 358px" >
+                                    <input type="text" class="form-control mt-1" id="situacao" placeholder="situacao"  name="situacao" value="{{$instituicao->situacao}}" style="width: 358px" >
                                 </div>
 
 
@@ -132,7 +144,7 @@
                                         <strong>Razao Social</strong>
                                     </div>
                                     <div>
-                                         <input type="text" class="form-control mt-1" id="razao_social" type="text"  placeholder="razao_social"  name="razao_social" value="{{$instituicao->razao_social}}" style="width: 358px" >
+                                         <input type="text" class="form-control mt-1" id="razao_social"  placeholder="razao_social"  name="razao_social" value="{{$instituicao->razao_social}}" style="width: 358px" >
                                     </div>
                                 </div>
                             </div>
