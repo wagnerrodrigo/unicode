@@ -1,8 +1,10 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<figure style="left:0; top:0; ">
+        <img  src="{{asset('img/ACE-sem-fundo.png')}}">
+    </figure>
     <!-- Container wrapper -->
-    <div class="container-fluid">
-
+    <div class="container-fluid ">
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left links -->

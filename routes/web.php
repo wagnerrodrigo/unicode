@@ -108,8 +108,8 @@ Route::post('/contas-bancarias/delete/{id}', [ContaBancariaController::class, 'd
 Route::get('/instituicoes-financeira', [InstituicaoFinanceiraController::class, 'index'])->name('instituicoes-financeira');
 Route::get('/instituicoes-financeira/{id}', [InstituicaoFinanceiraController::class, 'show'])->name('instituicoes-financeira-show');
 Route::post('/instituicoes-financeira',[InstituicaoFinanceiraController::class, 'store']);
-Route::post('/instituicoes-financeira/editar/{id}',[InstituicaoFinanceiraController::class,'edit']);
-Route::post('/instituicoes-financeira/delete/{id',[InstituicaoFinanceiraController::class,'destroy']);
+Route::post('/instituicoes-financeira/editar/{id}',[InstituicaoFinanceiraController::class, 'edit']);
+Route::post('/instituicoes-financeira/delete/{id}',[InstituicaoFinanceiraController::class, 'destroy']);
 
 // rotas de Contas a pagar 
 Route::get('/contas', [ContaPagarController::class, 'index'])->name('contas-pagar');

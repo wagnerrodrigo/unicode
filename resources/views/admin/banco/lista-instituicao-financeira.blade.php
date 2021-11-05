@@ -35,12 +35,12 @@
                               @foreach ($instituicoesAtivas as $instituicao)
                                 <tr>
                                     <td>{{ $instituicao->nome}}</td>
-                                    <td>{{ $instituicao->numero_conta }}</td>
-                                    <td>{{ $instituicao->agencia }}</td>
-                                    <td>{{ $instituicao->tipo_conta }}</td>
+                                    <td>{{ $instituicao->cnpj}}</td>
+                                    <td>{{ $instituicao->codigo}}</td>
+                                    <td>{{ $instituicao->situacao }}</td>
                                     <td>{{ $instituicao->razao_social }}</td>
                                     <td>
-                                        <button data-bs-toggle="modal" data-bs-target="#delete" class="btn btn-danger"
+                                        <button data-bs-toggle="modal" data-bs-target="#delete{{$instituicao->id}}" class="btn btn-danger"
                                             style="padding: 8px 12px;">
                                             <i class="bi bi-trash-fill"></i>
                                         </button>
@@ -67,7 +67,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                Deseja realmente excluir o serviço: {{ $instituicao->nome }}?
+                                                Deseja realmente excluir a Instituicao Financeira: {{ $instituicao->nome }}?
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-light-secondary"
@@ -75,7 +75,7 @@
                                                     <i class="bx bx-x d-block d-sm-none"></i>
                                                     <span class="d-none d-sm-block">Cancelar</span>
                                                 </button>
-                                                <form action="servicos/delete/{{ $instituicao->id }}" method="POST">
+                                                <form action="instituicoes-financeira/delete/{{$instituicao->id}}" method="POST">
                                                     @csrf
                                                     <button class="btn btn-danger ml-1">
                                                         <i class="bx bx-check d-block d-sm-none"></i>
@@ -133,13 +133,12 @@
                                     <strong>Código Banco </strong>
                                     <input class="form-control mt-1 input-add" type="text" placeholder="Código do banco" name="codigo" />
                                 </div>
-                            </div>
-
-                            <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>Situacao</strong>
                                     <input class="form-control mt-1 input-add" type="text" placeholder="situacao" name="situacao" />
                                 </div>
+                            </div>
+                            <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <div>
                                         <strong>Razão Social</strong>

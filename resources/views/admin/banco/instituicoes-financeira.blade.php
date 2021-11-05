@@ -111,16 +111,21 @@
                              <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>Codigo</strong>
-                                    <input type="text" class="form-control mt-1" id="codigo" type="text"  placeholder="codigo"  name="codigo" value="{{$instituicao->digito_conta}}" style="width: 358px" >
+                                    <input type="text" class="form-control mt-1" id="codigo" type="text"  placeholder="codigo"  name="codigo" value="{{$instituicao->codigo}}" style="width: 358px" >
                                 </div>
-                            </div>
 
-                            
-                            <div class="d-flex mt-10" style="width: 100%">
+                                
                                 <div class="px-5 mb-3">
                                     <strong>Situacao</strong>
                                     <input type="text" class="form-control mt-1" id="situacao" type="text"  placeholder="situacao"  name="situacao" value="{{$instituicao->situacao}}" style="width: 358px" >
                                 </div>
+
+
+                            </div>
+
+                            
+                            <div class="d-flex mt-10" style="width: 100%">
+                            
 
                                 <div class="px-5 mb-3">
                                     <div>
@@ -148,7 +153,7 @@
                                 <i data-feather="check-circle"></i>Salvar
                             </button>
                             <!-- mudar para produto -->
-                            <a href="{{route('servicos')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                            <a href="{{route('instituicoes-financeira')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
                         </div>
 
                         </form>
