@@ -41,10 +41,10 @@
                             <td>{{$servico->forma_servico}}</td>
 
                             <td>
+                                <a href="/servicos/{{$servico->id}}" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
                                 <button data-bs-toggle="modal" data-bs-target="#delete{{$servico->id}}" class="btn btn-danger" style="padding: 8px 12px;">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
-                                <a href="servicos/{{$servico->id}}" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
                             </td>
                         </tr>
 
