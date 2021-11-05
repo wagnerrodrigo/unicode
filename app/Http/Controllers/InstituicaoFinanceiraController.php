@@ -56,11 +56,6 @@ class InstituicaoFinanceiraController extends Controller
         $instituicao->nome = $request->nome;
         $instituicao->cnpj = $request->cnpj;
         $instituicao->codigo = $request->codigo;
-        $instituicao->numero_conta = $request->numero_conta;
-        $instituicao->digito_conta = $request->digito_conta;
-        $instituicao->agencia = $request->agencia;
-        $instituicao->tipo_conta = $request->tipo_conta;
-        $instituicao->titular = $request->titular;
         $instituicao->situacao = $request->situacao;
         $instituicao->razao_social = $request->razao_social;
         $instituicao->descricao = $request->descricao;
@@ -94,11 +89,6 @@ class InstituicaoFinanceiraController extends Controller
         $instituicao->nome = $request->nome;
         $instituicao->cnpj = $request->cnpj;
         $instituicao->codigo = $request->codigo;
-        $instituicao->numero_conta = $request->numero_conta;
-        $instituicao->digito_conta = $request->digito_conta;
-        $instituicao->agencia = $request->agencia;
-        $instituicao->tipo_conta = $request->tipo_conta;
-        $instituicao->titular = $request->titular;
         $instituicao->situacao = $request->situacao;
         $instituicao->razao_social = $request->razao_social;
         $instituicao->descricao = $request->descricao;
