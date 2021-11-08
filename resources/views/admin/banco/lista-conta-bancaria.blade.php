@@ -43,7 +43,6 @@
                             <td>{{$conta->situacao}}</td>
                             <td>
                                 <!-- muda a rota-->
-                                <a class="btn btn-info" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
                                 <a href="/contas-bancarias/{{$conta->id}}" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
                                 <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{$conta->id}}" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
                             </td>

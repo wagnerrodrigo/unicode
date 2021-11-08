@@ -21,8 +21,7 @@
                                 <span>{{$instituicao->nome}}</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="d-flex">
+
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
@@ -52,9 +51,7 @@
                                 <span>{{$instituicao->situacao}}</span>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="d-flex">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>

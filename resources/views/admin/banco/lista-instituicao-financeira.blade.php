@@ -9,7 +9,7 @@
                 <div class="card-header">
                     <h1>Lista Instituições Financeira</h1>
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">
-                        <i class="bi bi-plus-circle"></i> Nova Instituição bancária
+                        <i class="bi bi-plus-circle"></i> Nova Instituição Financeira
                     </button>
                 </div>
                 <div class="card-body">
@@ -107,7 +107,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel16">Nova Instituição bancária</h4>
+                        <h4 class="modal-title" id="myModalLabel16">Nova Instituição Financeira</h4>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <i class="bi bi-x" data-feather="x"></i>
                         </button>
