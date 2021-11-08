@@ -17,7 +17,7 @@
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
-                    @if($produtos === null || $produtos->isEmpty())
+                    @if($produtosAtivos === null || empty($produtosAtivos))
                     <tbody>
                         <tr>
                             <td>Nenhum produto Cadastrado</td>
@@ -36,7 +36,7 @@
                     </thead>
 
                     <tbody>
-                        @foreach($produtos as $produto)
+                        @foreach($produtosAtivos as $produto)
                         <tr>
                             <td>{{$produto->id}}</td>
                             <td>{{$produto->nome}}</td>
@@ -45,8 +45,11 @@
                             <td>{{$produto->forma_produto}}</td>
                             <td>
                                 <!-- mudar para cadastro de fonecedores -->
-                                <a href="{{route('fornecedores')}}" class="btn btn-success" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
-                                <a href="{{route('fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
+                                
+                                <a href="produtos/{{$produto->id}}" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
+                                <button data-bs-toggle="modal" data-bs-target="#delete{{$produto->id}}" class="btn btn-danger" style="padding: 8px 12px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
                             </td>
                         </tr>
 
@@ -65,14 +68,14 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            Deseja realmente excluir o serviço: {{$produto->nome}}?
+                                            Deseja realmente excluir o produtos: {{$produto->nome}}?
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                                                 <i class="bx bx-x d-block d-sm-none"></i>
                                                 <span class="d-none d-sm-block">Cancelar</span>
                                             </button>
-                                            <form action="servicos/delete/{{$produto->id}}" method="POST">
+                                            <form action="produtos/delete/{{$produto->id}}" method="POST">
                                                 @csrf
                                                 <button class="btn btn-danger ml-1">
                                                     <i class="bx bx-check d-block d-sm-none"></i>

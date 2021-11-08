@@ -70,12 +70,8 @@
                             <strong>Fornecedor</strong>
                         </div>
                         <div class="p-1">
-                            <input type="radio" value="pessoal" name="despesa">
-                            <strong>Pessoal</strong>
-                        </div>
-                        <div class="p-1">
-                            <input type="radio" value="juridico" name="despesa">
-                            <strong>Jurídico</strong>
+                            <input type="radio" value="empregado" name="despesa">
+                            <strong>Empregado</strong>
                         </div>
                     </div>
                 </div>
@@ -106,11 +102,8 @@
                 if (radios[i].value == "fornecedor") {
                     window.location.href = "/despesas/adicionar/fornecedor";
                 }
-                if (radios[i].value == "pessoal") {
-                    window.location.href = "/despesas/adicionar/pessoal";
-                }
-                if (radios[i].value == "juridico") {
-                    window.location.href = "/despesas/adicionar/juridico";
+                if (radios[i].value == "empregado") {
+                    window.location.href = "/despesas/adicionar/empregado";
                 }
             }
         }

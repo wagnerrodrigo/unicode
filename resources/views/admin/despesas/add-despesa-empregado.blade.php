@@ -7,7 +7,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Nova Despesa com Pessoal</h1>
+                <h1>Nova Despesa com Empregado</h1>
             </div>
             <div class="card-body d-flex justify-content-center">
                 <!--inicio Tab -->

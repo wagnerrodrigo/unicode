@@ -18,7 +18,18 @@ class ProdutoController extends Controller
     {
         $produtos = Produto::all();
 
-        return view('admin.produto.lista-produto', compact('produtos'));
+
+        $produtosAtivos = [];
+        $produtosInativos = [];
+
+        for ($i = 0; $i < count($produtos); $i++) {
+            if ($produtos[$i]->data_fim === null) {
+                $produtosAtivos[] = $produtos[$i];
+            } else {
+                $produtosInativos[] = $produtos[$i];
+            };
+        }
+        return view('admin.produto.lista-produto', compact('produtosAtivos'));
     }
 
 
@@ -93,6 +104,6 @@ class ProdutoController extends Controller
         $produto = Produto::find($id);
         $produto->data_fim = Carbon::now()->toDateTimeString();
         $produto->update();
-        return redirect()->route('produto');
+        return redirect()->route('produtos');
     }
 }
