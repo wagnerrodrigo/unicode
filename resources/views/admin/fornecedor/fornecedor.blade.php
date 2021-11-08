@@ -8,13 +8,12 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>{{$fornecedor->de_razao_social}}</h1>
+                <h1>{{$fornecedor->de_nome_fantasia}}</h1>
             </div>
             <div class="card-body" style="font-size: 18px;">
                 <div class="card-body">
                     <div class="d-flex">
-
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <div>
                                     <strong for="raz_social">Razão Social</strong>
@@ -41,6 +40,16 @@
                                 <span>{{$fornecedor->inscricao_estadual}}</span>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>Nome Fantasia</strong>
+                                </div>
+                                <span>{{$fornecedor->de_nome_fantasia}}</span>
+                            </div>
+                        </div>
+
+
                     </div>
 
 
@@ -73,16 +82,22 @@
 
                                 <div class="px-5 mb-3">
                                     <strong>Razão Social</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->razao_social}}" placeholder="Razão Social" name="razao_social" style="width: 358px" />
+                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->de_razao_social}}" placeholder="Razão Social" name="razao_social" style="width: 358px" />
                                 </div>
 
+                                <div class="px-5 mb-3">
+                                    <div>
+                                        <strong for="raz_social">Nome Fantasia Social</strong>
+                                    </div>
+                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->de_nome_fantasia}}" placeholder="Nome Fantasia" name="nome_fantasia" style="width: 358px" />
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
                                 <div class="px-5 mb-3">
                                     <strong>Inscrição Estadual</strong>
                                     <input class="form-control mt-1" type="text" value="{{$fornecedor->inscricao_estadual}}" placeholder="Incrição estadual" name="inscricao_estadual" style="width: 358px" />
                                 </div>
-                            </div>
-
-                            <div class="d-flex" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>CPF/CNPJ</strong>
                                     <input class="form-control mt-1" type="text" value="{{$fornecedor->nu_cpf_cnpj}}" placeholder="CPF/CNPJ" name="cnpj" style="width: 358px" readonly />

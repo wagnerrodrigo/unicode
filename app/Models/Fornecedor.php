@@ -30,31 +30,23 @@ class Fornecedor extends Model
 
     static function create($fornecedor)
     {
-        $query = sprintf(
-            "INSERT INTO intranet.tab_fornecedor
-            (nu_cpf_cnpj, de_razao_social, inscricao_estadual, dt_inicio, dt_fim)
-            VALUES('%s','%s',%s,'%s',null);",
+        DB::insert("insert into intranet.tab_fornecedor 
+        (nu_cpf_cnpj,de_razao_social,inscricao_estadual,dt_inicio,dt_fim,de_nome_fantasia) 
+        values (?, ?, ?, ?, null, ? )", [
             $fornecedor->nu_cpf_cnpj,
             $fornecedor->de_razao_social,
             $fornecedor->inscricao_estadual,
             $fornecedor->dt_inicio,
-        );
-
-        DB::insert($query);
+            $fornecedor->de_nome_fantasia,
+        ]);
     }
 
-    static function findOne($id){
-        $query = sprintf(
-            "SELECT * FROM intranet.tab_fornecedor WHERE id_fornecedor = %s;",
-            $id
-        );
+    static function findOne($id)
+    {
+        $data = DB::select("SELECT * FROM intranet.tab_fornecedor WHERE id_fornecedor = ?;", [$id]);
+    
 
-        //dd($query);
-        
-        $fornecedor = DB::select($query);
-
-        dd($fornecedor);
-
+        $fornecedor = $data[0];
         return $fornecedor;
     }
 }

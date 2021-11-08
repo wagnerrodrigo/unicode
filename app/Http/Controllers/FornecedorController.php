@@ -42,10 +42,11 @@ class FornecedorController extends Controller
         $fornecedor = new Fornecedor();
 
         $fornecedor->de_razao_social = $request->razao_social;
-        $fornecedor->inscricao_estatual = $request->inscricao_estadual;
+        $fornecedor->inscricao_estadual = $request->inscricao_estadual;
         $fornecedor->nu_cpf_cnpj = $request->cnpj;
         $fornecedor->dt_inicio = Carbon::now()->toDateTimeString();
-
+        $fornecedor->de_nome_fantasia = $request->nome_fantasia;
+        
         Fornecedor::create($fornecedor);
 
         echo "<script> alert('Fornecedor criado com sucesso!!') </script>";

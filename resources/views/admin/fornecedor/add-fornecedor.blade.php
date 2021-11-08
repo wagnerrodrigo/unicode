@@ -40,105 +40,14 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Tipo Pessoa</strong>
-                                    <select class="form-control" name="tipo_pessoa" id="tipo_pessoa" style="width: 358px">
-                                        <option selected value="fisica">Fisica</option>
-                                        <option value="juridica">Jurídica</option>
-                                    </select>
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <strong>Telefone</strong>
-                                    <input class="form-control mt-1" type="text" placeholder="Telefone" name="telefone" style="width: 358px" />
-                                </div>
-                            </div>
-
-                            <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Email</strong>
-                                    <input class="form-control mt-1" type="email" placeholder="E-mail" name="email" style="width: 358px" />
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <strong>Email Secundário(Opcional)</strong>
-                                    <input class="form-control mt-1" type="email" placeholder="E-mail" name="email_secundario" style="width: 358px" />
-                                </div>
-                            </div>
-
-                            <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Ponto Contato</strong>
-                                    <input class="form-control mt-1" type="text" placeholder="Ponto contato" name="ponto_contato" style="width: 358px" />
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <strong>Cargo Função</strong>
-                                    <input class="form-control mt-1" type="text" placeholder="Cargo Função" name="cargo_funcao" style="width: 358px" />
-                                </div>
-
-                            </div>
-
-                            <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Ramo Atuação</strong>
-                                    <input class="form-control mt-1" type="text" placeholder="Ramo atuação" name="ramo_atuacao" style="width: 358px" />
-                                </div>
-                            </div>
-
-                            <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <h3>Endereços</h3>
-                                    <button class="btn btn-primary" type="button" id="button_endereco" data-bs-toggle="modal" data-bs-target="#xlarge">
-                                        <i class="bi bi-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="d-flex" style="width: 100%; margin: 15px;">
-                                <!-- Inicio da tabela de itens -->
-                                <div class="table-responsive">
-                                    <table class="table table-bordered mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th>Cep</th>
-                                                <th>Logradouro</th>
-                                                <th>Número</th>
-                                                <th>Complemento</th>
-                                                <th>Bairro</th>
-                                                <th>Cidade</th>
-                                                <th>Estado</th>
-                                                <th>Excluir</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-bold-500">36010-000</td>
-                                                <td>Rua Halfeld</td>
-                                                <td>100</td>
-                                                <td class="text-bold-500">de 101/102 a 449/450</td>
-                                                <td>Centro</td>
-                                                <td>Juiz de Fora</td>
-                                                <td>MG</td>
-                                                <td>
-                                                    <!-- mudar a rota -->
-                                                    <a href="#" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- Fim da tabela de itens -->
-                            </div>
-                            <div class="modal-footer">
-                                <div class="col-sm-12 d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-success me-1 mb-1">
-                                        <i data-feather="check-circle"></i>Adicionar
-                                    </button>
-                                    <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
-                                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success me-1 mb-1">
+                                <i data-feather="check-circle"></i>Adicionar
+                            </button>
+                            <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                        </div>
                         </form>
                     </div>
                 </div>
