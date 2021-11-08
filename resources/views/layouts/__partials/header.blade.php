@@ -4,7 +4,7 @@
     <div class="container-fluid ">
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <a href="/painel" style="width: 10%; padding-right: 10px" ;>
+            <a href="/home" style="width: 10%; padding-right: 10px" ;>
                 <img src="{{asset('img/Ace-sem-fundo.png')}}" style="width:100%;">
             </a>
             <!-- Left links -->
