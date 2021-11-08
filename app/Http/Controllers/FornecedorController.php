@@ -15,18 +15,19 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-        $fornecedores = Fornecedor::all();
+        $fornecedores = Fornecedor::selectAll();
 
         $fornecedoresAtivos = [];
         $fornecedoresInativos = [];
 
         for ($i = 0; $i < count($fornecedores); $i++) {
-            if ($fornecedores[$i]->data_fim === null) {
+            if ($fornecedores[$i]->dt_fim === null) {
                 $fornecedoresAtivos[] = $fornecedores[$i];
             } else {
                 $fornecedoresInativos[] = $fornecedores[$i];
             };
         }
+
         return view('admin.fornecedor.lista-fornecedor', compact('fornecedoresAtivos'));
     }
 
@@ -39,20 +40,13 @@ class FornecedorController extends Controller
     public function store(Request $request)
     {
         $fornecedor = new Fornecedor();
-        $fornecedor->data_fim = null;
-        $fornecedor->nome_fantasia = $request->nome_fantasia;
-        $fornecedor->razao_social = $request->razao_social;
-        $fornecedor->inscricao_estadual = $request->inscricao_estadual;
-        $fornecedor->cnpj = $request->cnpj;
-        $fornecedor->tipo_pessoa = $request->tipo_pessoa;
-        $fornecedor->telefone = $request->telefone;
-        $fornecedor->email = $request->email;
-        $fornecedor->email_secundario = $request->email_secundario;
-        $fornecedor->ponto_contato = $request->ponto_contato;
-        $fornecedor->cargo_funcao = $request->cargo_funcao;
-        $fornecedor->ramo_atuacao = $request->ramo_atuacao;
 
-        $fornecedor->save();
+        $fornecedor->de_razao_social = $request->razao_social;
+        $fornecedor->inscricao_estatual = $request->inscricao_estadual;
+        $fornecedor->nu_cpf_cnpj = $request->cnpj;
+        $fornecedor->dt_inicio = Carbon::now()->toDateTimeString();
+
+        Fornecedor::create($fornecedor);
 
         echo "<script> alert('Fornecedor criado com sucesso!!') </script>";
 
@@ -67,7 +61,7 @@ class FornecedorController extends Controller
      */
     public function show($id)
     {
-        $fornecedor = Fornecedor::find($id);
+        $fornecedor = Fornecedor::findOne($id);
         return view('admin.fornecedor.fornecedor', compact('fornecedor'));
     }
 
@@ -110,7 +104,8 @@ class FornecedorController extends Controller
         return redirect()->route('fornecedores');
     }
 
-    public function formFornecedores(){
+    public function formFornecedores()
+    {
         return view('admin.fornecedor.add-fornecedor');
     }
 }

@@ -2,7 +2,6 @@
 @section('title', 'Lista Fornecedores')
 
 @section('content')
-
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
         <div class="card">
@@ -25,8 +24,7 @@
                         <tr>
                             <th>Razão Social</th>
                             <th>CPF/CNPJ</th>
-                            <th>Email</th>
-                            <th>Telefone</th>
+                            <th>Inscrição Estadual</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -34,13 +32,12 @@
                     <tbody>
                         @foreach($fornecedoresAtivos as $fornecedor)
                         <tr>
-                            <td>{{$fornecedor->razao_social}}</td>
-                            <td>{{$fornecedor->cnpj}}</td>
-                            <td>{{$fornecedor->email}}</td>
-                            <td>{{$fornecedor->telefone}}</td>
+                            <td>{{$fornecedor->de_razao_social}}</td>
+                            <td>{{$fornecedor->nu_cpf_cnpj}}</td>
+                            <td>{{$fornecedor->inscricao_estadual}}</td>
                             <td>
-                                <a href="fornecedores/{{$fornecedor->id}}" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
-                                <button data-bs-toggle="modal" data-bs-target="#delete{{$fornecedor->id}}" class="btn btn-danger" style="padding: 8px 12px;">
+                                <a href="fornecedores/{{$fornecedor->id_fornecedor}}" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
+                                <button data-bs-toggle="modal" data-bs-target="#delete{{$fornecedor->id_fornecedor}}" class="btn btn-danger" style="padding: 8px 12px;">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
@@ -49,7 +46,7 @@
                         <!-- Inicio Modal Delete-->
                         <div class="modal-danger me-1 mb-1 d-inline-block">
                             <!--Danger theme Modal -->
-                            <div class="modal fade text-left" id="delete{{$fornecedor->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+                            <div class="modal fade text-left" id="delete{{$fornecedor->id_fornecedor}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header bg-danger">
@@ -59,14 +56,14 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            Deseja realmente excluir o fornecedor {{$fornecedor->razao_social}}?
+                                            Deseja realmente excluir o fornecedor {{$fornecedor->de_razao_social}}?
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                                                 <i class="bx bx-x d-block d-sm-none"></i>
                                                 <span class="d-none d-sm-block">Cancelar</span>
                                             </button>
-                                            <form action="fornecedores/delete/{{$fornecedor->id}}" method="POST">
+                                            <form action="fornecedores/delete/{{$fornecedor->id_fornecedor}}" method="POST">
                                                 @csrf
                                                 <button class="btn btn-danger ml-1">
                                                     <i class="bx bx-check d-block d-sm-none"></i>
