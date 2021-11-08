@@ -1,12 +1,12 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-<figure style="left:0; top:0; ">
-        <img  src="{{asset('img/ACE-sem-fundo.png')}}">
-    </figure>
     <!-- Container wrapper -->
     <div class="container-fluid ">
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <a href="/home" style="width: 10%; padding-right: 10px" ;>
+                <img src="{{asset('img/Ace-sem-fundo.png')}}" style="width:100%;">
+            </a>
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item space-item-navbar" style="padding: 10px;">

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BIController;
-use App\Http\Controllers\CentroCusto;
+use App\Http\Controllers\CentroCustos;
 use App\Http\Controllers\ComplianceController;
 use App\Http\Controllers\ComprasController;
 use App\Http\Controllers\ContabilController;
@@ -90,8 +90,11 @@ Route::post('/produtos', [ProdutoController::class, 'store']);
 
 
 //rotas Centro de custo
-Route::get('/centro-custos', [CentroCusto::class, 'index'])->name('centro-custos');
-Route::get('/centro-custos/{id}', [CentroCusto::class, 'show']);
+Route::get('/centro-custos', [CentroCustos::class, 'index'])->name('centro-custos');
+Route::get('/centro-custos/{id}', [CentroCustos::class, 'show']);
+Route::post('/centro-custos', [CentroCustos::class, 'store']);
+Route::post('/centro-custos/editar/{id}', [CentroCustos::class, 'edit']);
+Route::post('/centro-custos/delete/{id}', [CentroCustos::class, 'destroy']);
 
 // rotas Plano de contas
 Route::get('/plano-contas', [PlanoContaController::class, 'index'])->name('plano-contas');

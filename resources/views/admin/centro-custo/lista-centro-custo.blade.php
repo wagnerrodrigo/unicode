@@ -13,6 +13,11 @@
                 </button>
             </div>
             <div class="card-body">
+                @if($centroCustosAtivos === null || empty($centroCustosAtivos))
+                <div class="alert alert-danger" role="alert">
+                    <strong>Nenhum Centro de Custo cadastrado!</strong>
+                </div>
+                @else
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
@@ -24,15 +29,16 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($centroCustosAtivos as $centroCusto)
                         <tr>
-                            <td>CERCRED</td>
-                            <td>centro de custos T.I</td>
-                            <td>Responsavel pelo setor</td>
+                            <td>{{$centroCusto->empresa}}</td>
+                            <td>{{$centroCusto->nome}}</td>
+                            <td>{{$centroCusto->responsavel}}</td>
                             <td>
                                 <span class="badge bg-success">Ativo</span>
                             </td>
                             <td>
-                                <a href="/centro-custos/id" class="btn icon btn-primary " style="padding: 8px 12px;">
+                                <a href="/centro-custos/{{$centroCusto->id}}" class="btn icon btn-primary " style="padding: 8px 12px;">
                                     <i class="bi bi-eye-fill"></i>
                                 </a>
                                 <button data-bs-toggle="modal" data-bs-target="#delete" class="btn btn-danger" style="padding: 8px 12px;">
@@ -40,6 +46,8 @@
                                 </button>
                             </td>
                         </tr>
+                        @endforeach
+
 
                         <!-- Inicio Modal Delete-->
                         <div class="modal-danger me-1 mb-1 d-inline-block">
@@ -54,14 +62,14 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            Deseja realmente excluir o serviço?
+                                            Deseja realmente excluir o centro de custo?
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                                                 <i class="bx bx-x d-block d-sm-none"></i>
                                                 <span class="d-none d-sm-block">Cancelar</span>
                                             </button>
-                                            <form action="centro-custos/delete/" method="POST">
+                                            <form action="centro-custos/delete/{{$centroCusto->id}}" method="POST">
                                                 @csrf
                                                 <button class="btn btn-danger ml-1">
                                                     <i class="bx bx-check d-block d-sm-none"></i>
@@ -76,6 +84,7 @@
                         <!-- Fim Modal Delete-->
                     </tbody>
                 </table>
+                @endif
             </div>
         </div>
 
@@ -96,7 +105,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- muda a rota-->
-                    <form action="#" method="POST" style="padding: 10px;">
+                    <form action="/centro-custos" method="POST" style="padding: 10px;">
                         @csrf
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">

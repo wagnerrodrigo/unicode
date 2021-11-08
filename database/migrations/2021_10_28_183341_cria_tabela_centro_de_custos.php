@@ -13,9 +13,11 @@ class CriaTabelaCentroDeCustos extends Migration
      */
     public function up()
     {
-        Schema::create('centro_custos',function (Blueprint $table){
+        Schema::create('centro_custos', function (Blueprint $table) {
             $table->id();
             $table->string('empresa');
+            $table->string('nome');
+            $table->string('responsavel');
             $table->timestamps();
             $table->timestamp('data_fim')->nullable();
         });

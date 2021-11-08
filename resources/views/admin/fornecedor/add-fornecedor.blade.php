@@ -131,7 +131,6 @@
                                     </table>
                                 </div>
                                 <!-- Fim da tabela de itens -->
-
                             </div>
                             <div class="modal-footer">
                                 <div class="col-sm-12 d-flex justify-content-end">
