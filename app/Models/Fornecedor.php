@@ -17,7 +17,8 @@ class Fornecedor extends Model
         'de_razao_social',
         'inscricao_estatual',
         'dt_inicio',
-        'dt_fim'
+        'dt_fim',
+        'de_nome_fantasia'
     ];
 
     //Ao passar parametros, se atentar a ordem que é passado na query

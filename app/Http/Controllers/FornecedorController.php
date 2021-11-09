@@ -31,6 +31,11 @@ class FornecedorController extends Controller
         return view('admin.fornecedor.lista-fornecedor', compact('fornecedoresAtivos'));
     }
 
+    public function formFornecedores()
+    {
+        return view('admin.fornecedor.add-fornecedor');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -40,12 +45,17 @@ class FornecedorController extends Controller
     public function store(Request $request)
     {
         $fornecedor = new Fornecedor();
+        $camposRequisicao = $request->all();
 
-        $fornecedor->de_razao_social = $request->razao_social;
-        $fornecedor->inscricao_estadual = $request->inscricao_estadual;
-        $fornecedor->nu_cpf_cnpj = $request->cnpj;
+        //transforma todo o request em UpperCase
+        foreach ($camposRequisicao as $key => $value) {
+            if ($key != '_token') {
+                $fornecedor->$key = strtoupper($value);
+            }
+        }
+
+        //Adiciona a data de inicio do fornecedor
         $fornecedor->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-        $fornecedor->de_nome_fantasia = $request->nome_fantasia;
 
         Fornecedor::create($fornecedor);
 
@@ -76,11 +86,13 @@ class FornecedorController extends Controller
     public function edit($id, Request $request)
     {
         $fornecedor = Fornecedor::findOne($id);
-
-        $fornecedor->de_razao_social = $request->razao_social;
-        $fornecedor->inscricao_estadual = $request->inscricao_estadual;
-        $fornecedor->nu_cpf_cnpj = $request->cnpj;
-        $fornecedor->de_nome_fantasia = $request->nome_fantasia;
+        $camposRequisicao = $request->all();
+        
+        foreach ($camposRequisicao as $key => $value) {
+            if ($key != '_token') {
+                $fornecedor->$key = strtoupper($value);
+            }
+        }
 
         Fornecedor::set($fornecedor);
 
@@ -96,16 +108,10 @@ class FornecedorController extends Controller
     public function destroy($id)
     {
         $fornecedor = Fornecedor::findOne($id);
-
         $dataFim = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
 
         Fornecedor::del($dataFim, $fornecedor->id_fornecedor);
 
         return redirect()->route('fornecedores');
-    }
-
-    public function formFornecedores()
-    {
-        return view('admin.fornecedor.add-fornecedor');
     }
 }
