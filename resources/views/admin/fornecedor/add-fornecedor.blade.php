@@ -19,11 +19,11 @@
                             <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>Nome Fantasia</strong>
-                                    <input class="form-control mt-1" type="text" placeholder="Nome" name="nome_fantasia" style="width: 358px" />
+                                    <input class="form-control mt-1" type="text" placeholder="Nome" name="de_nome_fantasia" style="width: 358px" />
                                 </div>
                                 <div class="px-5 mb-3">
                                     <strong>Razão Social</strong>
-                                    <input class="form-control mt-1" type="text" placeholder="Razão Social" name="razao_social" style="width: 358px" />
+                                    <input class="form-control mt-1" type="text" placeholder="Razão Social" name="de_razao_social" style="width: 358px" />
                                 </div>
                             </div>
 
@@ -36,11 +36,26 @@
                                 <div class="px-5 mb-3">
                                     <div>
                                         <strong>CPF/CNPJ</strong>
-                                        <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" name="cnpj" style="width: 358px" />
+                                        <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" name="nu_cpf_cnpj" style="width: 358px" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex" style="width: 100%">
+                                <div class="px-5 mb-3">
+                                    <strong>Representante Legal</strong>
+                                    <input class="form-control mt-1" type="text" placeholder="Incrição estadual" name="inscricao_estadual" style="width: 358px" />
+                                </div>
+
+                                <div class="px-5 mb-3">
+                                    <div>
+                                        <strong>CPF Representante Legal</strong>
+                                        <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" name="nu_cpf_cnpj" style="width: 358px" />
                                     </div>
                                 </div>
                             </div>
                     </div>
+
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-success me-1 mb-1">

@@ -76,20 +76,20 @@
                     </div>
                     <div class="modal-body">
                         <!-- mudar para produto  -->
-                        <form action="/fornecedores/editar/{{$fornecedor->de_razao_social}}" method="POST" style="padding: 10px;">
+                        <form action="/fornecedores/editar/{{$fornecedor->id_fornecedor}}" method="POST" style="padding: 10px;">
                             @csrf
                             <div class="d-flex mt-10" style="width: 100%">
 
                                 <div class="px-5 mb-3">
                                     <strong>Razão Social</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->de_razao_social}}" placeholder="Razão Social" name="razao_social" style="width: 358px" />
+                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->de_razao_social}}" placeholder="Razão Social" name="de_razao_social" style="width: 358px" />
                                 </div>
 
                                 <div class="px-5 mb-3">
                                     <div>
                                         <strong for="raz_social">Nome Fantasia Social</strong>
                                     </div>
-                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->de_nome_fantasia}}" placeholder="Nome Fantasia" name="nome_fantasia" style="width: 358px" />
+                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->de_nome_fantasia}}" placeholder="Nome Fantasia" name="de_nome_fantasia" style="width: 358px" />
                                 </div>
                             </div>
 
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="px-5 mb-3">
                                     <strong>CPF/CNPJ</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->nu_cpf_cnpj}}" placeholder="CPF/CNPJ" name="cnpj" style="width: 358px" readonly />
+                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->nu_cpf_cnpj}}" placeholder="CPF/CNPJ" name="nu_cpf_cnpj" style="width: 358px" readonly />
                                 </div>
                             </div>
                     </div>
