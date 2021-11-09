@@ -44,9 +44,9 @@ class FornecedorController extends Controller
         $fornecedor->de_razao_social = $request->razao_social;
         $fornecedor->inscricao_estadual = $request->inscricao_estadual;
         $fornecedor->nu_cpf_cnpj = $request->cnpj;
-        $fornecedor->dt_inicio = Carbon::now()->toDateTimeString();
+        $fornecedor->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
         $fornecedor->de_nome_fantasia = $request->nome_fantasia;
-        
+
         Fornecedor::create($fornecedor);
 
         echo "<script> alert('Fornecedor criado com sucesso!!') </script>";
@@ -63,6 +63,7 @@ class FornecedorController extends Controller
     public function show($id)
     {
         $fornecedor = Fornecedor::findOne($id);
+
         return view('admin.fornecedor.fornecedor', compact('fornecedor'));
     }
 
@@ -72,21 +73,17 @@ class FornecedorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit($id, Request $request)
     {
-        $fornecedor = Fornecedor::find($id);
-        $fornecedor->nome_fantasia = $request->nome_fantasia;
-        $fornecedor->razao_social = $request->razao_social;
-        $fornecedor->inscricao_estadual = $request->inscricao_estadual;
-        $fornecedor->tipo_pessoa = $request->tipo_pessoa;
-        $fornecedor->telefone = $request->telefone;
-        $fornecedor->email = $request->email;
-        $fornecedor->email_secundario = $request->email_secundario;
-        $fornecedor->ponto_contato = $request->ponto_contato;
-        $fornecedor->cargo_funcao = $request->cargo_funcao;
-        $fornecedor->ramo_atuacao = $request->ramo_atuacao;
+        $fornecedor = Fornecedor::findOne($id);
 
-        $fornecedor->update();
+        $fornecedor->de_razao_social = $request->razao_social;
+        $fornecedor->inscricao_estadual = $request->inscricao_estadual;
+        $fornecedor->nu_cpf_cnpj = $request->cnpj;
+        $fornecedor->de_nome_fantasia = $request->nome_fantasia;
+
+        Fornecedor::set($fornecedor);
+
         return redirect()->route('fornecedores');
     }
 
@@ -98,10 +95,12 @@ class FornecedorController extends Controller
      */
     public function destroy($id)
     {
-        $fornecedores = Fornecedor::find($id);
+        $fornecedor = Fornecedor::findOne($id);
 
-        $fornecedores->data_fim = Carbon::now()->toDateTimeString();
-        $fornecedores->update();
+        $dataFim = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+
+        Fornecedor::del($dataFim, $fornecedor->id_fornecedor);
+
         return redirect()->route('fornecedores');
     }
 

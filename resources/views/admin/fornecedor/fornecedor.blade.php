@@ -76,7 +76,7 @@
                     </div>
                     <div class="modal-body">
                         <!-- mudar para produto  -->
-                        <form action="/fornecedores/editar/{{$fornecedor->de_razao_social}}" method="POST" style="padding: 10px;">
+                        <form action="/fornecedores/editar/{{$fornecedor->id_fornecedor}}" method="POST" style="padding: 10px;">
                             @csrf
                             <div class="d-flex mt-10" style="width: 100%">
 
