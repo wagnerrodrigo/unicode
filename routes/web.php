@@ -119,6 +119,8 @@ Route::get('/contas', [ContaPagarController::class, 'index'])->name('contas-paga
 
 Route::post('/enderecos', [EnderecoController::class, 'store']);
 Route::get('/enderecos', [EnderecoController::class, 'index']);
+Route::get('/enderecos/empresas', [EnderecoController::class, 'selectEmpresa']);
+Route::get('/enderecos/{id}', [EnderecoController::class, 'show']);
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {

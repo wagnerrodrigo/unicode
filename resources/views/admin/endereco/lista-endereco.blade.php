@@ -1,5 +1,5 @@
 @extends('layouts.templates.template')
-@section('title', 'Lista Fornecedores')
+@section('title', 'Lista Endereço')
 
 @section('content')
 <div id="main" style="margin-top: 5px;">
@@ -22,9 +22,11 @@
                     @else
                     <thead>
                         <tr>
-                            <th>Razão Social</th>
-                            <th>CPF/CNPJ</th>
-                            <th>Inscrição Estadual</th>
+                            <th>logradouro</th>
+                            <th>numero</th>
+                            <th>bairro</th>
+                            <th>cep</th>
+                            <th>empresa</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -32,11 +34,13 @@
                     <tbody>
                         @foreach($enderecosAtivos as $endereco)
                         <tr>
-                            <td>{{$endereco->de_razao_social}}</td>
-                            <td>{{$endereco->nu_cpf_cnpj}}</td>
-                            <td>{{$endereco->inscricao_estadual}}</td>
+                            <td>{{$endereco->logradouro}}</td>
+                            <td>{{$endereco->numero}}</td>
+                            <td>{{$endereco->bairro}}</td>
+                            <td>{{$endereco->cep}}</td>
+                            <td>{{$endereco->de_empresa}}</td>
                             <td>
-                                <a href="enderecos/{{$endereco->id_endereco}}" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
+                                <a href="/enderecos/{{$endereco->id_endereco}}" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
                                 <button data-bs-toggle="modal" data-bs-target="#delete{{$endereco->id_endereco}}" class="btn btn-danger" style="padding: 8px 12px;">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
@@ -56,14 +60,14 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            Deseja realmente excluir o endereco {{$endereco->de_razao_social}}?
+                                            Deseja realmente excluir o endereco {{$endereco->de_empresa}}?
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                                                 <i class="bx bx-x d-block d-sm-none"></i>
                                                 <span class="d-none d-sm-block">Cancelar</span>
                                             </button>
-                                            <form action="fornecedores/delete/{{$fornecedor->id_fornecedor}}" method="POST">
+                                            <form action="fornecedores/delete/{{$endereco->id_endereco}}" method="POST">
                                                 @csrf
                                                 <button class="btn btn-danger ml-1">
                                                     <i class="bx bx-check d-block d-sm-none"></i>
