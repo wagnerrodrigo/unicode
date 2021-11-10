@@ -14,64 +14,74 @@
                 <div class="tab-content text-justify">
                     <!--inicio Tab Despesas-->
                     <div class="justify-content-center " id="list-despesa">
-                        <form action="{{route('fornecedores')}}" method="POST" style="padding: 10px;">
-                            @csrf
-                            <div class="d-flex mt-10" style="width: 100%">
+                        <div class="d-flex mt-10" style="width: 100%">
+                            <form action="#" method="POST" id="formCep" style="padding: 10px;">
+                                @csrf
                                 <div class="px-5 mb-3">
-                                    <strong>Nome Fantasia</strong>
-                                    <input class="form-control mt-1" type="text" placeholder="Nome" name="de_nome_fantasia" style="width: 358px" />
+                                    <strong>Cep</strong>
+                                    <input class="form-control mt-1" type="text" id="cep" placeholder="Cep" name="cep" style="width: 358px" />
                                 </div>
-                                <div class="px-5 mb-3">
-                                    <strong>Razão Social</strong>
-                                    <input class="form-control mt-1" type="text" placeholder="Razão Social" name="de_razao_social" style="width: 358px" />
-                                </div>
-                            </div>
-
-                            <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Inscrição Estadual</strong>
-                                    <input class="form-control mt-1" type="text" placeholder="Incrição estadual" name="inscricao_estadual" style="width: 358px" />
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <div>
-                                        <strong>CPF/CNPJ</strong>
-                                        <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" name="nu_cpf_cnpj" style="width: 358px" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Representante Legal</strong>
-                                    <input class="form-control mt-1" type="text" placeholder="Incrição estadual" name="inscricao_estadual" style="width: 358px" />
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <div>
-                                        <strong>CPF Representante Legal</strong>
-                                        <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" name="nu_cpf_cnpj" style="width: 358px" />
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-success me-1 mb-1">
-                                <i data-feather="check-circle"></i>Adicionar
-                            </button>
-                            <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                            </form>
                         </div>
-                        </form>
+                        <!--Fim formulario para envio de cep para api -->
+
+                        <form action="/enderecos" method="POST" style="padding: 10px;">
+                            @csrf
+                            <div class="d-flex" style="width: 100%">
+                                <div class="px-5 mb-3">
+                                    <strong>Logradouro</strong>
+                                    <input class="form-control mt-1" type="text" id="logradouro" placeholder="Logradouro" name="logradouro" style="width: 358px" />
+                                </div>
+                                <div class="px-5 mb-3">
+                                    <strong>Número</strong>
+                                    <input class="form-control mt-1" type="text" placeholder="Número" name="numero" style="width: 358px" />
+                                </div>
+                            </div>
+
+                            <div class="d-flex" style="width: 100%">
+                                <div class="px-5 mb-3">
+                                    <strong>Complemento(opcional)</strong>
+                                    <input class="form-control mt-1" id="complemento" type="text" placeholder="Complemento" name="complemento" style="width: 358px" />
+                                </div>
+
+                                <div class="px-5 mb-3">
+                                    <strong>Bairro</strong>
+                                    <input class="form-control mt-1" id="bairro" type="text" placeholder="Bairro" name="bairro" style="width: 358px" />
+                                </div>
+
+                            </div>
+
+                            <div class="d-flex" style="width: 100%">
+                                <div class="px-5 mb-3">
+                                    <strong>Cidade</strong>
+                                    <input class="form-control mt-1" id="localidade" type="text" placeholder="Cidade" name="cidade" style="width: 358px" />
+                                </div>
+                                <div class="px-5 mb-3">
+                                    <strong>Estado</strong>
+                                    <input class="form-control mt-1" id="uf" type="text" placeholder="Estado" name="estado" style="width: 358px" />
+                                </div>
+
+                                <div>
+                                    <input type="hidden" id="retornoCep" name="retornoCep" />
+                                </div>
+                            </div>
+
                     </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success me-1 mb-1">
+                            <i data-feather="check-circle"></i>Adicionar
+                        </button>
+                        <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
 
 
 

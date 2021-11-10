@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-header">
                 <h1>Lista Endereços</h1>
-                <a href="fornecedores/adicionar" class="btn btn-primary">
+                <a href="/enderecos/adicionar" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Novo Endereço
                 </a>
             </div>

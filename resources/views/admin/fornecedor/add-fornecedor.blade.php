@@ -56,6 +56,45 @@
                             </div>
                     </div>
 
+                    <div class="d-flex" style="width: 100%">
+                                <div class="px-5 mb-3">
+                                    <h3>Endereço</h3>
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlarge">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="d-flex" style="width: 100%; margin: 15px;">
+                                <!-- Inicio da tabela de itens -->
+                                <div class="table-responsive">
+                                    <table class="table table-bordered mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Logradouro</th>
+                                                <th>Numero</th>
+                                                <th>Bairro</th>
+                                                <th>Cidade</th>
+                                                <th>Remover</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-bold-500">RUA SÃO BENTO</td>
+                                                <td>8</td>
+                                                <td class="text-bold-500">CENTRO</td>
+                                                <td>RIO DE JANEIRO</td>
+                                                <td>
+                                                    <!-- mudar a rota -->
+                                                    <a href="#" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Fim da tabela de itens -->
+                            </div>
+
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-success me-1 mb-1">
@@ -70,8 +109,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 
@@ -140,6 +177,7 @@
                                 <input type="hidden" id="retornoCep" name="retornoCep" />
                             </div>
                         </div>
+
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 d-flex justify-content-end">

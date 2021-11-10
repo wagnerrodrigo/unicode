@@ -114,13 +114,15 @@ Route::post('/instituicoes-financeira',[InstituicaoFinanceiraController::class, 
 Route::post('/instituicoes-financeira/editar/{id}',[InstituicaoFinanceiraController::class, 'edit']);
 Route::post('/instituicoes-financeira/delete/{id}',[InstituicaoFinanceiraController::class, 'destroy']);
 
-// rotas de Contas a pagar 
+// rotas de Contas a pagar
 Route::get('/contas', [ContaPagarController::class, 'index'])->name('contas-pagar');
 
 Route::post('/enderecos', [EnderecoController::class, 'store']);
 Route::get('/enderecos', [EnderecoController::class, 'index']);
 Route::get('/enderecos/empresas', [EnderecoController::class, 'selectEmpresa']);
+Route::get('/enderecos/adicionar', [EnderecoController::class, 'formEndereco']);
 Route::get('/enderecos/{id}', [EnderecoController::class, 'show']);
+//Route::post('/enderecos/adicionar', [EnderecoController::class, 'store']);
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {

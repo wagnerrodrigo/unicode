@@ -29,17 +29,17 @@ class Endereco extends Model
 
     static function selectAll()
     {
-        /*$enderecos = DB::select("SELECT 
-        id_endereco, 
-        logradouro, 
-        numero, 
-        bairro, 
-        complemento, 
-        fk_tab_cidade_id, 
-        fk_tab_uf_id, 
-        cep, 
-        fk_tab_fornecedor_id, 
-        fk_tab_empregado_id, 
+        /*$enderecos = DB::select("SELECT
+        id_endereco,
+        logradouro,
+        numero,
+        bairro,
+        complemento,
+        fk_tab_cidade_id,
+        fk_tab_uf_id,
+        cep,
+        fk_tab_fornecedor_id,
+        fk_tab_empregado_id,
         fk_tab_empresa_id
         FROM intranet.tab_endereco INNER JOIN intranet.tab_empresa on fk_tab_empresa_id = id_empresa");*/
 

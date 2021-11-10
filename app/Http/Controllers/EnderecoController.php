@@ -23,11 +23,19 @@ class EnderecoController extends Controller
             };
         }
 
-       // return view('admin.endereco.lista-endereco', compact('enderecosAtivos'));
+        // return view('admin.endereco.lista-endereco', compact('enderecosAtivos'));
     }
 
-    public function selectEmpresa(){
+    public function formEndereco()
+    {
+        return view('admin.endereco.add-endereco');
+    }
+
+    public function selectEmpresa()
+    {
         $enderecos = Endereco::empresa();
+
+
 
         $enderecosAtivos = [];
         $enderecosInativos = [];
@@ -39,11 +47,13 @@ class EnderecoController extends Controller
                 $enderecosInativos[] = $enderecos[$i];
             };
         }
-        
+
+
         return view('admin.endereco.lista-endereco', compact('enderecosAtivos'));
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $endereco = Endereco::findOne($id);
 
         return view('admin.endereco.endereco', compact('endereco'));

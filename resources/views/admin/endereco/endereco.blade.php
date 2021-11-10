@@ -16,7 +16,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong for="raz_social">Logradouro</strong>
+                                    <strong for="raz_social">LOGRADOURO</strong>
                                 </div>
                                 <span>{{$endereco->logradouro}}</span>
                             </div>
@@ -24,7 +24,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>numero</strong>
+                                    <strong>NUMERO</strong>
                                 </div>
                                 <span>{{$endereco->numero}}</span>
                             </div>
@@ -35,7 +35,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>Bairro</strong>
+                                    <strong>BAIRRO</strong>
                                 </div>
                                 <span>{{$endereco->bairro}}</span>
                             </div>
@@ -43,7 +43,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>Complemento</strong>
+                                    <strong>COMPLEMENTO</strong>
                                 </div>
                                 <span>{{$endereco->complemento}}</span>
                             </div>
@@ -54,7 +54,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>Cep</strong>
+                                    <strong>CEP</strong>
                                 </div>
                                 <span>{{$endereco->cep}}</span>
                             </div>
@@ -62,7 +62,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>Cidade</strong>
+                                    <strong>CIDADE</strong>
                                 </div>
                                 <span>{{$endereco->no_cidade}}</span>
                             </div>
@@ -85,7 +85,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>Empresa</strong>
+                                    <strong>EMPRESA</strong>
                                 </div>
                                 <span>{{$endereco->de_empresa}}</span>
                             </div>
