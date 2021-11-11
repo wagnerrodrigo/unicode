@@ -7,10 +7,12 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Lista Despesas</h1>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-add-despesa">
+                <h1>Despesas</h1>
+                {{-- mudar a rota no arquivo de rotas e aqui --}}
+                <a href="despesas/adicionar/fornecedor" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Nova Despesa
-                </button>
+                </a>
+
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
@@ -62,19 +64,7 @@
                         <i data-feather="x"></i>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <h3>Selecione o tipo de despesa:</h3>
-                    <div class="d-flex">
-                        <div class="p-1">
-                            <input type="radio" checked value="fornecedor" name="despesa">
-                            <strong>Fornecedor</strong>
-                        </div>
-                        <div class="p-1">
-                            <input type="radio" value="empregado" name="despesa">
-                            <strong>Empregado</strong>
-                        </div>
-                    </div>
-                </div>
+          
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" id="btnDespesa">
