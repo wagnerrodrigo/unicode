@@ -10,44 +10,42 @@
             <div class="card-header">
                 <h1>{{$produto->nome}}</h1>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="font-size: 18px;">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="d-flex">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="nome">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome" value="{{$produto->nome}}" disabled>
+                                <strong for="nome">Nome</strong>
                             </div>
+                            <span>{{$produto->nome}}</span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <strong for="descricao">Descrição</strong>
+                            </div>
+                            <span>{{$produto->nome_generico}}</span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="d-flex">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="descricao">Descrição</label>
-                                <textarea class="form-control" id="descricao" name="descricao" disabled>{{$produto->nome_generico}}</textarea>
+                                <strong for="valor">Tipo</strong>
                             </div>
+                            <span>{{$produto->tipo}}</span>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
+
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="valor">Tipo</label>
-                                <input type="text" class="form-control" id="valor" name="valor" value="{{$produto->tipo}}" disabled>
+                                <strong for="valor">Forma Serviço</strong>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="valor">Forma Serviço</label>
-                                <input type="text" class="form-control" id="categoria" name="categoria" value="{{$produto->forma_produto}}" disabled>
-                            </div>
+                            <span>{{$produto->forma_produto}}</span>
                         </div>
                     </div>
 
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-info" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
+                    <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
                     <a href="{{route('produtos')}}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
                 </div>
             </div>
