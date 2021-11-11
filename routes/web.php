@@ -120,6 +120,7 @@ Route::post('/instituicoes-financeira/delete/{id}',[InstituicaoFinanceiraControl
 Route::get('/contas', [ContaPagarController::class, 'index'])->name('contas-pagar');
 
 Route::post('/enderecos', [EnderecoController::class, 'store']);
+Route::get('/enderecos', [EnderecoController::class, 'index']);
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {
