@@ -6,19 +6,64 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Nova Despesa com Fornecedor</h1>
+                <h1>Despesa </h1>
             </div>
             <div class="card-body d-flex justify-content-center">
                 <!--inicio Tab -->
                 <div class="tab-content text-justify">
                     <!--inicio Tab Despesas-->
-                    <div class="justify-content-center " id="list-despesa">
+
+                    <div class="card-body" >
+                        <div class="d-flex">
+                            <div class="px-2 mb-1">
+                                <strong>Empresa</strong>
+                                <select class="form-control input-add" name="empresa" id="empresa">
+                                    <option selected value="pendente">Pendente</option>
+                                    <option value="pago">Pago</option>
+                                    <option value="aprovado">Aprovado</option>
+                                    <option value="rejeitado">Rejeitado</option>
+                                </select>
+                            </div>
+            
+                            <div class="px-2 mb-1">
+                                <strong>Centro de custo</strong>
+                                <select class="form-control input-add" name="centro_de_custo" id="centro_de_custo">
+                                    <option selected value="centro_de_custo_1">Centro de custo 1</option>
+                                    <option value="centro_de_custo_2">Centro de custo 2</option>
+                                    <option value="centro_de_custo_3">Centro de custo 3</option>
+                                    <option value="centro_de_custo_4">Centro de custo 4</option>
+                                    <option value="centro_de_custo_5">Centro de custo 5</option>
+                                    <option value="centro_de_custo_6">Centro de custo 6</option>
+                                </select>
+                            </div>
+                        </div>
+
+                      
+
+                        <div class="d-flex mt-10" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong for="input_fornecedor form-check-primary">Fornecedor</strong>
+                                <input  class="form-check-input" type="radio" name="tipo_despesa" id="despesa_fornecedor" value="fornecedor">
+                            </div>
+
+                            <div class="px-5 mb-3 ">
+                                <strong for="input_empregado">Empregado</strong>
+                                <input  class="form-check-input" type="radio" name="tipo_despesa" id="despesa_empregado" value="empregado">
+                            </div>
+                    </div>
+
+
+                    <div class="justify-content-center " id="list-despesa">                    
                         <form action="/despesas/adicionar" method="POST" style="padding: 10px;">
                             @csrf
+                       
+    
+                      
+
                             <div class="d-flex mt-10" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Coligada</strong>
-                                    <select class="form-control input-add" name="coligada" id="coligada">
+                                <div class="px-5 mb-3" >
+                                    <strong>Cpf/Cnpj</strong>
+                                    <select class="form-control input-add" name="cpf-cnpj" id="cpf-cnpj">
                                         <option selected value="empresa_1">Empresa 1</option>
                                         <option value="empresa_2">Empresa 2</option>
                                         <option value="empresa_3">Empresa 3</option>
@@ -28,10 +73,10 @@
                                     </select>
                                 </div>
 
-                                <div class="px-5 mb-3">
+                                <div class="px-5 mb-3" id="campo_razao_social">
                                     <div>
-                                        <strong>Matriz/Filial</strong>
-                                        <select class="form-control input-add" name="matriz_filial" id="matriz_filial">
+                                        <strong>Nome / Razão Social</strong>
+                                        <select class="form-control input-add" name="razao_social" id="razao_social">
                                             <option selected value="empresa_1">Empresa 1</option>
                                             <option value="empresa_2">Empresa 2</option>
                                             <option value="empresa_3">Empresa 3</option>
@@ -45,61 +90,54 @@
 
                             <div class="d-flex" style="width: 100%">
                                 <div class="px-5 mb-3">
-                                    <strong>Credor</strong>
-                                    <select class="form-control input-add" name="credor" id="credor">
-                                        <option selected value="credor_1">Credor 1</option>
-                                        <option value="credor_2">Credor 2</option>
-                                        <option value="credor_3">Credor 3</option>
-                                        <option value="credor_4">Credor 4</option>
-                                        <option value="credor_5">Credor 5</option>
-                                        <option value="credor_6">Credor 6</option>
-                                    </select>
+                                    <strong>Representante Legal</strong>
+                                    <input type="text" placeholder="Informe o numero" class="form-control input-add" name="representante" readonly/>
                                 </div>
 
                                 <div class="px-5 mb-3">
-                                    <strong>Credor Endereço</strong>
-                                    <select class="form-control input-add" name="credor_endereco" id="credor_endereco">
-                                        <option selected value="credor_endereco_1">Endereço 1</option>
-                                        <option value="credor_endereco_2">Endereço 2</option>
-                                    </select>
+                                    <strong>Cpf do Representante Legal</strong>
+                                    <input type="text" placeholder="Informe o numero" class="form-control input-add" name="cpf_representante" readonly/>
                                 </div>
                             </div>
 
                             <div class="d-flex" style="width: 100%">
                                 <div class="px-5 mb-3">
-                                    <strong>Situação</strong>
-                                    <select class="form-control input-add" name="status" id="status">
-                                        <option selected value="pendente">Pendente</option>
-                                        <option value="pago">Pago</option>
-                                        <option value="aprovado">Aprovado</option>
-                                        <option value="rejeitado">Rejeitado</option>
+                                    <strong>Classificação</strong>
+                                    <select class="form-control input-add" name="classificacao" id="classificacao">
+                                        <option value="despesas_C_pessoal">DESPESAS C/ PESSOAL</option>
+                                        <option value="despesas_telefonia">DESPESAS TELEFONIA</option>
+                                        <option value="despesas_aluguel">DESPESAS ALUGUEL/COND/ENERGIA/AGUA</option>
+                                        <option value="despesas_impostos">DESPESAS IMPOSTOS, TAXAS E CONTRIBUIÇÕES</option>
+                                        <option value="despesas_juridica">DESPESAS JURÍDICAS</option>
+                                        <option value="despesas_depesas">DESPESAS GERAIS</option>
                                     </select>
                                 </div>
 
                                 <div class="px-5 mb-3">
-                                    <strong>Tipo Documento</strong>
+                                    <strong>Tipo</strong>
                                     <select class="form-control input-add" name="tipo_documento" id="tipo_documento">
-                                        <option selected value="boleto">Boleto</option>
+                                        <option value="despesas_C_pessoal">SALARIOS</option>
+                                        <option value="despesas_telefonia">CONSULTAS CADASTRAIS</option>
+                                        <option value="despesas_aluguel">ALUGUEL/COND/ENERGIA/AGUA - JF</option>
+                                        <option value="despesas_impostos">CONTRIBUIÇÃO SINDICAL</option>
+                                        <option value="despesas_juridica">ESTADIA DE VEICULOS</option>
+                                        <option value="despesas_depesas">ALUGUEL DE CARROS</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="d-flex" style="width: 100%">
                                 <div class="px-5 mb-3">
-                                    <strong>Número</strong>
-                                    <input type="text" placeholder="Informe o numero" class="form-control input-add" name="numero_documento" />
+                                    <strong>Descrição</strong>
+                                    <textarea cols="145" rows="2" class="form-control" name="descricao"></textarea>
                                 </div>
 
-                                <div class="px-5 mb-3">
-                                    <strong>Série</strong>
-                                    <input type="text" placeholder="Série" class="form-control" name="serie_documento" style="width: 58px" />
-                                </div>
                             </div>
 
-                            <div class="d-flex" style="width: 100%">
+                            <div class="d-flex" style="width: 100%" style="hidden">
                                 <div class="px-5 mb-3">
-                                    <strong>Data Emissão</strong>
-                                    <input type="date" class="form-control input-add" name="data_emissao" />
+                                    <strong>Valor</strong>
+                                    <input type="text" placeholder="Informe o numero" class="form-control input-add" name="numero_documento" />
                                 </div>
 
                                 <div class="px-5 mb-3">
@@ -112,33 +150,82 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex" style="width: 100%;">
+                            <div class="d-flex" style="width: 100%">
                                 <div class="px-5 mb-3">
-                                    <strong>Quantidade Parcelas</strong>
-                                    <input type="text" class="form-control input-add" name="parcelas" />
+                                    <strong>Valor</strong>
+                                    <input type="text" placeholder="Informe o numero" class="form-control input-add" name="numero_documento" />
                                 </div>
 
                                 <div class="px-5 mb-3">
-                                    <strong>Centro de custo</strong>
-                                    <select class="form-control input-add" name="centro_de_custo" id="centro_de_custo">
-                                        <option selected value="centro_de_custo_1">Centro de custo 1</option>
-                                        <option value="centro_de_custo_2">Centro de custo 2</option>
-                                        <option value="centro_de_custo_3">Centro de custo 3</option>
-                                        <option value="centro_de_custo_4">Centro de custo 4</option>
-                                        <option value="centro_de_custo_5">Centro de custo 5</option>
-                                        <option value="centro_de_custo_6">Centro de custo 6</option>
+                                    <strong>Moeda</strong>
+                                    <select class="form-control input-add" name="moeda" id="moeda">
+                                        <option selected value="real">BRL</option>
+                                        <option value="dolar">USD</option>
+                                        <option value="euro">EUR</option>
                                     </select>
                                 </div>
                             </div>
 
+                     
+
+                            <div class="d-flex" style="width: 100%">
+                                <div class="px-5 mb-3">
+                                    <strong>Quantidade Parcelas</strong>
+                                    <input type="text" class="form-control input-add" name="parcelas" />
+                                </div>
+                                
+                                <div class="px-5 mb-3">
+                                    <strong>Data de vencimento</strong>
+                                    <input type="date" class="form-control input-add" name="data_vencimento" />
+                                </div>
+                            
+                               
+                            </div>
+
+                            <div class="d-flex" style="width: 100%;">
+                                <div class="px-5 mb-3">
+                                    <strong>Forma de Pagamento</strong>
+                                    <select class="form-control input-add"  name="forma_pagamento" id="forma_pagamento">
+                                        <option value="boleto">Boleto</option>
+                                        <option value="pix">Pix</option>
+                                        <option value="deposito_conta">Deposito em conta</option>
+                                        <option value="transferencia">Transferencia em conta</option>
+                                    </select>
+                                </div>
+                                <div class="px-5 mb-3">
+                                    <strong>Data de provisionamento</strong>
+                                    <input type="date" class="form-control input-add" name="data_provisionamento" />
+                                </div>
+                            </div>
+
+
+                            <div class="d-flex" style="width: 100%">
+                                <div class="px-5 mb-3">
+                                    <strong>Tipo de Documento</strong>
+                                    <input type="text" class="form-control input-add" name="tipo_documento" />
+                                </div>
+                                <div class="px-5 mb-3">
+                                    <strong>Numero da nota ou Documento</strong>
+                                    <input type="text" class="form-control input-add" name="numero_nota_documento" />
+                                </div>
+                            </div>
+                            
                             <div class="d-flex" style="width: 100%;">
                                 <div class="px-5 mb-3">
                                     <strong>Rateio</strong>
-                                    <select class="form-control input-add" name="rateio" id="rateio">
-                                        <option selected value=""></option>
-                                        <option value="rateio_por_item">Por item</option>
-                                        <option value="rateio_por_despesa">Pela despesa</option>
-                                    </select>
+
+                                    <div class="d-flex mt-10" style="width: 100%">
+                                        <div class="px-5 mb-3">
+                                            <strong for="input_fornecedor form-check-primary">Rateio por item</strong>
+                                            <input  class="form-check-input" type="radio" name="rateio" id="rateio_item" value="rateio_item">
+                                        </div>
+            
+                                        <div class="px-5 mb-3 ">
+                                            <strong for="input_empregado">Rateio Total</strong>
+                                            <input  class="form-check-input" type="radio" name="rateio" id="rateio_total" value="rateio_total">
+                                        </div>
+                                </div>
+
                                 </div>
                             </div>
                             <div class="d-flex" style="width: 100%">
@@ -181,10 +268,7 @@
                             </div>
 
                             <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Descrição</strong>
-                                    <textarea cols="110" rows="5" class="form-control" name="descricao"></textarea>
-                                </div>
+                        
                                 <div class="px-5 mb-3">
                                     <strong>Valor Total</strong>
                                     <input type="text" class="form-control" value="R$100.000,00" name="valor" style="width: 120px" readonly>
@@ -268,5 +352,23 @@
 
 <script src="{{asset('assets/js/main.js')}}"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+
+<script>
+    //Seleciona quais campos irão aparecer na tela
+    $(document).ready(function() {
+    $('input:radio[name="seleciona_tela"]').on("change", function() {
+        if (this.checked && this.value == '1') {
+            $("#campo_razao_social").show();
+            $("#input-custom-field4, #input-custom-field5, #input-custom-field6").hide();
+        } else {
+            $("#input-custom-field4, #input-custom-field5, #input-custom-field6").show();
+            $("#campo_razao_social").hide();
+        }
+    });
+});
+  
+</script>
 
 @endsection
