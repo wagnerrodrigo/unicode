@@ -60,8 +60,7 @@ Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('edit-usu
 
 //rotas Despesas
 Route::get('/despesas', [DespesaController::class, 'index'])->name('despesas');
-Route::get('/despesas/adicionar/fornecedor', [DespesaController::class, 'despesaFornecedor'])->name('despesa-fornecedor');
-Route::get('/despesas/adicionar/empregado', [DespesaController::class, 'despesaEmpregado'])->name('despesa-empregado');
+Route::get('/despesas/adicionar', [DespesaController::class, 'formDespesa'])->name('adicionar-despesa');
 Route::post('/despesas/adicionar', [DespesaController::class, 'store'])->name('add-despesas');
 
 //rotas Lançamentos

@@ -13,7 +13,7 @@
 
                     <div class="d-flex mt-10" style="width: 100%">
                         <div class="px-5 mb-3">
-                            <strong>Empresa</strong>
+                            <strong>EMPRESA</strong>
                             <select class="form-control input-add" name="empresa" id="empresa">
                                 <option selected value="pendente">Pendente</option>
                                 <option value="pago">Pago</option>
@@ -23,7 +23,7 @@
                         </div>
 
                         <div class="px-5 mb-3">
-                            <strong>Centro de custo</strong>
+                            <strong>CENTRO DE CUSTO</strong>
                             <select class="form-control input-add" name="centro_de_custo" id="centro_de_custo">
                                 <option selected value="centro_de_custo_1">Centro de custo 1</option>
                                 <option value="centro_de_custo_2">Centro de custo 2</option>
@@ -36,44 +36,35 @@
                     </div>
 
                     <div class="d-flex mt-10" style="width: 100%">
-                        <div class="px-5 mb-3">
-                            <strong for="input_fornecedor form-check-primary">Fornecedor</strong>
-                            <input class="form-check-input" type="radio" name="tipo_despesa" id="despesa_fornecedor" value="fornecedor">
+                        <div class="px-5 mb-3" style="padding: 8px 12px;">
+                            <strong for="input_fornecedor form-check-primary">FORNECEDOR</strong>
+                            <input class="form-check-input" checked type="radio" name="tipo_despesa" id="despesa_fornecedor" value="fornecedor">
                         </div>
 
-                        <div class="px-5 mb-3 ">
-                            <strong for="input_empregado">Empregado</strong>
+                        <div class="px-5 mb-3" style="padding: 8px 12px;">
+                            <strong for="input_empregado">EMPREGADO</strong>
                             <input class="form-check-input" type="radio" name="tipo_despesa" id="despesa_empregado" value="empregado">
                         </div>
-                    </div>
 
+                        <div>
+                            <button type="button" class="btn btn-primary" id="btnDespesa" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#modal-busca">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
 
                     <form action="/despesas/adicionar" method="POST">
                         @csrf
                         <div class="d-flex mt-10" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>Cpf/Cnpj</strong>
-                                <select class="form-control input-add" name="cpf-cnpj" id="cpf-cnpj">
-                                    <option selected value="empresa_1">Empresa 1</option>
-                                    <option value="empresa_2">Empresa 2</option>
-                                    <option value="empresa_3">Empresa 3</option>
-                                    <option value="empresa_4">Empresa 4</option>
-                                    <option value="empresa_5">Empresa 5</option>
-                                    <option value="empresa_6">Empresa 6</option>
-                                </select>
+                                <strong>CPF/CNPJ</strong>
+                                <input type="text" placeholder="CPF/CNPJ" class="form-control input-add" name="cpf_cnpj" readonly />
                             </div>
 
                             <div class="px-5 mb-3" id="campo_razao_social">
                                 <div>
-                                    <strong>Nome / Razão Social</strong>
-                                    <select class="form-control input-add" name="razao_social" id="razao_social">
-                                        <option selected value="empresa_1">Empresa 1</option>
-                                        <option value="empresa_2">Empresa 2</option>
-                                        <option value="empresa_3">Empresa 3</option>
-                                        <option value="empresa_4">Empresa 4</option>
-                                        <option value="empresa_5">Empresa 5</option>
-                                        <option value="empresa_6">Empresa 6</option>
-                                    </select>
+                                    <strong>NOME/RAZÃO SOCIAL</strong>
+                                    <input type="text" placeholder="Razão Social" class="form-control input-add" name="razao_social" readonly />
                                 </div>
                             </div>
                         </div>
@@ -260,61 +251,36 @@
         </div>
     </div>
 </div>
-</div>
 
-
-<div class="me-1 mb-1 d-inline-block">
-    <!--Extra Large Modal -->
-    <div class="modal fade text-left w-100" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+<div class="modal-primary me-1 mb-1 d-inline-block">
+    <!--primary theme Modal -->
+    <div class="modal fade text-left" id="modal-busca" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel16">Selecionar item</h4>
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title white" id="titulo-modal"></h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="bi bi-x" data-feather="x"></i>
+                        <i data-feather="x"></i>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <!-- muda a rota-->
-                    <form action="/despesas/adicionar" method="POST" style="padding: 10px;">
-                        @csrf
-                        <div class="d-flex mt-10" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>produto</strong>
-                                <input class="form-control mt-1" type="text" placeholder="produto" name="produto" style="width: 358px" />
-                            </div>
 
-                            <div class="px-5 mb-3">
-                                <div>
-                                    <strong>Valor</strong>
-                                </div>
-                                <div>
-                                    <input class="form-control mt-1" type="text" placeholder="Valor" name="valor_produto" style="width: 358px" />
-                                </div>
-                            </div>
+                <form action="/fornecedores" method="get">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <strong id="tipo-documento"></strong>
+                            <input type="text" class="form-control" id="cnpj_fornecedor" name="cnpj">
                         </div>
+                </form>
 
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Quantidade</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Quantidade" name="quantidade" style="width: 358px" />
-                            </div>
-                        </div>
-                </div>
                 <div class="modal-footer">
-                    <div class="col-sm-12 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success me-1 mb-1">
-                            <i data-feather="check-circle"></i>Selecionar
-                        </button>
-                        <!-- muda a rota-->
-                    </div>
-                    </form>
+                    <button type="button" class="btn btn-success" id="btnDespesa">
+                        Selecionar
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Fim modal Adicionar -->
 
 <script src="{{asset('assets/js/feather-icons/feather.min.js')}}"></script>
 <script src="{{asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
@@ -339,6 +305,24 @@
             }
         });
     });
+</script>
+
+<script>
+    //seleciona tipo de despesa
+    document.getElementById("btnDespesa").onclick = function() {
+        var radios = document.getElementsByName("tipo_despesa");
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                if (radios[i].value == "fornecedor") {
+                    document.getElementById("titulo-modal").innerHTML = "Adicionar Fornecedor";
+                    document.getElementById("tipo-documento").innerHTML = "CNPJ/CPF";
+                }
+                if (radios[i].value == "empregado") {
+                    document.getElementById("tipo-documento").innerHTML = "CPF";
+                }
+            }
+        }
+    };
 </script>
 
 @endsection

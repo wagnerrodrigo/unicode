@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Despesa;
 use Illuminate\Http\Request;
 
 class DespesaController extends Controller
@@ -13,18 +14,24 @@ class DespesaController extends Controller
      */
     public function index()
     {
-        //$fornecedores = Despesa::all();
-        return view('admin.despesas.lista-despesas');
+        $despesas = Despesa::selectAll();
+
+        $despesasAtivas = [];
+        $despesasInativas = [];
+
+        for ($i = 0; $i < count($despesas); $i++) {
+            if ($despesas[$i]->dt_fim === null) {
+                $despesasAtivos[] = $despesas[$i];
+            } else {
+                $despesasInativos[] = $despesas[$i];
+            };
+        }
+        return view('admin.despesas.lista-despesas', compact('despesasAtivas', 'despesasInativas'));
     }
 
-    public function despesaFornecedor()
+    public function formDespesa()
     {
         return view('admin.despesas.add-despesa-fornecedor');
-    }
-
-    public function despesaEmpregado()
-    {
-        return view('admin.despesas.add-despesa-empregado');
     }
 
     public function store()
