@@ -14,23 +14,14 @@
                     <div class="d-flex mt-10" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>EMPRESA</strong>
-                            <select class="form-control input-add" name="empresa" id="empresa">
-                                <option selected value="pendente">Pendente</option>
-                                <option value="pago">Pago</option>
-                                <option value="aprovado">Aprovado</option>
-                                <option value="rejeitado">Rejeitado</option>
-                            </select>
+                            <input type="text" placeholder="Buscar empresa" id="busca_empresa" class="form-control input-add" name="busca_empresa" />
                         </div>
 
                         <div class="px-5 mb-3">
                             <strong>CENTRO DE CUSTO</strong>
                             <select class="form-control input-add" name="centro_de_custo" id="centro_de_custo">
                                 <option selected value="centro_de_custo_1">Centro de custo 1</option>
-                                <option value="centro_de_custo_2">Centro de custo 2</option>
-                                <option value="centro_de_custo_3">Centro de custo 3</option>
-                                <option value="centro_de_custo_4">Centro de custo 4</option>
-                                <option value="centro_de_custo_5">Centro de custo 5</option>
-                                <option value="centro_de_custo_6">Centro de custo 6</option>
+                                <option value=""></option>
                             </select>
                         </div>
                     </div>
@@ -318,6 +309,7 @@
                     document.getElementById("tipo-documento").innerHTML = "CNPJ/CPF";
                 }
                 if (radios[i].value == "empregado") {
+                    document.getElementById("titulo-modal").innerHTML = "Adicionar Empregado";
                     document.getElementById("tipo-documento").innerHTML = "CPF";
                 }
             }
