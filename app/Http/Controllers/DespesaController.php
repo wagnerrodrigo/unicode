@@ -40,4 +40,17 @@ class DespesaController extends Controller
     {
         return view('admin.despesas.add-despesas');
     }
+    public function edit($id, Request $request){
+        $despesa = Despesa::findOne($id);
+        $camposRequisicao = $request->all();
+
+        foreach ($camposRequisicao as $key => $value){
+            if($key != '_token'){
+                $despesa->$key = strtoupper($value);
+            }
+        }
+        Despesa::set($despesa);
+
+        return redirect()->route('despesas');
+    }
 }
