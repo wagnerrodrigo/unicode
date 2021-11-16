@@ -30,20 +30,19 @@ class Despesa extends Model
     static function selectAll()
     {
         return DB::select("SELECT
-        id_despesa,
-        fk_tab_tipo_despesa_id,
-        fk_tab_empresa_id,
-        numero,
-        serie,
-        quantidade_parcelas,
-        valor_total,
-        dt_emissao,
-        fk_status_despesa_id,
-        fk_tab_condicao_pagamento_id,
-        fk_tab_centro_custo_id,
-        fk_tab_fornecedor_id,
-        fk_tab_empregado_id,
-        dt_inicio,
+        id_despesa, 
+        fk_tab_centro_custo_id, 
+        fk_tab_empresa_id, 
+        fk_tab_tipo_despesa_id, 
+        numero_despesa, 
+        qt_parcelas_despesa, 
+        serie_despesa, 
+        dt_emissao, 
+        valor_total_despesa, 
+        fk_status_despesa_id, 
+        fk_tab_fornecedor_id, 
+        fk_tab_empregado_id,    
+        dt_inicio, 
         dt_fim
         FROM intranet.tab_despesa;");
     }

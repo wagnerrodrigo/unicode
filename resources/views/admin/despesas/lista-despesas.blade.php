@@ -31,9 +31,9 @@
                         @foreach($despesasAtivas as $despesa)
                         <tr>
                             <td>{{$despesa->id_despesa}}</td>
-                            <td>{{$despesa->valor_total}}</td>
-                            <td>{{$despesa->quantidade_parcelas}}</td>
-                            <td>{{$despesa->dt_emissao}}</td>
+                            <td>{{$despesa->valor_total_despesa}}</td>
+                            <td>{{$despesa->qt_parcelas_despesa}}</td>
+                            <td>{{date("d/m/Y", strtotime($despesa->dt_emissao))}}</td>
                             <td>{{$despesa->fk_status_despesa_id}}</td>
                             <td>
                                 <form method="GET" action="/despesas/{{$despesa->id_despesa}}" data-bs-toggle="modal" data-bs-target="#xlarge-view" class="btn btn-primary" style="padding: 8px 12px;">

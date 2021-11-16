@@ -21,11 +21,13 @@ class DespesaController extends Controller
 
         for ($i = 0; $i < count($despesas); $i++) {
             if ($despesas[$i]->dt_fim === null) {
-                $despesasAtivos[] = $despesas[$i];
+                $despesasAtivas[] = $despesas[$i];
             } else {
                 $despesasInativos[] = $despesas[$i];
             };
         }
+
+        //dd($despesasAtivas);
         return view('admin.despesas.lista-despesas', compact('despesasAtivas', 'despesasInativas'));
     }
 
