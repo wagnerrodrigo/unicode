@@ -27,7 +27,6 @@ class DespesaController extends Controller
             };
         }
 
-        //dd($despesasAtivas);
         return view('admin.despesas.lista-despesas', compact('despesasAtivas', 'despesasInativas'));
     }
 
