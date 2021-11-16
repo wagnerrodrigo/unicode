@@ -9,7 +9,7 @@
         <div class="card">
             <div class="card-header">
                 <h1>Despesas</h1>
-                <a href="despesas/adicionar" class="btn btn-primary">
+                <a href="/despesas/adicionar" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Nova Despesa
                 </a>
 

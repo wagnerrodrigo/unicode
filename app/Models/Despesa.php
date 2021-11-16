@@ -11,18 +11,19 @@ class Despesa extends Model
     use HasFactory;
 
     protected $fillable = [
-        'fk_tab_tipo_despesa_id',
-        'fk_tab_empresa_id',
-        'numero',
-        'serie',
-        'quantidade_parcelas',
-        'valor_total',
-        'dt_emissao',
-        'fk_status_despesa_id',
-        'fk_tab_condicao_pagamento_id',
-        'fk_tab_fornecedor_id',
-        'fk_tab_empregado_id',
-        'dt_inicio',
+        'id_despesa', 
+        'fk_tab_centro_custo_id', 
+        'fk_tab_empresa_id', 
+        'fk_tab_tipo_despesa_id', 
+        'numero_despesa', 
+        'qt_parcelas_despesa', 
+        'serie_despesa', 
+        'dt_emissao', 
+        'valor_total_despesa', 
+        'fk_status_despesa_id', 
+        'fk_tab_fornecedor_id', 
+        'fk_tab_empregado_id',    
+        'dt_inicio', 
         'dt_fim'
     ];
     //Ao passar parametros, se atentar a ordem que é passado na query
@@ -38,16 +39,27 @@ class Despesa extends Model
         left JOIN intranet.tab_plano_contas AS plano_contas ON despesa.fk_plano_contas_id = plano_contas.id_plano_contas");
     }
 
-    static function create($fornecedor)
+    static function create($despesa)
     {
-        DB::insert("insert into intranet.tab_fornecedor
-        (nu_cpf_cnpj,de_razao_social,inscricao_estadual,dt_inicio,dt_fim,de_nome_fantasia)
-        values (?, ?, ?, ?, null, ? )", [
-            $fornecedor->nu_cpf_cnpj,
-            $fornecedor->de_razao_social,
-            $fornecedor->inscricao_estadual,
-            $fornecedor->dt_inicio,
-            $fornecedor->de_nome_fantasia,
+        DB::insert("insert into intranet.tab_despesa
+        (fk_tab_centro_custo_id = ?, fk_tab_empresa_id = ?, fk_tab_tipo_despesa_id = ?, 
+            numero_despesa = ?, qt_parcelas_despesa = ?, serie_despesa = ?, 
+            dt_emissao = ?, valor_total_despesa = ?, fk_status_despesa_id = ?,
+            fk_tab_fornecedor_id = ?, fk_tab_empregado_id = ?, dt_inicio = ?)
+        values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null )", [
+           
+            $despesa->fk_tab_centro_custo_id,
+            $despesa->fk_tab_empresa_id,
+            $despesa->fk_tab_tipo_despesa_id,
+            $despesa->numero_despesa,
+            $despesa->qt_parcelas_despesa,
+            $despesa->serie_despesa,
+            $despesa->dt_emissao,
+            $despesa->valor_total_despesa,
+            $despesa->fk_status_despesa_id,
+            $despesa->fk_tab_fornecedor_id,
+            $despesa->fk_tab_empregado_id,
+            $despesa->dt_inicio 
         ]);
         //values(cnpj,razao_social,inscricao_estadual,dt_inicio,dt_fim,nome_fantasia)
     }
@@ -66,16 +78,28 @@ class Despesa extends Model
         return $despesa;
     }
 
-    static function set($fornecedor)
-    {
-        DB::update("UPDATE intranet.tab_fornecedor
-        SET de_razao_social = ?, inscricao_estadual = ?, dt_inicio = ?, de_nome_fantasia = ?
-        WHERE id_fornecedor = ?", [
-            $fornecedor->de_razao_social,
-            $fornecedor->inscricao_estadual,
-            $fornecedor->dt_inicio,
-            $fornecedor->de_nome_fantasia,
-            $fornecedor->id_fornecedor
+
+    static function set($despesa){
+        DB::update( "UPDATE intranet.tab_despesa
+        SET fk_tab_centro_custo_id = ?, fk_tab_empresa_id = ?, fk_tab_tipo_despesa_id = ?, 
+            numero_despesa = ?, qt_parcelas_despesa = ?, serie_despesa = ?, 
+            dt_emissao = ?, valor_total_despesa = ?, fk_status_despesa_id = ?,
+            fk_tab_fornecedor_id = ?, fk_tab_empregado_id = ? , dt_inicio = ? 
+        WHERE id_despesa = ?", [
+                
+            $despesa->fk_tab_centro_custo_id,
+            $despesa->fk_tab_empresa_id,
+            $despesa->fk_tab_tipo_despesa_id,
+            $despesa->numero_despesa,
+            $despesa->qt_parcelas_despesa,
+            $despesa->serie_despesa,
+            $despesa->dt_emissao,
+            $despesa->valor_total_despesa,
+            $despesa->fk_status_despesa_id,
+            $despesa->fk_tab_fornecedor_id,
+            $despesa->fk_tab_empregado_id,
+            $despesa->dt_inicio, 
+            $despesa->id_despesa 
         ]);
     }
 
