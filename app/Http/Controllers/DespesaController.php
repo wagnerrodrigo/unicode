@@ -36,6 +36,18 @@ class DespesaController extends Controller
         return view('admin.despesas.add-despesa-fornecedor');
     }
 
+    public function show($id)
+    {
+        $despesa = Despesa::findOne($id);
+
+        if ($despesa == null || empty($despesa)) {
+            return $despesa;
+        } else {
+            $despesa = $despesa[0];
+            return view('admin.despesas.detalhe-despesa', compact('despesa'));
+        }
+    }
+
     public function store()
     {
         return view('admin.despesas.add-despesas');

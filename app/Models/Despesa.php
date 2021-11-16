@@ -25,7 +25,6 @@ class Despesa extends Model
         'dt_inicio',
         'dt_fim'
     ];
-
     //Ao passar parametros, se atentar a ordem que é passado na query
     static function selectAll()
     {
@@ -63,11 +62,10 @@ class Despesa extends Model
 
     static function findOne($id)
     {
-        $data = DB::select("SELECT * FROM intranet.tab_fornecedor
-        WHERE id_fornecedor = ?;", [$id]);
+        $despesa = DB::select("SELECT * FROM intranet.tab_despesa
+        WHERE id_despesa = ?;", [$id]);
 
-        $fornecedor = $data[0];
-        return $fornecedor;
+        return $despesa;
     }
 
     static function set($fornecedor)

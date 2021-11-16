@@ -1,5 +1,5 @@
 @extends('layouts.templates.template')
-@section('title', "Fornecedor")
+@section('title', "Despesa")
 
 @section('content')
 
@@ -7,7 +7,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>{{$fornecedor->de_nome_fantasia}}</h1>
+                <h1>DESPESA N°{{$despesa->numero_despesa}}</h1>
             </div>
             <div class="card-body" style="font-size: 18px;">
                 <div class="card-body">
@@ -15,17 +15,17 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong for="raz_social">Razão Social</strong>
+                                    <strong for="raz_social">NUMERO DA DESPESA</strong>
                                 </div>
-                                <span>{{$fornecedor->de_razao_social}}</span>
+                                <span>{{$despesa->numero_despesa}}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>CPF/CNPJ</strong>
+                                    <strong>CENTRO DE CUSTO</strong>
                                 </div>
-                                <span>{{$fornecedor->nu_cpf_cnpj}}</span>
+                                <span>{{$despesa->fk_tab_centro_custo_id}}</span>
                             </div>
                         </div>
                     </div>
@@ -34,87 +34,90 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>Inscrição estadual</strong>
+                                    <strong>EMPRESA</strong>
                                 </div>
-                                <span>{{$fornecedor->inscricao_estadual}}</span>
+                                <span>{{$despesa->fk_tab_empresa_id}}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>Nome Fantasia</strong>
+                                    <strong>TIPO DA DESPESA</strong>
                                 </div>
-                                <span>{{$fornecedor->de_nome_fantasia}}</span>
+                                <span>{{$despesa->fk_tab_tipo_despesa_id}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>SÉRIE</strong>
+                                </div>
+                                <span>{{$despesa->serie_despesa}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>DATA DE EMISSÃO</strong>
+                                </div>
+                                <span>{{date("d/m/Y", strtotime($despesa->dt_emissao))}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>STATUS</strong>
+                                </div>
+                                <span>{{$despesa->fk_status_despesa_id}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>TIPO DESPESA</strong>
+                                </div>
+                                @if($despesa->fk_tab_tipo_despesa_id == 1)
+                                <span>{{$despesa->fk_tab_fornecedor_id}}</span>
+                                @else
+                                <span>{{$despesa->fk_tab_empregado_id}}</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>PARCELAS</strong>
+                                </div>
+                                <span>{{$despesa->qt_parcelas_despesa,}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>VALOR TOTAL</strong>
+                                </div>
+                                <span>{{$despesa->valor_total_despesa}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="card-footer">
                     <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
-                    <a href="{{route('fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
+                    <a href="{{route('despesas')}}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Inicio Modal Adicionar-->
-    <div class="me-1 mb-1 d-inline-block">
-        <!--Extra Large Modal -->
-        <div class="modal fade text-left w-100" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel16">Editar Fornecedor</h4>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <i class="bi bi-x" data-feather="x"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- mudar para produto  -->
-                        <form action="/fornecedores/editar/{{$fornecedor->id_fornecedor}}" method="POST" style="padding: 10px;">
-                            @csrf
-                            <div class="d-flex mt-10" style="width: 100%">
-
-                                <div class="px-5 mb-3">
-                                    <strong>Razão Social</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->de_razao_social}}" placeholder="Razão Social" name="de_razao_social" style="width: 358px" />
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <div>
-                                        <strong for="raz_social">Nome Fantasia Social</strong>
-                                    </div>
-                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->de_nome_fantasia}}" placeholder="Nome Fantasia" name="de_nome_fantasia" style="width: 358px" />
-                                </div>
-                            </div>
-
-                            <div class="d-flex">
-                                <div class="px-5 mb-3">
-                                    <strong>Inscrição Estadual</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->inscricao_estadual}}" placeholder="Incrição estadual" name="inscricao_estadual" style="width: 358px" />
-                                </div>
-                                <div class="px-5 mb-3">
-                                    <strong>CPF/CNPJ</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->nu_cpf_cnpj}}" placeholder="CPF/CNPJ" name="nu_cpf_cnpj" style="width: 358px" readonly />
-                                </div>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary me-1 mb-1">
-                                <i data-feather="check-circle"></i>Salvar
-                            </button>
-                            <!-- mudar para produto -->
-                            <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
-                        </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- fim modal -->
 
 <script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
 
