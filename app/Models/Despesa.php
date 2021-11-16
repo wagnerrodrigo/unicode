@@ -41,7 +41,7 @@ class Despesa extends Model
         valor_total_despesa, 
         fk_status_despesa_id, 
         fk_tab_fornecedor_id, 
-        fk_tab_empregado_id, 
+        fk_tab_empregado_id,    
         dt_inicio, 
         dt_fim
         FROM intranet.tab_despesa;");
