@@ -77,6 +77,11 @@ class FornecedorController extends Controller
         return view('admin.fornecedor.fornecedor', compact('fornecedor'));
     }
 
+    public function showCnpjCpf($nu_cpf_cnpj){
+        $fornecedor = Fornecedor::buscaCnpjCpf($nu_cpf_cnpj);
+        return response()->json($fornecedor);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
