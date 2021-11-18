@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Despesa;
 use Illuminate\Http\Request;
 
 class DespesaController extends Controller
@@ -13,22 +14,54 @@ class DespesaController extends Controller
      */
     public function index()
     {
-        //$fornecedores = Despesa::all();
-        return view('admin.despesas.lista-despesas');
+        $despesas = Despesa::selectAll();
+
+        $despesasAtivas = [];
+        $despesasInativas = [];
+
+        for ($i = 0; $i < count($despesas); $i++) {
+            if ($despesas[$i]->dt_fim === null) {
+                $despesasAtivas[] = $despesas[$i];
+            } else {
+                $despesasInativos[] = $despesas[$i];
+            };
+        }
+
+        return view('admin.despesas.lista-despesas', compact('despesasAtivas', 'despesasInativas'));
     }
 
-    public function despesaFornecedor()
+    public function formDespesa()
     {
         return view('admin.despesas.add-despesa-fornecedor');
     }
 
-    public function despesaEmpregado()
+    public function show($id)
     {
-        return view('admin.despesas.add-despesa-empregado');
+        $despesa = Despesa::findOne($id);
+
+        if ($despesa == null || empty($despesa)) {
+            return $despesa;
+        } else {
+            $despesa = $despesa[0];
+            return view('admin.despesas.detalhe-despesa', compact('despesa'));
+        }
     }
 
     public function store()
     {
         return view('admin.despesas.add-despesas');
+    }
+    public function edit($id, Request $request){
+        $despesa = Despesa::findOne($id);
+        $camposRequisicao = $request->all();
+
+        foreach ($camposRequisicao as $key => $value){
+            if($key != '_token'){
+                $despesa->$key = strtoupper($value);
+            }
+        }
+        Despesa::set($despesa);
+
+        return redirect()->route('despesas');
     }
 }
