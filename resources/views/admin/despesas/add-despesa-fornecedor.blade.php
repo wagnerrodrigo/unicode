@@ -28,19 +28,49 @@
                                     </select>
                                 </div>
 
-                                <div class="px-5 mb-3">
-                                    <div>
-                                        <strong>Matriz/Filial</strong>
-                                        <select class="form-control input-add" name="matriz_filial" id="matriz_filial">
-                                            <option selected value="empresa_1">Empresa 1</option>
-                                            <option value="empresa_2">Empresa 2</option>
-                                            <option value="empresa_3">Empresa 3</option>
-                                            <option value="empresa_4">Empresa 4</option>
-                                            <option value="empresa_5">Empresa 5</option>
-                                            <option value="empresa_6">Empresa 6</option>
-                                        </select>
-                                    </div>
-                                </div>
+                    <div class="d-flex mt-10" style="width: 100%">
+                        <form action="" name="form_busca_fornecedor" id="form_busca_fornecedor">
+                            <div class="px-5 mb-3">
+                                <strong>EMPRESA</strong>
+                                <select class="form-control input-add" id="busca_empresa" name="busca_empresa">
+                                    <option id="result_empresa"></option>
+                                </select>
+                            </div>
+                        </form>
+
+                        <div class="px-5 mb-3">
+                            <strong>CENTRO DE CUSTO</strong>
+                            <select class="form-control input-add" name="centro_de_custo" id="centro_de_custo">
+                                <option selected value="centro_de_custo_1">Centro de custo 1</option>
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mt-10" style="width: 100%">
+                        <div class="px-5 mb-3" style="padding: 8px 12px;">
+                            <strong for="input_fornecedor form-check-primary">FORNECEDOR</strong>
+                            <input class="form-check-input" checked type="radio" name="tipo_despesa" id="despesa_fornecedor" value="fornecedor">
+                        </div>
+
+                        <div class="px-5 mb-3" style="padding: 8px 12px;">
+                            <strong for="input_empregado">EMPREGADO</strong>
+                            <input class="form-check-input" type="radio" name="tipo_despesa" id="despesa_empregado" value="empregado">
+                        </div>
+
+                        <div>
+                            <button type="button" class="btn btn-primary" id="btnDespesa" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#modal-busca">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <form action="/despesas/adicionar" method="POST">
+                        @csrf
+                        <div class="d-flex mt-10" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>CPF/CNPJ</strong>
+                                <input type="text" placeholder="CPF/CNPJ" class="form-control input-add" name="cpf_cnpj" readonly />
                             </div>
 
                             <div class="d-flex" style="width: 100%">
@@ -56,32 +86,17 @@
                                     </select>
                                 </div>
 
-                                <div class="px-5 mb-3">
-                                    <strong>Credor Endereço</strong>
-                                    <select class="form-control input-add" name="credor_endereco" id="credor_endereco">
-                                        <option selected value="credor_endereco_1">Endereço 1</option>
-                                        <option value="credor_endereco_2">Endereço 2</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <strong>Situação</strong>
-                                    <select class="form-control input-add" name="status" id="status">
-                                        <option selected value="pendente">Pendente</option>
-                                        <option value="pago">Pago</option>
-                                        <option value="aprovado">Aprovado</option>
-                                        <option value="rejeitado">Rejeitado</option>
-                                    </select>
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <strong>Tipo Documento</strong>
-                                    <select class="form-control input-add" name="tipo_documento" id="tipo_documento">
-                                        <option selected value="boleto">Boleto</option>
-                                    </select>
-                                </div>
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Classificação</strong>
+                                <select class="form-control input-add" name="classificacao" id="classificacao">
+                                    <option value="despesas_C_pessoal">DESPESAS C/ PESSOAL</option>
+                                    <option value="despesas_telefonia">DESPESAS TELEFONIA</option>
+                                    <option value="despesas_aluguel">DESPESAS ALUGUEL/COND/ENERGIA/AGUA</option>
+                                    <option value="despesas_impostos">DESPESAS IMPOSTOS, TAXAS E CONTRIBUIÇÕES</option>
+                                    <option value="despesas_juridica">DESPESAS JURÍDICAS</option>
+                                    <option value="despesas_depesas">DESPESAS GERAIS</option>
+                                </select>
                             </div>
 
                             <div class="d-flex" style="width: 100%">
@@ -268,5 +283,68 @@
 
 <script src="{{asset('assets/js/main.js')}}"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+
+<script>
+    //Seleciona quais campos irão aparecer na tela
+    $(document).ready(function() {
+        //instancia jquery do select2 para o input de busca
+        $('#busca_empresa').select2();
+        //adiciona id do select2 ao input de busca
+
+        $('input:radio[name="seleciona_tela"]').on("change", function() {
+            if (this.checked && this.value == '1') {
+                $("#campo_razao_social").show();
+                $("#input-custom-field4, #input-custom-field5, #input-custom-field6").hide();
+            } else {
+                $("#input-custom-field4, #input-custom-field5, #input-custom-field6").show();
+                $("#campo_razao_social").hide();
+            }
+        });
+    });
+
+    $('.select2-search__field').keyup(function() {
+
+        var text = $(this).val();
+
+        console.log(text);
+
+        if (text != '') {
+            $.ajax({
+                type: "GET",
+                url: `http://localhost:8000/fornecedores/nome/${text}`,
+            }).done(function(data) {
+                $('#resultado_busca').html(data);
+
+                //var teste = $("#result_empresa").val(data.de_razao_social);
+                //console.log(teste);
+
+                //$("#retornoCep").val(dados.cep);
+            });
+        } else {
+            $('#resultado_busca').html('');
+        }
+        //Aqui dentro você faz o que quer, manda pra um arquivo php com ajax
+        //ou sla, vai depender do que você quer fazer
+    });
+
+    //seleciona tipo de despesa
+    document.getElementById("btnDespesa").onclick = function() {
+        var radios = document.getElementsByName("tipo_despesa");
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                if (radios[i].value == "fornecedor") {
+                    document.getElementById("titulo-modal").innerHTML = "Adicionar Fornecedor";
+                    document.getElementById("tipo-documento").innerHTML = "CNPJ/CPF";
+                }
+                if (radios[i].value == "empregado") {
+                    document.getElementById("titulo-modal").innerHTML = "Adicionar Empregado";
+                    document.getElementById("tipo-documento").innerHTML = "CPF";
+                }
+            }
+        }
+    };
+</script>
 @endsection
