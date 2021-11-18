@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Empresa;
 use Carbon\Carbon;
-use App\Models\Fornecedor;
+use App\Models\Endereco;
 use Illuminate\Http\Request;
 
-class FornecedorController extends Controller
+class EmpresaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,25 +16,25 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-        $fornecedores = Fornecedor::selectAll();
+        $empresas = Endereco::selectAll();
 
-        $fornecedoresAtivos = [];
-        $fornecedoresInativos = [];
+        $empresasAtivas = [];
+        $empresasInativas = [];
 
-        for ($i = 0; $i < count($fornecedores); $i++) {
-            if ($fornecedores[$i]->dt_fim === null) {
-                $fornecedoresAtivos[] = $fornecedores[$i];
+        for ($i = 0; $i < count($empresas); $i++) {
+            if ($empresas[$i]->dt_fim === null) {
+                $empresasAtivas[] = $empresas[$i];
             } else {
-                $fornecedoresInativos[] = $fornecedores[$i];
+                $empresasInativas[] = $empresas[$i];
             };
         }
 
-        return view('admin.fornecedor.lista-fornecedor', compact('fornecedoresAtivos'));
+        return view('admin.empresas.lista-empresas', compact('empresasAtivas'));
     }
 
-    public function formFornecedores()
+    public function formEmpresas()
     {
-        return view('admin.fornecedor.add-fornecedor');
+        return view('admin.empresas.add-empresas');
     }
 
     /**
@@ -44,44 +45,44 @@ class FornecedorController extends Controller
      */
     public function store(Request $request)
     {
-        $fornecedor = new Fornecedor();
+        $empresa = new Empresa();
         $camposRequisicao = $request->all();
 
         //transforma todo o request em UpperCase
         foreach ($camposRequisicao as $key => $value) {
             if ($key != '_token') {
-                $fornecedor->$key = strtoupper($value);
+                $empresa->$key = strtoupper($value);
             }
         }
 
-        //Adiciona a data de inicio do fornecedor
-        $fornecedor->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+        //Adiciona a data de inicio do empresa
+        $empresa->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
 
-        Fornecedor::create($fornecedor);
+        empresa::create($empresa);
 
-        echo "<script> alert('Fornecedor criado com sucesso!!') </script>";
+        echo "<script> alert('empresa criado com sucesso!!') </script>";
 
-        return redirect()->route('fornecedores');
+        return redirect()->route('empresas');
     }
 
 
     public function showByCnpj($cnpj)
     {
-        $fornecedor = Fornecedor::findByCnpj($cnpj);
+        $empresa = Empresa::findByCnpj($cnpj);
 
         //retorna Json
-        return response()->json($fornecedor);
+        return response()->json($empresa);
     }
 
     public function showByName($nome)
     {
         //transforma nome para UpperCase
         $nome = strtoupper($nome);
-        //busca o fornecedor pelo nome
-        $fornecedor = Fornecedor::findByName($nome);
+        //busca o empresa pelo nome
+        $empresa = Empresa::findByName($nome);
 
         //retorna Json
-        return response()->json($fornecedor);
+        return response()->json($empresa);
     }
 
     /**
@@ -92,9 +93,9 @@ class FornecedorController extends Controller
      */
     public function show($id)
     {
-        $fornecedor = Fornecedor::findOne($id);
+        $empresa = Empresa::findOne($id);
 
-        return view('admin.fornecedor.fornecedor', compact('fornecedor'));
+        return view('admin.empresa.empresa', compact('empresa'));
     }
 
     /**
@@ -105,18 +106,18 @@ class FornecedorController extends Controller
      */
     public function edit($id, Request $request)
     {
-        $fornecedor = Fornecedor::findOne($id);
+        $empresa = Empresa::findOne($id);
         $camposRequisicao = $request->all();
 
         foreach ($camposRequisicao as $key => $value) {
             if ($key != '_token') {
-                $fornecedor->$key = strtoupper($value);
+                $empresa->$key = strtoupper($value);
             }
         }
 
-        Fornecedor::set($fornecedor);
+        empresa::set($empresa);
 
-        return redirect()->route('fornecedores');
+        return redirect()->route('empresas');
     }
 
     /**
@@ -127,11 +128,11 @@ class FornecedorController extends Controller
      */
     public function destroy($id)
     {
-        $fornecedor = Fornecedor::findOne($id);
+        $empresa = Empresa::findOne($id);
         $dataFim = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
 
-        Fornecedor::del($dataFim, $fornecedor->id_fornecedor);
+        Empresa::del($dataFim, $empresa->id_empresa);
 
-        return redirect()->route('fornecedores');
+        return redirect()->route('empresas');
     }
 }

@@ -12,25 +12,20 @@
                 <div class="justify-content-center " id="list-despesa" style="padding: 10px;">
 
                     <div class="d-flex mt-10" style="width: 100%">
-                        <div class="px-5 mb-3">
-                            <strong>EMPRESA</strong>
-                            <select class="form-control input-add" name="empresa" id="empresa">
-                                <option selected value="pendente">Pendente</option>
-                                <option value="pago">Pago</option>
-                                <option value="aprovado">Aprovado</option>
-                                <option value="rejeitado">Rejeitado</option>
-                            </select>
-                        </div>
+                        <form action="" name="form_busca_fornecedor" id="form_busca_fornecedor">
+                            <div class="px-5 mb-3">
+                                <strong>EMPRESA</strong>
+                                <select class="form-control input-add" id="busca_empresa" name="busca_empresa">
+                                    <option id="result_empresa"></option>
+                                </select>
+                            </div>
+                        </form>
 
                         <div class="px-5 mb-3">
                             <strong>CENTRO DE CUSTO</strong>
                             <select class="form-control input-add" name="centro_de_custo" id="centro_de_custo">
                                 <option selected value="centro_de_custo_1">Centro de custo 1</option>
-                                <option value="centro_de_custo_2">Centro de custo 2</option>
-                                <option value="centro_de_custo_3">Centro de custo 3</option>
-                                <option value="centro_de_custo_4">Centro de custo 4</option>
-                                <option value="centro_de_custo_5">Centro de custo 5</option>
-                                <option value="centro_de_custo_6">Centro de custo 6</option>
+                                <option value=""></option>
                             </select>
                         </div>
                     </div>
@@ -289,12 +284,17 @@
 
 <script src="{{asset('assets/js/main.js')}}"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
 <script>
     //Seleciona quais campos irão aparecer na tela
     $(document).ready(function() {
+        //instancia jquery do select2 para o input de busca
+        $('#busca_empresa').select2();
+        //adiciona id do select2 ao input de busca
+
         $('input:radio[name="seleciona_tela"]').on("change", function() {
             if (this.checked && this.value == '1') {
                 $("#campo_razao_social").show();
@@ -305,9 +305,32 @@
             }
         });
     });
-</script>
 
-<script>
+    $('.select2-search__field').keyup(function() {
+
+        var text = $(this).val();
+
+        console.log(text);
+
+        if (text != '') {
+            $.ajax({
+                type: "GET",
+                url: `http://localhost:8000/fornecedores/nome/${text}`,
+            }).done(function(data) {
+                $('#resultado_busca').html(data);
+
+                //var teste = $("#result_empresa").val(data.de_razao_social);
+                //console.log(teste);
+
+                //$("#retornoCep").val(dados.cep);
+            });
+        } else {
+            $('#resultado_busca').html('');
+        }
+        //Aqui dentro você faz o que quer, manda pra um arquivo php com ajax
+        //ou sla, vai depender do que você quer fazer
+    });
+
     //seleciona tipo de despesa
     document.getElementById("btnDespesa").onclick = function() {
         var radios = document.getElementsByName("tipo_despesa");
@@ -318,11 +341,11 @@
                     document.getElementById("tipo-documento").innerHTML = "CNPJ/CPF";
                 }
                 if (radios[i].value == "empregado") {
+                    document.getElementById("titulo-modal").innerHTML = "Adicionar Empregado";
                     document.getElementById("tipo-documento").innerHTML = "CPF";
                 }
             }
         }
     };
 </script>
-
 @endsection
