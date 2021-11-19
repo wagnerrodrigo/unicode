@@ -68,8 +68,9 @@ class Fornecedor extends Model
 
     static function buscaCnpjCpf($nu_cpf_cnpj){
         $data = DB::select("SELECT * FROM intranet.tab_fornecedor 
-        WHERE nu_cpf_cnpj = ?;", [$nu_cpf_cnpj]);
+        WHERE nu_cpf_cnpj LIKE'%" . $nu_cpf_cnpj . "%'");
 
+        
         $fornecedor = $data;
         return $fornecedor;
     }
