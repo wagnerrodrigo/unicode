@@ -264,11 +264,12 @@
                     </button>
                 </div>
 
-                <form action="/fornecedores" method="get">
+                <form>
                     <div class="modal-body">
                         <div class="form-group">
                             <strong id="tipo-documento"></strong>
-                            <input type="text" class="form-control" id="cnpj_fornecedor" name="cnpj">
+                            <input type="text" class="form-control" id="Cnpj_Cpf" name="cnpj">
+                            <div id="ResultadoCnpjCpf" ></div>
                         </div>
                 </form>
 
@@ -318,11 +319,47 @@
                     document.getElementById("tipo-documento").innerHTML = "CNPJ/CPF";
                 }
                 if (radios[i].value == "empregado") {
+                    document.getElementById("titulo-modal").innerHTML = "Adicionar Empregado";
                     document.getElementById("tipo-documento").innerHTML = "CPF";
                 }
             }
         }
     };
+</script>
+
+
+
+<script>
+   $("#Cnpj_Cpf").keyup(function() {
+            var digitoCnpjCpf = $(this).val();
+            console.log(digitoCnpjCpf);
+
+            if (digitoCnpjCpf != '') {
+
+                $.ajax({
+                    url: `/fornecedores/cnpj_cpf/${digitoCnpjCpf}`,
+                    type: 'GET',
+                    dataType: 'json',
+                }).done(function(response) {
+                    $("#ResultadoCnpjCpf").html('');
+                    console.log(response);
+                    $.each(response, function(key, val) {
+                        $('#ResultadoCnpjCpf').append('<div class="item">' + val.de_razao_social +
+                            '</div>');
+                    })
+                    $('.item').click(function() {
+                        $('#Cnpj_Cpf').val($(this).text());
+                        $('#ResultadoCnpjCpf').html('');
+                    })
+                }).fail(function() {
+                    $('#ResultadoCnpjCpf').html('');
+                });
+            } else {
+                $('#ResultadoCnpjCpf').html('');
+            }
+
+        });
+
 </script>
 
 @endsection
