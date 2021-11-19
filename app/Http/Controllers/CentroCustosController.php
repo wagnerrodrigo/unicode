@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CentroCusto;
 use Carbon\Carbon;
 
-class CentroCustos extends Controller
+class CentroCustosController extends Controller
 {
 
     /**
@@ -16,7 +16,6 @@ class CentroCustos extends Controller
      */
     public function index()
     {
-
         $centroCustos = CentroCusto::all();
 
         $centroCustosAtivos = [];
@@ -31,6 +30,24 @@ class CentroCustos extends Controller
         }
 
         return view('admin.centro-custo.lista-centro-custo', compact('centroCustosAtivos'));
+    }
+
+
+    public function showById($id){
+
+        $centroCustos = CentroCusto::findById($id);
+
+        return response()->json($centroCustos);
+    }
+
+    public function showByName($nome){
+
+        //transforma nome para UpperCase
+        $nome = strtoupper($nome);
+        //busca o empresa pelo nome
+        $centroCustos = CentroCusto::findByName($nome);
+
+        return response()->json($centroCustos);
     }
 
     /**

@@ -29,6 +29,7 @@ use App\Http\Controllers\ApiViaCepController;
 use App\Http\Controllers\InstituicaoFinanceiraController;
 use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\CentroCustosController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -75,6 +76,10 @@ Route::get('/empresas/{id}', [EmpresaController::class, 'show']);
 Route::get('/empresas/cnpj/{cnpj}', [EmpresaController::class, 'showByCnpj']);
 Route::get('/empresas/nome/{name}', [EmpresaController::class, 'showByName']);
 
+
+//Centro de custo Empresa rotas
+Route::get('/centroCustoEmpresa/{id}', [CentroCustosController::class, 'showById']);
+Route::get('/centroCustoEmpresa/nome/{nome}', [CentroCustosController::class, 'showByName']);
 
 //rotas Lançamentos
 Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');

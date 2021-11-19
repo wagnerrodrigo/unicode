@@ -50,7 +50,7 @@ class Empresa extends Model
 
     static function findByName($nome)
     {
-        $empresa = DB::select("SELECT * FROM intranet.tab_empresa
+        $empresa = DB::select("SELECT id_empresa, cnpj_empresa,de_empresa,regiao_empresa FROM intranet.tab_empresa
         WHERE de_empresa like '%" . $nome . "%';");
 
         return $empresa;
