@@ -15,8 +15,8 @@
                         <form action="" name="form_busca_fornecedor" id="form_busca_fornecedor">
                             <div class="px-5 mb-3">
                                 <strong>EMPRESA</strong>
-                                <input type="text" id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-add" name="empresa"/>
-                                <div id="results_empresa">
+                                <input type="text" id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-add" name="empresa" />
+                                <div id="results_empresa" class="resultado-busca">
 
                                 </div>
                             </div>
@@ -25,7 +25,6 @@
                         <div class="px-5 mb-3">
                             <strong>CENTRO DE CUSTO</strong>
                             <select class="form-control input-add" name="centro_de_custo" id="centro_de_custo">
-                                <option selected value="centro_de_custo_1">Centro de custo 1</option>
                                 <option value=""></option>
                             </select>
                         </div>
@@ -62,18 +61,6 @@
                                     <strong>NOME/RAZÃO SOCIAL</strong>
                                     <input type="text" placeholder="Razão Social" class="form-control input-add" name="razao_social" readonly />
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Representante Legal</strong>
-                                <input type="text" placeholder="Informe o numero" class="form-control input-add" name="representante" readonly />
-                            </div>
-
-                            <div class="px-5 mb-3">
-                                <strong>Cpf do Representante Legal</strong>
-                                <input type="text" placeholder="Informe o numero" class="form-control input-add" name="cpf_representante" readonly />
                             </div>
                         </div>
 
@@ -286,70 +273,6 @@
 <script src="{{asset('assets/js/main.js')}}"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{asset('assets/js/custom-js/despesa.js')}}"></script>
 
-
-<script>
-    //Seleciona quais campos irão aparecer na tela
-    $(document).ready(function() {
-
-        $('input:radio[name="seleciona_tela"]').on("change", function() {
-            if (this.checked && this.value == '1') {
-                $("#campo_razao_social").show();
-                $("#input-custom-field4, #input-custom-field5, #input-custom-field6").hide();
-            } else {
-                $("#input-custom-field4, #input-custom-field5, #input-custom-field6").show();
-                $("#campo_razao_social").hide();
-            }
-        });
-    });
-
-    $('#busca_empresa').keyup(function() {
-        var words = $(this).val();
-
-        console.log(words);
-
-        if (words != '') {
-            $.ajax({
-                type: "GET",
-                url: `http://localhost:8000/empresas/nome/${words}`,
-                dataType: "json",
-            }).done(function(response) {
-                $('#results_empresa').html('');
-                //mostra os resultados da busca em uma div
-                $.each(response, function(key,val){
-                    $('#results_empresa').append('<div class="item">' + val.de_empresa + '</div>');
-                })
-                //seleciona a empresa desejada
-                $('.item').click(function() {
-                    $('#busca_empresa').val($(this).text());
-                    $('#results_empresa').html('');
-                })
-            }).fail(function(){
-                $('#results_empresa').html('');
-            });
-        } else {
-            $('#results_empresa').html('');
-        }
-        //Aqui dentro você faz o que quer, manda pra um arquivo php com ajax
-        //ou sla, vai depender do que você quer fazer
-    });
-
-    //seleciona tipo de despesa
-    document.getElementById("btnDespesa").onclick = function() {
-        var radios = document.getElementsByName("tipo_despesa");
-        for (var i = 0; i < radios.length; i++) {
-            if (radios[i].checked) {
-                if (radios[i].value == "fornecedor") {
-                    document.getElementById("titulo-modal").innerHTML = "Adicionar Fornecedor";
-                    document.getElementById("tipo-documento").innerHTML = "CNPJ/CPF";
-                }
-                if (radios[i].value == "empregado") {
-                    document.getElementById("titulo-modal").innerHTML = "Adicionar Empregado";
-                    document.getElementById("tipo-documento").innerHTML = "CPF";
-                }
-            }
-        }
-    };
-</script>
 @endsection

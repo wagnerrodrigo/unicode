@@ -121,20 +121,3 @@
 .card-menu > img {
     width: 50%;
 }
-
-#results_empresa{
-    width: calc(100% + 20px); background-color: #ccc;position: absolute;
-}
-#results_empresa .item{
-    display: block;
-    width: calc(100% - 20px);
-    padding: 10px;
-}
-
-.item:hover{
-    width: calc(100% - 20px);
-    padding: 10px;
-    cursor: pointer;
-    background-color: #333;
-    color: #FFF;
-}
