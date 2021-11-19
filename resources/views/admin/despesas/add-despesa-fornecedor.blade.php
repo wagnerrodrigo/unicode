@@ -15,9 +15,10 @@
                         <form action="" name="form_busca_fornecedor" id="form_busca_fornecedor">
                             <div class="px-5 mb-3">
                                 <strong>EMPRESA</strong>
-                                <select class="form-control input-add" id="busca_empresa" name="busca_empresa">
-                                    <option id="result_empresa"></option>
-                                </select>
+                                <input type="text" id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-add" name="empresa"/>
+                                <div id="results_empresa">
+
+                                </div>
                             </div>
                         </form>
 
@@ -291,9 +292,6 @@
 <script>
     //Seleciona quais campos irão aparecer na tela
     $(document).ready(function() {
-        //instancia jquery do select2 para o input de busca
-        $('#busca_empresa').select2();
-        //adiciona id do select2 ao input de busca
 
         $('input:radio[name="seleciona_tela"]').on("change", function() {
             if (this.checked && this.value == '1') {
@@ -306,26 +304,32 @@
         });
     });
 
-    $('.select2-search__field').keyup(function() {
+    $('#busca_empresa').keyup(function() {
+        var words = $(this).val();
 
-        var text = $(this).val();
+        console.log(words);
 
-        console.log(text);
-
-        if (text != '') {
+        if (words != '') {
             $.ajax({
                 type: "GET",
-                url: `http://localhost:8000/fornecedores/nome/${text}`,
-            }).done(function(data) {
-                $('#resultado_busca').html(data);
-
-                //var teste = $("#result_empresa").val(data.de_razao_social);
-                //console.log(teste);
-
-                //$("#retornoCep").val(dados.cep);
+                url: `http://localhost:8000/empresas/nome/${words}`,
+                dataType: "json",
+            }).done(function(response) {
+                $('#results_empresa').html('');
+                //mostra os resultados da busca em uma div
+                $.each(response, function(key,val){
+                    $('#results_empresa').append('<div class="item">' + val.de_empresa + '</div>');
+                })
+                //seleciona a empresa desejada
+                $('.item').click(function() {
+                    $('#busca_empresa').val($(this).text());
+                    $('#results_empresa').html('');
+                })
+            }).fail(function(){
+                $('#results_empresa').html('');
             });
         } else {
-            $('#resultado_busca').html('');
+            $('#results_empresa').html('');
         }
         //Aqui dentro você faz o que quer, manda pra um arquivo php com ajax
         //ou sla, vai depender do que você quer fazer
