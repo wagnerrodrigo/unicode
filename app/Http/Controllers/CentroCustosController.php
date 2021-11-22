@@ -33,15 +33,15 @@ class CentroCustosController extends Controller
     }
 
 
-    public function showById($id){
-
+    public function showById($id)
+    {
         $centroCustos = CentroCusto::findById($id);
 
         return response()->json($centroCustos);
     }
 
-    public function showByName($nome){
-
+    public function showByName($nome)
+    {
         //transforma nome para UpperCase
         $nome = strtoupper($nome);
         //busca o empresa pelo nome

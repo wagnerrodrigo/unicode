@@ -57,6 +57,7 @@ $("#busca_empresa").keyup(function () {
             .done(function (response) {
                 $("#results_empresa").html("");
                 //mostra os resultados da busca em uma div
+                console.log(response);
                 $.each(response, function (key, val) {
                     $("#results_empresa").append(
                         '<div class="item">' + val.de_empresa + "</div>"
@@ -67,6 +68,15 @@ $("#busca_empresa").keyup(function () {
                     $("#busca_empresa").val($(this).text());
                     $("#results_empresa").html("");
 
+                    console.log(response);
+
+                    //console.log(result.id_centro_custo);
+                   /*$.each(result, function (key, val) {
+                        console.log(val);
+                        $("#centro_de_custo").append(
+                            `<option value="${val.id_centro_custo}">` + val.de_empresa + "</option>"
+                        );
+                    });*/
                 });
             })
             .fail(function () {
@@ -76,8 +86,6 @@ $("#busca_empresa").keyup(function () {
         $("#results_empresa").html("");
     }
 });
-
-
 
 //seleciona tipo de despesa
 document.getElementById("btnDespesa").onclick = function () {
