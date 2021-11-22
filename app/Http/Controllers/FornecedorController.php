@@ -64,6 +64,26 @@ class FornecedorController extends Controller
         return redirect()->route('fornecedores');
     }
 
+
+    public function showByCnpj($cnpj)
+    {
+        $fornecedor = Fornecedor::findByCnpj($cnpj);
+
+        //retorna Json
+        return response()->json($fornecedor);
+    }
+
+    public function showByName($nome)
+    {
+        //transforma nome para UpperCase
+        $nome = strtoupper($nome);
+        //busca o fornecedor pelo nome
+        $fornecedor = Fornecedor::findByName($nome);
+
+        //retorna Json
+        return response()->json($fornecedor);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -92,7 +112,7 @@ class FornecedorController extends Controller
     {
         $fornecedor = Fornecedor::findOne($id);
         $camposRequisicao = $request->all();
-        
+
         foreach ($camposRequisicao as $key => $value) {
             if ($key != '_token') {
                 $fornecedor->$key = strtoupper($value);

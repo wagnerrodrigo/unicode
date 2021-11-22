@@ -52,7 +52,7 @@
 }
 
 #main .main-content {
-    padding-top: .5rem;
+    padding-top: 0.5rem;
 }
 
 #main .main-content .page-title h3 {
@@ -491,20 +491,18 @@ footer {
     padding-top: 2rem;
 }
 
-
-/* inicio do css personalizado */
-
+/*inicio css personalizado */
 .input-add {
     width: 30rem;
 }
 
-.ResultadoCnpjCpf {
+.resultado-busca {
     width: 30rem;
     background-color: #ccc;
     position: absolute;
 }
 
-.ResultadoCnpjCpf .item {
+.resultado-busca .item {
     display: block;
     width: 30rem;
     padding: 10px;
@@ -518,12 +516,7 @@ footer {
     color: #fff;
 }
 
-
-/* fim do css personalizado  */
-
-.input-add {
-    width: 30rem;
-}
+/*fim css personalizado */
 
 .select-tab {
     width: 35rem;
@@ -1495,13 +1488,12 @@ footer {
     box-shadow: 0 5px 15px rgba(36, 104, 146, 0.6);
     border: none;
 }
-
-.error {
+.error{
     color: #cc0000;
     font-size: 15px;
     font-weight: 600;
-}
 
+}
 #error {
     height: 100vh;
     width: 100%;

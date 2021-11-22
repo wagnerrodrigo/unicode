@@ -11,19 +11,19 @@ class Despesa extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_despesa', 
-        'fk_tab_centro_custo_id', 
-        'fk_tab_empresa_id', 
-        'fk_tab_tipo_despesa_id', 
-        'numero_despesa', 
-        'qt_parcelas_despesa', 
-        'serie_despesa', 
-        'dt_emissao', 
-        'valor_total_despesa', 
-        'fk_status_despesa_id', 
-        'fk_tab_fornecedor_id', 
-        'fk_tab_empregado_id',    
-        'dt_inicio', 
+        'id_despesa',
+        'fk_tab_centro_custo_id',
+        'fk_tab_empresa_id',
+        'fk_tab_tipo_despesa_id',
+        'numero_despesa',
+        'qt_parcelas_despesa',
+        'serie_despesa',
+        'dt_emissao',
+        'valor_total_despesa',
+        'fk_status_despesa_id',
+        'fk_tab_fornecedor_id',
+        'fk_tab_empregado_id',
+        'dt_inicio',
         'dt_fim'
     ];
     //Ao passar parametros, se atentar a ordem que é passado na query
@@ -47,7 +47,7 @@ class Despesa extends Model
             dt_emissao = ?, valor_total_despesa = ?, fk_status_despesa_id = ?,
             fk_tab_fornecedor_id = ?, fk_tab_empregado_id = ?, dt_inicio = ?)
         values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null )", [
-           
+
             $despesa->fk_tab_centro_custo_id,
             $despesa->fk_tab_empresa_id,
             $despesa->fk_tab_tipo_despesa_id,
@@ -59,7 +59,7 @@ class Despesa extends Model
             $despesa->fk_status_despesa_id,
             $despesa->fk_tab_fornecedor_id,
             $despesa->fk_tab_empregado_id,
-            $despesa->dt_inicio 
+            $despesa->dt_inicio
         ]);
         //values(cnpj,razao_social,inscricao_estadual,dt_inicio,dt_fim,nome_fantasia)
     }
@@ -79,14 +79,15 @@ class Despesa extends Model
     }
 
 
-    static function set($despesa){
-        DB::update( "UPDATE intranet.tab_despesa
+    static function set($despesa)
+    {
+        DB::update("UPDATE intranet.tab_despesa
         SET fk_tab_centro_custo_id = ?, fk_tab_empresa_id = ?, fk_tab_tipo_despesa_id = ?, 
             numero_despesa = ?, qt_parcelas_despesa = ?, serie_despesa = ?, 
             dt_emissao = ?, valor_total_despesa = ?, fk_status_despesa_id = ?,
             fk_tab_fornecedor_id = ?, fk_tab_empregado_id = ? , dt_inicio = ? 
         WHERE id_despesa = ?", [
-                
+
             $despesa->fk_tab_centro_custo_id,
             $despesa->fk_tab_empresa_id,
             $despesa->fk_tab_tipo_despesa_id,
@@ -98,8 +99,8 @@ class Despesa extends Model
             $despesa->fk_status_despesa_id,
             $despesa->fk_tab_fornecedor_id,
             $despesa->fk_tab_empregado_id,
-            $despesa->dt_inicio, 
-            $despesa->id_despesa 
+            $despesa->dt_inicio,
+            $despesa->id_despesa
         ]);
     }
 

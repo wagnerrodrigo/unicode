@@ -32,8 +32,8 @@ class Fornecedor extends Model
 
     static function create($fornecedor)
     {
-        DB::insert("insert into intranet.tab_fornecedor 
-        (nu_cpf_cnpj,de_razao_social,inscricao_estadual,dt_inicio,dt_fim,de_nome_fantasia) 
+        DB::insert("insert into intranet.tab_fornecedor
+        (nu_cpf_cnpj,de_razao_social,inscricao_estadual,dt_inicio,dt_fim,de_nome_fantasia)
         values (?, ?, ?, ?, null, ? )", [
             $fornecedor->nu_cpf_cnpj,
             $fornecedor->de_razao_social,
@@ -46,16 +46,32 @@ class Fornecedor extends Model
 
     static function findOne($id)
     {
-        $data = DB::select("SELECT * FROM intranet.tab_fornecedor 
+        $data = DB::select("SELECT * FROM intranet.tab_fornecedor
         WHERE id_fornecedor = ?;", [$id]);
 
         $fornecedor = $data[0];
         return $fornecedor;
     }
 
+    static function findByName($nome)
+    {
+        $fornecedor = DB::select("SELECT * FROM intranet.tab_fornecedor
+        WHERE de_razao_social like '%" . $nome . "%';");
+
+        return $fornecedor;
+    }
+
+    static function findByCnpj($cnpj)
+    {
+        $fornecedor = DB::select("SELECT * FROM intranet.tab_fornecedor
+        WHERE nu_cpf_cnpj like '%" . $cnpj . "%';");
+
+        return $fornecedor;
+    }
+
     static function set($fornecedor)
     {
-        DB::update("UPDATE intranet.tab_fornecedor 
+        DB::update("UPDATE intranet.tab_fornecedor
         SET de_razao_social = ?, inscricao_estadual = ?, dt_inicio = ?, de_nome_fantasia = ?
         WHERE id_fornecedor = ?", [
             $fornecedor->de_razao_social,
@@ -77,7 +93,7 @@ class Fornecedor extends Model
 
     static function del($dataFim, $id)
     {
-        DB::update("UPDATE intranet.tab_fornecedor 
+        DB::update("UPDATE intranet.tab_fornecedor
         SET dt_fim = ?
         WHERE id_fornecedor = ?", [$dataFim, $id]);
     }

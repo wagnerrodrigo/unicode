@@ -28,6 +28,8 @@ use App\Http\Controllers\ReceitaController;
 use App\Http\Controllers\ApiViaCepController;
 use App\Http\Controllers\InstituicaoFinanceiraController;
 use App\Http\Controllers\EnderecoController;
+use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\CentroCustosController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -50,6 +52,8 @@ Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('forne
 Route::get('/fornecedores/{id}', [FornecedorController::class, 'show'])->name('show-fornecedor');
 Route::get('/fornecedores/cnpj_cpf/{nu_cpf_cnpj}', [FornecedorController::class, 'showCnpjCpf']);
 Route::post('/fornecedores', [FornecedorController::class, 'store'])->name('fornecedores');
+Route::get('/fornecedores/cnpj/{cnpj}', [FornecedorController::class, 'showByCnpj']);
+Route::get('/fornecedores/nome/{name}', [FornecedorController::class, 'showByName']);
 Route::post('/fornecedores/editar/{id}', [FornecedorController::class, 'edit'])->name('edit-fornecedores');
 Route::post('/fornecedores/delete/{id}', [FornecedorController::class, 'destroy'])->name('destroy-fornecedores');
 
@@ -64,6 +68,19 @@ Route::get('/despesas', [DespesaController::class, 'index'])->name('despesas');
 Route::get('/despesas/adicionar', [DespesaController::class, 'formDespesa'])->name('adicionar-despesa');
 Route::post('/despesas/adicionar', [DespesaController::class, 'store'])->name('add-despesas');
 Route::get('/despesas/{id}', [DespesaController::class, 'show']);
+
+//rotas Despesas
+Route::get('/empresas', [EmpresaController::class, 'index'])->name('empresas');
+Route::get('/empresas/adicionar', [EmpresaController::class, 'formEmpresa'])->name('adicionar-empresa');
+Route::post('/empresas/adicionar', [EmpresaController::class, 'store'])->name('add-empresas');
+Route::get('/empresas/{id}', [EmpresaController::class, 'show']);
+Route::get('/empresas/cnpj/{cnpj}', [EmpresaController::class, 'showByCnpj']);
+Route::get('/empresas/nome/{name}', [EmpresaController::class, 'showByName']);
+
+
+//Centro de custo Empresa rotas
+Route::get('/centroCustoEmpresa/{id}', [CentroCustosController::class, 'showById']);
+Route::get('/centroCustoEmpresa/nome/{nome}', [CentroCustosController::class, 'showByName']);
 
 //rotas Lançamentos
 Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
@@ -88,7 +105,7 @@ Route::post('/servicos/delete/{id}', [ServicoController::class, 'destroy']);
 Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos');
 Route::get('/produtos/{id}', [ProdutoController::class, 'show'])->name('lista-produtos');
 Route::post('/produtos', [ProdutoController::class, 'store']);
-Route::post('/produtos/editar/{id}',[ProdutoController::class, 'edit']);
+Route::post('/produtos/editar/{id}', [ProdutoController::class, 'edit']);
 Route::post('/produtos/delete/{id}', [ProdutoController::class, 'destroy']);
 
 
@@ -113,9 +130,9 @@ Route::post('/contas-bancarias/delete/{id}', [ContaBancariaController::class, 'd
 //rotas Instituições Bancárias
 Route::get('/instituicoes-financeira', [InstituicaoFinanceiraController::class, 'index'])->name('instituicoes-financeira');
 Route::get('/instituicoes-financeira/{id}', [InstituicaoFinanceiraController::class, 'show'])->name('instituicoes-financeira-show');
-Route::post('/instituicoes-financeira',[InstituicaoFinanceiraController::class, 'store']);
-Route::post('/instituicoes-financeira/editar/{id}',[InstituicaoFinanceiraController::class, 'edit']);
-Route::post('/instituicoes-financeira/delete/{id}',[InstituicaoFinanceiraController::class, 'destroy']);
+Route::post('/instituicoes-financeira', [InstituicaoFinanceiraController::class, 'store']);
+Route::post('/instituicoes-financeira/editar/{id}', [InstituicaoFinanceiraController::class, 'edit']);
+Route::post('/instituicoes-financeira/delete/{id}', [InstituicaoFinanceiraController::class, 'destroy']);
 
 // rotas de Contas a pagar
 Route::get('/contas', [ContaPagarController::class, 'index'])->name('contas-pagar');

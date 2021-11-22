@@ -12,15 +12,15 @@
                 <div class="justify-content-center " id="list-despesa" style="padding: 10px;">
 
                     <div class="d-flex mt-10" style="width: 100%">
-                        <div class="px-5 mb-3">
-                            <strong>EMPRESA</strong>
-                            <select class="form-control input-add" name="empresa" id="empresa">
-                                <option selected value="pendente">Pendente</option>
-                                <option value="pago">Pago</option>
-                                <option value="aprovado">Aprovado</option>
-                                <option value="rejeitado">Rejeitado</option>
-                            </select>
-                        </div>
+                        <form action="" name="form_busca_fornecedor" id="form_busca_fornecedor">
+                            <div class="px-5 mb-3">
+                                <strong>EMPRESA</strong>
+                                <input type="text" id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-add" name="empresa" />
+                                <div id="results_empresa" class="resultado-busca">
+
+                                </div>
+                            </div>
+                        </form>
 
                         <div class="px-5 mb-3">
                             <strong>REGIÃO</strong>
@@ -49,12 +49,7 @@
                         <div class="px-5 mb-3">
                             <strong>SUB CENTRO CUSTO</strong>
                             <select class="form-control input-add" name="centro_de_custo" id="centro_de_custo">
-                                <option selected value="centro_de_custo_1">Centro de custo 1</option>
-                                <option value="centro_de_custo_2">Centro de custo 2</option>
-                                <option value="centro_de_custo_3">Centro de custo 3</option>
-                                <option value="centro_de_custo_4">Centro de custo 4</option>
-                                <option value="centro_de_custo_5">Centro de custo 5</option>
-                                <option value="centro_de_custo_6">Centro de custo 6</option>
+                                <option value=""></option>
                             </select>
                         </div>
                     </div>
@@ -90,18 +85,6 @@
                                     <strong>NOME/RAZÃO SOCIAL</strong>
                                     <input type="text" placeholder="Razão Social" class="form-control input-add" name="razao_social" readonly />
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Representante Legal</strong>
-                                <input type="text" placeholder="Informe o numero" class="form-control input-add" name="representante" readonly />
-                            </div>
-
-                            <div class="px-5 mb-3">
-                                <strong>Cpf do Representante Legal</strong>
-                                <input type="text" placeholder="Informe o numero" class="form-control input-add" name="cpf_representante" readonly />
                             </div>
                         </div>
 
@@ -323,7 +306,8 @@
 
 <script src="{{asset('assets/js/main.js')}}"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="{{asset('assets/js/custom-js/despesa.js')}}"></script>
 
 
 <script>
