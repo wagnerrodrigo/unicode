@@ -50,6 +50,7 @@ Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('finance
 Route::get('/fornecedores/adicionar', [FornecedorController::class, 'formFornecedores'])->name('add-fornecedor');
 Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('fornecedores');
 Route::get('/fornecedores/{id}', [FornecedorController::class, 'show'])->name('show-fornecedor');
+Route::get('/fornecedores/cnpj_cpf/{nu_cpf_cnpj}', [FornecedorController::class, 'showCnpjCpf']);
 Route::post('/fornecedores', [FornecedorController::class, 'store'])->name('fornecedores');
 Route::get('/fornecedores/cnpj/{cnpj}', [FornecedorController::class, 'showByCnpj']);
 Route::get('/fornecedores/nome/{name}', [FornecedorController::class, 'showByName']);
