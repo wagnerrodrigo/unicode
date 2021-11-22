@@ -15,36 +15,6 @@ $(document).ready(function () {
     });
 });
 
-/*$("#busca_empresa").keyup(function () {
-    var words = $(this).val();
-    if (words != "") {
-        $.ajax({
-            type: "GET",
-            url: `http://localhost:8000/empresas/nome/${words}`,
-            dataType: "json",
-        })
-            .done(function (response) {
-                console.log(response);
-                $("#results_empresa").html("");
-                //mostra os resultados da busca em uma div
-                $.each(response, function (key, val) {
-                    $("#results_empresa").append(
-                        '<div class="item">' + val.de_empresa + "</div>"
-                    );
-                });
-                //seleciona a empresa desejada
-                $(".item").click(function () {
-                    $("#busca_empresa").val($(this).text());
-                    $("#results_empresa").html("");
-                });
-            })
-            .fail(function () {
-                $("#results_empresa").html("");
-            });
-    } else {
-        $("#results_empresa").html("");
-    }
-});*/
 
 $("#busca_empresa").keyup(function () {
     var words = $(this).val();
@@ -69,14 +39,6 @@ $("#busca_empresa").keyup(function () {
                     $("#results_empresa").html("");
 
                     console.log(response);
-
-                    //console.log(result.id_centro_custo);
-                   /*$.each(result, function (key, val) {
-                        console.log(val);
-                        $("#centro_de_custo").append(
-                            `<option value="${val.id_centro_custo}">` + val.de_empresa + "</option>"
-                        );
-                    });*/
                 });
             })
             .fail(function () {

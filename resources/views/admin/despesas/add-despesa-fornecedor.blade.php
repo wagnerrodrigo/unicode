@@ -221,7 +221,7 @@
                                 </select>
                             </div>
 
-                        
+
 
                         </div>
 
@@ -245,14 +245,14 @@
                                 <strong>Data de provisionamento</strong>
                                 <input type="date" class="form-control input-add" name="data_provisionamento" />
                             </div>
-                        </div> 
+                        </div>
 
-               
-                   
+
+
 
                         <div class="d-flex" style="width: 100%">
 
-                   
+
                         <div class="modal-footer">
                             <div class="col-sm-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-success me-1 mb-1">
@@ -309,43 +309,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="{{asset('assets/js/custom-js/despesa.js')}}"></script>
 
-
-<script>
-    //Seleciona quais campos irão aparecer na tela
-    $(document).ready(function() {
-        $('input:radio[name="seleciona_tela"]').on("change", function() {
-            if (this.checked && this.value == '1') {
-                $("#campo_razao_social").show();
-                $("#input-custom-field4, #input-custom-field5, #input-custom-field6").hide();
-            } else {
-                $("#input-custom-field4, #input-custom-field5, #input-custom-field6").show();
-                $("#campo_razao_social").hide();
-            }
-        });
-    });
-</script>
-
-<script>
-    //seleciona tipo de despesa
-    document.getElementById("btnDespesa").onclick = function() {
-        var radios = document.getElementsByName("tipo_despesa");
-        for (var i = 0; i < radios.length; i++) {
-            if (radios[i].checked) {
-                if (radios[i].value == "fornecedor") {
-                    document.getElementById("titulo-modal").innerHTML = "Adicionar Fornecedor";
-                    document.getElementById("tipo-documento").innerHTML = "CNPJ/CPF";
-                }
-                if (radios[i].value == "empregado") {
-                    document.getElementById("titulo-modal").innerHTML = "Adicionar Empregado";
-                    document.getElementById("tipo-documento").innerHTML = "CPF";
-                }
-            }
-        }
-    };
-</script>
-
-
-
 <script>
    $("#Cnpj_Cpf").keyup(function() {
             var digitoCnpjCpf = $(this).val();
@@ -378,7 +341,7 @@
             }
 
         });
-        
+
 </script>
 
 @endsection
