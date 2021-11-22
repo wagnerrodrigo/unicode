@@ -23,7 +23,31 @@
                         </div>
 
                         <div class="px-5 mb-3">
+                            <strong>REGIÃO</strong>
+                            <select class="form-control input-add" name="centro_de_custo" id="centro_de_custo">
+                                <option selected value="centro_de_custo_1">Centro de custo 1</option>
+                                <option value="centro_de_custo_2">Centro de custo 2</option>
+                                <option value="centro_de_custo_3">Centro de custo 3</option>
+                                <option value="centro_de_custo_4">Centro de custo 4</option>
+                                <option value="centro_de_custo_5">Centro de custo 5</option>
+                                <option value="centro_de_custo_6">Centro de custo 6</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mt-10" style="width: 100%">
+                        <div class="px-5 mb-3">
                             <strong>CENTRO DE CUSTO</strong>
+                            <select class="form-control input-add" name="empresa" id="empresa">
+                                <option selected value="pendente">Pendente</option>
+                                <option value="pago">Pago</option>
+                                <option value="aprovado">Aprovado</option>
+                                <option value="rejeitado">Rejeitado</option>
+                            </select>
+                        </div>
+
+                        <div class="px-5 mb-3">
+                            <strong>SUB CENTRO CUSTO</strong>
                             <select class="form-control input-add" name="centro_de_custo" id="centro_de_custo">
                                 <option selected value="centro_de_custo_1">Centro de custo 1</option>
                                 <option value="centro_de_custo_2">Centro de custo 2</option>
@@ -58,7 +82,7 @@
                         <div class="d-flex mt-10" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>CPF/CNPJ</strong>
-                                <input type="text" placeholder="CPF/CNPJ" class="form-control input-add" name="cpf_cnpj" readonly />
+                                <input type="text" placeholder="CPF/CNPJ" class="form-control input-add" name="cpf_cnpj" id="input_cpf_cnpj" readonly />
                             </div>
 
                             <div class="px-5 mb-3" id="campo_razao_social">
@@ -115,81 +139,7 @@
 
                         </div>
 
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Valor</strong>
-                                <input type="text" placeholder="Informe o numero" class="form-control input-add" name="numero_documento" />
-                            </div>
 
-                            <div class="px-5 mb-3">
-                                <strong>Moeda</strong>
-                                <select class="form-control input-add" name="moeda" id="moeda">
-                                    <option selected value="real">BRL</option>
-                                    <option value="dolar">USD</option>
-                                    <option value="euro">EUR</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Quantidade Parcelas</strong>
-                                <input type="text" class="form-control input-add" name="parcelas" />
-                            </div>
-
-                            <div class="px-5 mb-3">
-                                <strong>Data de vencimento</strong>
-                                <input type="date" class="form-control input-add" name="data_vencimento" />
-                            </div>
-                        </div>
-
-                        <div class="d-flex" style="width: 100%;">
-                            <div class="px-5 mb-3">
-                                <strong>Forma de Pagamento</strong>
-                                <select class="form-control input-add" name="forma_pagamento" id="forma_pagamento">
-                                    <option value="boleto">Boleto</option>
-                                    <option value="pix">Pix</option>
-                                    <option value="deposito_conta">Deposito em conta</option>
-                                    <option value="transferencia">Transferencia em conta</option>
-                                </select>
-                            </div>
-                            <div class="px-5 mb-3">
-                                <strong>Data de provisionamento</strong>
-                                <input type="date" class="form-control input-add" name="data_provisionamento" />
-                            </div>
-                        </div>
-
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Tipo de Documento</strong>
-                                <input type="text" class="form-control input-add" name="tipo_documento" />
-                            </div>
-                            <div class="px-5 mb-3">
-                                <strong>Numero da nota ou Documento</strong>
-                                <input type="text" class="form-control input-add" name="numero_nota_documento" />
-                            </div>
-                        </div>
-
-                        <div class="d-flex" style="width: 100%;">
-                            <div class="px-5 mb-3">
-                                <div class="d-flex mt-10" style="width: 100%">
-                                    <strong>Rateio</strong>
-                                </div>
-
-                                <div class="d-flex mt-10" style="width: 100%">
-                                    <div class="px-5 mb-3">
-                                        <strong for="input_fornecedor form-check-primary">Rateio por item</strong>
-                                        <input class="form-check-input" type="radio" name="rateio" id="rateio_item" value="rateio_item">
-                                    </div>
-
-                                    <div class="px-5 mb-3 ">
-                                        <strong for="input_empregado">Rateio Total</strong>
-                                        <input class="form-check-input" type="radio" name="rateio" id="rateio_total" value="rateio_total">
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <h3>Itens</h3>
@@ -229,14 +179,97 @@
                             <!-- Fim da tabela de itens -->
                         </div>
 
+<br>
+<hr>
+<hr>
+<br>
+
+
+                    <div class="d-flex" style="width: 100%;">
+                        <div class="px-5 mb-3">
+                            <div class="d-flex mt-10" style="width: 100%">
+                                <strong>Rateio</strong>
+                            </div>
+
+                            <div class="d-flex mt-10" style="width: 100%">
+                                <div class="px-5 mb-3">
+                                    <strong for="input_fornecedor form-check-primary">Rateio por item</strong>
+                                    <input class="form-check-input" type="radio" name="rateio" id="rateio_item" value="rateio_item">
+                                </div>
+
+                                <div class="px-5 mb-3 ">
+                                    <strong for="input_empregado">Rateio Total</strong>
+                                    <input class="form-check-input" type="radio" name="rateio" id="rateio_total" value="rateio_total">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                         <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Valor</strong>
+                                <input type="text" placeholder="Informe o numero" class="form-control input-add" name="numero_documento" />
+                            </div>
 
                             <div class="px-5 mb-3">
-                                <strong>Valor Total</strong>
-                                <input type="text" class="form-control" value="R$100.000,00" name="valor" style="width: 120px" readonly>
+                                <strong>Moeda</strong>
+                                <select class="form-control input-add" name="moeda" id="moeda">
+                                    <option selected value="real">BRL</option>
+                                    <option value="dolar">USD</option>
+                                    <option value="euro">EUR</option>
+                                </select>
                             </div>
                         </div>
 
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Quantidade Parcelas</strong>
+                                <input type="text" class="form-control input-add" name="parcelas" />
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Forma de Pagamento</strong>
+                                <select class="form-control input-add" name="forma_pagamento" id="forma_pagamento">
+                                    <option value="boleto">Boleto</option>
+                                    <option value="pix">Pix</option>
+                                    <option value="deposito_conta">Deposito em conta</option>
+                                    <option value="transferencia">Transferencia em conta</option>
+                                </select>
+                            </div>
+
+                        
+
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Tipo de Documento</strong>
+                                <input type="text" class="form-control input-add" name="tipo_documento" />
+                            </div>
+                            <div class="px-5 mb-3">
+                                <strong>Numero da nota ou Documento</strong>
+                                <input type="text" class="form-control input-add" name="numero_nota_documento" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%;">
+                            <div class="px-5 mb-3">
+                                <strong>Data de vencimento</strong>
+                                <input type="date" class="form-control input-add" name="data_vencimento" />
+                            </div>
+                            <div class="px-5 mb-3">
+                                <strong>Data de provisionamento</strong>
+                                <input type="date" class="form-control input-add" name="data_provisionamento" />
+                            </div>
+                        </div> 
+
+               
+                   
+
+                        <div class="d-flex" style="width: 100%">
+
+                   
                         <div class="modal-footer">
                             <div class="col-sm-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-success me-1 mb-1">
@@ -269,12 +302,12 @@
                         <div class="form-group">
                             <strong id="tipo-documento"></strong>
                             <input type="text" class="form-control" id="Cnpj_Cpf" name="cnpj">
-                            <div id="ResultadoCnpjCpf" ></div>
+                            <div class="ResultadoCnpjCpf input-add" id="ResultadoCnpjCpf" ></div>
                         </div>
                 </form>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="btnDespesa">
+                    <button type="button" class="btn btn-success" id="btnCnpj_Cpf" >
                         Selecionar
                     </button>
                 </div>
@@ -332,7 +365,7 @@
 <script>
    $("#Cnpj_Cpf").keyup(function() {
             var digitoCnpjCpf = $(this).val();
-            console.log(digitoCnpjCpf);
+            console.log(digitoCnpjCpf + "primeiro");
 
             if (digitoCnpjCpf != '') {
 
@@ -343,10 +376,12 @@
                 }).done(function(response) {
                     $("#ResultadoCnpjCpf").html('');
                     console.log(response);
+                    //mostra os resultados da busca em uma div
                     $.each(response, function(key, val) {
                         $('#ResultadoCnpjCpf').append('<div class="item">' + val.de_razao_social +
                             '</div>');
                     })
+                    //seleciona a empresa desejada
                     $('.item').click(function() {
                         $('#Cnpj_Cpf').val($(this).text());
                         $('#ResultadoCnpjCpf').html('');
@@ -359,7 +394,7 @@
             }
 
         });
-
+        
 </script>
 
 @endsection
