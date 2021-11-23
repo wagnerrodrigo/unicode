@@ -30,6 +30,7 @@ use App\Http\Controllers\InstituicaoFinanceiraController;
 use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CentroCustosController;
+use App\Http\Controllers\ConciliacaoController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -143,6 +144,9 @@ Route::get('/enderecos/empresas', [EnderecoController::class, 'selectEmpresa']);
 Route::get('/enderecos/adicionar', [EnderecoController::class, 'formEndereco']);
 Route::get('/enderecos/{id}', [EnderecoController::class, 'show']);
 //Route::post('/enderecos/adicionar', [EnderecoController::class, 'store']);
+
+// rotas de pagamentos
+// Route::get('/conciliacoes',[ConciliacaoController::class, 'index']);
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {
