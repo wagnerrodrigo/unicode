@@ -22,10 +22,10 @@
                     @else
                     <thead>
                         <tr>
-                            <th>Razão Social</th>
+                            <th>RAZÃO SSOCIAL</th>
                             <th>CPF/CNPJ</th>
-                            <th>Inscrição Estadual</th>
-                            <th>Ações</th>
+                            <th>INSCRIÇÃO ESTADUAL</th>
+                            <th>AÇÕES</th>
                         </tr>
                     </thead>
 

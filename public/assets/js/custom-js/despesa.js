@@ -1,6 +1,6 @@
 //Seleciona quais campos irão aparecer na tela
-$(document).ready(function () {
-    $('input:radio[name="seleciona_tela"]').on("change", function () {
+$(document).ready(function() {
+    $('input:radio[name="seleciona_tela"]').on("change", function() {
         if (this.checked && this.value == "1") {
             $("#campo_razao_social").show();
             $(
@@ -16,32 +16,32 @@ $(document).ready(function () {
 });
 
 
-$("#busca_empresa").keyup(function () {
+$("#busca_empresa").keyup(function() {
     var words = $(this).val();
     if (words != "") {
         $.ajax({
-            type: "GET",
-            url: `http://localhost:8000/centroCustoEmpresa/nome/${words}`,
-            dataType: "json",
-        })
-            .done(function (response) {
+                type: "GET",
+                url: `http://localhost:8000/centroCustoEmpresa/nome/${words}`,
+                dataType: "json",
+            })
+            .done(function(response) {
                 $("#results_empresa").html("");
                 //mostra os resultados da busca em uma div
                 console.log(response);
-                $.each(response, function (key, val) {
+                $.each(response, function(key, val) {
                     $("#results_empresa").append(
                         '<div class="item">' + val.de_empresa + "</div>"
                     );
                 });
                 //seleciona a empresa desejada
-                $(".item").click(function () {
+                $(".item").click(function() {
                     $("#busca_empresa").val($(this).text());
                     $("#results_empresa").html("");
 
                     console.log(response);
                 });
             })
-            .fail(function () {
+            .fail(function() {
                 $("#results_empresa").html("");
             });
     } else {
@@ -50,7 +50,7 @@ $("#busca_empresa").keyup(function () {
 });
 
 //seleciona tipo de despesa
-document.getElementById("btnDespesa").onclick = function () {
+document.getElementById("btnDespesa").onclick = function() {
     var radios = document.getElementsByName("tipo_despesa");
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
@@ -68,3 +68,38 @@ document.getElementById("btnDespesa").onclick = function () {
         }
     }
 };
+
+
+// busca dados do banco pelo cnpj/cpf 
+
+$("#Cnpj_Cpf").keyup(function() {
+    var digitoCnpjCpf = $(this).val();
+    console.log(digitoCnpjCpf + "primeiro");
+
+    if (digitoCnpjCpf != '') {
+
+        $.ajax({
+            url: `/fornecedores/cnpj_cpf/${digitoCnpjCpf}`,
+            type: 'GET',
+            dataType: 'json',
+        }).done(function(response) {
+            $("#ResultadoCnpjCpf").html('');
+            console.log(response);
+            //mostra os resultados da busca em uma div
+            $.each(response, function(key, val) {
+                    $('#ResultadoCnpjCpf').append('<div class="item">' + val.de_razao_social +
+                        '</div>');
+                })
+                //seleciona a empresa desejada
+            $('.item').click(function() {
+                $('#Cnpj_Cpf').val($(this).text());
+                $('#ResultadoCnpjCpf').html('');
+            })
+        }).fail(function() {
+            $('#ResultadoCnpjCpf').html('');
+        });
+    } else {
+        $('#ResultadoCnpjCpf').html('');
+    }
+
+});
