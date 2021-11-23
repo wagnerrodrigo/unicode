@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Fornecedor;
 use Illuminate\Http\Request;
+use App\Utils\Mascaras\Mascaras;
 
 class FornecedorController extends Controller
 {
@@ -15,15 +16,27 @@ class FornecedorController extends Controller
      */
     public function index()
     {
+
         $fornecedores = Fornecedor::selectAll();
 
         $fornecedoresAtivos = [];
         $fornecedoresInativos = [];
-
+        //percorre o array de retorno de fornecedores
         for ($i = 0; $i < count($fornecedores); $i++) {
+            //verifica se o fornecedor está ativo - pela data fim nula
             if ($fornecedores[$i]->dt_fim === null) {
+                //verifica se a variavel nu_cpf_cnpj tem 14 digitos ou 11
+                if (strlen($fornecedores[$i]->nu_cpf_cnpj) === 14) {
+                    //se for 14 digitos, é um cnpj e é aplicada a mascara
+                    $fornecedores[$i]->nu_cpf_cnpj = Mascaras::mask($fornecedores[$i]->nu_cpf_cnpj, '##.###.###/####-##');
+                } else {
+                    //se for 11 digitos, é um cpf e é aplicada a mascara
+                    $fornecedores[$i]->nu_cpf_cnpj = Mascaras::mask($fornecedores[$i]->nu_cpf_cnpj, '###.###.###-##');
+                }
+                //adiciona o fornecedor ativo ao array de fornecedores ativos
                 $fornecedoresAtivos[] = $fornecedores[$i];
             } else {
+                //adiciona o fornecedor inativo ao array de fornecedores inativos
                 $fornecedoresInativos[] = $fornecedores[$i];
             };
         }
@@ -58,8 +71,6 @@ class FornecedorController extends Controller
         $fornecedor->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
 
         Fornecedor::create($fornecedor);
-
-        echo "<script> alert('Fornecedor criado com sucesso!!') </script>";
 
         return redirect()->route('fornecedores');
     }
@@ -97,7 +108,8 @@ class FornecedorController extends Controller
         return view('admin.fornecedor.fornecedor', compact('fornecedor'));
     }
 
-    public function showCnpjCpf($nu_cpf_cnpj){
+    public function showCnpjCpf($nu_cpf_cnpj)
+    {
         $fornecedor = Fornecedor::buscaCnpjCpf($nu_cpf_cnpj);
         return response()->json($fornecedor);
     }

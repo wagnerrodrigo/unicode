@@ -7,7 +7,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Novo Fornecedor</h1>
+                <h1>Novo Fornecedor/Prestador</h1>
             </div>
             <div class="card-body d-flex justify-content-center">
                 <!--inicio Tab -->
@@ -36,7 +36,7 @@
                                 <div class="px-5 mb-3">
                                     <div>
                                         <strong>CPF/CNPJ</strong>
-                                        <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" name="nu_cpf_cnpj" style="width: 358px" />
+                                        <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" onkeypress='mascaraMutuario(this,cpfCnpj)' maxlength="18" onblur='clearTimeout()' name="nu_cpf_cnpj" style="width: 358px" />
                                     </div>
                                 </div>
                             </div>
@@ -57,43 +57,43 @@
                     </div>
 
                     <div class="d-flex" style="width: 100%">
-                                <div class="px-5 mb-3">
-                                    <h3>Endereço</h3>
-                                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlarge">
-                                        <i class="bi bi-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="px-5 mb-3">
+                            <h3>Endereço</h3>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlarge">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                            <div class="d-flex" style="width: 100%; margin: 15px;">
-                                <!-- Inicio da tabela de itens -->
-                                <div class="table-responsive">
-                                    <table class="table table-bordered mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th>Logradouro</th>
-                                                <th>Numero</th>
-                                                <th>Bairro</th>
-                                                <th>Cidade</th>
-                                                <th>Remover</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-bold-500">RUA SÃO BENTO</td>
-                                                <td>8</td>
-                                                <td class="text-bold-500">CENTRO</td>
-                                                <td>RIO DE JANEIRO</td>
-                                                <td>
-                                                    <!-- mudar a rota -->
-                                                    <a href="#" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- Fim da tabela de itens -->
-                            </div>
+                    <div class="d-flex" style="width: 100%; margin: 15px;">
+                        <!-- Inicio da tabela de itens -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Logradouro</th>
+                                        <th>Numero</th>
+                                        <th>Bairro</th>
+                                        <th>Cidade</th>
+                                        <th>Remover</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-bold-500">RUA SÃO BENTO</td>
+                                        <td>8</td>
+                                        <td class="text-bold-500">CENTRO</td>
+                                        <td>RIO DE JANEIRO</td>
+                                        <td>
+                                            <!-- mudar a rota -->
+                                            <a href="#" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Fim da tabela de itens -->
+                    </div>
 
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
@@ -195,7 +195,7 @@
 <!-- Fim modal Adicionar -->
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-
+<script src="{{ asset('assets/js/custom-js/mascara-cnpj-cpf.js') }}"></script>
 <script>
     $(document).ready(function() {
 

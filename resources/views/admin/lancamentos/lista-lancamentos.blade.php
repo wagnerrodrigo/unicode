@@ -7,7 +7,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Lista Lançamento</h1>
+                <h1>Detalhe do lançamento</h1>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#xlarge">
                     <i class="bi bi-plus-circle"></i> Novo Lançamento
                 </button>
@@ -16,22 +16,22 @@
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>NUMERO DESPESA</th>
-                            <th>NUMERO PARCELA</th>
-                            <th>VALOR</th>
+                            <th>DESPESA</th>
+                            <th>CONDIÇÃO DE PAGAMENTO</th>
+                            <th>DATA LANÇAMENTO</th>
                             <th>DATA VENCIMENTO</th>
                             <th>AÇÕES</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>1251</td>
-                            <td>1/12</td>
-                            <td>R$1560.00</td>
+                            <td>TESTE</td>
+                            <td>Á Vista</td>
+                            <td>25/11/2021</td>
                             <td>25/11/2021</td>
                             <td>
                                 <!-- muda a rota-->
-                                <a href="" class="btn btn-success" style="padding: 8px 12px;">
+                                <a href="{{route('lancamentos-show')}}" class="btn btn-success" style="padding: 8px 12px;">
                                     <i class="bi bi-eye-fill"></i>
                                 </a>
                                 <a href="" class="btn btn-danger" style="padding: 8px 12px;">

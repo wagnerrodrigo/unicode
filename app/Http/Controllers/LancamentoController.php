@@ -13,7 +13,7 @@ class LancamentoController extends Controller
      */
     public function index()
     {
-        return view('admin.lancamento.lista-lancamento');
+        return view('admin.lancamentos.lista-lancamentos');
     }
 
     /**
@@ -43,9 +43,9 @@ class LancamentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        return view('admin.lancamentos.detalhes-lancamento');
     }
 
     /**
