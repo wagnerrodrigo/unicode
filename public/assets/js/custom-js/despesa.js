@@ -34,8 +34,9 @@ $("#busca_empresa").keyup(function () {
                 //seleciona a empresa desejada
                 $(".item").click(function () {
                     $("#busca_empresa").val($(this).text());
+                    $("#empresa").html("");
                     var id_empresa = $(this).attr("value");
-
+                    //busca centros de custo relacionados com a empresa e mostra no select
                     $("#results_empresa").html("");
                     $.ajax({
                         type: "GET",
@@ -45,7 +46,7 @@ $("#busca_empresa").keyup(function () {
                         //mostra os resultados da busca em uma div
                         $.each(response, function (key, val) {
                             $("#empresa").append(
-                                `<option value="${val.id_centro_custo}">${val.id_centro_custo}</option>`
+                                `<option value="${val.id_centro_custo}">${val.de_departamento} - ${val.de_carteira}</option>`
                             );
                         });
                     });

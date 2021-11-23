@@ -20,8 +20,9 @@ class CentroCusto extends Model
 
     static function findById($id)
     {
-        $centroCustos = DB::select("SELECT id_centro_custo, fk_empresa_id, fk_tab_departamento, fk_tab_carteira_id, dt_inicio, dt_fim
-        FROM intranet.tab_centro_custo        
+        $centroCustos = DB::select("SELECT * FROM intranet.tab_centro_custo
+        inner join intranet.tab_departamento on fk_tab_departamento = id_departamento
+        inner join intranet.tab_carteira on fk_tab_carteira_id = id_carteira 
         WHERE fk_empresa_id = ?", [$id]);
 
         return $centroCustos;
