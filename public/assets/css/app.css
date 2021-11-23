@@ -503,19 +503,19 @@ footer {
 }
 
 .resultado-busca {
-    width: 30rem;
+    width: 66rem;
     background-color: #ccc;
     position: absolute;
 }
 
 .resultado-busca .item {
     display: block;
-    width: 30rem;
+    width: 66rem;
     padding: 10px;
 }
 
 .item:hover {
-    width: 30rem;
+    width: 66rem;
     padding: 10px;
     cursor: pointer;
     background-color: #820ad1;
