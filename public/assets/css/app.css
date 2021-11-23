@@ -491,9 +491,15 @@ footer {
     padding-top: 2rem;
 }
 
+
 /*inicio css personalizado */
+
 .input-add {
     width: 30rem;
+}
+
+.input-busca {
+    width: 66rem;
 }
 
 .resultado-busca {
@@ -515,6 +521,7 @@ footer {
     background-color: #820ad1;
     color: #fff;
 }
+
 
 /*fim css personalizado */
 
@@ -1488,12 +1495,13 @@ footer {
     box-shadow: 0 5px 15px rgba(36, 104, 146, 0.6);
     border: none;
 }
-.error{
+
+.error {
     color: #cc0000;
     font-size: 15px;
     font-weight: 600;
-
 }
+
 #error {
     height: 100vh;
     width: 100%;
