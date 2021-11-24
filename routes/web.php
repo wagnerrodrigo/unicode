@@ -30,6 +30,8 @@ use App\Http\Controllers\InstituicaoFinanceiraController;
 use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CentroCustosController;
+use App\Http\Controllers\ClassificacaoContabilController;
+use App\Models\ClassificacaoContabil;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -120,6 +122,9 @@ Route::post('/centro-custos/delete/{id}', [CentroCustos::class, 'destroy']);
 // rotas Plano de contas
 Route::get('/plano-contas', [PlanoContaController::class, 'index'])->name('plano-contas');
 Route::get('/cadastro-planos-contas', [PlanoContaController::class, 'cadastro'])->name('cadastro-planos-contas');
+
+//rotas para classificacao contabil
+Route::get('/classificacao-contabil', [ClassificacaoContabilController::class, 'index'])->name('classificacao-contabil');
 
 // rotas Contas Bancárias
 Route::get('/contas-bancarias', [ContaBancariaController::class, 'index'])->name('contas-bancarias');

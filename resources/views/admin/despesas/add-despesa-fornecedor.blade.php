@@ -25,7 +25,7 @@
                         <div class="px-5 mb-3">
                             <strong>CENTRO DE CUSTO</strong>
                             <select class="form-control input-busca" name="empresa" id="empresa">
-                                <option selected value=""></option>
+                                <option selected value="" class="resultado-busca"></option>
                             </select>
                         </div>
 
@@ -69,12 +69,6 @@
                             <div class="px-5 mb-3">
                                 <strong>Classificação</strong>
                                 <select class="form-control input-add" name="classificacao" id="classificacao">
-                                    <option value="despesas_C_pessoal">DESPESAS C/ PESSOAL</option>
-                                    <option value="despesas_telefonia">DESPESAS TELEFONIA</option>
-                                    <option value="despesas_aluguel">DESPESAS ALUGUEL/COND/ENERGIA/AGUA</option>
-                                    <option value="despesas_impostos">DESPESAS IMPOSTOS, TAXAS E CONTRIBUIÇÕES</option>
-                                    <option value="despesas_juridica">DESPESAS JURÍDICAS</option>
-                                    <option value="despesas_depesas">DESPESAS GERAIS</option>
                                 </select>
                             </div>
 

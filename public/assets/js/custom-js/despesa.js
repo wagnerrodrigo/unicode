@@ -1,5 +1,5 @@
-//Seleciona quais campos irão aparecer na tela
 $(document).ready(function () {
+    //Seleciona quais campos irão aparecer na tela
     $('input:radio[name="seleciona_tela"]').on("change", function () {
         if (this.checked && this.value == "1") {
             $("#campo_razao_social").show();
@@ -13,6 +13,21 @@ $(document).ready(function () {
             $("#campo_razao_social").hide();
         }
     });
+
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:8000/classificacao-contabil`,
+        dataType: "json",
+    }).done(function (response) {
+        console.log(response);
+        //mostra os resultados da busca em uma div
+        $.each(response, function (key, val) {
+            $("#classificacao").append(
+                `<option value="${val.id_clasificacao_contabil}">${val.de_clasificacao_contabil}</option>`
+            );
+        });
+    });
+
 });
 
 $("#busca_empresa").keyup(function () {
