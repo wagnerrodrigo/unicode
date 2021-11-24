@@ -123,19 +123,32 @@ $("#Cnpj_Cpf").keyup(function() {
             $("#ResultadoCnpjCpf").html('');
             //mostra os resultados da busca em uma div
             $.each(response, function(key, val) {
-                    $('#ResultadoCnpjCpf').append('<div class="item">' + val.de_razao_social +
-                        '</div>');
+                    $('#ResultadoCnpjCpf').append(
+                        `<div class="item" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.de_razao_social} </div>`
+                    );
                 })
-                //seleciona a empresa desejada
+                //seleciona o cnpj ou cpf desejada
             $('.item').click(function() {
+
                 $('#Cnpj_Cpf').val($(this).text());
+                var idFornecedor = $(this).attr("value");
+
+
                 $('#ResultadoCnpjCpf').html('');
-                console.log(ResultadoCnpjCpf);
+                // preenche o campo de input_cpf_cnpj e o input_razao_social com base no item anterior
+                $.ajax({
+                    type: "GET",
+                    url: `/fornecedores/cnpj_cpf/${idFornecedor}`,
+                    dataType: "json",
+                }).done(function(response) {
+                    $('#btnCnpj_Cpf').click(function() {
+                        $("#input_cpf_cnpj").val(response[0].nu_cpf_cnpj);
+                        $("#input_razao_social").val(response[0].de_razao_social);
+                    });
+
+                });
             })
-            $('#btnCnpj_Cpf').click(function() {
-                // $('#input_cpf_cnpj').val(response.nu_cpf_cnpj);
-                // $('#input_razao_social').val(response.de_razao_social);
-            });
+
         }).fail(function() {
             $('#ResultadoCnpjCpf').html('');
         });

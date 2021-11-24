@@ -279,7 +279,7 @@
                             <div class="form-group">
                                 <strong id="tipo-documento"></strong>
                                 <input type="text" class="form-control" id="Cnpj_Cpf" name="cnpj">
-                                <div class="ResultadoCnpjCpf input-add" id="ResultadoCnpjCpf"></div>
+                                <div class="ResultadoCnpjCpf input-add" id="ResultadoCnpjCpf" value="" ></div>
                             </div>
                     </form>
 
