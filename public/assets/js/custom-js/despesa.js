@@ -112,7 +112,6 @@ document.getElementById("btnDespesa").onclick = function() {
 
 $("#Cnpj_Cpf").keyup(function() {
     var digitoCnpjCpf = $(this).val();
-    console.log(digitoCnpjCpf + "primeiro");
 
     if (digitoCnpjCpf != '') {
 
@@ -122,7 +121,6 @@ $("#Cnpj_Cpf").keyup(function() {
             dataType: 'json',
         }).done(function(response) {
             $("#ResultadoCnpjCpf").html('');
-            console.log(response);
             //mostra os resultados da busca em uma div
             $.each(response, function(key, val) {
                     $('#ResultadoCnpjCpf').append('<div class="item">' + val.de_razao_social +
@@ -132,7 +130,12 @@ $("#Cnpj_Cpf").keyup(function() {
             $('.item').click(function() {
                 $('#Cnpj_Cpf').val($(this).text());
                 $('#ResultadoCnpjCpf').html('');
+                console.log(ResultadoCnpjCpf);
             })
+            $('#btnCnpj_Cpf').click(function() {
+                // $('#input_cpf_cnpj').val(response.nu_cpf_cnpj);
+                // $('#input_razao_social').val(response.de_razao_social);
+            });
         }).fail(function() {
             $('#ResultadoCnpjCpf').html('');
         });
