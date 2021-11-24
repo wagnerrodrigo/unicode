@@ -46,7 +46,7 @@ $("#busca_empresa").keyup(function () {
                         //mostra os resultados da busca em uma div
                         $.each(response, function (key, val) {
                             $("#empresa").append(
-                                `<option value="${val.id_centro_custo}">${val.de_departamento} - ${val.de_carteira}</option>`
+                                `<option value="${val.id_centro_custo}">${val.de_carteira == '' ? val.de_departamento : val.de_departamento + ' - ' + val.de_carteira}</option>`
                             );
                         });
                     });
