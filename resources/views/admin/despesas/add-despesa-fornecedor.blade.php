@@ -68,7 +68,7 @@
                                     <div>
                                         <strong>NOME/RAZÃO SOCIAL</strong>
                                         <input type="text" placeholder="Razão Social" class="form-control input-add"
-                                            name="razao_social" readonly />
+                                            name="razao_social" id="input_razao_social" readonly />
                                     </div>
                                 </div>
                             </div>
@@ -285,7 +285,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" id="btnCnpj_Cpf">
-                            Selecionar
+                            Selecionar 
                         </button>
                     </div>
                 </div>
