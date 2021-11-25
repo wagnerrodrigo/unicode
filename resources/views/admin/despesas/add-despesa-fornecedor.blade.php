@@ -55,19 +55,12 @@
                             <div class="px-5 mb-3">
                                 <strong>CPF/CNPJ</strong>
                                 <input type="text" placeholder="CPF/CNPJ" class="form-control input-add" name="cpf_cnpj" id="input_cpf_cnpj" readonly />
-                                <div class="px-5 mb-3" id="campo_razao_social">
-                                    <div>
-                                        <strong>NOME/RAZÃO SOCIAL</strong>
-                                        <input type="text" placeholder="Razão Social" class="form-control input-add"
-                                            name="razao_social" id="input_razao_social" readonly />
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="px-5 mb-3" id="campo_razao_social">
                                 <div>
                                     <strong>NOME/RAZÃO SOCIAL</strong>
-                                    <input type="text" placeholder="Razão Social" class="form-control input-add" name="razao_social" readonly />
+                                    <input type="text" placeholder="Razão Social" class="form-control input-add" name="razao_social" id="input_razao_social" readonly />
                                 </div>
                             </div>
                         </div>
@@ -242,6 +235,7 @@
     </div>
 </div>
 
+
 <div class="modal-primary me-1 mb-1 d-inline-block">
     <!--primary theme Modal -->
     <div class="modal fade text-left" id="modal-busca" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
@@ -254,33 +248,19 @@
                     </button>
                 </div>
 
-    <div class="modal-primary me-1 mb-1 d-inline-block">
-        <!--primary theme Modal -->
-        <div class="modal fade text-left" id="modal-busca" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary">
-                        <h5 class="modal-title white" id="titulo-modal"></h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <i data-feather="x"></i>
-                        </button>
-                    </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <strong id="tipo-documento"></strong>
+                            <input type="text" class="form-control" id="Cnpj_Cpf" name="cnpj">
+                            <div class="ResultadoCnpjCpf input-add" id="ResultadoCnpjCpf" value=""></div>
+                        </div>
+                </form>
 
-                    <form>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <strong id="tipo-documento"></strong>
-                                <input type="text" class="form-control" id="Cnpj_Cpf" name="cnpj">
-                                <div class="ResultadoCnpjCpf input-add" id="ResultadoCnpjCpf" value="" ></div>
-                            </div>
-                    </form>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="btnCnpj_Cpf">
-                            Selecionar
-                        </button>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="btnCnpj_Cpf">
+                        Selecionar
+                    </button>
                 </div>
             </div>
         </div>
@@ -330,14 +310,14 @@
                             </div>
                         </div>
                 </div>
-                        <div class="modal-footer">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-success me-1 mb-1">
-                                    <i data-feather="check-circle"></i>Adicionar
-                                </button>
-                                 {{-- mudar a rota --}}
-                                <a href="{{route('add-despesas')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
-                            </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success me-1 mb-1">
+                            <i data-feather="check-circle"></i>Adicionar
+                        </button>
+                        {{-- mudar a rota --}}
+                        <a href="{{route('add-despesas')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                    </div>
                     </form>
                 </div>
             </div>
@@ -347,14 +327,10 @@
 <!-- Fim modal Adicionar -->
 
 
+<script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 
-
-
-
-    <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
-    <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
-
-    <script src="{{ asset('assets/js/vendors.js') }}"></script>
+<script src="{{ asset('assets/js/vendors.js') }}"></script>
 
 <script src="{{ asset('assets/js/vendors.js') }}"></script>
 
