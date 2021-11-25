@@ -55,6 +55,13 @@
                             <div class="px-5 mb-3">
                                 <strong>CPF/CNPJ</strong>
                                 <input type="text" placeholder="CPF/CNPJ" class="form-control input-add" name="cpf_cnpj" id="input_cpf_cnpj" readonly />
+                                <div class="px-5 mb-3" id="campo_razao_social">
+                                    <div>
+                                        <strong>NOME/RAZÃO SOCIAL</strong>
+                                        <input type="text" placeholder="Razão Social" class="form-control input-add"
+                                            name="razao_social" id="input_razao_social" readonly />
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="px-5 mb-3" id="campo_razao_social">
@@ -247,27 +254,107 @@
                     </button>
                 </div>
 
-                <form>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <strong id="tipo-documento"></strong>
-                            <input type="text" class="form-control" id="Cnpj_Cpf" name="cnpj">
-                            <div class="ResultadoCnpjCpf input-add" id="ResultadoCnpjCpf"></div>
-                        </div>
-                </form>
+    <div class="modal-primary me-1 mb-1 d-inline-block">
+        <!--primary theme Modal -->
+        <div class="modal fade text-left" id="modal-busca" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title white" id="titulo-modal"></h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="btnCnpj_Cpf">
-                        Selecionar
-                    </button>
+                    <form>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <strong id="tipo-documento"></strong>
+                                <input type="text" class="form-control" id="Cnpj_Cpf" name="cnpj">
+                                <div class="ResultadoCnpjCpf input-add" id="ResultadoCnpjCpf" value="" ></div>
+                            </div>
+                    </form>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="btnCnpj_Cpf">
+                            Selecionar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
-<script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+
+
+<!-- Inicio Modal Adicionar-->
+<div class="me-1 mb-1 d-inline-block">
+    <!--Extra Large Modal -->
+    <div class="modal fade text-left w-100" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel16">Novo Endereço</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x" data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{-- mudar a rota --}}
+                    <form action="/enderecos" method="POST" style="padding: 10px;">
+                        @csrf
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Produto/Serviço</strong>
+                                <input class="form-control mt-1" type="text" id="produto_servico" placeholder="Produto ou Servico" name="produto_servico" style="width: 358px" />
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Valor do item</strong>
+                                <input class="form-control mt-1" id="valor_item" type="text" placeholder="Valor do item" name="complemento" style="width: 358px" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+
+                            <div class="px-5 mb-3">
+                                <strong>Quantidade</strong>
+                                <input class="form-control mt-1" id="quantidade" type="text" placeholder="Quantidade do item" name="bairro" style="width: 358px" />
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Descrição</strong>
+                                <textarea cols="145" rows="1" class="form-control" type="text" placeholder="Descrição" name="descricao" style="width: 358px"></textarea>
+                            </div>
+                        </div>
+                </div>
+                        <div class="modal-footer">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-success me-1 mb-1">
+                                    <i data-feather="check-circle"></i>Adicionar
+                                </button>
+                                 {{-- mudar a rota --}}
+                                <a href="{{route('add-despesas')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fim modal Adicionar -->
+
+
+
+
+
+
+    <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+
+    <script src="{{ asset('assets/js/vendors.js') }}"></script>
 
 <script src="{{ asset('assets/js/vendors.js') }}"></script>
 

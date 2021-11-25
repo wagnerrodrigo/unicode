@@ -32,6 +32,8 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CentroCustosController;
 use App\Http\Controllers\ClassificacaoContabilController;
 use App\Models\ClassificacaoContabil;
+use App\Http\Controllers\ConciliacaoController;
+use App\Http\Controllers\EmpregadoController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -58,6 +60,9 @@ Route::get('/fornecedores/cnpj/{cnpj}', [FornecedorController::class, 'showByCnp
 Route::get('/fornecedores/nome/{name}', [FornecedorController::class, 'showByName']);
 Route::post('/fornecedores/editar/{id}', [FornecedorController::class, 'edit'])->name('edit-fornecedores');
 Route::post('/fornecedores/delete/{id}', [FornecedorController::class, 'destroy'])->name('destroy-fornecedores');
+
+// rotas Empregados
+Route::get('/empregados/cpf/{nu_cpf_cnpj}', [EmpregadoController::class, 'showCpf']);
 
 //rotas Usuarios
 Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios');
@@ -150,6 +155,9 @@ Route::get('/enderecos/empresas', [EnderecoController::class, 'selectEmpresa']);
 Route::get('/enderecos/adicionar', [EnderecoController::class, 'formEndereco']);
 Route::get('/enderecos/{id}', [EnderecoController::class, 'show']);
 //Route::post('/enderecos/adicionar', [EnderecoController::class, 'store']);
+
+// rotas de pagamentos
+// Route::get('/conciliacoes',[ConciliacaoController::class, 'index']);
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {

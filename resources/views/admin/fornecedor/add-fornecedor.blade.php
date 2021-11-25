@@ -41,7 +41,7 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex" style="width: 100%">
+                            {{-- <div class="d-flex" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>Representante Legal</strong>
                                     <input class="form-control mt-1" type="text" placeholder="Incrição estadual" name="inscricao_estadual" style="width: 358px" />
@@ -53,7 +53,7 @@
                                         <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" name="nu_cpf_cnpj" style="width: 358px" />
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                     </div>
 
                     <div class="d-flex" style="width: 100%">
