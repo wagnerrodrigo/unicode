@@ -114,6 +114,7 @@
                                             <th>Quantidade</th>
                                             <th>Valor Unitário</th>
                                             <th>Rateio</th>
+
                                             <th>Remover</th>
                                         </tr>
                                     </thead>
