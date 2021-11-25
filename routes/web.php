@@ -31,6 +31,7 @@ use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CentroCustosController;
 use App\Http\Controllers\ConciliacaoController;
+use App\Http\Controllers\EmpregadoController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -57,6 +58,9 @@ Route::get('/fornecedores/cnpj/{cnpj}', [FornecedorController::class, 'showByCnp
 Route::get('/fornecedores/nome/{name}', [FornecedorController::class, 'showByName']);
 Route::post('/fornecedores/editar/{id}', [FornecedorController::class, 'edit'])->name('edit-fornecedores');
 Route::post('/fornecedores/delete/{id}', [FornecedorController::class, 'destroy'])->name('destroy-fornecedores');
+
+// rotas Empregados
+Route::get('/empregados/cpf/{nu_cpf_cnpj}', [EmpregadoController::class, 'showCpf']);
 
 //rotas Usuarios
 Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios');
