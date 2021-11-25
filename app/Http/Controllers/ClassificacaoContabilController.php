@@ -13,4 +13,11 @@ class ClassificacaoContabilController extends Controller
 
         return response()->json($classificacaoContabil);
     }
+
+    public function showPlanoContas($id)
+    {
+        $classificacaoContabil = ClassificacaoContabil::selectById($id);
+
+        return response()->json($classificacaoContabil);
+    }
 }

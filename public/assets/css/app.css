@@ -522,6 +522,28 @@ footer {
     color: #fff;
 }
 
+.input-style{
+    background-color: #ccc;
+    position: absolute;
+    width: 30rem;
+}
+
+.input-style .classificacao{
+    display: block;
+    width: 66rem;
+    padding: 10px;
+}
+
+.classificacao:hover{
+    width: 30rem;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #820ad1;
+    color: #fff;
+}
+
+
+
 
 /*fim css personalizado */
 

@@ -14,20 +14,52 @@ $(document).ready(function () {
         }
     });
 
+    //fazer requisição ajax para buscar classificação contabil
     $.ajax({
         type: "GET",
         url: `http://localhost:8000/classificacao-contabil`,
         dataType: "json",
-    }).done(function (response) {
-        console.log(response);
-        //mostra os resultados da busca em uma div
-        $.each(response, function (key, val) {
-            $("#classificacao").append(
-                `<option value="${val.id_clasificacao_contabil}">${val.de_clasificacao_contabil}</option>`
-            );
-        });
-    });
+    })
+        .done(function (response) {
+            //traz os resultados do banco para uma div hidden
+            $.each(response, function (key, val) {
+                $("#itens_classificacao")
+                    .append(
+                        `<div class="classificacao" value="${val.id_clasificacao_contabil}">${val.de_clasificacao_contabil}</div>`
+                    )
+                    .hide();
+            });
+            //ao clicar aparece os campos com resultados do banco
+            $("#classificacao_con").click(function () {
+                $("#itens_classificacao").show();
+            });
+            //ao clicar em um item da lista, o campo recebe o valor do item
+            $(".classificacao").click(function () {
+                $("#classificacao_con").val($(this).text());
+                $("#itens_classificacao").hide();
 
+                var id_classificacao = $(this).attr("value");
+                //a cada nova requisição, limpa o option do select
+                $("#tipo_classificacao").html("");
+                //faz a requisição ajax para buscar tipo de classificação
+                $.ajax({
+                    type: "GET",
+                    url: `http://localhost:8000/classificacao-contabil/${id_classificacao}`,
+                    dataType: "json",
+                }).done(function (response) {
+
+                    //mostra os resultados da busca em uma div
+                    $.each(response, function (key, val) {
+                        $("#tipo_classificacao").append(
+                            `<option value="${val.id_plano_contas}">${val.de_plano_contas}</option>`
+                        );
+                    });
+                });
+            });
+        })
+        .fail(function () {
+            console.log("erro na requisição Ajax");
+        });
 });
 
 $("#busca_empresa").keyup(function () {
@@ -61,7 +93,13 @@ $("#busca_empresa").keyup(function () {
                         //mostra os resultados da busca em uma div
                         $.each(response, function (key, val) {
                             $("#empresa").append(
-                                `<option value="${val.id_centro_custo}">${val.de_carteira == '' ? val.de_departamento : val.de_departamento + ' - ' + val.de_carteira}</option>`
+                                `<option value="${val.id_centro_custo}">${
+                                    val.de_carteira == ""
+                                        ? val.de_departamento
+                                        : val.de_departamento +
+                                          " - " +
+                                          val.de_carteira
+                                }</option>`
                             );
                         });
                     });

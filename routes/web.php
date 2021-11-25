@@ -125,6 +125,7 @@ Route::get('/cadastro-planos-contas', [PlanoContaController::class, 'cadastro'])
 
 //rotas para classificacao contabil
 Route::get('/classificacao-contabil', [ClassificacaoContabilController::class, 'index'])->name('classificacao-contabil');
+Route::get('/classificacao-contabil/{id}', [ClassificacaoContabilController::class, 'showPlanoContas'])->name('show-plano-contas');
 
 // rotas Contas Bancárias
 Route::get('/contas-bancarias', [ContaBancariaController::class, 'index'])->name('contas-bancarias');

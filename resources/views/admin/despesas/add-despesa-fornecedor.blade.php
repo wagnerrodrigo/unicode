@@ -68,19 +68,13 @@
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Classificação</strong>
-                                <select class="form-control input-add" name="classificacao" id="classificacao">
-                                </select>
+                                <input class="form-control input-add teste" name="classificacao" id="classificacao_con" readonly></input>
+                                <div id="itens_classificacao" class="input-style"></div>
                             </div>
 
                             <div class="px-5 mb-3">
                                 <strong>Tipo</strong>
-                                <select class="form-control input-add" name="tipo_documento" id="tipo_documento">
-                                    <option value="despesas_C_pessoal">SALARIOS</option>
-                                    <option value="despesas_telefonia">CONSULTAS CADASTRAIS</option>
-                                    <option value="despesas_aluguel">ALUGUEL/COND/ENERGIA/AGUA - JF</option>
-                                    <option value="despesas_impostos">CONTRIBUIÇÃO SINDICAL</option>
-                                    <option value="despesas_juridica">ESTADIA DE VEICULOS</option>
-                                    <option value="despesas_depesas">ALUGUEL DE CARROS</option>
+                                <select class="form-control input-add" name="tipo_classificacao" id="tipo_classificacao">
                                 </select>
                             </div>
                         </div>

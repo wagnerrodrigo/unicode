@@ -18,4 +18,19 @@ class ClassificacaoContabil extends Model
 
         return $classificacaoContabil;
     }
+
+    static function selectById($id)
+    {
+        $query = "SELECT
+        id_plano_contas,
+        fk_tab_clasificacao_contabil_id,
+        fk_tab_de_plano_contas,
+        de_plano_contas
+        FROM intranet.tab_plano_contas
+        inner join intranet.de_plano_contas on de_plano_contas.id_de_plano_contas = tab_plano_contas.fk_tab_de_plano_contas
+        where fk_tab_clasificacao_contabil_id = ?";
+        $classificacaoContabil = DB::select($query, [$id]);
+
+        return $classificacaoContabil;
+    }
 }
