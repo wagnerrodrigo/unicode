@@ -61,15 +61,17 @@ $(document).ready(function () {
             console.log("erro na requisição Ajax");
         });
 });
-
+//função para buscar empresa
 $("#busca_empresa").keyup(function () {
     var words = $(this).val();
     if (words != "") {
+        //requisição ajax para buscar empresa
         $.ajax({
             type: "GET",
             url: `http://localhost:8000/empresas/nome/${words}`,
             dataType: "json",
         })
+            //caso a requisição seja bem sucedida
             .done(function (response) {
                 $("#results_empresa").html("");
                 //mostra os resultados da busca em uma div
@@ -93,7 +95,7 @@ $("#busca_empresa").keyup(function () {
                         //mostra os resultados da busca em uma div
                         $.each(response, function (key, val) {
                             $("#empresa").append(
-                                `<option value="${val.id_centro_custo}">${
+                                `<option value="${val.id_centro_custo}" class="centro_custo_item">${
                                     val.de_carteira == ""
                                         ? val.de_departamento
                                         : val.de_departamento +

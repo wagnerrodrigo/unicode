@@ -542,6 +542,16 @@ footer {
     color: #fff;
 }
 
+.centro_custo_item {
+    background-color: #ccc;
+}
+
+.centro_custo_item:hover{
+    cursor: pointer;
+    background-color: #820ad1;
+    color: #fff;
+}
+
 
 
 
