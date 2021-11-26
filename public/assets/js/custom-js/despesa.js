@@ -1,6 +1,6 @@
-$(document).ready(function () {
+$(document).ready(function() {
     //Seleciona quais campos irão aparecer na tela
-    $('input:radio[name="seleciona_tela"]').on("change", function () {
+    $('input:radio[name="seleciona_tela"]').on("change", function() {
         if (this.checked && this.value == "1") {
             $("#campo_razao_social").show();
             $(
@@ -16,13 +16,13 @@ $(document).ready(function () {
 
     //fazer requisição ajax para buscar classificação contabil
     $.ajax({
-        type: "GET",
-        url: `http://localhost:8000/classificacao-contabil`,
-        dataType: "json",
-    })
-        .done(function (response) {
+            type: "GET",
+            url: `http://localhost:8000/classificacao-contabil`,
+            dataType: "json",
+        })
+        .done(function(response) {
             //traz os resultados do banco para uma div hidden
-            $.each(response, function (key, val) {
+            $.each(response, function(key, val) {
                 $("#itens_classificacao")
                     .append(
                         `<div class="classificacao" value="${val.id_clasificacao_contabil}">${val.de_clasificacao_contabil}</div>`
@@ -30,11 +30,11 @@ $(document).ready(function () {
                     .hide();
             });
             //ao clicar aparece os campos com resultados do banco
-            $("#classificacao_con").click(function () {
+            $("#classificacao_con").click(function() {
                 $("#itens_classificacao").show();
             });
             //ao clicar em um item da lista, o campo recebe o valor do item
-            $(".classificacao").click(function () {
+            $(".classificacao").click(function() {
                 $("#classificacao_con").val($(this).text());
                 $("#itens_classificacao").hide();
 
@@ -46,10 +46,10 @@ $(document).ready(function () {
                     type: "GET",
                     url: `http://localhost:8000/classificacao-contabil/${id_classificacao}`,
                     dataType: "json",
-                }).done(function (response) {
+                }).done(function(response) {
 
                     //mostra os resultados da busca em uma div
-                    $.each(response, function (key, val) {
+                    $.each(response, function(key, val) {
                         $("#tipo_classificacao").append(
                             `<option value="${val.id_plano_contas}">${val.de_plano_contas}</option>`
                         );
@@ -57,31 +57,31 @@ $(document).ready(function () {
                 });
             });
         })
-        .fail(function () {
+        .fail(function() {
             console.log("erro na requisição Ajax");
         });
 });
 //função para buscar empresa
-$("#busca_empresa").keyup(function () {
+$("#busca_empresa").keyup(function() {
     var words = $(this).val();
     if (words != "") {
         //requisição ajax para buscar empresa
         $.ajax({
-            type: "GET",
-            url: `http://localhost:8000/empresas/nome/${words}`,
-            dataType: "json",
-        })
+                type: "GET",
+                url: `http://localhost:8000/empresas/nome/${words}`,
+                dataType: "json",
+            })
             //caso a requisição seja bem sucedida
-            .done(function (response) {
+            .done(function(response) {
                 $("#results_empresa").html("");
                 //mostra os resultados da busca em uma div
-                $.each(response, function (key, val) {
+                $.each(response, function(key, val) {
                     $("#results_empresa").append(
                         `<div class="item" value="${val.id_empresa}">${val.de_empresa} - ${val.regiao_empresa} </div>`
                     );
                 });
                 //seleciona a empresa desejada
-                $(".item").click(function () {
+                $(".item").click(function() {
                     $("#busca_empresa").val($(this).text());
                     $("#empresa").html("");
                     var id_empresa = $(this).attr("value");
@@ -91,9 +91,9 @@ $("#busca_empresa").keyup(function () {
                         type: "GET",
                         url: `http://localhost:8000/centroCustoEmpresa/${id_empresa}`,
                         dataType: "json",
-                    }).done(function (response) {
+                    }).done(function(response) {
                         //mostra os resultados da busca em uma div
-                        $.each(response, function (key, val) {
+                        $.each(response, function(key, val) {
                             $("#empresa").append(
                                 `<option value="${val.id_centro_custo}" class="centro_custo_item">${
                                     val.de_carteira == ""
@@ -107,7 +107,7 @@ $("#busca_empresa").keyup(function () {
                     });
                 });
             })
-            .fail(function () {
+            .fail(function() {
                 $("#results_empresa").html("");
             });
     } else {
@@ -116,7 +116,7 @@ $("#busca_empresa").keyup(function () {
 });
 
 //seleciona tipo de despesa
-document.getElementById("btnDespesa").onclick = function () {
+document.getElementById("btnDespesa").onclick = function() {
     var radios = document.getElementsByName("tipo_despesa");
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
@@ -141,7 +141,7 @@ document.getElementById("btnDespesa").onclick = function () {
                             //mostra os resultados da busca em uma div
                             $.each(response, function(key, val) {
                                     $('#ResultadoCnpjCpf').append(
-                                        `<div class="item" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.de_razao_social} </div>`
+                                        `<div class="item classificacao" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.de_razao_social} </div>`
                                     );
                                 })
                                 //seleciona o cnpj ou cpf desejada
@@ -200,7 +200,7 @@ document.getElementById("btnDespesa").onclick = function () {
                             //mostra os resultados da busca em uma div
                             $.each(response, function(key, val) {
                                     $('#ResultadoCnpjCpf').append(
-                                        `<div class="item" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.nome_empregado} </div>`
+                                        `<div class="item classificacao" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.nome_empregado} </div>`
                                     );
                                 })
                                 //seleciona o cnpj ou cpf desejada
