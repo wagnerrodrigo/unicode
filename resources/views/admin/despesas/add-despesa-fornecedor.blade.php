@@ -90,17 +90,11 @@
 
                         <div class="d-flex" style="width: 100%;justify-content:space-around; align-items:center">
                             <div class="px-5 mb-3">
-                                <h3>Itens</h3>
+                                <h3>Itens </h3>
                                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlarge">
                                     <i class="bi bi-plus"></i>
                                 </button>
 
-                            </div>
-
-                            <div class="px-5 mb-3" style="padding-top: 40px">
-                                <button type="submit" class="btn btn-success me-1 mb-1">
-                                    <i data-feather="check-circle"></i>Salvar
-                                </button>
                             </div>
                         </div>
 
