@@ -47,10 +47,13 @@ class DespesaController extends Controller
         }
     }
 
-    public function store()
+    public function store(Request $request)
     {
+        dd($request->all());
         return view('admin.despesas.add-despesas');
     }
+
+
     public function edit($id, Request $request){
         $despesa = Despesa::findOne($id);
         $camposRequisicao = $request->all();

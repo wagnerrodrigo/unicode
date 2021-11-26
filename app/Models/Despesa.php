@@ -42,8 +42,8 @@ class Despesa extends Model
     static function create($despesa)
     {
         DB::insert("insert into intranet.tab_despesa
-        (fk_tab_centro_custo_id = ?, fk_tab_empresa_id = ?, fk_tab_tipo_despesa_id = ?, 
-            numero_despesa = ?, qt_parcelas_despesa = ?, serie_despesa = ?, 
+        (fk_tab_centro_custo_id = ?, fk_tab_empresa_id = ?, fk_tab_tipo_despesa_id = ?,
+            numero_despesa = ?, qt_parcelas_despesa = ?, serie_despesa = ?,
             dt_emissao = ?, valor_total_despesa = ?, fk_status_despesa_id = ?,
             fk_tab_fornecedor_id = ?, fk_tab_empregado_id = ?, dt_inicio = ?)
         values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null )", [
@@ -78,14 +78,13 @@ class Despesa extends Model
         return $despesa;
     }
 
-
     static function set($despesa)
     {
         DB::update("UPDATE intranet.tab_despesa
-        SET fk_tab_centro_custo_id = ?, fk_tab_empresa_id = ?, fk_tab_tipo_despesa_id = ?, 
-            numero_despesa = ?, qt_parcelas_despesa = ?, serie_despesa = ?, 
+        SET fk_tab_centro_custo_id = ?, fk_tab_empresa_id = ?, fk_tab_tipo_despesa_id = ?,
+            numero_despesa = ?, qt_parcelas_despesa = ?, serie_despesa = ?,
             dt_emissao = ?, valor_total_despesa = ?, fk_status_despesa_id = ?,
-            fk_tab_fornecedor_id = ?, fk_tab_empregado_id = ? , dt_inicio = ? 
+            fk_tab_fornecedor_id = ?, fk_tab_empregado_id = ? , dt_inicio = ?
         WHERE id_despesa = ?", [
 
             $despesa->fk_tab_centro_custo_id,

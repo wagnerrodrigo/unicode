@@ -244,3 +244,57 @@ document.getElementById("btnDespesa").onclick = function () {
         }
     }
 };
+
+//busca empresa no modal de rateio
+$("#rateio_empresa").keyup(function () {
+    var words = $(this).val();
+    if (words != "") {
+        //requisição ajax para buscar empresa
+        $.ajax({
+            type: "GET",
+            url: `http://localhost:8000/empresas/nome/${words}`,
+            dataType: "json",
+        })
+            //caso a requisição seja bem sucedida
+            .done(function (response) {
+                $("#results_rateio_empresa").html("");
+                //mostra os resultados da busca em uma div
+                $.each(response, function (key, val) {
+                    $("#results_rateio_empresa").append(
+                        `<div class="item-rateio item" value="${val.id_empresa}">${val.de_empresa} - ${val.regiao_empresa} </div>`
+                    );
+                });
+                //seleciona a empresa desejada
+                $(".item-rateio").click(function () {
+                    $("#rateio_empresa").val($(this).text());
+                    $("#custo_rateio").html("");
+                    var id_empresa_rateio = $(this).attr("value");
+                    //busca centros de custo relacionados com a empresa e mostra no select
+                    $("#results_rateio_empresa").html("");
+                    $.ajax({
+                        type: "GET",
+                        url: `http://localhost:8000/centroCustoEmpresa/${id_empresa_rateio}`,
+                        dataType: "json",
+                    }).done(function (response) {
+                        //mostra os resultados da busca em uma div
+                        $.each(response, function (key, val) {
+                            $("#custo_rateio").append(
+                                `<option value="${val.id_centro_custo}" class="centro_custo_item">${
+                                    val.de_carteira == ""
+                                        ? val.de_departamento
+                                        : val.de_departamento +
+                                          " - " +
+                                          val.de_carteira
+                                }</option>`
+                            );
+                        });
+                    });
+                });
+            })
+            .fail(function () {
+                $("#results_rateio_empresa").html("");
+            });
+    } else {
+        $("#results_rateio_empresa").html("");
+    }
+});

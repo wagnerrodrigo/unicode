@@ -72,8 +72,8 @@ Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('edit-usu
 
 //rotas Despesas
 Route::get('/despesas', [DespesaController::class, 'index'])->name('despesas');
+Route::post('/despesas', [DespesaController::class, 'store']);
 Route::get('/despesas/adicionar', [DespesaController::class, 'formDespesa'])->name('adicionar-despesa');
-Route::post('/despesas/adicionar', [DespesaController::class, 'store'])->name('add-despesas');
 Route::get('/despesas/{id}', [DespesaController::class, 'show']);
 
 //rotas Despesas
