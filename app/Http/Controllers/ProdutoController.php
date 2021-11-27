@@ -33,8 +33,16 @@ class ProdutoController extends Controller
     }
 
 
-    public function list()
+    public function showClassificacaoProduto()
     {
+        $produto = Produto::selectAll();
+        return response()->json($produto);
+    }
+    
+    public function showClassificacaoProdutoId($id)
+    {
+        $produto = Produto::selectById($id);
+        return response()->json($produto);
     }
 
     public function store(Request $request)

@@ -60,6 +60,128 @@ $(document).ready(function() {
         .fail(function() {
             console.log("erro na requisição Ajax");
         });
+
+
+
+    // INICIO FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO PRODUTO E O PRODUTO
+
+    $.ajax({
+            type: "GET",
+            url: `http://localhost:8000/produto/classificacao`,
+            dataType: "json",
+        })
+        .done(function(response) {
+            //traz os resultados do banco para uma div hidden
+            $.each(response, function(key, val) {
+                $("#classificacao_tipo_produto")
+                    .append(
+                        `<div class="classificacao" value="${val.id_tipo_produto}">${val.de_tipo_produto}</div>`
+                    )
+                    .hide();
+            });
+            //ao clicar aparece os campos com resultados do banco
+            $("#classificacao_prod").click(function() {
+                $("#classificacao_tipo_produto").show();
+            });
+            //ao clicar em um item da lista, o campo recebe o valor do item
+            $(".classificacao").click(function() {
+                $("#classificacao_prod").val($(this).text());
+                $("#classificacao_tipo_produto").hide();
+
+                var id_classificacao = $(this).attr("value");
+                //a cada nova requisição, limpa o option do select
+                $("#produto_servico").html("");
+                //faz a requisição ajax para buscar tipo de classificação
+                $.ajax({
+                    type: "GET",
+                    url: `http://localhost:8000/produto/classificacao/${id_classificacao}`,
+                    dataType: "json",
+                }).done(function(response) {
+
+                    //mostra os resultados da busca em uma div
+                    $.each(response, function(key, val) {
+                        $("#produto_servico").append(
+                            `<option value="${val.id_produto}">${val.de_produto}</option>`
+                        );
+                    });
+                });
+            });
+        })
+        .fail(function() {
+            console.log("erro na requisição Ajax");
+        });
+
+
+
+    // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO PRODUTO E O PRODUTO
+
+
+
+
+
+
+    // INICIO FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO SERVICO E O SERVICO
+
+
+
+    $.ajax({
+            type: "GET",
+            url: `http://localhost:8000/servico/classificacao`,
+            dataType: "json",
+        })
+        .done(function(response) {
+            //traz os resultados do banco para uma div hidden
+            $.each(response, function(key, val) {
+                $("#classificacao_tipo_servico")
+                    .append(
+                        `<div class="classificacao" value="${val.id_tipo_servico}">${val.de_tipo_servico}</div>`
+                    )
+                    .hide();
+            });
+            //ao clicar aparece os campos com resultados do banco
+            $("#classificacao_serv").click(function() {
+                $("#classificacao_tipo_servico").show();
+            });
+            //ao clicar em um item da lista, o campo recebe o valor do item
+            $(".classificacao").click(function() {
+                $("#classificacao_serv").val($(this).text());
+                $("#classificacao_tipo_servico").hide();
+
+                var id_classificacao = $(this).attr("value");
+                //a cada nova requisição, limpa o option do select
+                $("#servico").html("");
+                //faz a requisição ajax para buscar tipo de classificação
+                $.ajax({
+                    type: "GET",
+                    url: `http://localhost:8000/servico/classificacao/${id_classificacao}`,
+                    dataType: "json",
+                }).done(function(response) {
+
+                    //mostra os resultados da busca em uma div
+                    $.each(response, function(key, val) {
+                        $("#servico").append(
+                            `<option value="${val.id_servico}">${val.de_servico}</option>`
+                        );
+                    });
+                });
+            });
+        })
+        .fail(function() {
+            console.log("erro na requisição Ajax");
+        });
+
+
+
+
+
+    // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO SERVICO E O SERVICO
+
+
+
+
+
+
+
 });
 //função para buscar empresa
 $("#busca_empresa").keyup(function() {
