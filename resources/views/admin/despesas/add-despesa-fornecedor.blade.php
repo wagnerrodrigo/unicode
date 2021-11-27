@@ -68,7 +68,7 @@
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Classificação</strong>
-                                <input class="form-control input-add teste" name="classificacao" id="classificacao_con" readonly></input>
+                                <input class="form-control input-add teste" name="classificacao" id="classificacao_con" readonly/>
                                 <div id="itens_classificacao" class="input-style"></div>
                             </div>
 
@@ -92,9 +92,11 @@
                             <div class="px-5 mb-3">
                                 <h3>Itens </h3>
                                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlarge">
-                                    <i class="bi bi-plus"></i>
+                                    <i class="bi bi-plus"></i>produto
                                 </button>
-
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlargeServico">
+                                    <i class="bi bi-plus"></i>serviço
+                                </button>
                             </div>
                         </div>
 
@@ -112,7 +114,7 @@
                                             <th>Remover</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody >
                                         <tr>
                                             <td class="text-bold-500">Monitor</td>
                                             <td>10</td>
@@ -120,9 +122,17 @@
                                             <td>CERCRED - SOLUÇÕES DE CONTACT CENTER E RECUPERAÇÃO DE CRÉDITO LTDA</td>
                                             <td>
                                                 <!-- mudar a rota -->
-                                                <a href="#" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
+                                                <a href="#" class="btn btn-danger " style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
                                             </td>
                                         </tr>
+                                        <tr>
+                                        <td class="inserirProd_Ser" ></td>
+                                            <td class="inserirQuant"></td>
+                                            <td class="inserirValor"></td>
+                                            <td class="inserirDesc"></td>
+                                            <td class="inserirBtnExcluir"></td>
+                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -271,47 +281,52 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel16">Novo Endereço</h4>
+                    <h4 class="modal-title" id="myModalLabel16">Novo Produto</h4>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <i class="bi bi-x" data-feather="x"></i>
                     </button>
                 </div>
                 <div class="modal-body">
                     {{-- mudar a rota --}}
-                    <form action="/enderecos" method="POST" style="padding: 10px;">
+                    <form   style="padding: 10px;">
                         @csrf
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>Produto/Serviço</strong>
-                                <input class="form-control mt-1" type="text" id="produto_servico" placeholder="Produto ou Servico" name="produto_servico" style="width: 358px" />
+                                <strong>Classificação</strong>
+                                <input class="form-control mt-1" type="text" id="classificacao_prod" placeholder="Produto ou Servico" name="classificacao_produto" style="width: 200px" />
+                                <div id="classificacao_tipo_produto" class="input-style"></div>
+                            </div>
+                            <div class="px-5 mb-3">
+                                <strong>Produto</strong>
+                                <select class="form-control input-add" id="produto_servico" placeholder="Produto ou Servico" name="produto_servico" style="width: 208px" ></select>
                             </div>
 
                             <div class="px-5 mb-3">
                                 <strong>Valor do item</strong>
-                                <input class="form-control mt-1" id="valor_item" type="text" placeholder="Valor do item" name="complemento" style="width: 358px" />
+                                <input class="form-control mt-1" id="valor_item" type="text" placeholder="Valor do item" name="complemento" style="width: 150px" />
                             </div>
-                        </div>
-
-                        <div class="d-flex" style="width: 100%">
 
                             <div class="px-5 mb-3">
                                 <strong>Quantidade</strong>
-                                <input class="form-control mt-1" id="quantidade" type="text" placeholder="Quantidade do item" name="bairro" style="width: 358px" />
+                                <input class="form-control mt-1" id="quantidade" type="text" placeholder="Quantidade do item" name="bairro" style="width: 150px" />
                             </div>
 
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Descrição</strong>
-                                <textarea cols="145" rows="1" class="form-control" type="text" placeholder="Descrição" name="descricao" style="width: 358px"></textarea>
+                                <textarea cols="145" rows="1" class="form-control" id="descricao" type="text" placeholder="Descrição" name="descricao" style="width: 850px"></textarea>
                             </div>
                         </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success me-1 mb-1">
+                        <button type="Button" id="btn_Adicionar_produto" class="btn btn-success me-1 mb-1">
                             <i data-feather="check-circle"></i>Adicionar
                         </button>
                         {{-- mudar a rota --}}
-                        <a href="{{route('add-despesas')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                        <a  class="btn btn-secondary me-1 mb-1">Cancelar</a>
                     </div>
                     </form>
                 </div>
@@ -320,6 +335,72 @@
     </div>
 </div>
 <!-- Fim modal Adicionar -->
+
+
+
+
+<!-- Inicio Modal Adicionar SERVIÇO-->
+<div class="me-1 mb-1 d-inline-block">
+    <!--Extra Large Modal -->
+    <div class="modal fade text-left w-100" id="xlargeServico" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel16">Novo Serviço</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x" data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{-- mudar a rota --}}
+                    <form   style="padding: 10px;">
+                        @csrf
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Classificação</strong>
+                                <input class="form-control mt-1" type="text" id="classificacao_serv" placeholder="Produto ou Servico" name="class_Servico" style="width: 200px" />
+                                <div id="classificacao_tipo_servico" class="input-style"></div>
+                            </div>
+                                    
+                            <div class="px-5 mb-3">
+                                <strong>Serviço</strong>
+                                <select class="form-control input-add"  id="servico" placeholder="Produto ou Servico" name="servico" style="width: 208px" ></select>
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Valor do item</strong>
+                                <input class="form-control mt-1" id="valor_Servico" type="text" placeholder="Valor do item" name="valor_Servico" style="width: 150px" />
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Quantidade</strong>
+                                <input class="form-control mt-1" id="quantidade_Servico" type="text" placeholder="Quantidade do item" name="quantidade_Servico" style="width: 150px" />
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Descrição</strong>
+                                <textarea cols="145" rows="1" class="form-control" id="descricao" type="text" placeholder="Descrição" name="descricao" style="width: 850px"></textarea>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button type="Button" id="btnAdicionar" class="btn btn-success me-1 mb-1">
+                            <i data-feather="check-circle"></i>Adicionar
+                        </button>
+                        {{-- mudar a rota --}}
+                        <a  class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fim modal Adicionar SERVIÇO-->
 
 
 <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
