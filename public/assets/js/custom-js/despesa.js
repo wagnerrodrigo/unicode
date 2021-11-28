@@ -85,6 +85,8 @@ $("#busca_empresa").keyup(function () {
                     $("#busca_empresa").val($(this).text());
                     $("#empresa").html("");
                     var id_empresa = $(this).attr("value");
+                    //console.log(id_empresa);
+                    $("#id_busca_empresa").attr("value", id_empresa);
                     //busca centros de custo relacionados com a empresa e mostra no select
                     $("#results_empresa").html("");
                     $.ajax({

@@ -19,6 +19,9 @@
                                 <strong>EMPRESA</strong>
                                 <input type="text" id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-busca" name="nome_empresa" />
                                 <div id="results_empresa" class="resultado-busca"></div>
+                                <!--serve somente para armazenar o id da empresa selecionada-->
+                                <input type="hidden" id="id_busca_empresa" name="id_empresa"></input>
+                                <!-- ### -->
                             </div>
                     </div>
 
