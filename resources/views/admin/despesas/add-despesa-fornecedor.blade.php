@@ -11,7 +11,6 @@
             </div>
             <div class="card-body d-flex justify-content-center">
                 <div class="justify-content-center " id="list-despesa" style="padding: 10px;">
-
                     <div class="d-flex mt-10" style="width: 100%">
                         <form action="/despesas" method="POST">
                             @csrf
@@ -32,7 +31,6 @@
                                 <option selected value="" class="resultado-busca"></option>
                             </select>
                         </div>
-
                     </div>
 
                     <div class="d-flex mt-10" style="width: 100%">
@@ -149,45 +147,6 @@
                         </div>
                     </div>
 
-                    <div class="d-flex" style="width: 100%">
-                        <div class="px-5 mb-3">
-                            <strong>QUANTIDADE PARCELAS</strong>
-                            <input type="text" class="form-control input-add" name="parcelas" />
-                        </div>
-
-                        <div class="px-5 mb-3">
-                            <strong>FORMA DE PAGAMENTO</strong>
-                            <select class="form-control input-add" name="forma_pagamento" id="forma_pagamento">
-                                <option value="boleto">Boleto</option>
-                                <option value="pix">Pix</option>
-                                <option value="deposito_conta">Deposito em conta</option>
-                                <option value="transferencia">Transferencia em conta</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="d-flex" style="width: 100%">
-                        <div class="px-5 mb-3">
-                            <strong>TIPO DE DOCUMENTO</strong>
-                            <input type="text" class="form-control input-add" name="tipo_documento" />
-                        </div>
-                        <div class="px-5 mb-3">
-                            <strong>NUMERO DA NOTA OU DOCUMENTO</strong>
-                            <input type="text" class="form-control input-add" name="numero_nota_documento" />
-                        </div>
-                    </div>
-
-                    <div class="d-flex" style="width: 100%;">
-                        <div class="px-5 mb-3">
-                            <strong>DATA DE VENCIMENTO</strong>
-                            <input type="date" class="form-control input-add" name="data_vencimento" />
-                        </div>
-                        <div class="px-5 mb-3">
-                            <strong>DATA DE PROVISIONAMENTO</strong>
-                            <input type="date" class="form-control input-add" name="data_provisionamento" />
-                        </div>
-                    </div>
-
                     <br>
                     <hr>
                     <br>
@@ -214,22 +173,67 @@
                                         <th>EDITAR</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-bold-500">CERCRED - CENTRAL DE RECUPERAÇÃO DE CRÉDITO LTDA - JUIZ DE FORA </td>
-                                        <td class="text-bold-500">GERENCIA TECNOLOGIA</td>
-                                        <td>TOTAL</td>
-                                        <td>100%</td>
-                                        <td>
-                                            <!-- mudar a rota -->
-                                            <a href="#" class="btn btn-warning" style="padding: 8px 12px;"><i class="bi bi-pencil-fill"></i></a>
-                                        </td>
-                                    </tr>
+                                <tbody id="table_rateio">
+
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <!-- Fim da div da tabela de rateio -->
+
+                    <br>
+                    <hr>
+                    <br>
+
+                    <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>QUANTIDADE PARCELAS</strong>
+                            <input type="text" class="form-control input-add" name="parcelas" />
+                        </div>
+
+                        <div class="px-5 mb-3">
+                            <strong>CONDIÇÃO DE PAGAMENTO</strong>
+                            <select class="form-control input-add" name="condicao_pagamento" id="condicao_pagamento">
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>NUMERO DA NOTA OU DOCUMENTO</strong>
+                            <input type="text" class="form-control input-add" name="numero_nota_documento" />
+                        </div>
+
+                        <div class="px-5 mb-3">
+                            <strong>SERIE</strong>
+                            <input type="text" class="form-control input-add" name="serie_documento" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>TIPO DE DOCUMENTO</strong>
+                            <input type="text" class="form-control input-add" name="tipo_documento" />
+                        </div>
+                        <div class="px-5 mb-3">
+                            <strong>DATA DE EMISSÃO</strong>
+                            <input type="date" class="form-control input-add" name="data_emissao" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex" style="width: 100%;">
+                        <div class="px-5 mb-3">
+                            <strong>DATA DE VENCIMENTO</strong>
+                            <input type="date" class="form-control input-add" name="data_vencimento" />
+                        </div>
+                        <div class="px-5 mb-3">
+                            <strong>DATA DE PROVISIONAMENTO</strong>
+                            <input type="date" class="form-control input-add" name="data_provisionamento" />
+                        </div>
+                    </div>
+
+
 
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
@@ -259,43 +263,41 @@
                     </button>
                 </div>
 
-                <form>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <strong id="tipo-documento"></strong>
-                            <input type="text" class="form-control" id="Cnpj_Cpf" name="cnpj">
-                            <div class="ResultadoCnpjCpf input-add" id="ResultadoCnpjCpf" value=""></div>
-                        </div>
-                </form>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" id="btnCnpj_Cpf">
-                        Selecionar
-                    </button>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <strong id="tipo-documento"></strong>
+                        <input type="text" class="form-control" id="Cnpj_Cpf" name="cnpj" autocomplete="off">
+                        <div class="ResultadoCnpjCpf input-add" id="ResultadoCnpjCpf" value=""></div>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="btnCnpj_Cpf">
+                            Selecionar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
-<!-- Inicio Modal Adicionar-->
-<div class="me-1 mb-1 d-inline-block">
-    <!--Extra Large Modal -->
-    <div class="modal fade text-left w-100" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel16">Novo Endereço</h4>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="bi bi-x" data-feather="x"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {{-- mudar a rota --}}
-                    <form action="/enderecos" method="POST" style="padding: 10px;">
-                        @csrf
+    <!-- Inicio Modal Adicionar-->
+    <div class="me-1 mb-1 d-inline-block">
+        <!--Extra Large Modal -->
+        <div class="modal fade text-left w-100" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel16">Novo Endereço</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="bi bi-x" data-feather="x"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{-- mudar a rota --}}
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Produto/Serviço</strong>
@@ -309,7 +311,6 @@
                         </div>
 
                         <div class="d-flex" style="width: 100%">
-
                             <div class="px-5 mb-3">
                                 <strong>Quantidade</strong>
                                 <input class="form-control mt-1" id="quantidade" type="text" placeholder="Quantidade do item" name="bairro" style="width: 358px" />
@@ -317,107 +318,106 @@
 
                             <div class="px-5 mb-3">
                                 <strong>Descrição</strong>
-                                <textarea cols="145" rows="1" class="form-control" type="text" placeholder="Descrição" name="descricao" style="width: 358px"></textarea>
+                                <textarea cols="145" rows="1" maxlength="80" class="form-control" type="text" placeholder="Descrição" name="descricao" style="width: 358px"></textarea>
                             </div>
                         </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="col-sm-12 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success me-1 mb-1">
-                            <i data-feather="check-circle"></i>Adicionar
-                        </button>
-                        {{-- mudar a rota --}}
-                        <a href="{{route('adicionar-despesa')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
                     </div>
-                    </form>
+                    <div class="modal-footer">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success me-1 mb-1">
+                                <i data-feather="check-circle"></i>Adicionar
+                            </button>
+                            {{-- mudar a rota --}}
+                            <a href="{{route('adicionar-despesa')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Fim modal Adicionar -->
+    <!-- Fim modal Adicionar -->
 
 
-<!-- Inicio Modal Adicionar-->
-<div class="me-1 mb-1 d-inline-block">
-    <!--Extra Large Modal -->
-    <div class="modal fade text-left w-100" id="xrateio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel16">Novo Rateio</h4>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="bi bi-x" data-feather="x"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex" style="width: 100%">
-                        <div class="px-5 mb-3">
-                            <strong>EMPRESA</strong>
-                            <input class="form-control input-busca" type="text" id="rateio_empresa" autocomplete="off" placeholder="Empresa" name="rateio_empresa" style="width: 60rem" />
-                            <div id="results_rateio_empresa" class="resultado-busca-rateio"></div>
+    <!-- Inicio Modal Adicionar-->
+    <div class="me-1 mb-1 d-inline-block">
+        <!--Extra Large Modal -->
+        <div class="modal fade text-left w-100" id="xrateio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel16">Novo Rateio</h4>
+
+                        <div>
+                            <span>Valor Total: </span>
+                            <input class="input-add" type="text" id="modal_valor_total" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple">
                         </div>
-                    </div>
 
-                    <div class="d-flex" style="width: 100%">
-                        <div class="px-5 mb-3">
-                            <strong>CENTRO DE CUSTO</strong>
-                            <select class="form-control input-add" name="centro_custo_rateio" id="custo_rateio">
-                                <option selected value="" class="resultado-busca"></option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="d-flex" style="width: 100%">
-                        <div class="px-5 mb-3">
-                            <strong>Produto/Serviço</strong>
-                            <input class="form-control mt-1" type="text" id="produto_servico" placeholder="Produto ou Servico" name="produto_servico" style="width: 358px" />
-                        </div>
-                    </div>
-
-                    <div class="d-flex" style="width: 100%">
-                        <div class="px-5 mb-3">
-                            <strong>VALOR RATEADO</strong>
-                            <input class="form-control mt-1" id="valor_item_rateado" type="text" onkeypress="return onlynumber(); " placeholder="Valor do item" name="complemento" style="width: 358px" />
-                        </div>
-                        <div class="d-flex flex-row" style="width: 100%; align-items:center">
-                            <div>
-                                <input class="form-control mt-1" id="porcentagem_valor" type="text" min="0" max="3" onkeyup="return validateValue(this);" onkeypress="return onlynumber();" maxlength=3 name="porcentagem_rateado" style="width: 58px" />
-                            </div>
-
-                            <div>
-                                <strong>%</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="col-sm-12 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success me-1 mb-1">
-                            <i data-feather="check-circle"></i>Adicionar
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="bi bi-x" data-feather="x"></i>
                         </button>
-                        <a href="{{route('adicionar-despesa')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
                     </div>
-                    </form>
+                    <div class="modal-body">
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>EMPRESA</strong>
+                                <input class="form-control input-busca" type="text" id="rateio_empresa" autocomplete="off" placeholder="Empresa" style="width: 60rem" />
+                                <div id="results_rateio_empresa" class="resultado-busca-rateio"></div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>CENTRO DE CUSTO</strong>
+                                <select class="form-control input-add" id="custo_rateio">
+                                    <option selected value="" class="resultado-busca"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>VALOR RATEADO</strong>
+                                <input class="form-control mt-1" id="valor_rateado" type="text" onkeypress="return onlynumber(); " placeholder="Valor do item" style="width: 358px" />
+                            </div>
+                            <div class="d-flex flex-row" style="width: 100%; align-items:center">
+                                <div>
+                                    <input class="form-control mt-1" id="porcentagem_rateado" type="text" min="0" max="3" onkeyup="return validateValue(this);" onkeypress="return onlynumber();" maxlength="3" name="porcentagem_rateado" style="width: 58px" />
+                                </div>
+
+                                <div>
+                                    <strong>%</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button class="btn btn-success me-1 mb-1" type="button" id="seleciona_rateio">
+                                <i data-feather="check-circle"></i>Adicionar
+                            </button>
+                            <a href="{{route('adicionar-despesa')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Fim modal Adicionar -->
+    <!-- Fim modal Adicionar -->
 
 
-<script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
-<script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 
-<script src="{{ asset('assets/js/vendors.js') }}"></script>
+    <script src="{{ asset('assets/js/vendors.js') }}"></script>
 
-<script src="{{ asset('assets/js/vendors.js') }}"></script>
+    <script src="{{ asset('assets/js/vendors.js') }}"></script>
 
-<script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="{{ asset('assets/js/custom-js/despesa.js') }}"></script>
-<script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="{{ asset('assets/js/custom-js/despesa.js') }}"></script>
+    <script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
+    <script src="{{ asset('assets/js/custom-js/rateio.js') }}"></script>
 
-@endsection
+    @endsection

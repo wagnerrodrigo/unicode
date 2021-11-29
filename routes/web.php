@@ -34,6 +34,7 @@ use App\Http\Controllers\ClassificacaoContabilController;
 use App\Models\ClassificacaoContabil;
 use App\Http\Controllers\ConciliacaoController;
 use App\Http\Controllers\EmpregadoController;
+use App\Http\Controllers\CondicaoPagamentoController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -76,6 +77,8 @@ Route::post('/despesas', [DespesaController::class, 'store']);
 Route::get('/despesas/adicionar', [DespesaController::class, 'formDespesa'])->name('adicionar-despesa');
 Route::get('/despesas/{id}', [DespesaController::class, 'show']);
 
+//rotas condicao pagamento
+Route::get('/condicao_pagamento', [CondicaoPagamentoController::class, 'index'])->name('condicao-pagamento');
 //rotas Despesas
 Route::get('/empresas', [EmpresaController::class, 'index'])->name('empresas');
 Route::get('/empresas/adicionar', [EmpresaController::class, 'formEmpresa'])->name('adicionar-empresa');

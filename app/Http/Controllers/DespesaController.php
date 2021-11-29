@@ -50,44 +50,46 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request->all());
+        dd($request->all());
+
         $despesa = new Despesa();
         $despesa->fk_centro_de_custo = $request->centro_custo_empresa;
-        if($request->tipo_despesa == 'empregado'){
-
+        if ($request->tipo_despesa == 'empregado') {
             $despesa->fk_tipo_despesa = 1;
-        }else{
+        } else {
             $despesa->fk_tipo_despesa = 2;
         }
 
         $despesa->fk_plano_contas = $request->tipo_classificacao;
-        $despesa->numero_documento_despesa - $request->numero_nota_documento;
+        $despesa->numero_documento_despesa = $request->numero_nota_documento;
         $despesa->qt_parcelas_despesa = $request->parcelas;
-        $despesa->serie_despesa = null;
-        $despesa->dt_emissao = null;
+        $despesa->serie_despesa = $request->serie_documento;
+        $despesa->dt_emissao = $request->data_emissao;
         $despesa->valor_total_despesa = $request->valor_total;
         $despesa->fk_status_despesa_id = 1;
         $despesa->fk_tab_fornecedor_id = null;
         $despesa->fk_tab_empregado_id = $request->empregado;
         $despesa->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-        $despesa->de_despesa = $request->descricao;
+        $despesa->de_despesa = strtoupper($request->descricao);
         $despesa->dt_vencimento = $request->data_vencimento;
         $despesa->moeda = $request->moeda;
         $despesa->dt_provisionamento = $request->data_provisionamento;
-        $despesa->fk_condicao_pagamento_id = null;
+        $despesa->fk_condicao_pagamento_id = $request->condicao_pagamento;
         $despesa->dt_fim = null;
 
+        //dd($despesa);
         Despesa::create($despesa);
 
         return view('admin.despesas.add-despesas');
     }
 
-    public function edit($id, Request $request){
+    public function edit($id, Request $request)
+    {
         $despesa = Despesa::findOne($id);
         $camposRequisicao = $request->all();
 
-        foreach ($camposRequisicao as $key => $value){
-            if($key != '_token'){
+        foreach ($camposRequisicao as $key => $value) {
+            if ($key != '_token') {
                 $despesa->$key = strtoupper($value);
             }
         }

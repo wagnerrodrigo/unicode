@@ -11,8 +11,6 @@ class Despesa extends Model
     use HasFactory;
 
     protected $fillable = [
-
-
         'id_despesa',
         'fk_centro_de_custo',
         'fk_tipo_despesa',
