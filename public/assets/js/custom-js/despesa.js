@@ -366,3 +366,41 @@ document.getElementById("btnDespesa").onclick = function() {
         }
     }
 };
+
+
+
+
+
+
+$("#Prod").click(function() {
+    //  pega os valores dos campos preenchidos pelo usuario
+    var class_prod = $("#classificacao_prod").val();
+    var prod_ser = $("#produto_servico").val();
+    var valor_uni = $("#valor_item").val();
+    var quanti = $("#quantidade").val();
+    var valor_tl = parseFloat(valor_uni * quanti);
+    var btnDeletar = `<td><button type="button" class="btn btn-danger" id="remover" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button></td>`
+    var html = "";
+
+    // criar novos itens com os valores preenchidos anteriormente
+    html += '<tr id="tab">';
+    html += `<td>${class_prod}<input type="hidden" name="Classificação" /></td>`
+    html += `<td>${prod_ser}<input type="hidden" name="Produto"</td>`
+    html += `<td>${valor_uni}<input type="hidden" name="Valor Unitario"</td>`
+    html += `<td>${quanti}<input type="hidden" name="Quantidade"</td>`
+    html += `${btnDeletar}`;
+    html += '</tr>';
+    $("#Tb").append(html);
+
+    // limpar campos do item
+    $("#classificacao_prod").val("");
+    $("#produto_servico").val("");
+    $("#valor_item").val("");
+    $("#quantidade").val("");
+
+});
+
+// remove o item da despesa
+$(document).on('click', '#remover', function() {
+    $('#tab').remove();
+});

@@ -1,3 +1,4 @@
+
 @extends('layouts.templates.template')
 @section('title', 'Cadastro de Despesas')
 
@@ -79,63 +80,67 @@
                             </div>
                         </div>
 
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Descrição</strong>
-                                <textarea cols="145" rows="2" class="form-control" name="descricao"></textarea>
-                            </div>
-
-                        </div>
 
 
-                        <div class="d-flex" style="width: 100%;justify-content:space-around; align-items:center">
+                     
+                        <div class="d-flex" style="width: 100%; align-items:center">
                             <div class="px-5 mb-3">
                                 <h3>Itens </h3>
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlarge">
+                                <button class="btn btn-primary" type="button" id="Prod">
                                     <i class="bi bi-plus"></i>produto
                                 </button>
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlargeServico">
+                                {{-- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlargeServico">
                                     <i class="bi bi-plus"></i>serviço
-                                </button>
+                                </button> --}}
                             </div>
                         </div>
 
                         <div class="d-flex" style="width: 100%; margin: 15px;">
                             <!-- Inicio da tabela de itens -->
+                            <div class="px-5 mb-3">
+                             
+
+                             
                             <div class="table-responsive">
                                 <table class="table table-bordered mb-0">
                                     <thead>
                                         <tr>
-                                            <th>Produto/serviços</th>
+                                            <th>Classificação</th>
+                                            <th>Produto</th>
+                                            <th>Valor Unitario</th>
                                             <th>Quantidade</th>
-                                            <th>Valor Unitário</th>
-                                            <th>Rateio</th>
-
-                                            <th>Remover</th>
+                                            <th>Ação</th>
                                         </tr>
                                     </thead>
-                                    <tbody >
-                                        <tr>
-                                            <td class="text-bold-500">Monitor</td>
-                                            <td>10</td>
-                                            <td class="text-bold-500">R$150</td>
-                                            <td>CERCRED - SOLUÇÕES DE CONTACT CENTER E RECUPERAÇÃO DE CRÉDITO LTDA</td>
-                                            <td>
-                                                <!-- mudar a rota -->
-                                                <a href="#" class="btn btn-danger " style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                        <td class="inserirProd_Ser" ></td>
-                                            <td class="inserirQuant"></td>
-                                            <td class="inserirValor"></td>
-                                            <td class="inserirDesc"></td>
-                                            <td class="inserirBtnExcluir"></td>
-                                        </tr>
+                                    <tbody id="Tb" >
+                                        <td class="inserirProd_Ser">
+                                                <div>
+                                                    <input class="form-control mt-1" type="text" autocomplete="off" required id="classificacao_prod" placeholder="Produto ou Servico" name="classificacao_produto" style="width: 188px" />
+                                                    <div id="classificacao_tipo_produto" class="input-style"></div>
+                                                </div>
+                                        </td> 
 
+                                        <td class="inserirQuant">
+                                            <div>
+                                                <select class="form-control input-add" id="produto_servico" placeholder="Produto ou Servico" required name="produto_servico" style="width: 190px" ></select>
+                                            </div>
+                                        </td> 
+
+                                        <td class="inserirValor">
+                                            <div>
+                                                <input class="form-control mt-1" id="valor_item" type="text" autocomplete="off" placeholder="Valor" required name="complemento" style="width: 70px" /></div>
+                                        </td> 
+                                        
+                                        <td class="inserirDesc">
+                                            <div>
+                                                <input class="form-control mt-1" id="quantidade" type="text" autocomplete="off" placeholder="Quantidade" required name="quantidade" style="width: 70px" />
+                                            </div>
+                                        </td> 
+                                        <td></td>
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
                             <!-- Fim da tabela de itens -->
                         </div>
 
@@ -169,7 +174,7 @@
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Valor</strong>
-                                <input type="text" placeholder="Informe o numero" class="form-control input-add" name="numero_documento" />
+                                <input type="text" id="valor_total" placeholder="Informe o numero" class="form-control input-add" name="numero_documento" />
                             </div>
 
                             <div class="px-5 mb-3">
@@ -290,35 +295,7 @@
                     {{-- mudar a rota --}}
                     <form   style="padding: 10px;">
                         @csrf
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Classificação</strong>
-                                <input class="form-control mt-1" type="text" id="classificacao_prod" placeholder="Produto ou Servico" name="classificacao_produto" style="width: 200px" />
-                                <div id="classificacao_tipo_produto" class="input-style"></div>
-                            </div>
-                            <div class="px-5 mb-3">
-                                <strong>Produto</strong>
-                                <select class="form-control input-add" id="produto_servico" placeholder="Produto ou Servico" name="produto_servico" style="width: 208px" ></select>
-                            </div>
-
-                            <div class="px-5 mb-3">
-                                <strong>Valor do item</strong>
-                                <input class="form-control mt-1" id="valor_item" type="text" placeholder="Valor do item" name="complemento" style="width: 150px" />
-                            </div>
-
-                            <div class="px-5 mb-3">
-                                <strong>Quantidade</strong>
-                                <input class="form-control mt-1" id="quantidade" type="text" placeholder="Quantidade do item" name="bairro" style="width: 150px" />
-                            </div>
-
-                        </div>
-
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>Descrição</strong>
-                                <textarea cols="145" rows="1" class="form-control" id="descricao" type="text" placeholder="Descrição" name="descricao" style="width: 850px"></textarea>
-                            </div>
-                        </div>
+                     
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 d-flex justify-content-end">
