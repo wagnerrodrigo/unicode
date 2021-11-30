@@ -1,3 +1,4 @@
+
 @extends('layouts.templates.template')
 @section('title', 'Cadastro de Despesas')
 
@@ -60,6 +61,11 @@
                             <div>
                                 <strong>NOME/RAZÃO SOCIAL</strong>
                                 <input type="text" placeholder="Razão Social" class="form-control input-add" name="razao_social" id="input_razao_social" readonly />
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Classificação</strong>
+                                <input class="form-control input-add teste" name="classificacao" id="classificacao_con" readonly/>
+                                <div id="itens_classificacao" class="input-style"></div>
                             </div>
                         </div>
                     </div>
@@ -87,42 +93,66 @@
                     </div>
 
 
-                    <div class="d-flex" style="width: 100%;justify-content:flex-start; align-items:center">
-                        <div class="px-5 mb-3">
-                            <h3>ITENS</h3>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlarge">
-                                <i class="bi bi-plus"></i>
-                            </button>
-
+                        <div class="d-flex" style="width: 100%; align-items:center">
+                            <div class="px-5 mb-3">
+                                <h3>Itens </h3>
+                                <button class="btn btn-primary" type="button" id="Prod">
+                                    <i class="bi bi-plus"></i>produto
+                                </button>
+                                {{-- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlargeServico">
+                                    <i class="bi bi-plus"></i>serviço
+                                </button> --}}
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Inicio da div da tabela de itens -->
-                    <div class="d-flex" style="width: 100%; margin: 15px;">
-                        <div class="table-responsive">
-                            <table class="table table-bordered mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>PRODUTOS/SERVIÇOS</th>
-                                        <th>QUANTIDADE</th>
-                                        <th>VALOR UNITÁRIO</th>
-                                        <th>RATEIO</th>
-                                        <th>REMOVER</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-bold-500">Monitor</td>
-                                        <td>10</td>
-                                        <td class="text-bold-500">R$150</td>
-                                        <td>CERCRED - SOLUÇÕES DE CONTACT CENTER E RECUPERAÇÃO DE CRÉDITO LTDA</td>
-                                        <td>
-                                            <!-- mudar a rota -->
-                                            <a href="#" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
+                        <div class="d-flex" style="width: 100%; margin: 15px;">
+                            <!-- Inicio da tabela de itens -->
+                            <div class="px-5 mb-3">
+
+
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Classificação</th>
+                                            <th>Produto</th>
+                                            <th>Valor Unitario</th>
+                                            <th>Quantidade</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="Tb" >
+                                        <td class="inserirProd_Ser">
+                                                <div>
+                                                    <input class="form-control mt-1" type="text" autocomplete="off" required id="classificacao_prod" placeholder="Produto ou Servico" name="classificacao_produto" style="width: 188px" />
+                                                    <div id="classificacao_tipo_produto" class="input-style"></div>
+                                                </div>
                                         </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+                                        <td class="inserirQuant">
+                                            <div>
+                                                <select class="form-control input-add" id="produto_servico" placeholder="Produto ou Servico" required name="produto_servico" style="width: 190px" ></select>
+                                            </div>
+                                        </td>
+
+                                        <td class="inserirValor">
+                                            <div>
+                                                <input class="form-control mt-1" id="valor_item" type="text" autocomplete="off" placeholder="Valor" required name="complemento" style="width: 70px" /></div>
+                                        </td>
+
+                                        <td class="inserirDesc">
+                                            <div>
+                                                <input class="form-control mt-1" id="quantidade" type="text" autocomplete="off" placeholder="Quantidade" required name="quantidade" style="width: 70px" />
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                            <!-- Fim da tabela de itens -->
                         </div>
                     </div>
                     <!-- Fim da div da tabela de itens -->
@@ -184,6 +214,11 @@
                     <br>
                     <hr>
                     <br>
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>Valor</strong>
+                                <input type="text" id="valor_total" placeholder="Informe o numero" class="form-control input-add" name="numero_documento" />
+                            </div>
 
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
@@ -284,38 +319,87 @@
 
 
 
-    <!-- Inicio Modal Adicionar-->
-    <div class="me-1 mb-1 d-inline-block">
-        <!--Extra Large Modal -->
-        <div class="modal fade text-left w-100" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel16">Novo Endereço</h4>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <i class="bi bi-x" data-feather="x"></i>
+<!-- Inicio Modal Adicionar-->
+<div class="me-1 mb-1 d-inline-block">
+    <!--Extra Large Modal -->
+    <div class="modal fade text-left w-100" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel16">Novo Produto</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x" data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{-- mudar a rota --}}
+                    <form   style="padding: 10px;">
+                        @csrf
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button type="Button" id="btn_Adicionar_produto" class="btn btn-success me-1 mb-1">
+                            <i data-feather="check-circle"></i>Adicionar
                         </button>
-                    </div>
-                    <div class="modal-body">
                         {{-- mudar a rota --}}
+                        <a  class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fim modal Adicionar -->
+
+
+
+
+<!-- Inicio Modal Adicionar SERVIÇO-->
+<div class="me-1 mb-1 d-inline-block">
+    <!--Extra Large Modal -->
+    <div class="modal fade text-left w-100" id="xlargeServico" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel16">Novo Serviço</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x" data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{-- mudar a rota --}}
+                    <form   style="padding: 10px;">
+                        @csrf
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>Produto/Serviço</strong>
-                                <input class="form-control mt-1" type="text" id="produto_servico" placeholder="Produto ou Servico" name="produto_servico" style="width: 358px" />
+                                <strong>Classificação</strong>
+                                <input class="form-control mt-1" type="text" id="classificacao_serv" placeholder="Produto ou Servico" name="class_Servico" style="width: 200px" />
+                                <div id="classificacao_tipo_servico" class="input-style"></div>
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>Serviço</strong>
+                                <select class="form-control input-add"  id="servico" placeholder="Produto ou Servico" name="servico" style="width: 208px" ></select>
                             </div>
 
                             <div class="px-5 mb-3">
                                 <strong>Valor do item</strong>
-                                <input class="form-control mt-1" id="valor_item" type="text" placeholder="Valor do item" name="complemento" style="width: 358px" />
+                                <input class="form-control mt-1" id="valor_Servico" type="text" placeholder="Valor do item" name="valor_Servico" style="width: 150px" />
                             </div>
                         </div>
 
                         <div class="d-flex" style="width: 100%">
+
                             <div class="px-5 mb-3">
                                 <strong>Quantidade</strong>
-                                <input class="form-control mt-1" id="quantidade" type="text" placeholder="Quantidade do item" name="bairro" style="width: 358px" />
+                                <input class="form-control mt-1" id="quantidade_Servico" type="text" placeholder="Quantidade do item" name="quantidade_Servico" style="width: 150px" />
                             </div>
 
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Descrição</strong>
                                 <textarea cols="145" rows="1" maxlength="80" class="form-control" type="text" placeholder="Descrição" name="descricao" style="width: 358px"></textarea>
@@ -404,6 +488,8 @@
         </div>
     </div>
     <!-- Fim modal Adicionar -->
+</div>
+<!-- Fim modal Adicionar SERVIÇO-->
 
 
     <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>

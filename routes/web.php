@@ -111,6 +111,9 @@ Route::get('/servicos/{id}',         [ServicoController::class, 'show'])->name('
 Route::post('/servicos',             [ServicoController::class, 'store']);
 Route::post('/servicos/editar/{id}', [ServicoController::class, 'edit']);
 Route::post('/servicos/delete/{id}', [ServicoController::class, 'destroy']);
+Route::get('/servico/classificacao', [ServicoController::class, 'showClassificacaoServico']);
+Route::get('/servico/classificacao/{id}', [ServicoController::class, 'showClassificacaoServicoId']);
+
 
 //rotas Produto
 Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos');
@@ -118,7 +121,8 @@ Route::get('/produtos/{id}', [ProdutoController::class, 'show'])->name('lista-pr
 Route::post('/produtos', [ProdutoController::class, 'store']);
 Route::post('/produtos/editar/{id}', [ProdutoController::class, 'edit']);
 Route::post('/produtos/delete/{id}', [ProdutoController::class, 'destroy']);
-
+Route::get('/produto/classificacao',[ProdutoController::class, 'showClassificacaoProduto']);
+Route::get('/produto/classificacao/{id}',[ProdutoController::class, 'showClassificacaoProdutoId']);
 
 //rotas Centro de custo
 Route::get('/centro-custos', [CentroCustos::class, 'index'])->name('centro-custos');

@@ -30,9 +30,18 @@ class ServicoController extends Controller
         
         return view('admin.servico.lista-servico', compact('servicosAtivos'));
     }
+    
 
-    public function list()
+    public function showClassificacaoServico()
     {
+        $servico = Servico::selectAll();
+        return response()->json($servico);
+    } 
+
+    public function showClassificacaoServicoId($id)
+    {
+        $servico = Servico::selectById($id);
+        return response()->json($servico);
     }
     /**
      * Show the form for creating a new resource.
