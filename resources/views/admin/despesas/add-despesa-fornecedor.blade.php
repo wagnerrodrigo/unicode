@@ -9,8 +9,8 @@
             <div class="card-header">
                 <h1>Despesa</h1>
             </div>
-            <div class="card-body d-flex flex-column justify-content-center">
-                <div class="justify-content-center " id="list-despesa" style="padding: 10px;">
+            <div class="card-body d-flex flex-column">
+                <div class="justify-content-center" id="list-despesa" style="padding: 10px;">
                     <div class="d-flex mt-10" style="width: 100%">
                         <form action="/despesas" method="POST">
                             @csrf
@@ -64,156 +64,148 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="d-flex mt-10" style="width: 100%">
-                    <div class="px-5 mb-3">
-                        <strong>CLASSIFICAÇÃO</strong>
-                        <input class="form-control input-add teste" name="classificacao" id="classificacao_con" readonly></input>
-                        <div id="itens_classificacao" class="input-style"></div>
+
+                    <div class="d-flex mt-10" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>CLASSIFICAÇÃO</strong>
+                            <input class="form-control input-add teste" name="classificacao" id="classificacao_con" readonly></input>
+                            <div id="itens_classificacao" class="input-style"></div>
+                        </div>
+
+                        <div class="px-5 mb-3">
+                            <strong>TIPO</strong>
+                            <select class="form-control input-add" name="tipo_classificacao" id="tipo_classificacao">
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="px-5 mb-3">
-                        <strong>TIPO</strong>
-                        <select class="form-control input-add" name="tipo_classificacao" id="tipo_classificacao">
-                        </select>
-                    </div>
-                </div>
+                    <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>DESCRIÇÃO</strong>
+                            <textarea cols="145" rows="2" class="form-control" name="descricao"></textarea>
+                        </div>
 
-                <div class="d-flex" style="width: 100%">
-                    <div class="px-5 mb-3">
-                        <strong>DESCRIÇÃO</strong>
-                        <textarea cols="145" rows="2" class="form-control" name="descricao"></textarea>
                     </div>
 
-                </div>
-
-
-                <div class="d-flex" style="width: 100%; align-items:center">
-                    <div class="px-5 mb-3">
-                        <h3>Itens </h3>
-                        <button class="btn btn-primary" type="button" id="Prod">
-                            <i class="bi bi-plus"></i>produto
-                        </button>
-                        <!-- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlargeServico"> -->
-                        <!-- <i class="bi bi-plus"></i>serviço -->
-                        <!-- </button>  -->
+                    <div class="d-flex" style="width: 100%; align-items:center">
+                        <div class="px-5 mb-3">
+                            <h3>Itens </h3>
+                            <button class="btn btn-primary" type="button" id="Prod">
+                                <i class="bi bi-plus"></i>produto
+                            </button>
+                            <!-- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlargeServico"> -->
+                            <!-- <i class="bi bi-plus"></i>serviço -->
+                            <!-- </button>  -->
+                        </div>
                     </div>
-                </div>
 
+                    <div class="d-flex" style="width: 100%; margin: 15px;">
+                        <!-- Inicio da tabela de itens -->
+                        <div class="px-5 mb-3">
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Classificação</th>
+                                            <th>Produto</th>
+                                            <th>Valor Unitario</th>
+                                            <th>Quantidade</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="Tb">
+                                        <td class="inserirProd_Ser">
+                                            <div>
+                                                <input class="form-control mt-1" type="text" autocomplete="off" required id="classificacao_prod" placeholder="Produto ou Servico" name="classificacao_produto" style="width: 188px" />
+                                                <div id="classificacao_tipo_produto" class="input-style"></div>
+                                            </div>
+                                        </td>
 
-                <div class="d-flex" style="width: 100%; margin: 15px;">
-                    <!-- Inicio da tabela de itens -->
-                    <div class="px-5 mb-3">
+                                        <td class="inserirQuant">
+                                            <div>
+                                                <select class="form-control input-add" id="produto_servico" placeholder="Produto ou Servico" required name="produto_servico" style="width: 190px"></select>
+                                            </div>
+                                        </td>
+
+                                        <td class="inserirValor">
+                                            <div>
+                                                <input class="form-control mt-1" id="valor_item" type="text" autocomplete="off" placeholder="Valor" required name="complemento" style="width: 70px" />
+                                            </div>
+                                        </td>
+
+                                        <td class="inserirDesc">
+                                            <div>
+                                                <input class="form-control mt-1" id="quantidade" type="text" autocomplete="off" placeholder="Quantidade" required name="quantidade" style="width: 70px" />
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Fim da tabela de itens -->
+                    </div>
+
+                    <!-- Fim da div da tabela de itens -->
+
+                    <br>
+                    <hr>
+                    <br>
+
+                    <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>VALOR</strong>
+                            <input type="text" placeholder="Informe o numero" class="form-control input-add" name="valor_total" />
+                        </div>
+
+                        <div class="px-5 mb-3">
+                            <strong>MOEDA</strong>
+                            <select class="form-control input-add" name="moeda" id="moeda">
+                                <option selected value="real">BRL</option>
+                                <option value="dolar">USD</option>
+                                <option value="euro">EUR</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <br>
+                    <hr>
+                    <br>
+
+                    <div class="d-flex" style="width: 100%;justify-content:start; align-items:center">
+                        <div class="px-5 mb-3">
+                            <h3>RATEIO</h3>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xrateio">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Inicio da div da tabela de rateio -->
+                    <div class="d-flex" style="width: 100%; margin: 15px;">
                         <div class="table-responsive">
                             <table class="table table-bordered mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Classificação</th>
-                                        <th>Produto</th>
-                                        <th>Valor Unitario</th>
-                                        <th>Quantidade</th>
-                                        <th>Ação</th>
+                                        <th>EMPRESA</th>
+                                        <th>CENTRO DE CUSTO</th>
+                                        <th>RATEIO</th>
+                                        <th>%</th>
+                                        <th>EDITAR</th>
                                     </tr>
                                 </thead>
-                                <tbody id="Tb">
-                                    <td class="inserirProd_Ser">
-                                        <div>
-                                            <input class="form-control mt-1" type="text" autocomplete="off" required id="classificacao_prod" placeholder="Produto ou Servico" name="classificacao_produto" style="width: 188px" />
-                                            <div id="classificacao_tipo_produto" class="input-style"></div>
-                                        </div>
-                                    </td>
+                                <tbody id="table_rateio">
 
-                                    <td class="inserirQuant">
-                                        <div>
-                                            <select class="form-control input-add" id="produto_servico" placeholder="Produto ou Servico" required name="produto_servico" style="width: 190px"></select>
-                                        </div>
-                                    </td>
-
-                                    <td class="inserirValor">
-                                        <div>
-                                            <input class="form-control mt-1" id="valor_item" type="text" autocomplete="off" placeholder="Valor" required name="complemento" style="width: 70px" />
-                                        </div>
-                                    </td>
-
-                                    <td class="inserirDesc">
-                                        <div>
-                                            <input class="form-control mt-1" id="quantidade" type="text" autocomplete="off" placeholder="Quantidade" required name="quantidade" style="width: 70px" />
-                                        </div>
-                                    </td>
-                                    <td></td>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <!-- Fim da tabela de itens -->
-                </div>
+                    <!-- Fim da div da tabela de rateio -->
 
-                <!-- Fim da div da tabela de itens -->
-
-                <br>
-                <hr>
-                <br>
-
-                <div class="d-flex" style="width: 100%">
-                    <div class="px-5 mb-3">
-                        <strong>VALOR</strong>
-                        <input type="text" placeholder="Informe o numero" class="form-control input-add" name="valor_total" />
-                    </div>
-
-                    <div class="px-5 mb-3">
-                        <strong>MOEDA</strong>
-                        <select class="form-control input-add" name="moeda" id="moeda">
-                            <option selected value="real">BRL</option>
-                            <option value="dolar">USD</option>
-                            <option value="euro">EUR</option>
-                        </select>
-                    </div>
-                </div>
-
-                <br>
-                <hr>
-                <br>
-
-                <div class="d-flex" style="width: 100%;justify-content:start; align-items:center">
-                    <div class="px-5 mb-3">
-                        <h3>RATEIO</h3>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xrateio">
-                            <i class="bi bi-plus"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Inicio da div da tabela de rateio -->
-                <div class="d-flex" style="width: 100%; margin: 15px;">
-                    <div class="table-responsive">
-                        <table class="table table-bordered mb-0">
-                            <thead>
-                                <tr>
-                                    <th>EMPRESA</th>
-                                    <th>CENTRO DE CUSTO</th>
-                                    <th>RATEIO</th>
-                                    <th>%</th>
-                                    <th>EDITAR</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table_rateio">
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- Fim da div da tabela de rateio -->
-
-                <br>
-                <hr>
-                <br>
-                <div class="d-flex" style="width: 100%">
-                    <div class="px-5 mb-3">
-                        <strong>Valor</strong>
-                        <input type="text" id="valor_total" placeholder="Informe o numero" class="form-control input-add" name="numero_documento" />
-                    </div>
-
+                    <br>
+                    <hr>
+                    <br>
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>QUANTIDADE PARCELAS</strong>
@@ -227,6 +219,8 @@
                             </select>
                         </div>
                     </div>
+
+
 
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
@@ -276,7 +270,7 @@
         </div>
     </div>
 </div>
-</div>
+
 
 
 <!--modal de busca de empregado/fornecedor-->
