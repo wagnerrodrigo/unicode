@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lancamento;
 use Illuminate\Http\Request;
 
 class LancamentoController extends Controller
@@ -13,7 +14,22 @@ class LancamentoController extends Controller
      */
     public function index()
     {
-        return view('admin.lancamentos.lista-lancamentos');
+
+
+        $lancamentos = Lancamento::selectAll();
+
+        $lancamentosAtivos = [];
+        $lancamentosInativos = [];
+        for ($i = 0; $i < count($lancamentos); $i++) {
+            if ($lancamentos[$i]->dt_fim === null) {
+                $lancamentosAtivos[] = $lancamentos[$i];
+            } else {
+                $lancamentosInativos[] = $lancamentos[$i];
+            };
+        }
+        
+
+        return view('admin.lancamentos.lista-lancamentos', compact('lancamentosAtivos'));
     }
 
     /**
@@ -43,11 +59,15 @@ class LancamentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-        return view('admin.lancamentos.detalhes-lancamento');
+        $lancamento = Lancamento::findOne($id);
+        return view('admin.lancamentos.detalhes-lancamento', compact('lancamento'));
     }
 
+    public function provisionamento(){
+        return view('admin.lancamentos.add-lancamento');
+    }
     /**
      * Show the form for editing the specified resource.
      *
