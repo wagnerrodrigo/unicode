@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Despesa;
+use App\Models\Rateio;
 use Illuminate\Http\Request;
 
 class DespesaController extends Controller
@@ -50,16 +51,38 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        if ($request->empresa_rateio) {
+            $rateios = [];
+            //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
+            for ($i = 0; $i < count($request->empresa_rateio); $i++) {
+                $rateios[] = [
+                    'centro_custo_rateio' => $request->custo_rateio[$i],
+                    'valor_rateio' => $request->valor_rateio[$i],
+                    'porcentagem_rateio' => $request->porcentagem_rateio[$i],
+                ];
+            }
+            //instancia um objeto do model Rateio
+            $rateio = new Rateio();
+            //percorre o novo array e chama o metodo de inserção no banco para cada indice do array de rateios
+            for ($i = 0; $i < count($rateios); $i++) {
+                $rateio->fk_tab_centro_custo_id = $rateios[$i]['centro_custo_rateio'];
+                $rateio->valor_rateio_despesa = $rateios[$i]['valor_rateio'];
+                $rateio->porcentagem_rateio_despesa = $rateios[$i]['porcentagem_rateio'];
+                $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                $rateio->dt_fim = null;
+                Rateio::create($rateio);
+            }
+        }
 
+        //instancia model Despesa
         $despesa = new Despesa();
+        //faz a verificação do campo tipo da despesa e seta o valor no model
         $despesa->fk_centro_de_custo = $request->centro_custo_empresa;
         if ($request->tipo_despesa == 'empregado') {
             $despesa->fk_tipo_despesa = 1;
         } else {
             $despesa->fk_tipo_despesa = 2;
         }
-
         $despesa->fk_plano_contas = $request->tipo_classificacao;
         $despesa->numero_documento_despesa = $request->numero_nota_documento;
         $despesa->qt_parcelas_despesa = $request->parcelas;
@@ -77,7 +100,6 @@ class DespesaController extends Controller
         $despesa->fk_condicao_pagamento_id = $request->condicao_pagamento;
         $despesa->dt_fim = null;
 
-        //dd($despesa);
         Despesa::create($despesa);
 
         return view('admin.despesas.add-despesas');
@@ -88,11 +110,6 @@ class DespesaController extends Controller
         $despesa = Despesa::findOne($id);
         $camposRequisicao = $request->all();
 
-        foreach ($camposRequisicao as $key => $value) {
-            if ($key != '_token') {
-                $despesa->$key = strtoupper($value);
-            }
-        }
         Despesa::set($despesa);
 
         return redirect()->route('despesas');

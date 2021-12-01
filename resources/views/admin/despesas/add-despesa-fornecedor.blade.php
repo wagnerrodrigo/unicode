@@ -14,12 +14,13 @@
                     <div class="d-flex mt-10" style="width: 100%">
                         <form action="/despesas" method="POST">
                             @csrf
+                            <div id="hidden_inputs"></div>
                             <div class="px-5 mb-3">
                                 <strong>EMPRESA</strong>
-                                <input type="text" id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-busca" name="nome_empresa" />
+                                <input type="text" id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-busca" />
                                 <div id="results_empresa" class="resultado-busca"></div>
                                 <!--serve somente para armazenar o id da empresa selecionada-->
-                                <input type="hidden" id="id_busca_empresa" name="id_empresa"></input>
+                                <input type="hidden" id="id_busca_empresa"></input>
                                 <!-- ### -->
                             </div>
                     </div>
@@ -117,26 +118,26 @@
                                     <tbody id="Tb">
                                         <td class="inserirProd_Ser">
                                             <div>
-                                                <input class="form-control mt-1" type="text" autocomplete="off" required id="classificacao_prod" placeholder="Produto ou Servico" name="classificacao_produto" style="width: 188px" />
+                                                <input class="form-control mt-1" type="text" autocomplete="off" id="classificacao_prod" placeholder="Produto ou Servico" style="width: 188px" />
                                                 <div id="classificacao_tipo_produto" class="input-style"></div>
                                             </div>
                                         </td>
 
                                         <td class="inserirQuant">
                                             <div>
-                                                <select class="form-control input-add" id="produto_servico" placeholder="Produto ou Servico" required name="produto_servico" style="width: 190px"></select>
+                                                <select class="form-control input-add" id="produto_servico" placeholder="Produto ou Servico" style="width: 190px"></select>
                                             </div>
                                         </td>
 
                                         <td class="inserirValor">
                                             <div>
-                                                <input class="form-control mt-1" id="valor_item" type="text" autocomplete="off" placeholder="Valor" required name="complemento" style="width: 70px" />
+                                                <input class="form-control mt-1" id="valor_item" type="text" autocomplete="off" placeholder="Valor" style="width: 70px" />
                                             </div>
                                         </td>
 
                                         <td class="inserirDesc">
                                             <div>
-                                                <input class="form-control mt-1" id="quantidade" type="text" autocomplete="off" placeholder="Quantidade" required name="quantidade" style="width: 70px" />
+                                                <input class="form-control mt-1" id="quantidade" type="text" autocomplete="off" placeholder="Quantidade" style="width: 70px" />
                                             </div>
                                         </td>
                                         <td></td>
@@ -195,6 +196,7 @@
                                         <th>EDITAR</th>
                                     </tr>
                                 </thead>
+
                                 <tbody id="table_rateio">
 
                                 </tbody>
@@ -271,8 +273,6 @@
     </div>
 </div>
 
-
-
 <!--modal de busca de empregado/fornecedor-->
 <div class="modal-primary me-1 mb-1 d-inline-block">
     <div class="modal fade text-left" id="modal-busca" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
@@ -288,7 +288,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <strong id="tipo-documento"></strong>
-                        <input type="text" class="form-control" id="Cnpj_Cpf" name="cnpj" autocomplete="off">
+                        <input type="text" class="form-control" id="Cnpj_Cpf" autocomplete="off">
                         <div class="ResultadoCnpjCpf input-add" id="ResultadoCnpjCpf" value=""></div>
                     </div>
 
@@ -377,7 +377,7 @@
                         </div>
                         <div class="d-flex flex-row" style="width: 100%; align-items:center">
                             <div>
-                                <input class="form-control mt-1" id="porcentagem_rateado" type="text" min="0" max="3" onkeyup="return validateValue(this);" onkeypress="return onlynumber();" maxlength="3" name="porcentagem_rateado" style="width: 58px" />
+                                <input class="form-control mt-1" id="porcentagem_rateado" type="text" min="0" max="3" onkeyup="return validateValue(this);" onkeypress="return onlynumber();" maxlength="3" style="width: 58px" />
                             </div>
 
                             <div>
