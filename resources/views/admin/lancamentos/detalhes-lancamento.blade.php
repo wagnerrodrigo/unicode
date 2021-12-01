@@ -15,17 +15,17 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong for="raz_social">TESTE</strong>
+                                    <strong for="raz_social">NÚMERO DA DESPESA </strong>
                                 </div>
-                                <span>TESTE</span>
+                                <span>{{$lancamento->id_despesa}}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>TESTE</strong>
+                                    <strong>DESCRIÇÃO DA DESPESA</strong>
                                 </div>
-                                <span>TESTE</span>
+                                <span>{{$lancamento->de_despesa}}</span>
                             </div>
                         </div>
                     </div>
@@ -34,17 +34,29 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>TESTE</strong>
+                                    <strong>VALOR</strong>
                                 </div>
-                                <span>TESTE</span>
+                                <span>{{$lancamento->valor_total_despesa}}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>TESTE</strong>
+                                    <strong>DATA DO VENCIMENTO</strong>
                                 </div>
-                                <span>TESTE</span>
+                                <span>{{$lancamento->dt_vencimento}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>DATA DO EFETIVO PAGAMENTO</strong>
+                                </div>
+                                <span>{{$lancamento->dt_provisionamento}}</span>
                             </div>
                         </div>
                     </div>
@@ -52,8 +64,9 @@
 
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
-                    <a href="{{route('fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
+                    <button href="/lancamentos/provisionamento" class="btn btn-success" style="padding: 8px 12px;">Pagar</button>
+                    <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Pagar</button>
+                    <a href="{{route('lancamentos')}}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
                 </div>
             </div>
         </div>
