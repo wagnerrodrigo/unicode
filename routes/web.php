@@ -94,7 +94,8 @@ Route::get('/centroCustoEmpresa/nome/{nome}', [CentroCustosController::class, 's
 
 //rotas Lançamentos
 Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
-Route::get('/lancamentos/show', [LancamentoController::class, 'show'])->name('lancamentos-show');
+Route::get('/lancamentos/id/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
+Route::get('/lancamentos/provisionamento',[LancamentoController::class, 'provisionamento'])->name('add-lancamento-provisionamento');
 
 //rotas Receitas
 Route::get('/receitas', [ReceitaController::class, 'index'])->name('receitas');
