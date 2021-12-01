@@ -46,7 +46,7 @@ $(document).ready(function() {
                     type: "GET",
                     url: `http://localhost:8000/classificacao-contabil/${id_classificacao}`,
                     dataType: "json",
-                }).done(function (response) {
+                }).done(function(response) {
                     //mostra os resultados da busca em uma div
                     $.each(response, function(key, val) {
                         $("#tipo_classificacao").append(
@@ -59,8 +59,6 @@ $(document).ready(function() {
         .fail(function() {
             console.log("erro na requisição Ajax");
         });
-
-
 
     // INICIO FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO PRODUTO E O PRODUTO
 
@@ -96,7 +94,6 @@ $(document).ready(function() {
                     url: `http://localhost:8000/produto/classificacao/${id_classificacao}`,
                     dataType: "json",
                 }).done(function(response) {
-
                     //mostra os resultados da busca em uma div
                     $.each(response, function(key, val) {
                         $("#produto_servico").append(
@@ -110,18 +107,9 @@ $(document).ready(function() {
             console.log("erro na requisição Ajax");
         });
 
-
-
     // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO PRODUTO E O PRODUTO
 
-
-
-
-
-
     // INICIO FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO SERVICO E O SERVICO
-
-
 
     $.ajax({
             type: "GET",
@@ -155,7 +143,6 @@ $(document).ready(function() {
                     url: `http://localhost:8000/servico/classificacao/${id_classificacao}`,
                     dataType: "json",
                 }).done(function(response) {
-
                     //mostra os resultados da busca em uma div
                     $.each(response, function(key, val) {
                         $("#servico").append(
@@ -169,40 +156,29 @@ $(document).ready(function() {
             console.log("erro na requisição Ajax");
         });
 
-
-
-
-
     // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO SERVICO E O SERVICO
-
-
-
-
-
-
-
 });
 
 //Buscar condição de pagamento no banco de dados com requisição via AJAX
 
 $.ajax({
-    type: "GET",
-    url: `http://localhost:8000/condicao_pagamento`,
-    dataType: "json",
-}).done(function (response) {
-    //traz os resultados do banco para uma div hidden
-    $.each(response, function (key, val) {
-
-        $("#condicao_pagamento").append(
-            `<option class="classificacao" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</option>`
-        );
+        type: "GET",
+        url: `http://localhost:8000/condicao_pagamento`,
+        dataType: "json",
+    })
+    .done(function(response) {
+        //traz os resultados do banco para uma div hidden
+        $.each(response, function(key, val) {
+            $("#condicao_pagamento").append(
+                `<option class="classificacao" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</option>`
+            );
+        });
+    })
+    .fail(function() {
+        console.log("erro na requisição Ajax");
     });
-}).fail(function () {
-    console.log("erro na requisição Ajax");
-});
 
 //Fim de busca de condição de pagamento
-
 
 //função para buscar empresa
 $("#busca_empresa").keyup(function() {
@@ -274,25 +250,25 @@ document.getElementById("btnDespesa").onclick = function() {
                     "CNPJ/CPF";
 
                 // Inico da busca dos cnpj/cpf dos fornecedores
-                $("#Cnpj_Cpf").keyup(function () {
+                $("#Cnpj_Cpf").keyup(function() {
                     var digitoCnpjCpf = $(this).val();
 
                     if (digitoCnpjCpf != "") {
                         $.ajax({
-                            url: `/fornecedores/cnpj_cpf/${digitoCnpjCpf}`,
-                            type: "GET",
-                            dataType: "json",
-                        })
-                            .done(function (response) {
+                                url: `/fornecedores/cnpj_cpf/${digitoCnpjCpf}`,
+                                type: "GET",
+                                dataType: "json",
+                            })
+                            .done(function(response) {
                                 $("#ResultadoCnpjCpf").html("");
                                 //mostra os resultados da busca em uma div
-                                $.each(response, function (key, val) {
+                                $.each(response, function(key, val) {
                                     $("#ResultadoCnpjCpf").append(
                                         `<div class="item" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.de_razao_social} </div>`
                                     );
                                 });
                                 //seleciona o cnpj ou cpf desejada
-                                $(".item").click(function () {
+                                $(".item").click(function() {
                                     $("#Cnpj_Cpf").val($(this).text());
                                     var idFornecedor = $(this).attr("value");
 
@@ -302,8 +278,8 @@ document.getElementById("btnDespesa").onclick = function() {
                                         type: "GET",
                                         url: `/fornecedores/cnpj_cpf/${idFornecedor}`,
                                         dataType: "json",
-                                    }).done(function (response) {
-                                        $("#btnCnpj_Cpf").click(function () {
+                                    }).done(function(response) {
+                                        $("#btnCnpj_Cpf").click(function() {
                                             $("#input_cpf_cnpj").val(
                                                 response[0].nu_cpf_cnpj
                                             );
@@ -316,7 +292,7 @@ document.getElementById("btnDespesa").onclick = function() {
                                     });
                                 });
                             })
-                            .fail(function () {
+                            .fail(function() {
                                 $("#Cnpj_Cpf").val("");
                                 $("#ResultadoCnpjCpf").html("");
                             });
@@ -332,25 +308,25 @@ document.getElementById("btnDespesa").onclick = function() {
                 document.getElementById("tipo-documento").innerHTML = "CPF";
 
                 // Inicio da busca dos cpf dos empregodos
-                $("#Cnpj_Cpf").keyup(function () {
+                $("#Cnpj_Cpf").keyup(function() {
                     var digitoCpf = $(this).val();
 
                     if (digitoCpf != "") {
                         $.ajax({
-                            url: `/empregados/cpf/${digitoCpf}`,
-                            type: "GET",
-                            dataType: "json",
-                        })
-                            .done(function (response) {
+                                url: `/empregados/cpf/${digitoCpf}`,
+                                type: "GET",
+                                dataType: "json",
+                            })
+                            .done(function(response) {
                                 $("#ResultadoCnpjCpf").html("");
                                 //mostra os resultados da busca em uma div
-                                $.each(response, function (key, val) {
+                                $.each(response, function(key, val) {
                                     $("#ResultadoCnpjCpf").append(
                                         `<div class="item" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.nome_empregado} </div>`
                                     );
                                 });
                                 //seleciona o cnpj ou cpf desejada
-                                $(".item").click(function () {
+                                $(".item").click(function() {
                                     $("#Cnpj_Cpf").val($(this).text());
                                     var idEmpregado = $(this).attr("value");
 
@@ -360,8 +336,8 @@ document.getElementById("btnDespesa").onclick = function() {
                                         type: "GET",
                                         url: `/empregados/cpf/${idEmpregado}`,
                                         dataType: "json",
-                                    }).done(function (response) {
-                                        $("#btnCnpj_Cpf").click(function () {
+                                    }).done(function(response) {
+                                        $("#btnCnpj_Cpf").click(function() {
                                             $("#input_cpf_cnpj").val(
                                                 response[0].nu_cpf_cnpj
                                             );
@@ -374,7 +350,7 @@ document.getElementById("btnDespesa").onclick = function() {
                                     });
                                 });
                             })
-                            .fail(function () {
+                            .fail(function() {
                                 $("#Cnpj_Cpf").val("");
                                 $("#ResultadoCnpjCpf").html("");
                             });
@@ -388,11 +364,7 @@ document.getElementById("btnDespesa").onclick = function() {
     }
 };
 
-
-
-
-
-
+var valorTotal = 0;
 $("#Prod").click(function() {
     //  pega os valores dos campos preenchidos pelo usuario
     var class_prod = $("#classificacao_prod").val();
@@ -400,17 +372,21 @@ $("#Prod").click(function() {
     var valor_uni = $("#valor_item").val();
     var quanti = $("#quantidade").val();
     var valor_tl = parseFloat(valor_uni * quanti);
-    var btnDeletar = `<td><button type="button" class="btn btn-danger" id="remover" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button></td>`
+    var btnDeletar = `<td><button type="button" class="btn btn-danger" id="remover" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button></td>`;
     var html = "";
 
     // criar novos itens com os valores preenchidos anteriormente
     html += '<tr id="tab">';
-    html += `<td>${class_prod}<input type="hidden" name="Classificação" /></td>`
-    html += `<td>${prod_ser}<input type="hidden" name="Produto"</td>`
-    html += `<td>${valor_uni}<input type="hidden" name="Valor Unitario"</td>`
-    html += `<td>${quanti}<input type="hidden" name="Quantidade"</td>`
+    html += `<td>${class_prod}</td>`;
+    html += `<td>${prod_ser}</td>`;
+    html += `<td>${valor_uni}</td>`;
+    html += `<td>${quanti}</td>`;
     html += `${btnDeletar}`;
-    html += '</tr>';
+    html += `<input type="hidden" name="input1"  value="${class_prod}"/>`;
+    html += `<input type="hidden" name="input2" value="${prod_ser}"/>`;
+    html += `<input type="hidden" name="input3" value="${valor_uni}"/>`;
+    html += `<input type="hidden" name="input4" value="${quanti}"/>`;
+    html += "</tr>";
     $("#Tb").append(html);
 
     // limpar campos do item
@@ -419,9 +395,19 @@ $("#Prod").click(function() {
     $("#valor_item").val("");
     $("#quantidade").val("");
 
+    // soma de todos os valores dos items
+    valorTotal = valorTotal += valor_tl;
+    $("#valorTotal").val(valorTotal);
 });
 
 // remove o item da despesa
-$(document).on('click', '#remover', function() {
-    $('#tab').remove();
+$(document).on("click", "#remover", function() {
+    $("#acao_titulo").hide(); // oculta a th acao da tela
+    $("#acao_dados").hide(); // oculta a th botão de acao da tela
+    $("#tab").remove();
+});
+// remover o style da th (acao) da tela
+$(document).on("click", "#Prod", function() {
+    $("#acao_titulo").removeAttr("style");
+    $("#acao_dados").removeAttr("style");
 });

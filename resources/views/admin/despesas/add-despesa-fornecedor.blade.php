@@ -90,7 +90,7 @@
 
                     <div class="d-flex" style="width: 100%; align-items:center">
                         <div class="px-5 mb-3">
-                            <h3>Itens </h3>
+                            <h3>ITENS </h3>
                             <button class="btn btn-primary" type="button" id="Prod">
                                 <i class="bi bi-plus"></i>produto
                             </button>
@@ -111,35 +111,35 @@
                                             <th>Produto</th>
                                             <th>Valor Unitario</th>
                                             <th>Quantidade</th>
-                                            <th>Ação</th>
+                                            <th  id="acao_titulo" style="display:none;">Ação</th>
                                         </tr>
                                     </thead>
                                     <tbody id="Tb">
                                         <td class="inserirProd_Ser">
                                             <div>
-                                                <input class="form-control mt-1" type="text" autocomplete="off" required id="classificacao_prod" placeholder="Produto ou Servico" name="classificacao_produto" style="width: 188px" />
+                                                <input class="form-control mt-1" type="text" autocomplete="off" value=""  id="classificacao_prod" placeholder="Produto ou Servico" name="classificacao_produto" style="width: 188px" />
                                                 <div id="classificacao_tipo_produto" class="input-style"></div>
                                             </div>
                                         </td>
 
                                         <td class="inserirQuant">
                                             <div>
-                                                <select class="form-control input-add" id="produto_servico" placeholder="Produto ou Servico" required name="produto_servico" style="width: 190px"></select>
+                                                <select class="form-control input-add" id="produto_servico" value="" placeholder="Produto ou Servico"  name="produtoServico" style="width: 190px"></select>
                                             </div>
                                         </td>
 
                                         <td class="inserirValor">
                                             <div>
-                                                <input class="form-control mt-1" id="valor_item" type="text" autocomplete="off" placeholder="Valor" required name="complemento" style="width: 70px" />
+                                                <input class="form-control mt-1" id="valor_item" type="text" value="" autocomplete="off" placeholder="Valor"  name="complemento" style="width: 70px" />
                                             </div>
                                         </td>
 
                                         <td class="inserirDesc">
                                             <div>
-                                                <input class="form-control mt-1" id="quantidade" type="text" autocomplete="off" placeholder="Quantidade" required name="quantidade" style="width: 70px" />
+                                                <input class="form-control mt-1" id="quantidade" type="text" value="" autocomplete="off" placeholder="Quantidade"  name="quantidade" style="width: 70px" />
                                             </div>
                                         </td>
-                                        <td></td>
+                                        <td id="acao_dados" style="display:none;"></td>
                                     </tbody>
                                 </table>
                             </div>
@@ -156,7 +156,7 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>VALOR</strong>
-                            <input type="text" placeholder="Informe o numero" class="form-control input-add" name="valor_total" />
+                            <input type="text" placeholder="Informe o numero" id="valorTotal" class="form-control input-add" name="valor_total" />
                         </div>
 
                         <div class="px-5 mb-3">
