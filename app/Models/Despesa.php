@@ -86,18 +86,19 @@ class Despesa extends Model
             $despesa->moeda,
             $despesa->dt_provisionamento,
             $despesa->fk_condicao_pagamento_id,
-
-
-
-
-
         ]);
         //values(cnpj,razao_social,inscricao_estadual,dt_inicio,dt_fim,nome_fantasia)
     }
 
+    //retorna apenas o id para despesa
+    static function findByTimeStamp($timestamp)
+    {
+        return DB::select("SELECT id_despesa FROM intranet.tab_despesa WHERE dt_inicio = ?", [$timestamp]);
+    }
+
     static function findOne($id)
     {
-        $despesa = DB::select("SELECT * FROM intranet.tab_despesa AS despesa
+        return DB::select("SELECT * FROM intranet.tab_despesa AS despesa
         JOIN intranet.tab_status_despesa AS status_despesa ON status_despesa.id_staus_despesa = despesa.fk_status_despesa_id
         JOIN intranet.tab_fornecedor AS fornecedor ON fornecedor.id_fornecedor = despesa.fk_tab_fornecedor_id
         left JOIN intranet.tab_empregado AS empregado on empregado.id_empregado =  despesa.fk_tab_empregado_id
@@ -105,8 +106,6 @@ class Despesa extends Model
         JOIN intranet.tab_empresa AS empresa ON empresa.id_empresa = despesa.fk_tab_empresa_id
         JOIN intranet.tab_tipo_despesa AS tipo_despesa ON tipo_despesa.id_tipo_despesa = despesa.fk_tab_tipo_despesa_id
         WHERE id_despesa = ?;", [$id]);
-
-        return $despesa;
     }
 
     static function set($despesa)
@@ -117,7 +116,6 @@ class Despesa extends Model
             dt_emissao = ?, valor_total_despesa = ?, fk_status_despesa_id = ?,
             fk_tab_fornecedor_id = ?, fk_tab_empregado_id = ? , dt_inicio = ?
         WHERE id_despesa = ?", [
-
             $despesa->fk_tab_centro_custo_id,
             $despesa->fk_tab_empresa_id,
             $despesa->fk_tab_tipo_despesa_id,

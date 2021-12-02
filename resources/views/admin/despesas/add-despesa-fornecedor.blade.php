@@ -15,6 +15,7 @@
                         <form action="/despesas" method="POST">
                             @csrf
                             <div id="hidden_inputs"></div>
+                            <div id="hidden_inputs_itens"></div>
                             <div class="px-5 mb-3">
                                 <strong>EMPRESA</strong>
                                 <input type="text" id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-busca" />
@@ -56,6 +57,7 @@
                         <div class="px-5 mb-3">
                             <strong>CPF/CNPJ</strong>
                             <input type="text" placeholder="CPF/CNPJ" class="form-control input-add" name="cpf_cnpj" id="input_cpf_cnpj" readonly />
+                            <input type="hidden" name="fk_empregado_fornecedor" id="fk_empregado_fornecedor">
                         </div>
 
                         <div class="d-flex" style="width: 100%">

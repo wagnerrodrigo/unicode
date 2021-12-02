@@ -1,6 +1,6 @@
-$(document).ready(function() {
+$(document).ready(function () {
     //Seleciona quais campos irão aparecer na tela
-    $('input:radio[name="seleciona_tela"]').on("change", function() {
+    $('input:radio[name="seleciona_tela"]').on("change", function () {
         if (this.checked && this.value == "1") {
             $("#campo_razao_social").show();
             $(
@@ -16,13 +16,13 @@ $(document).ready(function() {
 
     //fazer requisição ajax para buscar classificação contabil
     $.ajax({
-            type: "GET",
-            url: `http://localhost:8000/classificacao-contabil`,
-            dataType: "json",
-        })
-        .done(function(response) {
+        type: "GET",
+        url: `http://localhost:8000/classificacao-contabil`,
+        dataType: "json",
+    })
+        .done(function (response) {
             //traz os resultados do banco para uma div hidden
-            $.each(response, function(key, val) {
+            $.each(response, function (key, val) {
                 $("#itens_classificacao")
                     .append(
                         `<div class="classificacao" value="${val.id_clasificacao_contabil}">${val.de_clasificacao_contabil}</div>`
@@ -30,11 +30,11 @@ $(document).ready(function() {
                     .hide();
             });
             //ao clicar aparece os campos com resultados do banco
-            $("#classificacao_con").click(function() {
+            $("#classificacao_con").click(function () {
                 $("#itens_classificacao").show();
             });
             //ao clicar em um item da lista, o campo recebe o valor do item
-            $(".classificacao").click(function() {
+            $(".classificacao").click(function () {
                 $("#classificacao_con").val($(this).text());
                 $("#itens_classificacao").hide();
 
@@ -48,7 +48,7 @@ $(document).ready(function() {
                     dataType: "json",
                 }).done(function (response) {
                     //mostra os resultados da busca em uma div
-                    $.each(response, function(key, val) {
+                    $.each(response, function (key, val) {
                         $("#tipo_classificacao").append(
                             `<option value="${val.id_plano_contas}">${val.de_plano_contas}</option>`
                         );
@@ -56,22 +56,20 @@ $(document).ready(function() {
                 });
             });
         })
-        .fail(function() {
+        .fail(function () {
             console.log("erro na requisição Ajax");
         });
-
-
 
     // INICIO FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO PRODUTO E O PRODUTO
 
     $.ajax({
-            type: "GET",
-            url: `http://localhost:8000/produto/classificacao`,
-            dataType: "json",
-        })
-        .done(function(response) {
+        type: "GET",
+        url: `http://localhost:8000/produto/classificacao`,
+        dataType: "json",
+    })
+        .done(function (response) {
             //traz os resultados do banco para uma div hidden
-            $.each(response, function(key, val) {
+            $.each(response, function (key, val) {
                 $("#classificacao_tipo_produto")
                     .append(
                         `<div class="classificacao" value="${val.id_tipo_produto}">${val.de_tipo_produto}</div>`
@@ -79,11 +77,11 @@ $(document).ready(function() {
                     .hide();
             });
             //ao clicar aparece os campos com resultados do banco
-            $("#classificacao_prod").click(function() {
+            $("#classificacao_prod").click(function () {
                 $("#classificacao_tipo_produto").show();
             });
             //ao clicar em um item da lista, o campo recebe o valor do item
-            $(".classificacao").click(function() {
+            $(".classificacao").click(function () {
                 $("#classificacao_prod").val($(this).text());
                 $("#classificacao_tipo_produto").hide();
 
@@ -95,10 +93,9 @@ $(document).ready(function() {
                     type: "GET",
                     url: `http://localhost:8000/produto/classificacao/${id_classificacao}`,
                     dataType: "json",
-                }).done(function(response) {
-
+                }).done(function (response) {
                     //mostra os resultados da busca em uma div
-                    $.each(response, function(key, val) {
+                    $.each(response, function (key, val) {
                         $("#produto_servico").append(
                             `<option value="${val.id_produto}">${val.de_produto}</option>`
                         );
@@ -106,31 +103,22 @@ $(document).ready(function() {
                 });
             });
         })
-        .fail(function() {
+        .fail(function () {
             console.log("erro na requisição Ajax");
         });
 
-
-
     // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO PRODUTO E O PRODUTO
-
-
-
-
-
 
     // INICIO FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO SERVICO E O SERVICO
 
-
-
     $.ajax({
-            type: "GET",
-            url: `http://localhost:8000/servico/classificacao`,
-            dataType: "json",
-        })
-        .done(function(response) {
+        type: "GET",
+        url: `http://localhost:8000/servico/classificacao`,
+        dataType: "json",
+    })
+        .done(function (response) {
             //traz os resultados do banco para uma div hidden
-            $.each(response, function(key, val) {
+            $.each(response, function (key, val) {
                 $("#classificacao_tipo_servico")
                     .append(
                         `<div class="classificacao" value="${val.id_tipo_servico}">${val.de_tipo_servico}</div>`
@@ -138,11 +126,11 @@ $(document).ready(function() {
                     .hide();
             });
             //ao clicar aparece os campos com resultados do banco
-            $("#classificacao_serv").click(function() {
+            $("#classificacao_serv").click(function () {
                 $("#classificacao_tipo_servico").show();
             });
             //ao clicar em um item da lista, o campo recebe o valor do item
-            $(".classificacao").click(function() {
+            $(".classificacao").click(function () {
                 $("#classificacao_serv").val($(this).text());
                 $("#classificacao_tipo_servico").hide();
 
@@ -154,10 +142,9 @@ $(document).ready(function() {
                     type: "GET",
                     url: `http://localhost:8000/servico/classificacao/${id_classificacao}`,
                     dataType: "json",
-                }).done(function(response) {
-
+                }).done(function (response) {
                     //mostra os resultados da busca em uma div
-                    $.each(response, function(key, val) {
+                    $.each(response, function (key, val) {
                         $("#servico").append(
                             `<option value="${val.id_servico}">${val.de_servico}</option>`
                         );
@@ -165,22 +152,11 @@ $(document).ready(function() {
                 });
             });
         })
-        .fail(function() {
+        .fail(function () {
             console.log("erro na requisição Ajax");
         });
 
-
-
-
-
     // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO SERVICO E O SERVICO
-
-
-
-
-
-
-
 });
 
 //Buscar condição de pagamento no banco de dados com requisição via AJAX
@@ -189,42 +165,42 @@ $.ajax({
     type: "GET",
     url: `http://localhost:8000/condicao_pagamento`,
     dataType: "json",
-}).done(function (response) {
-    //traz os resultados do banco para uma div hidden
-    $.each(response, function (key, val) {
-
-        $("#condicao_pagamento").append(
-            `<option class="classificacao" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</option>`
-        );
+})
+    .done(function (response) {
+        //traz os resultados do banco para uma div hidden
+        $.each(response, function (key, val) {
+            $("#condicao_pagamento").append(
+                `<option class="classificacao" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</option>`
+            );
+        });
+    })
+    .fail(function () {
+        console.log("erro na requisição Ajax");
     });
-}).fail(function () {
-    console.log("erro na requisição Ajax");
-});
 
 //Fim de busca de condição de pagamento
 
-
 //função para buscar empresa
-$("#busca_empresa").keyup(function() {
+$("#busca_empresa").keyup(function () {
     var words = $(this).val();
     if (words != "") {
         //requisição ajax para buscar empresa
         $.ajax({
-                type: "GET",
-                url: `http://localhost:8000/empresas/nome/${words}`,
-                dataType: "json",
-            })
+            type: "GET",
+            url: `http://localhost:8000/empresas/nome/${words}`,
+            dataType: "json",
+        })
             //caso a requisição seja bem sucedida
-            .done(function(response) {
+            .done(function (response) {
                 $("#results_empresa").html("");
                 //mostra os resultados da busca em uma div
-                $.each(response, function(key, val) {
+                $.each(response, function (key, val) {
                     $("#results_empresa").append(
                         `<div class="item" value="${val.id_empresa}">${val.de_empresa} - ${val.regiao_empresa} </div>`
                     );
                 });
                 //seleciona a empresa desejada
-                $(".item").click(function() {
+                $(".item").click(function () {
                     $("#busca_empresa").val($(this).text());
                     $("#empresa").html("");
                     var id_empresa = $(this).attr("value");
@@ -236,9 +212,9 @@ $("#busca_empresa").keyup(function() {
                         type: "GET",
                         url: `http://localhost:8000/centroCustoEmpresa/${id_empresa}`,
                         dataType: "json",
-                    }).done(function(response) {
+                    }).done(function (response) {
                         //mostra os resultados da busca em uma div
-                        $.each(response, function(key, val) {
+                        $.each(response, function (key, val) {
                             $("#empresa").append(
                                 `<option value="${
                                     val.id_centro_custo
@@ -254,7 +230,7 @@ $("#busca_empresa").keyup(function() {
                     });
                 });
             })
-            .fail(function() {
+            .fail(function () {
                 $("#results_empresa").html("");
             });
     } else {
@@ -263,7 +239,7 @@ $("#busca_empresa").keyup(function() {
 });
 
 //seleciona tipo de despesa
-document.getElementById("btnDespesa").onclick = function() {
+document.getElementById("btnDespesa").onclick = function () {
     var radios = document.getElementsByName("tipo_despesa");
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
@@ -310,6 +286,12 @@ document.getElementById("btnDespesa").onclick = function() {
                                             $("#input_razao_social").val(
                                                 response[0].de_razao_social
                                             );
+
+                                            $("#fk_empregado_fornecedor").attr(
+                                                "value",
+                                                response[0].id_fornecedor
+                                            );
+
                                             $("#Cnpj_Cpf").val("");
                                             $("#modal-busca").modal("hide");
                                         });
@@ -368,6 +350,12 @@ document.getElementById("btnDespesa").onclick = function() {
                                             $("#input_razao_social").val(
                                                 response[0].nome_empregado
                                             );
+
+                                            $("#fk_empregado_fornecedor").attr(
+                                                "value",
+                                                response[0].id_empregado
+                                            );
+
                                             $("#Cnpj_Cpf").val("");
                                             $("#modal-busca").modal("hide");
                                         });
@@ -388,40 +376,49 @@ document.getElementById("btnDespesa").onclick = function() {
     }
 };
 
-
-
-
-
-
-$("#Prod").click(function() {
+var id_button_item = 0;
+$("#Prod").click(function () {
     //  pega os valores dos campos preenchidos pelo usuario
     var class_prod = $("#classificacao_prod").val();
     var prod_ser = $("#produto_servico").val();
-    var valor_uni = $("#valor_item").val();
+    var valor_uni = parseFloat($("#valor_item").val());
     var quanti = $("#quantidade").val();
     var valor_tl = parseFloat(valor_uni * quanti);
-    var btnDeletar = `<td><button type="button" class="btn btn-danger" id="remover" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button></td>`
-    var html = "";
 
     // criar novos itens com os valores preenchidos anteriormente
-    html += '<tr id="tab">';
-    html += `<td>${class_prod}<input type="hidden" name="Classificação" /></td>`
-    html += `<td>${prod_ser}<input type="hidden" name="Produto"</td>`
-    html += `<td>${valor_uni}<input type="hidden" name="Valor Unitario"</td>`
-    html += `<td>${quanti}<input type="hidden" name="Quantidade"</td>`
-    html += `${btnDeletar}`;
-    html += '</tr>';
-    $("#Tb").append(html);
+    $("#Tb").append(
+        `<tr id="tab${id_button_item}">` +
+            `<td>${class_prod}</td>` +
+            `<td>${prod_ser}</td>` +
+            `<td>${valor_uni}</td>` +
+            `<td>${quanti}</td>` +
+            `<td><button type="button" class="btn btn-danger" onclick="removeItem(${id_button_item})" style="padding: 8px 12px;">` +
+            `<i class="bi bi-trash-fill"></i>` +
+            `</button></td>` +
+        "</tr>"
+    );
+
+    //gera o input com os dados do item para submeter no form
+    $("#hidden_inputs_itens").append(
+        `<div id="input_generated_itens${id_button_rateio}">` +
+            `<input type="hidden" name="id_produto[]" value="${prod_ser}"/>` +
+            `<input type="hidden" name="valor_unitario[]" value="${valor_uni}"/>` +
+            `<input type="hidden" name="quantidade[]" value="${quanti}"/>` +
+        `</div>`
+    );
+
+    id_button_item++;
 
     // limpar campos do item
     $("#classificacao_prod").val("");
     $("#produto_servico").val("");
     $("#valor_item").val("");
     $("#quantidade").val("");
-
 });
 
-// remove o item da despesa
-$(document).on('click', '#remover', function() {
-    $('#tab').remove();
-});
+//remove o rateio da tabela e do form
+function removeItem(id) {
+    console.log(id);
+    $(`#tab${id}`).remove();
+    $(`#input_generated_itens${id}`).remove();
+}
