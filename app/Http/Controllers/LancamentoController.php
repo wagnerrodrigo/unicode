@@ -66,10 +66,6 @@ class LancamentoController extends Controller
         return view('admin.lancamentos.add-lancamento',compact('lancamento'));
     }
 
-    public function showDataInsBanc($info){
-        $lancamento = Lancamento::showInfoAccount($info);
-        return response()->json($lancamento);
-    }
     /**
      * Show the form for editing the specified resource.
      *
