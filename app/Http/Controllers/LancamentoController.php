@@ -37,10 +37,6 @@ class LancamentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -65,8 +61,14 @@ class LancamentoController extends Controller
         return view('admin.lancamentos.detalhes-lancamento', compact('lancamento'));
     }
 
-    public function provisionamento(){
-        return view('admin.lancamentos.add-lancamento');
+    public function provisionamento($id){
+        $lancamento = Lancamento::findOne($id);
+        return view('admin.lancamentos.add-lancamento',compact('lancamento'));
+    }
+
+    public function showDataInsBanc($info){
+        $lancamento = Lancamento::showInfoAccount($info);
+        return response()->json($lancamento);
     }
     /**
      * Show the form for editing the specified resource.

@@ -8,9 +8,6 @@
         <div class="card">
             <div class="card-header">
                 <h1>Detalhe do lançamento</h1>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#xlarge">
-                    <i class="bi bi-plus-circle"></i> Novo Lançamento
-                </button>
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
@@ -18,7 +15,7 @@
                         @if( $lancamentosAtivos == null || empty($lancamentosAtivos))
                         <tbody>
                             <tr>
-                                <td>Nenhum Fornecedor Cadastrado</td>
+                                <td>Nenhum Lancamento Cadastrado</td>
                             </tr>
                         </tbody>
                         @else
@@ -41,7 +38,7 @@
                             <td>{{$lancamentos->de_pagamento}}</td>
                             <td>
                                 <!-- muda a rota-->
-                                <a href="lancamentos/id/{{$lancamentos->id_despesa}}" class="btn btn-success" style="padding: 8px 12px;">
+                                <a href="lancamentos/{{$lancamentos->id_despesa}}" class="btn btn-success" style="padding: 8px 12px;">
                                     <i class="bi bi-eye-fill"></i>
                                 </a>
                                 <a href="" class="btn btn-danger" style="padding: 8px 12px;">

@@ -54,4 +54,19 @@ class Lancamento extends Model
         return $lancamento;
 
     }
+    static function showInfoAccount($info){
+        $query = ("SELECT conta_banco.fk_tab_inst_banco_id,
+        conta_banco.nu_agencia,
+        conta_banco.nu_conta,
+        ins_bank.de_banco
+        FROM intranet.tab_conta_bancaria AS conta_banco
+        JOIN intranet.tab_inst_banco AS ins_bank ON(ins_bank.id = conta_banco.fk_tab_inst_banco_id)
+        WHERE ins_bank.de_banco LIKE upper('%".$info."%');");
+
+        $lancamento = DB::select($query);
+        return $lancamento;
+    }
+
+
+
 }
