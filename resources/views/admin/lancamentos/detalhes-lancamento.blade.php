@@ -7,25 +7,21 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Nome do lançamento</h1>
+                <h1>Codigo da Despesa : {{$lancamento->id_despesa}}</h1>
+                <div class="modal-header">
+                    <a href="/despesas/{{$lancamento->id_despesa}}" target="_blank" class="close"> visualiza despesa </a>
+                </div>
             </div>
+            
             <div class="card-body" style="font-size: 18px;">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong for="raz_social">TESTE</strong>
+                                    <strong>DESCRIÇÃO DA DESPESA</strong>
                                 </div>
-                                <span>TESTE</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div>
-                                    <strong>TESTE</strong>
-                                </div>
-                                <span>TESTE</span>
+                                <span>{{$lancamento->de_despesa}}</span>
                             </div>
                         </div>
                     </div>
@@ -34,26 +30,29 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>TESTE</strong>
+                                    <strong>VALOR</strong>
                                 </div>
-                                <span>TESTE</span>
+                                <span>{{$lancamento->valor_total_despesa}}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>TESTE</strong>
+                                    <strong>DATA DO VENCIMENTO</strong>
                                 </div>
-                                <span>TESTE</span>
+                                <span>{{$lancamento->dt_vencimento}}</span>
                             </div>
                         </div>
                     </div>
 
 
+                   
+
+
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
-                    <a href="{{route('fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
+                    <a href="lancamentos/provisionamento/{{$lancamento->id_despesa}}" class="btn btn-primary" style="padding: 8px 12px;">Pagamento</a>
+                    <a href="{{route('lancamentos')}}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
                 </div>
             </div>
         </div>

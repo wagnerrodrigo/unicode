@@ -378,6 +378,7 @@ document.getElementById("btnDespesa").onclick = function () {
 
 var id_button_item = 0;
 $("#Prod").click(function () {
+    var valorTotal = 0;
     //  pega os valores dos campos preenchidos pelo usuario
     var class_prod = $("#classificacao_prod").val();
     var prod_ser = $("#produto_servico").val();
@@ -395,7 +396,7 @@ $("#Prod").click(function () {
             `<td><button type="button" class="btn btn-danger" onclick="removeItem(${id_button_item})" style="padding: 8px 12px;">` +
             `<i class="bi bi-trash-fill"></i>` +
             `</button></td>` +
-        "</tr>"
+            "</tr>"
     );
 
     //gera o input com os dados do item para submeter no form
@@ -404,7 +405,7 @@ $("#Prod").click(function () {
             `<input type="hidden" name="id_produto[]" value="${prod_ser}"/>` +
             `<input type="hidden" name="valor_unitario[]" value="${valor_uni}"/>` +
             `<input type="hidden" name="quantidade[]" value="${quanti}"/>` +
-        `</div>`
+            `</div>`
     );
 
     id_button_item++;
@@ -414,6 +415,10 @@ $("#Prod").click(function () {
     $("#produto_servico").val("");
     $("#valor_item").val("");
     $("#quantidade").val("");
+
+    // soma de todos os valores dos items
+    valorTotal = valorTotal += valor_tl;
+    $("#valorTotal").val(valorTotal);
 });
 
 //remove o rateio da tabela e do form

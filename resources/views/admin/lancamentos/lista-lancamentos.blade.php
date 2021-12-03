@@ -8,30 +8,37 @@
         <div class="card">
             <div class="card-header">
                 <h1>Detalhe do lançamento</h1>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#xlarge">
-                    <i class="bi bi-plus-circle"></i> Novo Lançamento
-                </button>
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
                     <thead>
+                        @if( $lancamentosAtivos == null || empty($lancamentosAtivos))
+                        <tbody>
+                            <tr>
+                                <td>Nenhum Lancamento Cadastrado</td>
+                            </tr>
+                        </tbody>
+                        @else
                         <tr>
                             <th>DESPESA</th>
-                            <th>CONDIÇÃO DE PAGAMENTO</th>
-                            <th>DATA LANÇAMENTO</th>
+                            <th>DESCRIÇÃO DESPESA</th>
+                            <th>VALOR DA DESPESA</th>
                             <th>DATA VENCIMENTO</th>
+                            <th>DATA DO EFETIVO PAGAMENTO</th>
                             <th>AÇÕES</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($lancamentosAtivos as $lancamentos)
                         <tr>
-                            <td>TESTE</td>
-                            <td>Á Vista</td>
-                            <td>25/11/2021</td>
-                            <td>25/11/2021</td>
+                            <td>{{$lancamentos->id_despesa}}</td>
+                            <td>{{$lancamentos->de_despesa}}</td>
+                            <td>{{$lancamentos->valor_total_despesa}}</td>
+                            <td>{{$lancamentos->dt_vencimento}}</td>
+                            <td>{{$lancamentos->de_pagamento}}</td>
                             <td>
                                 <!-- muda a rota-->
-                                <a href="{{route('lancamentos-show')}}" class="btn btn-success" style="padding: 8px 12px;">
+                                <a href="lancamentos/{{$lancamentos->id_despesa}}" class="btn btn-success" style="padding: 8px 12px;">
                                     <i class="bi bi-eye-fill"></i>
                                 </a>
                                 <a href="" class="btn btn-danger" style="padding: 8px 12px;">
@@ -39,7 +46,9 @@
                                 </a>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
+                    @endif
                 </table>
             </div>
         </div>

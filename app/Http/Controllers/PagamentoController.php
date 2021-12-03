@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lancamento;
+use App\Models\Pagamento;
 use Illuminate\Http\Request;
 
-class LancamentoController extends Controller
+class PagamentoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,27 +16,34 @@ class LancamentoController extends Controller
     {
 
 
-        $lancamentos = Lancamento::selectAll();
+        $pagamentos = Pagamento::selectAll();
 
-        $lancamentosAtivos = [];
-        $lancamentosInativos = [];
-        for ($i = 0; $i < count($lancamentos); $i++) {
-            if ($lancamentos[$i]->dt_fim === null) {
-                $lancamentosAtivos[] = $lancamentos[$i];
+        $pagamentosAtivos = [];
+        $pagamentosInativos = [];
+        for ($i = 0; $i < count($pagamentos); $i++) {
+            if ($pagamentos[$i]->dt_fim === null) {
+                $pagamentosAtivos[] = $pagamentos[$i];
             } else {
-                $lancamentosInativos[] = $lancamentos[$i];
+                $pagamentosInativos[] = $pagamentos[$i];
             };
         }
         
 
-        return view('admin.lancamentos.lista-lancamentos', compact('lancamentosAtivos'));
+        return view('admin.pagamento.lista-pagamento', compact('pagamentosAtivos'));
     }
 
+    public function pagamento(){
+        return view('admin.pagamento.add-pagamento');
+    }
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -55,21 +62,7 @@ class LancamentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $lancamento = Lancamento::findOne($id);
-        return view('admin.lancamentos.detalhes-lancamento', compact('lancamento'));
-    }
-
-    public function provisionamento($id){
-        $lancamento = Lancamento::findOne($id);
-        return view('admin.lancamentos.add-lancamento',compact('lancamento'));
-    }
-
-    public function showDataInsBanc($info){
-        $lancamento = Lancamento::showInfoAccount($info);
-        return response()->json($lancamento);
-    }
+    
     /**
      * Show the form for editing the specified resource.
      *
