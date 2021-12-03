@@ -35,6 +35,7 @@ use App\Models\ClassificacaoContabil;
 use App\Http\Controllers\ConciliacaoController;
 use App\Http\Controllers\EmpregadoController;
 use App\Http\Controllers\CondicaoPagamentoController;
+use App\Http\Controllers\PagamentoController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -94,8 +95,9 @@ Route::get('/centroCustoEmpresa/nome/{nome}', [CentroCustosController::class, 's
 
 //rotas Lançamentos
 Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
-Route::get('/lancamentos/id/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
-Route::get('/lancamentos/provisionamento',[LancamentoController::class, 'provisionamento'])->name('add-lancamento-provisionamento');
+Route::get('/lancamentos/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
+Route::get('/lancamentos/provisionamento/{id}',[LancamentoController::class, 'provisionamento'])->name('add-lancamento-provisionamento');
+Route::get('/lancamentos/info-conta/{info}',[LancamentoController::class, 'showDataInsBanc']);
 
 //rotas Receitas
 Route::get('/receitas', [ReceitaController::class, 'index'])->name('receitas');
@@ -165,7 +167,8 @@ Route::get('/enderecos/{id}', [EnderecoController::class, 'show']);
 //Route::post('/enderecos/adicionar', [EnderecoController::class, 'store']);
 
 // rotas de pagamentos
-// Route::get('/conciliacoes',[ConciliacaoController::class, 'index']);
+Route::get('/pagamentos',[PagamentoController::class, 'index'])->name('pagamentos');
+Route::get('/pagament',[PagamentoController::class, 'pagamento']);
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {
