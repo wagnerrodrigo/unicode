@@ -58,6 +58,9 @@
                                 </div>
                                <input type="text" name="inst_banco" id="inst_banco" class="form-control input-add">
                                <div class="Resultado_inst_banco input-add" id="Resultado_inst_banco"></div>
+                                <!--serve somente para armazenar o id da instituição bancária selecionada-->
+                                <input type="hidden" id="id_inst_banco"></input>
+                                <!-- ### -->
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -65,7 +68,9 @@
                                 <div>
                                     <strong>AGÊNCIA</strong>
                                 </div>
-                               <input type="text" name="agencia" id="agencia" class="form-control input-add">
+                               <select type="text" name="agencia" id="agencia" class="form-control input-add">
+                                    <option selected value="" class="Resultado_agencia"></option>
+                               </select>
                             </div>
                         </div>
                     </div>
@@ -76,7 +81,9 @@
                                 <div>
                                     <strong>CONTAS BANCARIAS</strong>
                                 </div>
-                               <input type="text" name="conta_banco" id="conta_banco" class="form-control input-add">
+                               <select type="text" name="conta_banco" id="conta_banco" class="form-control input-add">
+                                   <option selected value="" class="Resultado_conta_banco"></option>
+                               </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -102,7 +109,10 @@
                                     <strong>INSTITUIÇÕES BANCÁRIAS </strong>
                                 </div>
                                <input type="text" name="inst_banco_forne_empr" id="inst_banco_forne_empr" class="form-control input-add">
-                               <div class="Resultado_inst_banco input-add" id="Resultado_inst_banco"></div>
+                               <div class="Resultado_inst_banco_forn_empr input-add" id="Resultado_inst_banco_forn_empr"></div>
+                                 <!--serve somente para armazenar o id da instituição bancária selecionada-->
+                                 <input type="hidden" id="id_inst_banco_forn_empr"></input>
+                                 <!-- ### -->
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -110,7 +120,9 @@
                                 <div>
                                     <strong>AGÊNCIA</strong>
                                 </div>
-                               <input type="text" name="agencia_forne_empr" id="agencia_forne_empr" class="form-control input-add">
+                               <select type="text" name="agencia_forne_empr" id="agencia_forne_empr" class="form-control input-add">
+                                    <option selected value="" class="Resultado_agencia_forne_empr"></option>
+                               </select>
                             </div>
                         </div>
                     </div>
@@ -121,7 +133,9 @@
                                 <div>
                                     <strong>CONTAS BANCARIAS</strong>
                                 </div>
-                               <input type="text" name="conta_banco_forne_empr" id="conta_banco_forne_empr" class="form-control input-add">
+                               <select type="text" name="conta_banco_forne_empr" id="conta_banco_forne_empr" class="form-control input-add">
+                                <option selected value="" class="Resultado_conta_banco_forne_empr"></option>
+                               </select>
                             </div>
                         </div>
                         <div class="col-md-6">
