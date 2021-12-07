@@ -32,26 +32,9 @@ class PagamentoController extends Controller
         return view('admin.pagamento.lista-pagamento', compact('pagamentosAtivos'));
     }
 
-    public function pagamento(){
-        return view('admin.pagamento.add-pagamento');
-    }
 
     
-    public function showDataInsBanc($info){
-        $pagamento = Pagamento::showInfoAccount($info);
-        return response()->json($pagamento);
-    }
 
-    public function showDataAgency($id){
-        $pagamento = Pagamento::showInfoAgency($id);
-        return response()->json($pagamento);
-    }
-
-    public function showBankAccount($id)
-    {
-        $pagamento = Pagamento::showInfoBankAccount($id);
-        return response()->json($pagamento);
-    }
     /**
      * Show the form for creating a new resource.
      *
