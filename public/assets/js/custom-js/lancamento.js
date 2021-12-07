@@ -4,7 +4,7 @@ $("#inst_banco").keyup(function() {
     if (instBanco != "") {
         $.ajax({
             type: "GET",
-            url: `/pagamento/info-conta/${instBanco}`,
+            url: `/lancamentos/info-conta/${instBanco}`,
             dataType: "json",
         }).done(function(response) {
             $("#Resultado_inst_banco").html("");
@@ -26,7 +26,7 @@ $("#inst_banco").keyup(function() {
                 $("#agencia").html("");
                 $.ajax({
                         type: "GET",
-                        url: `/pagamento/info-agencia/${id}`,
+                        url: `/lancamentos/info-agencia/${id}`,
                         dataType: "json",
                     })
                     .done(function(response) {
@@ -48,7 +48,7 @@ $("#inst_banco").keyup(function() {
                 $.ajax({
                     //mostra os resultados da busca em um select
                     type: "GET",
-                    url: `/pagamento/info-contaBancaria/${id}`,
+                    url: `/lancamentos/info-contaBancaria/${id}`,
                     dataType: "json",
                 }).done(function(response) {
                     $.each(response, function(key, val) {
@@ -70,7 +70,7 @@ $("#inst_banco").keyup(function() {
 
 
 
-
+// ajax do FORNECEDOR EMPREGADO     
 
 $("#inst_banco_forne_empr").keyup(function() {
     var inst_banco_forne_empr = $(this).val();
@@ -78,7 +78,7 @@ $("#inst_banco_forne_empr").keyup(function() {
     if (inst_banco_forne_empr != "") {
         $.ajax({
             type: "GET",
-            url: `/pagamento/info-conta/${inst_banco_forne_empr}`,
+            url: `/lancamentos/info-conta/${inst_banco_forne_empr}`,
             dataType: "json",
         }).done(function(response) {
             $("#Resultado_inst_banco_forn_empr").html("");
@@ -100,7 +100,7 @@ $("#inst_banco_forne_empr").keyup(function() {
                 $("#agencia_forne_empr").html("");
                 $.ajax({
                         type: "GET",
-                        url: `/pagamento/info-agencia/${id}`,
+                        url: `/lancamentos/info-agencia/${id}`,
                         dataType: "json",
                     })
                     .done(function(response) {
@@ -122,7 +122,7 @@ $("#inst_banco_forne_empr").keyup(function() {
                 $.ajax({
                     //mostra os resultados da busca em um select
                     type: "GET",
-                    url: `/pagamento/info-contaBancaria/${id}`,
+                    url: `/lancamentos/info-contaBancaria/${id}`,
                     dataType: "json",
                 }).done(function(response) {
                     $.each(response, function(key, val) {
@@ -134,8 +134,35 @@ $("#inst_banco_forne_empr").keyup(function() {
                         }</option>`
                             // Se a agência não possuir um numero de Conta bancaria cadastrada informa a mensagem
                         );
+                    });
+                });
+
+                // INICIO --- ajax utilizado para trazer as contas do fornecedor / empregado  relacionado com a despesa
+                $.ajax({
+                        type: "GET",
+                        url: `http://localhost:8000/lancamentos/info-fornecedor-empregado/${id}`,
+                        dataType: "json",
                     })
-                })
+                    .done(function(response) {
+                        // var id = $(this).attr("value");
+                        console.log(response);
+                        $("#Resultados_dados_fornecedor_empregado").html("");
+                        $.each(response, function(key, val) {
+                            $("#Resultados_dados_fornecedor_empregado").append(
+                                `<option selectd class="item" value="${val.fk_tab_inst_banco_id}" > 
+                            ${val.de_banco} --
+                            ${val.nu_agencia} --
+                            ${val.nu_conta} --
+                            ${val.fk_tab_empregado_id} --
+                            ${val.id_despesa} --
+                            </option>`
+
+
+                            );
+                        });
+                    })
+
+                // FIM --- ajax utilizado para trazer as contas do fornecedor / empregado  relacionado com a despesa
             });
         });
     }
