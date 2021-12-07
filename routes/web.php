@@ -98,6 +98,11 @@ Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancam
 Route::get('/lancamentos/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
 Route::get('/lancamentos/provisionamento/{id}',[LancamentoController::class, 'provisionamento'])->name('add-lancamento-provisionamento');
 
+Route::get('/lancamentos/info-conta/{info}',[LancamentoController::class, 'showDataInsBanc']);
+Route::get('/lancamentos/info-agencia/{id_conta}',[LancamentoController::class, 'showDataAgency']);
+Route::get('/lancamentos/info-contaBancaria/{id_agencia}',[LancamentoController::class,'showBankAccount']);
+Route::get('/lancamentos/info-fornecedor-empregado/{id_despesa}',[LancamentoController::class,'showProvidedEmployee']);
+
 //rotas Receitas
 Route::get('/receitas', [ReceitaController::class, 'index'])->name('receitas');
 
@@ -167,10 +172,7 @@ Route::get('/enderecos/{id}', [EnderecoController::class, 'show']);
 
 // rotas de pagamentos
 Route::get('/pagamentos',[PagamentoController::class, 'index'])->name('pagamentos');
-Route::get('/pagament',[PagamentoController::class, 'pagamento']);
-Route::get('/pagamento/info-conta/{info}',[PagamentoController::class, 'showDataInsBanc']);
-Route::get('/pagamento/info-agencia/{id_conta}',[PagamentoController::class, 'showDataAgency']);
-Route::get('/pagamento/info-contaBancaria/{id_agencia}',[PagamentoController::class,'showBankAccount']);
+
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {
     //Route::middleware('autenticacaoMiddleware')->get('/home', [PainelController::class, 'index'])->name('painel');
