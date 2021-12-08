@@ -379,6 +379,8 @@ document.getElementById("btnDespesa").onclick = function () {
 var id_button_item = 0;
 var totalItens = 0;
 var valorTotal = 0;
+var valorRemovido = 0;
+
 $("#Prod").click(function () {
     //  pega os valores dos campos preenchidos pelo usuario
     var class_prod = $("#classificacao_prod").val();
@@ -394,7 +396,7 @@ $("#Prod").click(function () {
             `<tr id="tab${id_button_item}">` +
                 `<td>${class_prod}</td>` +
                 `<td>${prod_ser}</td>` +
-                `<td>R$${valor_uni}</td>` +
+                `<td>${valor_uni}</td>` +
                 `<td>${quanti}</td>` +
                 `<td><button type="button" class="btn btn-danger" onclick="removeItem(${id_button_item})" style="padding: 8px 12px;">` +
                 `<i class="bi bi-trash-fill"></i>` +
@@ -402,13 +404,12 @@ $("#Prod").click(function () {
                 "</tr>"
         );
         //retira virgulas do valor unitário
-        var valorFormatado = valor_uni.replace(",", ".");
-
+        var valorFormatado = valor_uni.replace(".", "").replace(",", ".");
         //gera o input com os dados do item para submeter no form
         $("#hidden_inputs_itens").append(
-            `<div id="input_generated_itens${id_button_rateio}">` +
+            `<div id="input_generated_itens${id_button_item}">` +
                 `<input type="hidden"  name="id_produto[]" value="${prod_ser}"/>` +
-                `<input type="hidden" id="val_produto${id_button_rateio}" name="valor_unitario[]" value="${valorFormatado}"/>` +
+                `<input type="hidden" id="val_produto${id_button_item}" name="valor_unitario[]" value="${valorFormatado}"/>` +
                 `<input type="hidden" name="quantidade[]" value="${quanti}"/>` +
                 `</div>`
         );
@@ -430,13 +431,20 @@ $("#Prod").click(function () {
 
         valorTotal = valorTotal + valorFormatado * quanti;
         $("#valorTotal").attr("readonly", true);
-        $("#valorTotal").val(valorTotal.toFixed(2));
+
+        $("#valorTotal").val(tipoMoeda(valorTotal, moeda));
     }
+});
+
+var moeda = $("#moeda").val();
+$("#moeda").click(function () {
+    moeda = $(this).val();
+    $("#valorTotal").val(tipoMoeda(valorTotal, moeda));
 });
 
 //remove o rateio da tabela e do form e subtrai valor do total
 function removeItem(id) {
-    var valorRemovido = Number($(`#val_produto${id}`).val());
+    valorRemovido = Number($(`#val_produto${id}`).val());
     //subtrai 1 ao total de itens
     totalItens--;
 
@@ -451,4 +459,5 @@ function removeItem(id) {
 
     $(`#tab${id}`).remove();
     $(`#input_generated_itens${id}`).remove();
+    $("#valorTotal").val(tipoMoeda(valorTotal, moeda));
 }

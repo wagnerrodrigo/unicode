@@ -29,7 +29,7 @@
                     <div class="d-flex mt-10" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>CENTRO DE CUSTO</strong>
-                            <select class="form-control input-busca" name="centro_custo_empresa" id="empresa">
+                            <select class="form-control input-busca" name="centro_custo_empresa" id="empresa" style="cursor: pointer;">
                                 <option selected value="" class="resultado-busca"></option>
                             </select>
                         </div>
@@ -72,13 +72,13 @@
                     <div class="d-flex mt-10" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>CLASSIFICAÇÃO</strong>
-                            <input class="form-control input-add teste" name="classificacao" id="classificacao_con" readonly></input>
-                            <div id="itens_classificacao" class="input-style"></div>
+                            <input class="form-control input-add teste" name="classificacao" id="classificacao_con" readonly style="cursor: pointer;"></input>
+                            <div id="itens_classificacao" class="input-style" style="cursor: pointer;"></div>
                         </div>
 
                         <div class="px-5 mb-3">
                             <strong>TIPO</strong>
-                            <select class="form-control input-add" name="tipo_classificacao" id="tipo_classificacao">
+                            <select class="form-control input-add" name="tipo_classificacao" id="tipo_classificacao" style="cursor: pointer;">
                             </select>
                         </div>
                     </div>
@@ -177,7 +177,7 @@
                     <div class="d-flex" style="width: 100%;justify-content:start; align-items:center">
                         <div class="px-5 mb-3">
                             <h3>RATEIO</h3>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xrateio">
+                            <button class="btn btn-primary" id="adicionar_rateio" type="button" data-bs-toggle="modal" data-bs-target="#xrateio">
                                 <i class="bi bi-plus"></i>
                             </button>
                         </div>
@@ -373,7 +373,7 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>VALOR RATEADO</strong>
-                            <input class="form-control mt-1" id="valor_rateado" type="text" onkeypress="return onlynumber(); " placeholder="Valor do item" style="width: 358px" />
+                            <input class="form-control mt-1" id="valor_rateado" type="text" onkeypress="return onlynumber();" placeholder="Valor do item" style="width: 358px" />
                         </div>
                         <div class="d-flex flex-row" style="width: 100%; align-items:center">
                             <div>

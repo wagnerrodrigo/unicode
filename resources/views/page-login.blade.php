@@ -2,21 +2,20 @@
 @section('title', 'Unicode - Login')
 @section('content')
 
-<div id="auth">
+<div id="auth" style="background-color: #ccc;">
     <div class="container">
         <div class="row">
             <div class="col-md-5 col-sm-12 mx-auto">
-                <div class="card pt-4">
+                <div class="card pt-4" style="background-color: #BA55D3">
                     <div class="card-body">
                         <div class="text-center mb-5">
-                            <img src="{{asset('img/logo-login-sistema.png')}}" height="48" class='mb-4'>
-                            <h1>Intranet</h1>
-                            <h3>Entrar</h3>
+                            <img src="{{asset('img/ACE-sem-fundo.png')}}" height="98" class='mb-4'>
+                            <h3 style="color: white">Entrar</h3>
                         </div>
                         <form action="{{route('autenticacao')}}" method="POST">
                             @csrf
                             <div class="form-group position-relative has-icon-left">
-                                <label for="username">CPF</label>
+                                <label for="username" style="color:white">CPF</label>
                                 <div class="position-relative">
                                     <input type="text" class="form-control" id="cpf" name="cpf">
                                     <div class="form-control-icon">
@@ -27,9 +26,9 @@
                             </div>
                             <div class="form-group position-relative has-icon-left">
                                 <div class="clearfix">
-                                    <label for="password">Senha</label>
+                                    <label for="password" style="color:white">Senha</label>
                                     <a href="{{route('forgot')}}" class='float-end'>
-                                        <small>Esqueceu a senha?</small>
+                                        <small style="color:white">Esqueceu a senha?</small>
                                     </a>
                                 </div>
                                 <div class="position-relative">
@@ -44,7 +43,7 @@
                             <div class='form-check clearfix my-4'>
                                 <div class="checkbox float-start">
                                     <input type="checkbox" id="checkbox1" class='form-check-input'>
-                                    <label for="checkbox1">Lembrar-me</label>
+                                    <label for="checkbox1" style="color:white">Lembrar-me</label>
                                 </div>
                             </div>
                             <div class="clearfix">

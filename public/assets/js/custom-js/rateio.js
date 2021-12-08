@@ -82,7 +82,7 @@ $("#seleciona_rateio").click(function () {
             `<input type="hidden" name="porcentagem_rateio[]" value="${porcentagem_valor}"/></div>`
     );
 
-    id_button++;
+    id_button_rateio++;
 });
 
 //remove o rateio da tabela e do form
@@ -91,3 +91,23 @@ function removeRateio(id) {
     $(`#tab-generated${id}`).remove();
     $(`#input-generated${id}`).remove();
 }
+
+//adiciona valor total ao input acima do modal de rateio
+$("#adicionar_rateio").click(function () {
+    var valorTotal = $("#valorTotal").val();
+    $("#modal_valor_total").val(valorTotal);
+});
+
+//gera a porcentagem do rateio de acordo com o valor fornecido no input
+$("#valor_rateado").blur(function () {
+    var valorTotalItens = $("#valorTotal").val();
+    var valorFormatadoItens = valorTotalItens
+        .replace(".", "")
+        .replace(",", ".")
+        .replace("R$", "");
+    var valorRateado = Number($("#valor_rateado").val());
+    var porcentagem = (valorFormatadoItens / 100) * valorRateado;
+    console.log(valorFormatadoItens);
+    console.log(porcentagem);
+    //$("#porcentagem_rateado").val(porcentagem);
+});
