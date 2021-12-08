@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lancamento;
 use Illuminate\Http\Request;
+use App\Utils\Mascaras\Mascaras;
 
 class LancamentoController extends Controller
 {
@@ -23,11 +24,13 @@ class LancamentoController extends Controller
         for ($i = 0; $i < count($lancamentos); $i++) {
             if ($lancamentos[$i]->dt_fim === null) {
                 $lancamentosAtivos[] = $lancamentos[$i];
+                $lancamentosAtivos[$i]->valor_total_despesa = Mascaras::maskMoeda($lancamentosAtivos[$i]->valor_total_despesa);
             } else {
                 $lancamentosInativos[] = $lancamentos[$i];
+                $lancamentosInativos[$i]->valor_total_despesa = Mascaras::maskMoeda($lancamentosInativos[$i]->valor_total_despesa);
             };
         }
-        
+
 
         return view('admin.lancamentos.lista-lancamentos', compact('lancamentosAtivos'));
     }

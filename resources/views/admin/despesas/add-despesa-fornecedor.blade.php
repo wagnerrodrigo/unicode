@@ -94,9 +94,7 @@
                     <div class="d-flex" style="width: 100%; align-items:center">
                         <div class="px-5 mb-3">
                             <h3>ITENS </h3>
-                            <button class="btn btn-primary" type="button" id="Prod">
-                                <i class="bi bi-plus"></i>produto
-                            </button>
+
                             <!-- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlargeServico"> -->
                             <!-- <i class="bi bi-plus"></i>serviço -->
                             <!-- </button>  -->
@@ -107,6 +105,30 @@
                         <!-- Inicio da tabela de itens -->
                         <div class="px-5 mb-3">
                             <div class="table-responsive">
+                                <div class="d-flex flex-row" style="padding:10px; align-items:center; border: 1px solid #ccc">
+                                    <div class="inserirProd_Ser" style="padding:15px">
+                                        <input class="form-control mt-1" type="text" autocomplete="off" id="classificacao_prod" placeholder="Produto ou Servico" style="width: 188px" />
+                                        <div id="classificacao_tipo_produto" class="input-style"></div>
+                                    </div>
+
+                                    <div class="inserirQuant" style="padding:15px">
+                                        <select class="form-control input-add" id="produto_servico" placeholder="Produto ou Servico" style="width: 190px"></select>
+                                    </div>
+
+                                    <div class="inserirValor" style="padding:15px">
+                                        <input class="form-control mt-1" id="valor_item" type="text" class="dinheiro" autocomplete="off" placeholder="Valor" style="width: 180px" />
+                                    </div>
+
+                                    <div class="inserirDesc" style="padding:15px">
+                                        <input class="form-control mt-1" id="quantidade" type="text" onkeyup="return onlynumber();" autocomplete="off" placeholder="Quantidade" style="width: 180px" />
+                                    </div>
+                                    <div style="padding:15px">
+                                        <button class="btn btn-primary" type="button" id="Prod" style="width: 2.5rem; padding: 6.5px; margin-top: 3px">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div id="acao_dados" style="display:none;"></div>
+                                </div>
                                 <table class="table table-bordered mb-0">
                                     <thead>
                                         <tr>
@@ -114,35 +136,11 @@
                                             <th>Produto</th>
                                             <th>Valor Unitario</th>
                                             <th>Quantidade</th>
-                                            <th  id="acao_titulo" style="display:none;">Ação</th>
+                                            <th>Ação</th>
                                         </tr>
                                     </thead>
                                     <tbody id="Tb">
-                                        <td class="inserirProd_Ser">
-                                            <div>
-                                                <input class="form-control mt-1" type="text" autocomplete="off" id="classificacao_prod" placeholder="Produto ou Servico" style="width: 188px" />
-                                                <div id="classificacao_tipo_produto" class="input-style"></div>
-                                            </div>
-                                        </td>
 
-                                        <td class="inserirQuant">
-                                            <div>
-                                                <select class="form-control input-add" id="produto_servico" placeholder="Produto ou Servico" style="width: 190px"></select>
-                                            </div>
-                                        </td>
-
-                                        <td class="inserirValor">
-                                            <div>
-                                                <input class="form-control mt-1" id="valor_item" type="text" autocomplete="off" placeholder="Valor" style="width: 70px" />
-                                            </div>
-                                        </td>
-
-                                        <td class="inserirDesc">
-                                            <div>
-                                                <input class="form-control mt-1" id="quantidade" type="text" autocomplete="off" placeholder="Quantidade" style="width: 70px" />
-                                            </div>
-                                        </td>
-                                        <td id="acao_dados" style="display:none;"></td>
                                     </tbody>
                                 </table>
                             </div>
@@ -217,15 +215,15 @@
                         </div>
 
                         <div class="px-5 mb-3">
-                            <strong>CONDIÇÃO DE PAGAMENTO</strong>
-                            <select class="form-control input-add" name="condicao_pagamento" id="condicao_pagamento">
+                            <strong>TIPO DE PAGAMENTO</strong>
+                            <select class="form-control input-add" name="tipo_pagamento" id="condicao_pagamento">
 
                             </select>
                         </div>
                     </div>
 
 
-
+                    <h3>Informações do documento</h3>
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>NUMERO DA NOTA OU DOCUMENTO</strong>
@@ -413,8 +411,22 @@
 <script src="{{ asset('assets/js/main.js') }}"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+
+<!-- javascript customizado -->
 <script src="{{ asset('assets/js/custom-js/despesa.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
+<script>
+    $('#valor_item').mask('#.##0,00', {
+        reverse: true
+    });
+</script>
+<script>
+    $('#valorTotal').mask('#.##0,00', {
+        reverse: true
+    });
+</script>
 <script src="{{ asset('assets/js/custom-js/rateio.js') }}"></script>
 
 @endsection

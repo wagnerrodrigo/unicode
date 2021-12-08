@@ -52,6 +52,7 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         //caso haja rateio na despesa executa
         if ($request->empresa_rateio) {
             $rateios = [];

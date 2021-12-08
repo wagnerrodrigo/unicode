@@ -377,53 +377,78 @@ document.getElementById("btnDespesa").onclick = function () {
 };
 
 var id_button_item = 0;
+var totalItens = 0;
+var valorTotal = 0;
 $("#Prod").click(function () {
-    var valorTotal = 0;
     //  pega os valores dos campos preenchidos pelo usuario
     var class_prod = $("#classificacao_prod").val();
     var prod_ser = $("#produto_servico").val();
-    var valor_uni = parseFloat($("#valor_item").val());
+    var valor_uni = $("#valor_item").val();
     var quanti = $("#quantidade").val();
-    var valor_tl = parseFloat(valor_uni * quanti);
 
-    // criar novos itens com os valores preenchidos anteriormente
-    $("#Tb").append(
-        `<tr id="tab${id_button_item}">` +
-            `<td>${class_prod}</td>` +
-            `<td>${prod_ser}</td>` +
-            `<td>${valor_uni}</td>` +
-            `<td>${quanti}</td>` +
-            `<td><button type="button" class="btn btn-danger" onclick="removeItem(${id_button_item})" style="padding: 8px 12px;">` +
-            `<i class="bi bi-trash-fill"></i>` +
-            `</button></td>` +
-            "</tr>"
-    );
+    if (class_prod == "" || prod_ser == "" || valor_uni == "" || quanti == "") {
+        alert("Preencha todos os campos do produto!");
+    } else {
+        // criar novos itens com os valores preenchidos anteriormente
+        $("#Tb").append(
+            `<tr id="tab${id_button_item}">` +
+                `<td>${class_prod}</td>` +
+                `<td>${prod_ser}</td>` +
+                `<td>R$${valor_uni}</td>` +
+                `<td>${quanti}</td>` +
+                `<td><button type="button" class="btn btn-danger" onclick="removeItem(${id_button_item})" style="padding: 8px 12px;">` +
+                `<i class="bi bi-trash-fill"></i>` +
+                `</button></td>` +
+                "</tr>"
+        );
+        //retira virgulas do valor unitário
+        var valorFormatado = valor_uni.replace(",", ".");
 
-    //gera o input com os dados do item para submeter no form
-    $("#hidden_inputs_itens").append(
-        `<div id="input_generated_itens${id_button_rateio}">` +
-            `<input type="hidden" name="id_produto[]" value="${prod_ser}"/>` +
-            `<input type="hidden" name="valor_unitario[]" value="${valor_uni}"/>` +
-            `<input type="hidden" name="quantidade[]" value="${quanti}"/>` +
-            `</div>`
-    );
+        //gera o input com os dados do item para submeter no form
+        $("#hidden_inputs_itens").append(
+            `<div id="input_generated_itens${id_button_rateio}">` +
+                `<input type="hidden"  name="id_produto[]" value="${prod_ser}"/>` +
+                `<input type="hidden" id="val_produto${id_button_rateio}" name="valor_unitario[]" value="${valorFormatado}"/>` +
+                `<input type="hidden" name="quantidade[]" value="${quanti}"/>` +
+                `</div>`
+        );
 
-    id_button_item++;
+        id_button_item++;
+        //adiciona 1 ao total de itens
+        totalItens++;
 
-    // limpar campos do item
-    $("#classificacao_prod").val("");
-    $("#produto_servico").val("");
-    $("#valor_item").val("");
-    $("#quantidade").val("");
+        // limpar campos do item
+        $("#classificacao_prod").val("");
+        $("#produto_servico").val("");
+        $("#valor_item").val("");
+        $("#quantidade").val("");
 
-    // soma de todos os valores dos items
-    valorTotal = valorTotal += valor_tl;
-    $("#valorTotal").val(valorTotal);
+        // soma de todos os valores dos items
+        Number(valorFormatado);
+        Number(valorTotal);
+        Number(quanti);
+
+        valorTotal = valorTotal + valorFormatado * quanti;
+        $("#valorTotal").attr("readonly", true);
+        $("#valorTotal").val(valorTotal.toFixed(2));
+    }
 });
 
-//remove o rateio da tabela e do form
+//remove o rateio da tabela e do form e subtrai valor do total
 function removeItem(id) {
-    console.log(id);
+    var valorRemovido = Number($(`#val_produto${id}`).val());
+    //subtrai 1 ao total de itens
+    totalItens--;
+
+    valorTotal = valorTotal - valorRemovido;
+
+    //verifica quantos itens existem na table e modifica o campo valorTotal para readonly caso seja difernte de 0
+    if (totalItens == 0) {
+        $("#valorTotal").attr("readonly", false);
+    } else {
+        $("#valorTotal").attr("readonly", true);
+    }
+
     $(`#tab${id}`).remove();
     $(`#input_generated_itens${id}`).remove();
 }

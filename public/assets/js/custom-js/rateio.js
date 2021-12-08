@@ -71,15 +71,15 @@ $("#seleciona_rateio").click(function () {
             `<td>${valor_rateado}</td>` +
             `<td>${porcentagem_valor}</td>` +
             `<td><button onclick="removeRateio(${id_button_rateio})" class="btn btn-danger btn-sm btn-delete-rateio">Excluir</button></td>` +
-        "</tr>"
+            "</tr>"
     );
 
     //gera o input com os dados do rateio para submeter no form
     $("#hidden_inputs").append(
         `<div id="input-generated${id_button_rateio}"><input type="hidden" name="empresa_rateio[]" value="${rateio_empresa}"/>` +
-        `<input type="hidden" name="custo_rateio[]" value="${custo_rateio}"/>` +
-        `<input type="hidden" name="valor_rateio[]" value="${valor_rateado}"/>` +
-        `<input type="hidden" name="porcentagem_rateio[]" value="${porcentagem_valor}"/></div>`
+            `<input type="hidden" name="custo_rateio[]" value="${custo_rateio}"/>` +
+            `<input type="hidden" name="valor_rateio[]" value="${valor_rateado}"/>` +
+            `<input type="hidden" name="porcentagem_rateio[]" value="${porcentagem_valor}"/></div>`
     );
 
     id_button++;
@@ -91,4 +91,3 @@ function removeRateio(id) {
     $(`#tab-generated${id}`).remove();
     $(`#input-generated${id}`).remove();
 }
-
