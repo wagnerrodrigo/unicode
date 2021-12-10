@@ -106,7 +106,13 @@ $("#valor_rateado").blur(function () {
         .replace(",", ".")
         .replace("R$", "");
     var valorRateado = Number($("#valor_rateado").val());
-    var porcentagem = (valorFormatadoItens / 100) * valorRateado;
+
+    if(valorRateado > valorFormatadoItens){
+        alert("Valor maior que o valor total da depesa");
+        $("#valor_rateado").val("");
+    }
+
+    $("#porcentagem_rateado").val(porcentagem.toFixed(2));
     console.log(valorFormatadoItens);
     console.log(porcentagem);
     //$("#porcentagem_rateado").val(porcentagem);

@@ -1,4 +1,6 @@
+var idFornecedor;
 $(document).ready(function () {
+    idFornecedor = 0;
     //Seleciona quais campos irão aparecer na tela
     $('input:radio[name="seleciona_tela"]').on("change", function () {
         if (this.checked && this.value == "1") {
@@ -159,27 +161,6 @@ $(document).ready(function () {
     // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO SERVICO E O SERVICO
 });
 
-//Buscar condição de pagamento no banco de dados com requisição via AJAX
-
-$.ajax({
-    type: "GET",
-    url: `http://localhost:8000/condicao_pagamento`,
-    dataType: "json",
-})
-    .done(function (response) {
-        //traz os resultados do banco para uma div hidden
-        $.each(response, function (key, val) {
-            $("#condicao_pagamento").append(
-                `<option class="classificacao" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</option>`
-            );
-        });
-    })
-    .fail(function () {
-        console.log("erro na requisição Ajax");
-    });
-
-//Fim de busca de condição de pagamento
-
 //função para buscar empresa
 $("#busca_empresa").keyup(function () {
     var words = $(this).val();
@@ -270,15 +251,18 @@ document.getElementById("btnDespesa").onclick = function () {
                                 //seleciona o cnpj ou cpf desejada
                                 $(".item").click(function () {
                                     $("#Cnpj_Cpf").val($(this).text());
-                                    var idFornecedor = $(this).attr("value");
+                                    var cpfFornecedor = $(this).attr("value");
 
                                     $("#ResultadoCnpjCpf").html("");
                                     // preenche o campo de input_cpf_cnpj e o input_razao_social com base no item anterior
                                     $.ajax({
                                         type: "GET",
-                                        url: `/fornecedores/cnpj_cpf/${idFornecedor}`,
+                                        url: `/fornecedores/cnpj_cpf/${cpfFornecedor}`,
                                         dataType: "json",
                                     }).done(function (response) {
+                                        //armazena id do fonecedor em uma variavel;
+                                        idFornecedor = response[0].id_fornecedor;
+
                                         $("#btnCnpj_Cpf").click(function () {
                                             $("#input_cpf_cnpj").val(
                                                 response[0].nu_cpf_cnpj
@@ -461,3 +445,75 @@ function removeItem(id) {
     $(`#input_generated_itens${id}`).remove();
     $("#valorTotal").val(tipoMoeda(valorTotal, moeda));
 }
+
+//Buscar condição de pagamento no banco de dados com requisição via AJAX
+$.ajax({
+    type: "GET",
+    url: `http://localhost:8000/condicao_pagamento`,
+    dataType: "json",
+})
+    .done(function (response) {
+        //traz os resultados do banco para uma div hidden
+        $.each(response, function (key, val) {
+            $("#itens_tipo_pagamento")
+                .append(
+                    `<div class="item_condicao_pagamento" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</div>`
+                )
+                .hide();
+        });
+
+        $("#condicao_pagamento").click(function () {
+            $("#itens_tipo_pagamento").show();
+        });
+
+        $(".item_condicao_pagamento").click(function () {
+            $("#condicao_pagamento").val($(this).text());
+            $("#itens_tipo_pagamento").hide();
+
+            var id_tipo_pagamento = $(this).attr("value");
+            var inputsContas = false;
+
+            //tipos de pagamento  3 = Depósito; 6 = DOC; 7 = TED; 8 == Tranferência;
+            if (
+                id_tipo_pagamento == 3 ||
+                id_tipo_pagamento == 6 ||
+                id_tipo_pagamento == 7 ||
+                id_tipo_pagamento == 8
+            ) {
+                $.ajax({
+                    type: "GET",
+                    url: `http://localhost:8000/contas-bancarias/fornecedor/${idFornecedor}`,
+                    dataType: "json",
+                }).done(function (response) {
+                    console.log(response);
+
+                    if (inputsContas == false) {
+                        $("#conta_hidden").append(
+                            "<strong class='remove_conta'>CONTA BANCÁRIA DO FORNECEDOR/EMPREGADO</strong>" +
+                                "<select class='form-control input-add remove_conta' id='contas_fornecedor'>" +
+                                "<option value='' class='contas_fornecedor_resultado'></option>" +
+                                "</select>"
+                        );
+                        inputsContas == true;
+                        //incrementa 1 no valor de quantidade de inputs
+                    }
+                    //mostra os resultados da busca em uma div
+                    $.each(response, function (key, val) {
+                        $("#contas_fornecedor").append(
+                            `<option class="contas_fornecedor_resultado" value="${val.id_conta_bancaria}">${val.co_banco} - ${val.de_banco} AG: ${val.nu_agencia} CONTA: ${val.nu_conta}</option>`
+                        );
+                    });
+                });
+            } else {
+                inputsContas = false;
+                $(".remove_conta").remove();
+                $("#contas_fornecedor").empty();
+            }
+            //faz a requisição ajax para buscar tipo de classificação
+        });
+    })
+    .fail(function () {
+        console.log("erro na requisição Ajax");
+    });
+
+//Fim de busca de condição de pagamento

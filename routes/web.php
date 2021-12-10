@@ -148,6 +148,7 @@ Route::get('/contas-bancarias/{id}', [ContaBancariaController::class, 'show'])->
 Route::post('/contas-bancarias', [ContaBancariaController::class, 'store']);
 Route::post('/contas-bancarias/editar/{id}', [ContaBancariaController::class, 'edit']);
 Route::post('/contas-bancarias/delete/{id}', [ContaBancariaController::class, 'destroy']);
+Route::get('/contas-bancarias/fornecedor/{id}', [ContaBancariaController::class, 'showByFornecedor']);
 
 //rotas Instituições Bancárias
 Route::get('/instituicoes-financeira', [InstituicaoFinanceiraController::class, 'index'])->name('instituicoes-financeira');

@@ -132,4 +132,10 @@ class ContaBancariaController extends Controller
 
         return redirect()->route('contas-bancarias');
     }
+
+    public function showByFornecedor($id){
+        $conta = ContaBancaria::getContaBancariaFornecedor($id);
+
+        return response()->json($conta);
+    }
 }

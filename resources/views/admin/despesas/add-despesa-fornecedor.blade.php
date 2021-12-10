@@ -216,14 +216,19 @@
 
                         <div class="px-5 mb-3">
                             <strong>TIPO DE PAGAMENTO</strong>
-                            <select class="form-control input-add" name="tipo_pagamento" id="condicao_pagamento">
+                            <input class="form-control input-add teste" name="tipo_pagamento" id="condicao_pagamento" readonly style="cursor: pointer;"></input>
+                            <div id="itens_tipo_pagamento" class="input-style" style="cursor: pointer;"></div>
+                        </div>
+                    </div>
 
-                            </select>
+                    <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3" id="conta_hidden">
+                        <!-- CAMPO DE CONTA BANCARIA E PIX -->
                         </div>
                     </div>
 
 
-                    <h3>Informações do documento</h3>
+                    <h3>INFORMAÇÕES DO DOCUMENTO</h3>
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>NUMERO DA NOTA OU DOCUMENTO</strong>
