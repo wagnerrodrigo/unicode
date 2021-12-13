@@ -8,7 +8,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>{{$produto->nome}}</h1>
+                <h1>{{$produto->de_produto}}</h1>
             </div>
             <div class="card-body" style="font-size: 18px;">
                 <div class="card-body">
@@ -17,7 +17,7 @@
                             <div class="form-group">
                                 <strong for="nome">Nome</strong>
                             </div>
-                            <span>{{$produto->nome}}</span>
+                            <span>{{$produto->de_produto}}</span>
                         </div>
 
                         <div class="col-md-6">
@@ -66,12 +66,12 @@
                     </div>
                     <div class="modal-body">
                         <!-- mudar para produto  -->
-                        <form action="/produtos/editar/{{$produto->id}}" method="POST" style="padding: 10px;">
+                        <form action="/produtos/editar/{{$produto->id_produto}}" method="POST" style="padding: 10px;">
                             @csrf
                             <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>Produto </strong>
-                                    <input class="form-control mt-1" value="{{$produto->nome}}" type="text" placeholder="produto" name="nome" style="width: 358px" />
+                                    <input class="form-control mt-1" value="{{$produto->de_produto}}" type="text" placeholder="produto" name="nome" style="width: 358px" />
                                 </div>
 
                                 <div class="px-5 mb-3">
@@ -89,7 +89,7 @@
                                     <strong>Tipo</strong>
                                     <select class="form-control" name="tipo" id="tipo_produto" style="width: 358px">
                                         <option selected value="Tipo 1">Tipo 1</option>
-                                        <option value="{{$produto->nome}}">{{$produto->nome}}</option>
+                                        <option value="{{$produto->de_produto}}">{{$produto->de_produto}}</option>
                                         <option value="Tipo 2">Tipo 2</option>
                                         <option value="Tipo 3">Tipo 3</option>
                                     </select>
@@ -99,7 +99,7 @@
                                     <strong>Forma Servico</strong>
                                     @if($produto->forma_produto === 'generico')
                                     <div>
-                                        <input value="{{$produto->nome}}" type="radio" name="forma_produto" checked />
+                                        <input value="{{$produto->de_produto}}" type="radio" name="forma_produto" checked />
                                         <label for="generico">Genérico</label>
                                     </div>
                                     <div>
@@ -112,7 +112,7 @@
                                         <label for="generico">Genérico</label>
                                     </div>
                                     <div>
-                                        <input value="{{$produto->nome}}" type="radio" checked name="forma_produto" />
+                                        <input value="{{$produto->de_produto}}" type="radio" checked name="forma_produto" />
                                         <label for="individual">Individual</label>
                                     </div>
                                     @endif
