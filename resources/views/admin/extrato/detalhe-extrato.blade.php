@@ -7,7 +7,7 @@
         <div class="main-content container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <h1>Extrato N° 3738</h1>
+                    <h1>Extrato N° {{$despesa->id_despesa}}</h1>
                 </div>
                 <div class="card-body" style="font-size: 18px;">
                     <div class="card-body">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Despesa;
 use App\Models\Extrato;
 use Illuminate\Http\Request;
 
@@ -56,6 +57,12 @@ class ExtratoController extends Controller
     public function show()
     {
         return view('admin.extrato.detalhe-extrato');
+    }
+
+    public function showInfo($id)
+    {
+        $despesa = Despesa::findOne($id);
+        return view('admin.extrato.detalhe-extrato', compact('despesa'));
     }
 
     /**
