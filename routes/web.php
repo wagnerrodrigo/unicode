@@ -36,6 +36,7 @@ use App\Http\Controllers\ConciliacaoController;
 use App\Http\Controllers\EmpregadoController;
 use App\Http\Controllers\CondicaoPagamentoController;
 use App\Http\Controllers\PagamentoController;
+use App\Http\Controllers\PixController;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -149,6 +150,9 @@ Route::post('/contas-bancarias', [ContaBancariaController::class, 'store']);
 Route::post('/contas-bancarias/editar/{id}', [ContaBancariaController::class, 'edit']);
 Route::post('/contas-bancarias/delete/{id}', [ContaBancariaController::class, 'destroy']);
 Route::get('/contas-bancarias/fornecedor/{id}', [ContaBancariaController::class, 'showByFornecedor']);
+
+
+Route::get('/pix/fornecedor/{id}', [PixController::class, 'showByFornecedor'])->name('pix');
 
 //rotas Instituições Bancárias
 Route::get('/instituicoes-financeira', [InstituicaoFinanceiraController::class, 'index'])->name('instituicoes-financeira');

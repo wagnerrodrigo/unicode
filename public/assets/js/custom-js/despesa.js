@@ -261,7 +261,8 @@ document.getElementById("btnDespesa").onclick = function () {
                                         dataType: "json",
                                     }).done(function (response) {
                                         //armazena id do fonecedor em uma variavel;
-                                        idFornecedor = response[0].id_fornecedor;
+                                        idFornecedor =
+                                            response[0].id_fornecedor;
 
                                         $("#btnCnpj_Cpf").click(function () {
                                             $("#input_cpf_cnpj").val(
@@ -471,8 +472,6 @@ $.ajax({
             $("#itens_tipo_pagamento").hide();
 
             var id_tipo_pagamento = $(this).attr("value");
-            var inputsContas = false;
-
             //tipos de pagamento  3 = Depósito; 6 = DOC; 7 = TED; 8 == Tranferência;
             if (
                 id_tipo_pagamento == 3 ||
@@ -480,23 +479,20 @@ $.ajax({
                 id_tipo_pagamento == 7 ||
                 id_tipo_pagamento == 8
             ) {
+                limpaCamposContaBancariaPix();
+                //gera input de conta
+                $("#conta_hidden").append(
+                    "<strong class='remove_conta'>CONTA BANCÁRIA DO FORNECEDOR/EMPREGADO</strong>" +
+                        "<select class='form-control input-add remove_conta' id='contas_fornecedor'>" +
+                        "<option value='' class='contas_fornecedor_resultado'></option>" +
+                        "</select>"
+                );
+
                 $.ajax({
                     type: "GET",
                     url: `http://localhost:8000/contas-bancarias/fornecedor/${idFornecedor}`,
                     dataType: "json",
                 }).done(function (response) {
-                    console.log(response);
-
-                    if (inputsContas == false) {
-                        $("#conta_hidden").append(
-                            "<strong class='remove_conta'>CONTA BANCÁRIA DO FORNECEDOR/EMPREGADO</strong>" +
-                                "<select class='form-control input-add remove_conta' id='contas_fornecedor'>" +
-                                "<option value='' class='contas_fornecedor_resultado'></option>" +
-                                "</select>"
-                        );
-                        inputsContas == true;
-                        //incrementa 1 no valor de quantidade de inputs
-                    }
                     //mostra os resultados da busca em uma div
                     $.each(response, function (key, val) {
                         $("#contas_fornecedor").append(
@@ -504,10 +500,29 @@ $.ajax({
                         );
                     });
                 });
+            } else if (id_tipo_pagamento == 2) {
+                limpaCamposContaBancariaPix();
+
+                $("#conta_hidden").append(
+                    "<strong class='remove_conta'>PIX DO FORNECEDOR</strong>" +
+                        "<select class='form-control input-add remove_pix' id='pix_fornecedor'>" +
+                        "<option value='' class='pix_fornecedor_resultado'></option>" +
+                        "</select>"
+                );
+
+                $.ajax({
+                    type: "GET",
+                    url: `http://localhost:8000/pix/fornecedor/${idFornecedor}`,
+                    dataType: "json",
+                }).done(function (response) {
+                    $.each(response, function (key, val) {
+                        $("#pix_fornecedor").append(
+                            `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
+                        );
+                    });
+                });
             } else {
-                inputsContas = false;
-                $(".remove_conta").remove();
-                $("#contas_fornecedor").empty();
+                limpaCamposContaBancariaPix();
             }
             //faz a requisição ajax para buscar tipo de classificação
         });
@@ -515,5 +530,13 @@ $.ajax({
     .fail(function () {
         console.log("erro na requisição Ajax");
     });
+
+// limpa campos de conta bancaria e pix
+function limpaCamposContaBancariaPix() {
+    $(".remove_conta").remove();
+    $(".remove_pix").remove();
+    $("#contas_fornecedor").empty();
+    $("#pix_fornecedor").empty();
+}
 
 //Fim de busca de condição de pagamento
