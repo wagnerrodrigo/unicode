@@ -178,6 +178,7 @@ Route::get('/pagamentos',[PagamentoController::class, 'index'])->name('pagamento
 Route::get('/extrato',[ExtratoController::class, 'index'])->name('extrato');
 Route::get('/extrato/id',[ExtratoController::class, 'show'])->name('show-extrato');
 Route::get('/extrato/empresa',[ExtratoController::class, 'showCompany']);
+Route::get('/extrato/info/{id}',[ExtratoController::class, 'showInfo']);
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {
