@@ -35,6 +35,7 @@ use App\Models\ClassificacaoContabil;
 use App\Http\Controllers\ConciliacaoController;
 use App\Http\Controllers\EmpregadoController;
 use App\Http\Controllers\CondicaoPagamentoController;
+use App\Http\Controllers\ExtratoController;
 use App\Http\Controllers\PagamentoController;
 use Illuminate\Support\Facades\Route;
 
@@ -172,6 +173,11 @@ Route::get('/enderecos/{id}', [EnderecoController::class, 'show']);
 
 // rotas de pagamentos
 Route::get('/pagamentos',[PagamentoController::class, 'index'])->name('pagamentos');
+
+// rotas de extrato
+Route::get('/extrato',[ExtratoController::class, 'index'])->name('extrato');
+Route::get('/extrato/id',[ExtratoController::class, 'show'])->name('show-extrato');
+Route::get('/extrato/empresa',[ExtratoController::class, 'showCompany']);
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {
