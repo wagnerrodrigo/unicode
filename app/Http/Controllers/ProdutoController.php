@@ -16,14 +16,14 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        $produtos = Produto::all();
+        $produtos = Produto::selectAll();
 
 
         $produtosAtivos = [];
         $produtosInativos = [];
 
         for ($i = 0; $i < count($produtos); $i++) {
-            if ($produtos[$i]->data_fim === null) {
+            if ($produtos[$i]->dt_fim === null) {
                 $produtosAtivos[] = $produtos[$i];
             } else {
                 $produtosInativos[] = $produtos[$i];

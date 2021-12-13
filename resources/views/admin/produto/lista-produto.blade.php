@@ -17,7 +17,7 @@
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
-                    @if($produtosAtivos === null || empty($produtosAtivos))
+                    @if($produtosAtivos != null || empty($produtosAtivos))
                     <tbody>
                         <tr>
                             <td>Nenhum produto Cadastrado</td>
@@ -38,16 +38,16 @@
                     <tbody>
                         @foreach($produtosAtivos as $produto)
                         <tr>
-                            <td>{{$produto->id}}</td>
-                            <td>{{$produto->nome}}</td>
+                            <td>{{$produto->id_produto}}</td>
+                            <td>{{$produto->de_produto}}</td>
                             <td>{{$produto->nome_generico}}</td>
                             <td>{{$produto->tipo}}</td>
                             <td>{{$produto->forma_produto}}</td>
                             <td>
                                 <!-- mudar para cadastro de fonecedores -->
                                 
-                                <a href="produtos/{{$produto->id}}" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
-                                <button data-bs-toggle="modal" data-bs-target="#delete{{$produto->id}}" class="btn btn-danger" style="padding: 8px 12px;">
+                                <a href="produtos/{{$produto->id_produto}}" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
+                                <button data-bs-toggle="modal" data-bs-target="#delete{{$produto->id_produto}}" class="btn btn-danger" style="padding: 8px 12px;">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
@@ -58,7 +58,7 @@
                        
                         <div class="modal-danger me-1 mb-1 d-inline-block">
                             <!--Danger theme Modal -->
-                            <div class="modal fade text-left" id="delete{{$produto->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+                            <div class="modal fade text-left" id="delete{{$produto->id_produto}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-dia log-scrollable" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header bg-danger">
@@ -68,14 +68,14 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            Deseja realmente excluir o produtos: {{$produto->nome}}?
+                                            Deseja realmente excluir o produtos: {{$produto->de_produto}}?
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                                                 <i class="bx bx-x d-block d-sm-none"></i>
                                                 <span class="d-none d-sm-block">Cancelar</span>
                                             </button>
-                                            <form action="produtos/delete/{{$produto->id}}" method="POST">
+                                            <form action="produtos/delete/{{$produto->id_produto}}" method="POST">
                                                 @csrf
                                                 <button class="btn btn-danger ml-1">
                                                     <i class="bx bx-check d-block d-sm-none"></i>

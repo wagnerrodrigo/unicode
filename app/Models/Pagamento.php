@@ -24,4 +24,5 @@ class Pagamento extends Model
     }
 
     
+
 }

@@ -35,6 +35,7 @@ use App\Models\ClassificacaoContabil;
 use App\Http\Controllers\ConciliacaoController;
 use App\Http\Controllers\EmpregadoController;
 use App\Http\Controllers\CondicaoPagamentoController;
+use App\Http\Controllers\ExtratoController;
 use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\PixController;
 use Illuminate\Support\Facades\Route;
@@ -98,7 +99,11 @@ Route::get('/centroCustoEmpresa/nome/{nome}', [CentroCustosController::class, 's
 Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
 Route::get('/lancamentos/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
 Route::get('/lancamentos/provisionamento/{id}',[LancamentoController::class, 'provisionamento'])->name('add-lancamento-provisionamento');
+
 Route::get('/lancamentos/info-conta/{info}',[LancamentoController::class, 'showDataInsBanc']);
+Route::get('/lancamentos/info-agencia/{id_conta}',[LancamentoController::class, 'showDataAgency']);
+Route::get('/lancamentos/info-contaBancaria/{id_agencia}',[LancamentoController::class,'showBankAccount']);
+Route::get('/lancamentos/info-fornecedor-empregado/{id_despesa}',[LancamentoController::class,'showProvidedEmployee']);
 
 //rotas Receitas
 Route::get('/receitas', [ReceitaController::class, 'index'])->name('receitas');
@@ -173,7 +178,12 @@ Route::get('/enderecos/{id}', [EnderecoController::class, 'show']);
 
 // rotas de pagamentos
 Route::get('/pagamentos',[PagamentoController::class, 'index'])->name('pagamentos');
-Route::get('/pagament',[PagamentoController::class, 'pagamento']);
+
+// rotas de extrato
+Route::get('/extrato',[ExtratoController::class, 'index'])->name('extrato');
+Route::get('/extrato/id',[ExtratoController::class, 'show'])->name('show-extrato');
+Route::get('/extrato/empresa',[ExtratoController::class, 'showCompany']);
+Route::get('/extrato/info/{id}',[ExtratoController::class, 'showInfo']);
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {

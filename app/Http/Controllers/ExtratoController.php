@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pagamento;
+use App\Models\Despesa;
+use App\Models\Extrato;
 use Illuminate\Http\Request;
 
-class PagamentoController extends Controller
+class ExtratoController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -14,26 +16,16 @@ class PagamentoController extends Controller
      */
     public function index()
     {
-
-
-        $pagamentos = Pagamento::selectAll();
-
-        $pagamentosAtivos = [];
-        $pagamentosInativos = [];
-        for ($i = 0; $i < count($pagamentos); $i++) {
-            if ($pagamentos[$i]->dt_fim === null) {
-                $pagamentosAtivos[] = $pagamentos[$i];
-            } else {
-                $pagamentosInativos[] = $pagamentos[$i];
-            };
-        }
-        
-
-        return view('admin.pagamento.lista-pagamento', compact('pagamentosAtivos'));
+        return view('admin.extrato.extrato');
     }
 
 
-    
+
+    public function showCompany(){
+        $extrato = Extrato::findByCompany();
+
+        return response()->json($extrato);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -62,7 +54,17 @@ class PagamentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+    public function show()
+    {
+        return view('admin.extrato.detalhe-extrato');
+    }
+
+    public function showInfo($id)
+    {
+        $despesa = Despesa::findOne($id);
+        return view('admin.extrato.detalhe-extrato', compact('despesa'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
