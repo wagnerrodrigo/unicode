@@ -84,6 +84,12 @@
                     </div>
 
                     <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3" id="despesa_juridica">
+                        <!-- CAMPO DE DESPESA JURIDICA -->
+                        </div>
+                    </div>
+
+                    <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>DESCRIÇÃO</strong>
                             <textarea cols="145" rows="2" class="form-control" name="descricao"></textarea>
@@ -228,7 +234,7 @@
                     </div>
 
 
-                    <h3>INFORMAÇÕES DO DOCUMENTO</h3>
+                    <h3>INFORMAÇÕES DA NOTA</h3>
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>NUMERO DA NOTA OU DOCUMENTO</strong>

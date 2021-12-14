@@ -41,6 +41,20 @@ $(document).ready(function () {
                 $("#itens_classificacao").hide();
 
                 var id_classificacao = $(this).attr("value");
+
+                //verificar se foi selecionado despesa juridica
+                if (id_classificacao == 6) {
+                    limpaCamposDespesaJuridica();
+                    //gera input do numero do processo
+                    $("#despesa_juridica").append(
+                        "<strong class='remove_processo'>NUMERO DO PROCESSO</strong>" +
+                            "<input class='form-control input-add remove_processo' name='numero_processo' id='input_despesa_juridica'></input>"
+                    );
+                } else {
+                    limpaCamposDespesaJuridica();
+                }
+
+
                 //a cada nova requisição, limpa o option do select
                 $("#tipo_classificacao").html("");
                 //faz a requisição ajax para buscar tipo de classificação
@@ -537,6 +551,10 @@ function limpaCamposContaBancariaPix() {
     $(".remove_pix").remove();
     $("#contas_fornecedor").empty();
     $("#pix_fornecedor").empty();
+}
+
+function limpaCamposDespesaJuridica() {
+    $(".remove_processo").remove();
 }
 
 //Fim de busca de condição de pagamento
