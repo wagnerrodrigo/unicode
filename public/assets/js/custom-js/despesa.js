@@ -497,7 +497,7 @@ $.ajax({
                 //gera input de conta
                 $("#conta_hidden").append(
                     "<strong class='remove_conta'>CONTA BANCÁRIA DO FORNECEDOR/EMPREGADO</strong>" +
-                        "<select class='form-control input-add remove_conta' id='contas_fornecedor'>" +
+                        "<select name='conta_bancaria' class='form-control input-add remove_conta' id='contas_fornecedor'>" +
                         "<option value='' class='contas_fornecedor_resultado'></option>" +
                         "</select>"
                 );
@@ -519,7 +519,7 @@ $.ajax({
 
                 $("#conta_hidden").append(
                     "<strong class='remove_conta'>PIX DO FORNECEDOR</strong>" +
-                        "<select class='form-control input-add remove_pix' id='pix_fornecedor'>" +
+                        "<select name='pix' class='form-control input-add remove_pix' id='pix_fornecedor'>" +
                         "<option value='' class='pix_fornecedor_resultado'></option>" +
                         "</select>"
                 );

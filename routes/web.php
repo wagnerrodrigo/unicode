@@ -97,13 +97,14 @@ Route::get('/centroCustoEmpresa/nome/{nome}', [CentroCustosController::class, 's
 
 //rotas Lançamentos
 Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
+Route::get('/lancamentos/paginate', [LancamentoController::class, 'paginate']);
 Route::get('/lancamentos/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
-Route::get('/lancamentos/provisionamento/{id}',[LancamentoController::class, 'provisionamento'])->name('add-lancamento-provisionamento');
+Route::get('/lancamentos/provisionamento/{id}', [LancamentoController::class, 'provisionamento'])->name('add-lancamento-provisionamento');
 
-Route::get('/lancamentos/info-conta/{info}',[LancamentoController::class, 'showDataInsBanc']);
-Route::get('/lancamentos/info-agencia/{id_conta}',[LancamentoController::class, 'showDataAgency']);
-Route::get('/lancamentos/info-contaBancaria/{id_agencia}',[LancamentoController::class,'showBankAccount']);
-Route::get('/lancamentos/info-fornecedor-empregado/{id_despesa}',[LancamentoController::class,'showProvidedEmployee']);
+Route::get('/lancamentos/info-conta/{info}', [LancamentoController::class, 'showDataInsBanc']);
+Route::get('/lancamentos/info-agencia/{id_conta}', [LancamentoController::class, 'showDataAgency']);
+Route::get('/lancamentos/info-contaBancaria/{id_agencia}', [LancamentoController::class, 'showBankAccount']);
+Route::get('/lancamentos/info-fornecedor-empregado/{id_despesa}', [LancamentoController::class, 'showProvidedEmployee']);
 
 //rotas Receitas
 Route::get('/receitas', [ReceitaController::class, 'index'])->name('receitas');
@@ -130,8 +131,8 @@ Route::get('/produtos/{id}', [ProdutoController::class, 'show'])->name('lista-pr
 Route::post('/produtos', [ProdutoController::class, 'store']);
 Route::post('/produtos/editar/{id}', [ProdutoController::class, 'edit']);
 Route::post('/produtos/delete/{id}', [ProdutoController::class, 'destroy']);
-Route::get('/produto/classificacao',[ProdutoController::class, 'showClassificacaoProduto']);
-Route::get('/produto/classificacao/{id}',[ProdutoController::class, 'showClassificacaoProdutoId']);
+Route::get('/produto/classificacao', [ProdutoController::class, 'showClassificacaoProduto']);
+Route::get('/produto/classificacao/{id}', [ProdutoController::class, 'showClassificacaoProdutoId']);
 
 //rotas Centro de custo
 Route::get('/centro-custos', [CentroCustos::class, 'index'])->name('centro-custos');
@@ -177,13 +178,13 @@ Route::get('/enderecos/{id}', [EnderecoController::class, 'show']);
 //Route::post('/enderecos/adicionar', [EnderecoController::class, 'store']);
 
 // rotas de pagamentos
-Route::get('/pagamentos',[PagamentoController::class, 'index'])->name('pagamentos');
+Route::get('/pagamentos', [PagamentoController::class, 'index'])->name('pagamentos');
 
 // rotas de extrato
-Route::get('/extrato',[ExtratoController::class, 'index'])->name('extrato');
-Route::get('/extrato/id',[ExtratoController::class, 'show'])->name('show-extrato');
-Route::get('/extrato/empresa',[ExtratoController::class, 'showCompany']);
-Route::get('/extrato/info/{id}',[ExtratoController::class, 'showInfo']);
+Route::get('/extrato', [ExtratoController::class, 'index'])->name('extrato');
+Route::get('/extrato/id', [ExtratoController::class, 'show'])->name('show-extrato');
+Route::get('/extrato/empresa', [ExtratoController::class, 'showCompany']);
+Route::get('/extrato/info/{id}', [ExtratoController::class, 'showInfo']);
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {

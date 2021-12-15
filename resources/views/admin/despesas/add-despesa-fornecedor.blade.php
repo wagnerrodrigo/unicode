@@ -356,7 +356,10 @@
 
                     <div>
                         <span>Valor Total: </span>
-                        <input class="input-add" type="text" id="modal_valor_total" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple">
+                        <input class="input-add" id="modal_valor_total" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple; margin-right:20px">
+
+                        <span>Valor Rateado: </span>
+                        <input class="input-add" id="modal_valor_rateado" name="modal_valor_rateado" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple">
                     </div>
 
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
