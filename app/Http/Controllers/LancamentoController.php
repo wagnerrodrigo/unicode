@@ -90,6 +90,12 @@ class LancamentoController extends Controller
         return response()->json($lancamento);
     }
 
+    public function showPeriodDate($id_incio, $id_fim)
+    {
+        $lancamento = Lancamento::findByInitialPeriod($id_incio, $id_fim);
+        return response()->json($lancamento);
+    }
+
 
 
 

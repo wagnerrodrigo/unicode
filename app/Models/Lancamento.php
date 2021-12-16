@@ -109,5 +109,12 @@ class Lancamento extends Model
         return $query;
     }
 
-
+    static function findByInitialPeriod($id_incio, $id_fim){
+        $query = DB::select("SELECT * 
+                FROM intranet.tab_despesa AS despesas
+                WHERE date_trunc('day',despesas.dt_inicio) >=('$id_incio') 
+                AND   date_trunc('day',despesas.dt_inicio) <= ('$id_fim');");
+        
+        return $query;
+    }
 }
