@@ -99,12 +99,15 @@ Route::get('/centroCustoEmpresa/nome/{nome}', [CentroCustosController::class, 's
 Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
 Route::get('/lancamentos/paginate', [LancamentoController::class, 'paginate']);
 Route::get('/lancamentos/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
-Route::get('/lancamentos/provisionamento/{id}', [LancamentoController::class, 'provisionamento'])->name('add-lancamento-provisionamento');
+Route::get('/lancamentos/provisionamento/{id}',[LancamentoController::class, 'provisionamento'])->name('add-lancamento-provisionamento');
+Route::post('/lancamentos/provisionamento',[LancamentoController::class, 'store']);
 
-Route::get('/lancamentos/info-conta/{info}', [LancamentoController::class, 'showDataInsBanc']);
-Route::get('/lancamentos/info-agencia/{id_conta}', [LancamentoController::class, 'showDataAgency']);
-Route::get('/lancamentos/info-contaBancaria/{id_agencia}', [LancamentoController::class, 'showBankAccount']);
-Route::get('/lancamentos/info-fornecedor-empregado/{id_despesa}', [LancamentoController::class, 'showProvidedEmployee']);
+Route::get('/lancamentos/info-conta/{info}',[LancamentoController::class, 'showDataInsBanc']);
+Route::get('/lancamentos/info-agencia/{id_conta}',[LancamentoController::class, 'showDataAgency']);
+Route::get('/lancamentos/info-contaBancaria/{id_agencia}',[LancamentoController::class,'showBankAccount']);
+Route::get('/lancamentos/info-fornecedor-empregado/{id_despesa}',[LancamentoController::class,'showProvidedEmployee']);
+Route::get('/lancamentos/filtro-periodo/{info_data}/{info_dataFim}',[LancamentoController::class,'showPeriodDate']);
+
 
 //rotas Receitas
 Route::get('/receitas', [ReceitaController::class, 'index'])->name('receitas');
@@ -181,10 +184,11 @@ Route::get('/enderecos/{id}', [EnderecoController::class, 'show']);
 Route::get('/pagamentos', [PagamentoController::class, 'index'])->name('pagamentos');
 
 // rotas de extrato
-Route::get('/extrato', [ExtratoController::class, 'index'])->name('extrato');
-Route::get('/extrato/id', [ExtratoController::class, 'show'])->name('show-extrato');
-Route::get('/extrato/empresa', [ExtratoController::class, 'showCompany']);
-Route::get('/extrato/info/{id}', [ExtratoController::class, 'showInfo']);
+Route::get('/extrato',[ExtratoController::class, 'index'])->name('extrato');
+Route::get('/extrato/id',[ExtratoController::class, 'show'])->name('show-extrato');
+Route::get('/extrato/empresa',[ExtratoController::class, 'showCompany']);
+Route::get('/extrato/info/{id}',[ExtratoController::class, 'showInfo']);
+// Route::get('/extrato/filtro-periodo/{info-data}', [ExtratoController::class, 'showPeriodDate']);
 
 //rotas com autenticação
 Route::prefix('/painel')->group(function () {

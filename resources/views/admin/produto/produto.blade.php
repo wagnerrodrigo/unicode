@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <strong for="descricao">Descrição</strong>
                             </div>
-                            <span>{{$produto->nome_generico}}</span>
+                            <span></span>
                         </div>
                     </div>
                     <div class="d-flex">
@@ -32,14 +32,14 @@
                             <div class="form-group">
                                 <strong for="valor">Tipo</strong>
                             </div>
-                            <span>{{$produto->tipo}}</span>
+                            <span></span>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <strong for="valor">Forma Serviço</strong>
                             </div>
-                            <span>{{$produto->forma_produto}}</span>
+                            <span></span>
                         </div>
                     </div>
 
@@ -79,7 +79,7 @@
                                         <strong>Nome Genérico</strong>
                                     </div>
                                     <div>
-                                        <input class="form-control mt-1" value="{{$produto->nome_generico}}" type="text" placeholder="Nome" name="nome_generico" style="width: 358px" />
+                                        <input class="form-control mt-1" value="" type="text" placeholder="Nome" name="nome_generico" style="width: 358px" />
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
 
                                 <div class="px-5 mb-3">
                                     <strong>Forma Servico</strong>
-                                    @if($produto->forma_produto === 'generico')
+                                    {{-- @if($produto->forma_produto === 'generico') deve ser refatorando  --}}
                                     <div>
                                         <input value="{{$produto->de_produto}}" type="radio" name="forma_produto" checked />
                                         <label for="generico">Genérico</label>
@@ -106,7 +106,7 @@
                                         <input value="individual" type="radio" name="forma_produto" />
                                         <label for="individual">Individual</label>
                                     </div>
-                                    @else
+                                    {{-- @else deve ser refatorando  --}}
                                     <div>
                                         <input value="generico" type="radio" name="forma_produto" />
                                         <label for="generico">Genérico</label>
@@ -115,7 +115,7 @@
                                         <input value="{{$produto->de_produto}}" type="radio" checked name="forma_produto" />
                                         <label for="individual">Individual</label>
                                     </div>
-                                    @endif
+                                    {{-- @endif  deve ser refatorando --}}
                                 </div>
                             </div>
                     </div>

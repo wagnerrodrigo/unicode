@@ -167,3 +167,80 @@ $("#inst_banco_forne_empr").keyup(function() {
         });
     }
 });
+
+
+var id_button_conta = 0;
+
+$("#addContas").click(function() {
+    //  pega os valores dos campos preenchidos pelo usuario
+    var inst_banco = $("#inst_banco").val();
+    var agencia = $("#agencia").val();
+    var conta_banco = $("#conta_banco").val();
+    var valor_total = $("#valor_total").val();
+    var valor_rateio = $("#valor_rateio").val();
+    var data_efetivo_pag = $("#data_efetivo_pag").val();
+
+
+    console.log(inst_banco, agencia, conta_banco, valor_rateio, data_efetivo_pag);
+
+    if (inst_banco == "" || agencia == "" || conta_banco == "" || valor_rateio == "" || data_efetivo_pag == "") {
+        alert("Preencha todos os campos da Conta !");
+    } else {
+        // criar novos itens com os valores preenchidos anteriormente
+        $("#Tb").append(
+            `<tr id="tab_conta${id_button_conta}">` +
+            `<td>${inst_banco}</td>` +
+            `<td>${agencia}</td>` +
+            `<td>${conta_banco}</td>` +
+            `<td>${valor_total}</td>` +
+            `<td>${valor_rateio}</td>` +
+            `<td>${data_efetivo_pag}</td>` +
+            `<td><button type="button" class="btn btn-danger" onclick="removeConta(${id_button_conta})" style="padding: 8px 12px;">` +
+            `<i class="bi bi-trash-fill"></i>` +
+            `</button></td>` +
+            "</tr>"
+        );
+        //retira virgulas do valor unitário
+        // var valorFormatado = valor_uni.replace(".", "").replace(",", ".");
+        //gera o input com os dados do item para submeter no form
+        $("#hidden_inputs_itens").append(
+            `<div id="input_generated_account${id_button_conta}">` +
+            `<input type="hidden"  name="id_inst_banco[]" value="${inst_banco}"/>` +
+            `<input type="hidden"  name="id_agencia[]" value="${agencia}"/>` +
+            `<input type="hidden"  name="id_conta_banco[]" value="${conta_banco}"/>` +
+            `<input type="hidden"  name="id_valor_total[]" value="${valor_total}"/>` +
+            `<input type="hidden" id="valor_rateio${id_button_conta}" name="valor_rateio[]" value="${valor_rateio}"/>` +
+            `<input type="hidden" name="data_efetivo_pag[]" value="${data_efetivo_pag}"/>` +
+            `</div>`
+        );
+
+        id_button_conta++;
+        //adiciona 1 ao total de itens
+        totalItens++;
+
+        // limpar campos do item
+        $("#classificacao_prod").val("");
+        $("#produto_servico").val("");
+        $("#valor_item").val("");
+        $("#quantidade").val("");
+
+        // soma de todos os valores dos items
+        Number(valorFormatado);
+        Number(valorTotal);
+        Number(quanti);
+
+        valorTotal = valorTotal + valorFormatado * quanti;
+        $("#valorTotal").attr("readonly", true);
+
+        $("#valorTotal").val(tipoMoeda(valorTotal, moeda));
+    }
+});
+
+
+//remove a da tabela e das contas
+function removeConta(id) {
+    console.log(id);
+    $(`#tab_conta${id}`).remove();
+    $(`#input_generated_account${id}`).remove();
+
+}

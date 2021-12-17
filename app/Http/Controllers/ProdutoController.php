@@ -68,7 +68,7 @@ class ProdutoController extends Controller
      */
     public function show($id)
     {
-        $produto = Produto::find($id);
+        $produto = Produto::selectById($id);
         return view('admin.produto.produto', compact('produto'));
     }
 

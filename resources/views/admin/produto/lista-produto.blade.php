@@ -17,7 +17,7 @@
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
-                    @if($produtosAtivos != null || empty($produtosAtivos))
+                    @if($produtosAtivos == null || empty($produtosAtivos))
                     <tbody>
                         <tr>
                             <td>Nenhum produto Cadastrado</td>
@@ -28,9 +28,6 @@
                         <tr>
                             <th>Código</th>
                             <th>Produto</th>
-                            <th>Nome Genérico</th>
-                            <th>Tipo</th>
-                            <th>Forma do Produto</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -40,9 +37,6 @@
                         <tr>
                             <td>{{$produto->id_produto}}</td>
                             <td>{{$produto->de_produto}}</td>
-                            <td>{{$produto->nome_generico}}</td>
-                            <td>{{$produto->tipo}}</td>
-                            <td>{{$produto->forma_produto}}</td>
                             <td>
                                 <!-- mudar para cadastro de fonecedores -->
                                 
