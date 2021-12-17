@@ -99,6 +99,7 @@ Route::get('/centroCustoEmpresa/nome/{nome}', [CentroCustosController::class, 's
 Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
 Route::get('/lancamentos/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
 Route::get('/lancamentos/provisionamento/{id}',[LancamentoController::class, 'provisionamento'])->name('add-lancamento-provisionamento');
+Route::post('/lancamentos/provisionamento',[LancamentoController::class, 'store']);
 
 Route::get('/lancamentos/info-conta/{info}',[LancamentoController::class, 'showDataInsBanc']);
 Route::get('/lancamentos/info-agencia/{id_conta}',[LancamentoController::class, 'showDataAgency']);
