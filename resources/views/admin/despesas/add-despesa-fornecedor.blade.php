@@ -85,7 +85,7 @@
 
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3" id="despesa_juridica">
-                        <!-- CAMPO DE DESPESA JURIDICA -->
+                            <!-- CAMPO DE DESPESA JURIDICA -->
                         </div>
                     </div>
 
@@ -229,7 +229,7 @@
 
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3" id="conta_hidden">
-                        <!-- CAMPO DE CONTA BANCARIA E PIX -->
+                            <!-- CAMPO DE CONTA BANCARIA E PIX -->
                         </div>
                     </div>
 

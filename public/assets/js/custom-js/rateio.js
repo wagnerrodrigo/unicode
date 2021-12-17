@@ -57,6 +57,62 @@ $("#rateio_empresa").keyup(function () {
     }
 });
 
+var valorTotalRateio = 0;
+var valorTotalDespesa = 0;
+var valorRateado = 0;
+//gera a porcentagem do rateio de acordo com o valor fornecido no input
+$("#valor_rateado").blur(function () {
+    var valorTotalItens = $("#valorTotal").val();
+    ValorTotalDespesa = valorTotalItens
+        .replace(".", "")
+        .replace(",", ".")
+        .replace("R$", "");
+
+    valorRateado = Number($("#valor_rateado").val());
+
+    var valorRateio = valorRateado * 100;
+    var porcentagem = valorRateio / ValorTotalDespesa;
+
+    valorTotalRateio = valorTotalRateio + valorRateado;
+
+    // if (valorRateado > valorTotalDespesa && valorTotalDespesa != 0) {
+    //     alert("Valor maior que o valor total da depesa");
+    //     $("#valor_rateado").val("");
+    // }
+
+    if (valorTotalItens == "") {
+        alert("Adicione os itens ou o valor total da despesa");
+        $("#valor_rateado").val("");
+    }
+
+    $("#porcentagem_rateado").val(porcentagem.toFixed(2));
+
+    //calculaRateio(valorFormatadoItens);
+
+    //$("#porcentagem_rateado").val(porcentagem);
+});
+
+//informa a porcentagem e gera o valor do rateio
+$("#porcentagem_rateado").blur(function () {
+    var valorTotalItens = $("#valorTotal").val();
+    valorTotalDespesa = valorTotalItens
+        .replace(".", "")
+        .replace(",", ".")
+        .replace("R$", "");
+
+    var valorPorcentagem = Number($("#porcentagem_rateado").val());
+
+    var porcentagem = valorTotalDespesa / 100;
+    valorRateado = valorPorcentagem * porcentagem;
+
+    valorTotalRateio = valorTotalRateio + valorRateado;
+    console.log(valorRateado);
+    console.log(valorTotalRateio);
+    $("#valor_rateado").val(valorRateado);
+
+    valorRateado = 0;
+});
+
 //id utilizado para autoincrementar os ids dos inputs e tabelas ao adicionar um rateio
 var id_button_rateio = 0;
 //função para pegar os valores dos inputs e adicionar na tabela
@@ -65,6 +121,7 @@ $("#seleciona_rateio").click(function () {
     var custo_rateio = $("#custo_rateio").val();
     var valor_rateado = $("#valor_rateado").val();
     var porcentagem_valor = $("#porcentagem_rateado").val();
+    $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
 
     if (
         rateio_empresa != "" &&
@@ -72,6 +129,19 @@ $("#seleciona_rateio").click(function () {
         valor_rateado != "" &&
         porcentagem_valor != ""
     ) {
+        // if (valorRateado > valorTotalDespesa) {
+        //     alert("Valor maior que o valor total da despesa");
+        //     $("#valor_rateado").val("");
+        // }
+        // if (valorTotalRateio > valorTotalDespesa) {
+        //     alert("Valor total do rateio maior que o valor total da despesa");
+        //     $("#valor_rateado").val("");
+        // }
+        // if (valorTotalRateio + valorRateado > valorTotalDespesa) {
+        //     alert("Rateio excede valor total da despesa");
+        //     $("#valor_rateado").val("");
+        // }
+
         //gera a tabela com os dados do rateio
         $("#table_rateio").append(
             `<tr id="tab-generated${id_button_rateio}">` +
@@ -79,7 +149,7 @@ $("#seleciona_rateio").click(function () {
                 `<td>${custo_rateio}</td>` +
                 `<td>${valor_rateado}</td>` +
                 `<td>${porcentagem_valor}</td>` +
-                `<td><button onclick="removeRateio(${id_button_rateio})" class="btn btn-danger btn-sm btn-delete-rateio">Excluir</button></td>` +
+                `<td><button onclick="removeRateio(${id_button_rateio}, ${valor_rateado})" class="btn btn-danger btn-sm btn-delete-rateio">Excluir</button></td>` +
                 "</tr>"
         );
 
@@ -99,8 +169,13 @@ $("#seleciona_rateio").click(function () {
 });
 
 //remove o rateio da tabela e do form
-function removeRateio(id) {
+function removeRateio(id, valorRateado) {
     console.log(id);
+    //subtrai o valor removido do valor total do rateio
+    valorTotalRateio = valorTotalRateio - valorRateado;
+    //atualiza o valor total do rateio no input
+    $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
+
     $(`#tab-generated${id}`).remove();
     $(`#input-generated${id}`).remove();
 }
@@ -109,54 +184,6 @@ function removeRateio(id) {
 $("#adicionar_rateio").click(function () {
     var valorTotal = $("#valorTotal").val();
     $("#modal_valor_total").val(valorTotal);
-});
-
-//gera a porcentagem do rateio de acordo com o valor fornecido no input
-$("#valor_rateado").blur(function () {
-    var valorTotalItens = $("#valorTotal").val();
-    var valorFormatadoItens = valorTotalItens
-        .replace(".", "")
-        .replace(",", ".")
-        .replace("R$", "");
-
-    var valorRateado = Number($("#valor_rateado").val());
-
-    if (valorRateado > valorFormatadoItens && valorFormatadoItens != 0) {
-        alert("Valor maior que o valor total da depesa");
-        $("#valor_rateado").val("");
-    }
-
-    if (valorTotalItens == "") {
-        alert("Adicione os itens ou o valor total da despesa");
-        $("#valor_rateado").val("");
-    }
-
-    $("#porcentagem_rateado").val(porcentagem.toFixed(2));
-
-    //calculaRateio(valorFormatadoItens);
-
-    //$("#porcentagem_rateado").val(porcentagem);
-});
-
-var valorTotalRateio = 0;
-$("#porcentagem_rateado").blur(function () {
-    var valorTotalItens = $("#valorTotal").val();
-    var valorFormatadoItens = valorTotalItens
-        .replace(".", "")
-        .replace(",", ".")
-        .replace("R$", "");
-
-    var valorPorcentagem = Number($("#porcentagem_rateado").val());
-
-    var porcentagem = valorFormatadoItens / 100;
-    var valorRateado = valorPorcentagem * porcentagem;
-
-    valorTotalRateio = valorTotalRateio + valorRateado;
-    $("#valor_rateado").val(valorRateado);
-    $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
-
-    console.log(valorRateado);
-    //return valorRateado;
 });
 
 function limpaCamposRateio() {
