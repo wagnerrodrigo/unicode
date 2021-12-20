@@ -84,6 +84,7 @@ $(document).ready(function () {
         dataType: "json",
     })
         .done(function (response) {
+            console.log(response);
             //traz os resultados do banco para uma div hidden
             $.each(response, function (key, val) {
                 $("#classificacao_tipo_produto")

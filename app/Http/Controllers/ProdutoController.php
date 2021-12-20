@@ -38,7 +38,7 @@ class ProdutoController extends Controller
         $produto = Produto::selectAll();
         return response()->json($produto);
     }
-    
+
     public function showClassificacaoProdutoId($id)
     {
         $produto = Produto::selectById($id);
