@@ -39,3 +39,10 @@ function tipoMoeda(valor, tipoMoeda)
     }
     return novoValor;
 }
+
+function formataValor(object) {
+    var id = object.id;
+    $('#' + id).mask('#.##0,00', {
+        reverse: true
+    });
+}

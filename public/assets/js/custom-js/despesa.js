@@ -1,21 +1,6 @@
 var idFornecedor;
 $(document).ready(function () {
     idFornecedor = 0;
-    //Seleciona quais campos irão aparecer na tela
-    $('input:radio[name="seleciona_tela"]').on("change", function () {
-        if (this.checked && this.value == "1") {
-            $("#campo_razao_social").show();
-            $(
-                "#input-custom-field4, #input-custom-field5, #input-custom-field6"
-            ).hide();
-        } else {
-            $(
-                "#input-custom-field4, #input-custom-field5, #input-custom-field6"
-            ).show();
-            $("#campo_razao_social").hide();
-        }
-    });
-
     //fazer requisição ajax para buscar classificação contabil
     $.ajax({
         type: "GET",
@@ -53,7 +38,6 @@ $(document).ready(function () {
                 } else {
                     limpaCamposDespesaJuridica();
                 }
-
 
                 //a cada nova requisição, limpa o option do select
                 $("#tipo_classificacao").html("");
@@ -177,65 +161,69 @@ $(document).ready(function () {
 });
 
 //função para buscar empresa
-$("#busca_empresa").keyup(function () {
-    var words = $(this).val();
-    if (words != "") {
-        //requisição ajax para buscar empresa
-        $.ajax({
-            type: "GET",
-            url: `http://localhost:8000/empresas/nome/${words}`,
-            dataType: "json",
-        })
-            //caso a requisição seja bem sucedida
-            .done(function (response) {
-                $("#results_empresa").html("");
-                //mostra os resultados da busca em uma div
-                $.each(response, function (key, val) {
-                    $("#results_empresa").append(
-                        `<div class="item" value="${val.id_empresa}">${val.de_empresa} - ${val.regiao_empresa} </div>`
-                    );
-                });
-                //seleciona a empresa desejada
-                $(".item").click(function () {
-                    $("#busca_empresa").val($(this).text());
-                    $("#empresa").html("");
-                    var id_empresa = $(this).attr("value");
-                    //console.log(id_empresa);
-                    $("#id_busca_empresa").attr("value", id_empresa);
-                    //busca centros de custo relacionados com a empresa e mostra no select
+$("#busca_empresa").keyup(
+    delay(function () {
+        var words = $(this).val();
+        if (words != "") {
+            //requisição ajax para buscar empresa
+            $.ajax({
+                type: "GET",
+                url: `http://localhost:8000/empresas/nome/${words}`,
+                dataType: "json",
+            })
+                //caso a requisição seja bem sucedida
+                .done(function (response) {
                     $("#results_empresa").html("");
-                    $.ajax({
-                        type: "GET",
-                        url: `http://localhost:8000/centroCustoEmpresa/${id_empresa}`,
-                        dataType: "json",
-                    }).done(function (response) {
-                        //mostra os resultados da busca em uma div
-                        $.each(response, function (key, val) {
-                            $("#empresa").append(
-                                `<option value="${
-                                    val.id_centro_custo
-                                }" class="centro_custo_item">${
-                                    val.de_carteira == ""
-                                        ? val.de_departamento
-                                        : val.de_departamento +
-                                          " - " +
-                                          val.de_carteira
-                                }</option>`
-                            );
+                    //mostra os resultados da busca em uma div
+                    $.each(response, function (key, val) {
+                        $("#results_empresa").append(
+                            `<div class="item" value="${val.id_empresa}">${val.de_empresa} - ${val.regiao_empresa} </div>`
+                        );
+                    });
+                    //seleciona a empresa desejada
+                    $(".item").click(function () {
+                        $("#busca_empresa").val($(this).text());
+                        $("#empresa").html("");
+                        var id_empresa = $(this).attr("value");
+                        $("#id_busca_empresa").attr("value", id_empresa);
+                        //busca centros de custo relacionados com a empresa e mostra no select
+                        $("#results_empresa").html("");
+                        $.ajax({
+                            type: "GET",
+                            url: `http://localhost:8000/centroCustoEmpresa/${id_empresa}`,
+                            dataType: "json",
+                        }).done(function (response) {
+                            //mostra os resultados da busca em uma div
+                            $.each(response, function (key, val) {
+                                $("#empresa").append(
+                                    `<option value="${
+                                        val.id_centro_custo
+                                    }" class="centro_custo_item">${
+                                        val.de_carteira == ""
+                                            ? val.de_departamento
+                                            : val.de_departamento +
+                                              " - " +
+                                              val.de_carteira
+                                    }</option>`
+                                );
+                            });
                         });
                     });
+                })
+                .fail(function () {
+                    $("#results_empresa").html("");
                 });
-            })
-            .fail(function () {
-                $("#results_empresa").html("");
-            });
-    } else {
-        $("#results_empresa").html("");
-    }
-});
+        } else {
+            $("#results_empresa").html("");
+        }
+    }, 500)
+);
 
 //seleciona tipo de despesa
 document.getElementById("btnDespesa").onclick = function () {
+    //limpa campos
+    $("#Cnpj_Cpf").val("");
+
     var radios = document.getElementsByName("tipo_despesa");
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
@@ -246,66 +234,84 @@ document.getElementById("btnDespesa").onclick = function () {
                     "CNPJ/CPF";
 
                 // Inico da busca dos cnpj/cpf dos fornecedores
-                $("#Cnpj_Cpf").keyup(function () {
-                    var digitoCnpjCpf = $(this).val();
+                $("#Cnpj_Cpf").keyup(
+                    delay(function () {
+                        var digitoCnpjCpf = $(this).val();
 
-                    if (digitoCnpjCpf != "") {
-                        $.ajax({
-                            url: `/fornecedores/cnpj_cpf/${digitoCnpjCpf}`,
-                            type: "GET",
-                            dataType: "json",
-                        })
-                            .done(function (response) {
-                                $("#ResultadoCnpjCpf").html("");
-                                //mostra os resultados da busca em uma div
-                                $.each(response, function (key, val) {
-                                    $("#ResultadoCnpjCpf").append(
-                                        `<div class="item" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.de_razao_social} </div>`
-                                    );
-                                });
-                                //seleciona o cnpj ou cpf desejada
-                                $(".item").click(function () {
-                                    $("#Cnpj_Cpf").val($(this).text());
-                                    var cpfFornecedor = $(this).attr("value");
-
-                                    $("#ResultadoCnpjCpf").html("");
-                                    // preenche o campo de input_cpf_cnpj e o input_razao_social com base no item anterior
-                                    $.ajax({
-                                        type: "GET",
-                                        url: `/fornecedores/cnpj_cpf/${cpfFornecedor}`,
-                                        dataType: "json",
-                                    }).done(function (response) {
-                                        //armazena id do fonecedor em uma variavel;
-                                        idFornecedor =
-                                            response[0].id_fornecedor;
-
-                                        $("#btnCnpj_Cpf").click(function () {
-                                            $("#input_cpf_cnpj").val(
-                                                response[0].nu_cpf_cnpj
-                                            );
-                                            $("#input_razao_social").val(
-                                                response[0].de_razao_social
-                                            );
-
-                                            $("#fk_empregado_fornecedor").attr(
-                                                "value",
-                                                response[0].id_fornecedor
-                                            );
-
-                                            $("#Cnpj_Cpf").val("");
-                                            $("#modal-busca").modal("hide");
-                                        });
-                                    });
-                                });
+                        if (digitoCnpjCpf != "") {
+                            $.ajax({
+                                url: `/fornecedores/cnpj_cpf/${digitoCnpjCpf}`,
+                                type: "GET",
+                                dataType: "json",
                             })
-                            .fail(function () {
-                                $("#Cnpj_Cpf").val("");
-                                $("#ResultadoCnpjCpf").html("");
-                            });
-                    } else {
-                        $("#ResultadoCnpjCpf").html("");
-                    }
-                });
+                                .done(function (response) {
+                                    $("#ResultadoCnpjCpf").html("");
+                                    //mostra os resultados da busca em uma div
+                                    $.each(response, function (key, val) {
+                                        $("#ResultadoCnpjCpf").append(
+                                            `<div class="item-fornecedor-empregado" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.de_razao_social} </div>`
+                                        );
+                                    });
+                                    //seleciona o cnpj ou cpf desejada
+                                    $(".item-fornecedor-empregado").click(
+                                        function () {
+                                            $("#Cnpj_Cpf").val($(this).text());
+                                            var cpfFornecedor =
+                                                $(this).attr("value");
+
+                                            $("#ResultadoCnpjCpf").html("");
+                                            // preenche o campo de input_cpf_cnpj e o input_razao_social com base no item anterior
+                                            $.ajax({
+                                                type: "GET",
+                                                url: `/fornecedores/cnpj_cpf/${cpfFornecedor}`,
+                                                dataType: "json",
+                                            }).done(function (response) {
+                                                //armazena id do fonecedor em uma variavel;
+                                                idFornecedor =
+                                                    response[0].id_fornecedor;
+
+                                                $("#btnCnpj_Cpf").click(
+                                                    function () {
+                                                        $(
+                                                            "#input_cpf_cnpj"
+                                                        ).val(
+                                                            response[0]
+                                                                .nu_cpf_cnpj
+                                                        );
+                                                        $(
+                                                            "#input_razao_social"
+                                                        ).val(
+                                                            response[0]
+                                                                .de_razao_social
+                                                        );
+
+                                                        $(
+                                                            "#fk_empregado_fornecedor"
+                                                        ).attr(
+                                                            "value",
+                                                            response[0]
+                                                                .id_fornecedor
+                                                        );
+
+                                                        $("#Cnpj_Cpf").val("");
+                                                        $("#modal-busca").modal(
+                                                            "hide"
+                                                        );
+                                                    }
+                                                );
+                                            });
+                                        }
+                                    );
+                                })
+                                .fail(function () {
+                                    $("#Cnpj_Cpf").val("");
+                                    $("#ResultadoCnpjCpf").html("");
+                                });
+                        } else {
+                            $("#ResultadoCnpjCpf").html("");
+                        }
+                    }, 500)
+                );
                 // fim da busca dos cnpj/cpf dos fornecedores
             }
             if (radios[i].value == "empregado") {
@@ -314,62 +320,73 @@ document.getElementById("btnDespesa").onclick = function () {
                 document.getElementById("tipo-documento").innerHTML = "CPF";
 
                 // Inicio da busca dos cpf dos empregodos
-                $("#Cnpj_Cpf").keyup(function () {
-                    var digitoCpf = $(this).val();
+                $("#Cnpj_Cpf").keyup(
+                    delay(function () {
+                        var digitoCpf = $(this).val();
 
-                    if (digitoCpf != "") {
-                        $.ajax({
-                            url: `/empregados/cpf/${digitoCpf}`,
-                            type: "GET",
-                            dataType: "json",
-                        })
-                            .done(function (response) {
-                                $("#ResultadoCnpjCpf").html("");
-                                //mostra os resultados da busca em uma div
-                                $.each(response, function (key, val) {
-                                    $("#ResultadoCnpjCpf").append(
-                                        `<div class="item" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.nome_empregado} </div>`
-                                    );
-                                });
-                                //seleciona o cnpj ou cpf desejada
-                                $(".item").click(function () {
-                                    $("#Cnpj_Cpf").val($(this).text());
-                                    var idEmpregado = $(this).attr("value");
-
+                        if (digitoCpf != "") {
+                            $.ajax({
+                                url: `/empregados/cpf/${digitoCpf}`,
+                                type: "GET",
+                                dataType: "json",
+                            })
+                                .done(function (response) {
                                     $("#ResultadoCnpjCpf").html("");
-                                    // preenche o campo de input_cpf_cnpj e o input_razao_social com base no item anterior
-                                    $.ajax({
-                                        type: "GET",
-                                        url: `/empregados/cpf/${idEmpregado}`,
-                                        dataType: "json",
-                                    }).done(function (response) {
-                                        $("#btnCnpj_Cpf").click(function () {
-                                            $("#input_cpf_cnpj").val(
-                                                response[0].nu_cpf_cnpj
-                                            );
-                                            $("#input_razao_social").val(
-                                                response[0].nome_empregado
-                                            );
+                                    //mostra os resultados da busca em uma div
+                                    $.each(response, function (key, val) {
+                                        $("#ResultadoCnpjCpf").append(
+                                            `<div class="item" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.nome_empregado} </div>`
+                                        );
+                                    });
+                                    //seleciona o cnpj ou cpf desejada
+                                    $(".item").click(function () {
+                                        $("#Cnpj_Cpf").val($(this).text());
+                                        var idEmpregado = $(this).attr("value");
 
-                                            $("#fk_empregado_fornecedor").attr(
-                                                "value",
-                                                response[0].id_empregado
-                                            );
+                                        $("#ResultadoCnpjCpf").html("");
+                                        // preenche o campo de input_cpf_cnpj e o input_razao_social com base no item anterior
+                                        $.ajax({
+                                            type: "GET",
+                                            url: `/empregados/cpf/${idEmpregado}`,
+                                            dataType: "json",
+                                        }).done(function (response) {
+                                            $("#btnCnpj_Cpf").click(
+                                                function () {
+                                                    $("#input_cpf_cnpj").val(
+                                                        response[0].nu_cpf_cnpj
+                                                    );
+                                                    $(
+                                                        "#input_razao_social"
+                                                    ).val(
+                                                        response[0]
+                                                            .nome_empregado
+                                                    );
 
-                                            $("#Cnpj_Cpf").val("");
-                                            $("#modal-busca").modal("hide");
+                                                    $(
+                                                        "#fk_empregado_fornecedor"
+                                                    ).attr(
+                                                        "value",
+                                                        response[0].id_empregado
+                                                    );
+
+                                                    $("#Cnpj_Cpf").val("");
+                                                    $("#modal-busca").modal(
+                                                        "hide"
+                                                    );
+                                                }
+                                            );
                                         });
                                     });
+                                })
+                                .fail(function () {
+                                    $("#Cnpj_Cpf").val("");
+                                    $("#ResultadoCnpjCpf").html("");
                                 });
-                            })
-                            .fail(function () {
-                                $("#Cnpj_Cpf").val("");
-                                $("#ResultadoCnpjCpf").html("");
-                            });
-                    } else {
-                        $("#ResultadoCnpjCpf").html("");
-                    }
-                });
+                        } else {
+                            $("#ResultadoCnpjCpf").html("");
+                        }
+                    }, 500)
+                );
                 // fim da busca dos cpf dos empregados
             }
         }
@@ -558,4 +575,15 @@ function limpaCamposDespesaJuridica() {
     $(".remove_processo").remove();
 }
 
-//Fim de busca de condição de pagamento
+//adiciona delay de 500ms nos campos de pesquisa
+function delay(callback, ms) {
+    var timer = 0;
+    return function () {
+        var context = this,
+            args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            callback.apply(context, args);
+        }, ms || 0);
+    };
+}

@@ -72,7 +72,7 @@
                     <div class="d-flex mt-10" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>CLASSIFICAÇÃO</strong>
-                            <input class="form-control input-add teste" name="classificacao" id="classificacao_con" readonly style="cursor: pointer;"></input>
+                            <input class="form-control input-add" name="classificacao" id="classificacao_con" readonly style="cursor: pointer;"></input>
                             <div id="itens_classificacao" class="input-style" style="cursor: pointer;"></div>
                         </div>
 
@@ -163,7 +163,7 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>VALOR</strong>
-                            <input type="text" placeholder="Informe o numero" id="valorTotal" class="form-control input-add" name="valor_total" />
+                            <input type="text" placeholder="Informe o numero" onkeyup="formataValor(this)" id="valorTotal" class="form-control input-add" name="valor_total" />
                         </div>
 
                         <div class="px-5 mb-3">
@@ -191,22 +191,24 @@
 
                     <!-- Inicio da div da tabela de rateio -->
                     <div class="d-flex" style="width: 100%; margin: 15px;">
-                        <div class="table-responsive">
-                            <table class="table table-bordered mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>EMPRESA</th>
-                                        <th>CENTRO DE CUSTO</th>
-                                        <th>RATEIO</th>
-                                        <th>%</th>
-                                        <th>EDITAR</th>
-                                    </tr>
-                                </thead>
+                        <div class="px-5 mb-3">
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>EMPRESA</th>
+                                            <th>CENTRO DE CUSTO</th>
+                                            <th>RATEIO</th>
+                                            <th>%</th>
+                                            <th>EDITAR</th>
+                                        </tr>
+                                    </thead>
 
-                                <tbody id="table_rateio">
+                                    <tbody id="table_rateio">
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <!-- Fim da div da tabela de rateio -->
@@ -234,9 +236,9 @@
                     </div>
 
 
-                    <h3>INFORMAÇÕES DA NOTA</h3>
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
+                            <h3>INFORMAÇÕES DA NOTA</h3>
                             <strong>NUMERO DA NOTA OU DOCUMENTO</strong>
                             <input type="text" class="form-control input-add" name="numero_nota_documento" />
                         </div>
@@ -299,8 +301,8 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <strong id="tipo-documento"></strong>
-                        <input type="text" class="form-control" id="Cnpj_Cpf" autocomplete="off">
-                        <div class="ResultadoCnpjCpf input-add" id="ResultadoCnpjCpf" value=""></div>
+                        <input type="text" class="form-control input-add" id="Cnpj_Cpf" autocomplete="off">
+                        <div class="input-style" id="ResultadoCnpjCpf" value=""></div>
                     </div>
 
                     <div class="modal-footer">
@@ -387,11 +389,11 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>VALOR RATEADO</strong>
-                            <input class="form-control mt-1" id="valor_rateado" type="text" onkeypress="return onlynumber();" placeholder="Valor do item" style="width: 358px" />
+                            <input class="form-control mt-1" id="valor_rateado" onkeyup="formataValor(this)" type="text" onkeypress="return onlynumber();" placeholder="Valor do item" style="width: 358px" />
                         </div>
                         <div class="d-flex flex-row" style="width: 100%; align-items:center">
                             <div>
-                                <input class="form-control mt-1" id="porcentagem_rateado" type="text" min="0" max="3" onkeyup="return validateValue(this);" onkeypress="return onlynumber();" maxlength="3" style="width: 58px" />
+                                <input class="form-control mt-1" id="porcentagem_rateado" type="text" min="0" max="5" onkeyup="return validateValue(this);" onkeypress="return onlynumber();" maxlength="3" style="width: 58px" />
                             </div>
 
                             <div>
@@ -420,8 +422,6 @@
 
 <script src="{{ asset('assets/js/vendors.js') }}"></script>
 
-<script src="{{ asset('assets/js/vendors.js') }}"></script>
-
 <script src="{{ asset('assets/js/main.js') }}"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -431,16 +431,6 @@
 <script src="{{ asset('assets/js/custom-js/despesa.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
-<script>
-    $('#valor_item').mask('#.##0,00', {
-        reverse: true
-    });
-</script>
-<script>
-    $('#valorTotal').mask('#.##0,00', {
-        reverse: true
-    });
-</script>
 <script src="{{ asset('assets/js/custom-js/rateio.js') }}"></script>
 
 @endsection

@@ -528,6 +528,20 @@ footer {
     width: 30rem;
 }
 
+.input-style .item-fornecedor-empregado {
+    display: block;
+    width: 30rem;
+    padding: 10px;
+}
+
+.item-fornecedor-empregado:hover {
+    width: 30rem;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #820ad1;
+    color: #fff;
+}
+
 .custon-btn {
     width: 20px;
     padding: 0;

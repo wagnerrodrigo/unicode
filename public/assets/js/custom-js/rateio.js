@@ -60,7 +60,7 @@ $("#rateio_empresa").keyup(function () {
 var valorTotalRateio = 0;
 var valorTotalDespesa = 0;
 var valorRateado = 0;
-//gera a porcentagem do rateio de acordo com o valor fornecido no input
+//informa o valor e gera a porcentagem
 $("#valor_rateado").blur(function () {
     var valorTotalItens = $("#valorTotal").val();
     ValorTotalDespesa = valorTotalItens
@@ -68,12 +68,10 @@ $("#valor_rateado").blur(function () {
         .replace(",", ".")
         .replace("R$", "");
 
-    valorRateado = Number($("#valor_rateado").val());
+    valorRateado = Number($("#valor_rateado").val().replace(",", ".").replace("R$", ""));
 
     var valorRateio = valorRateado * 100;
     var porcentagem = valorRateio / ValorTotalDespesa;
-
-    valorTotalRateio = valorTotalRateio + valorRateado;
 
     // if (valorRateado > valorTotalDespesa && valorTotalDespesa != 0) {
     //     alert("Valor maior que o valor total da depesa");
@@ -86,10 +84,6 @@ $("#valor_rateado").blur(function () {
     }
 
     $("#porcentagem_rateado").val(porcentagem.toFixed(2));
-
-    //calculaRateio(valorFormatadoItens);
-
-    //$("#porcentagem_rateado").val(porcentagem);
 });
 
 //informa a porcentagem e gera o valor do rateio
@@ -105,12 +99,10 @@ $("#porcentagem_rateado").blur(function () {
     var porcentagem = valorTotalDespesa / 100;
     valorRateado = valorPorcentagem * porcentagem;
 
-    valorTotalRateio = valorTotalRateio + valorRateado;
-    console.log(valorRateado);
-    console.log(valorTotalRateio);
+
     $("#valor_rateado").val(valorRateado);
 
-    valorRateado = 0;
+
 });
 
 //id utilizado para autoincrementar os ids dos inputs e tabelas ao adicionar um rateio
@@ -129,6 +121,7 @@ $("#seleciona_rateio").click(function () {
         valor_rateado != "" &&
         porcentagem_valor != ""
     ) {
+        valorTotalRateio = valorTotalRateio + valorRateado;
         // if (valorRateado > valorTotalDespesa) {
         //     alert("Valor maior que o valor total da despesa");
         //     $("#valor_rateado").val("");
@@ -166,6 +159,7 @@ $("#seleciona_rateio").click(function () {
     } else {
         alert("Preencha todos os campos!");
     }
+    valorRateado = 0;
 });
 
 //remove o rateio da tabela e do form
