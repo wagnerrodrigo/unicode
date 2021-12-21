@@ -16,17 +16,8 @@ class InstituicaoFinanceiraController extends Controller
      */
     public function index()
     {
-        $instituicao = InstituicaoFinanceira::all();
-        $instituicoesAtivas = [];
-        $instituicoesInativas = [];
-        for($i = 0; $i < count($instituicao);$i++){
-            if($instituicao[$i]->data_fim === null){
-                $instituicoesAtivas[] = $instituicao[$i];
-            }else{
-                $instituicoesInativas[] = $instituicao;
-            }
-        }
-        return view('admin.banco.lista-instituicao-financeira',compact('instituicoesAtivas'));
+        $instBancaria = InstituicaoFinanceira::selectAll();
+        return response()->json($instBancaria);
     }
 
 

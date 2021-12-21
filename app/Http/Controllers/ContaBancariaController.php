@@ -52,7 +52,8 @@ class ContaBancariaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        dd($request);
         $contas = new ContaBancaria();
 
         $contas->instituicao_bancaria = $request->instituicao_bancaria;

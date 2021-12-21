@@ -68,7 +68,6 @@
                         </div>
                     </div>
 
-
                     <div class="d-flex mt-10" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>CLASSIFICAÇÃO</strong>
@@ -94,7 +93,6 @@
                             <strong>DESCRIÇÃO</strong>
                             <textarea cols="145" rows="2" class="form-control" name="descricao"></textarea>
                         </div>
-
                     </div>
 
                     <div class="d-flex" style="width: 100%; align-items:center">
@@ -183,14 +181,14 @@
                     <div class="d-flex" style="width: 100%;justify-content:start; align-items:center">
                         <div class="px-5 mb-3">
                             <h3>RATEIO</h3>
-                            <button class="btn btn-primary" id="adicionar_rateio" type="button" data-bs-toggle="modal" data-bs-target="#xrateio">
+                            <button class="btn btn-primary" id="adicionar_rateio" type="button" data-bs-toggle="modal" data-bs-target="#xrateio" style="padding: 8px 12px;">
                                 <i class="bi bi-plus"></i>
                             </button>
                         </div>
                     </div>
 
                     <!-- Inicio da div da tabela de rateio -->
-                    <div class="d-flex" style="width: 100%; margin: 15px;">
+                    <div class="d-flex" style="width: 100%;">
                         <div class="px-5 mb-3">
                             <div class="table-responsive">
                                 <table class="table table-bordered mb-0">
@@ -233,8 +231,11 @@
                         <div class="px-5 mb-3" id="conta_hidden">
                             <!-- CAMPO DE CONTA BANCARIA E PIX -->
                         </div>
-                    </div>
 
+                        <div class="px-5 mb-3" id="modal_conta">
+                            <!-- BUTTON MODAL -->
+                        </div>
+                    </div>
 
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
@@ -243,7 +244,7 @@
                             <input type="text" class="form-control input-add" name="numero_nota_documento" />
                         </div>
 
-                        <div class="px-5 mb-3">
+                        <div class="px-5 mb-3" style="margin-top: 38px">
                             <strong>SERIE</strong>
                             <input type="text" class="form-control input-add" name="serie_documento" />
                         </div>
@@ -321,20 +322,45 @@
 <!-- Inicio Modal Adicionar-->
 <div class="me-1 mb-1 d-inline-block">
     <!--Extra Large Modal -->
-    <div class="modal fade text-left w-100" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+    <div class="modal fade text-left w-100" id="modal_conta_bancaria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel16">Novo Produto</h4>
+                    <h4 class="modal-title" id="myModalLabel16">NOVA CONTA BANCÁRIA</h4>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <i class="bi bi-x" data-feather="x"></i>
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div class="d-flex flex-column" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>TITULAR</strong>
+                            <input class="form-control input-busca" type="text" id="titular_conta" readonly style="width: 60rem" />
+                        </div>
+
+                        <div class="px-5 mb-3">
+                            <strong>BANCO</strong>
+                            <select id="inst_financeiras" class="form-control input-busca" style="width: 60rem">
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>AGENCIA</strong>
+                            <input type="text" class="form-control" id="nu_agencia" name="nu_agencia" autocomplete="off" style="width: 28rem;">
+                        </div>
+
+                        <div class="px-3 mb-3">
+                            <strong>NUMERO DA CONTA</strong>
+                            <input type="text" class="form-control" id="nu_conta" name="nu_conta" autocomplete="off" style="width: 28rem;">
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 d-flex justify-content-end">
-                        <button type="Button" id="btn_Adicionar_produto" class="btn btn-success me-1 mb-1">
+                        <button type="Button" onclick="salvaContaBancaria()" id="btn_Adicionar_produto" class="btn btn-success me-1 mb-1">
                             <i data-feather="check-circle"></i>Adicionar
                         </button>
                         <a class="btn btn-secondary me-1 mb-1">Cancelar</a>
@@ -416,7 +442,6 @@
 </div>
 <!-- Fim modal Adicionar -->
 
-
 <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
 <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 
@@ -432,5 +457,6 @@
 <script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/rateio.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/conta-bancaria-despesa.js') }}"></script>
 
 @endsection

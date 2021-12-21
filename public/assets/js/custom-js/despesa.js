@@ -68,7 +68,6 @@ $(document).ready(function () {
         dataType: "json",
     })
         .done(function (response) {
-            console.log(response);
             //traz os resultados do banco para uma div hidden
             $.each(response, function (key, val) {
                 $("#classificacao_tipo_produto")
@@ -532,6 +531,16 @@ $.ajax({
                         );
                     });
                 });
+
+                //botão modal de conta bancaria
+                $("#modal_conta").append(
+                    `<strong class="remove_btn_modal">ADICIONAR CONTA BANCÁRIA</strong>` +
+                        `<div class="remove_btn_modal">
+                        <button type="button" onclick="adicionaContaBancaria()" id="btn_modal_conta" class="btn btn-primary remove_btn_modal" data-bs-toggle="modal" data-bs-target="#modal_conta_bancaria" style="padding: 8px 12px;">
+                        <i class="bi bi-plus"></i>
+                        </button>
+                    </div>`
+                );
             } else if (id_tipo_pagamento == 2) {
                 limpaCamposContaBancariaPix();
 
@@ -565,6 +574,7 @@ $.ajax({
 
 // limpa campos de conta bancaria e pix
 function limpaCamposContaBancariaPix() {
+    $(".remove_btn_modal").remove();
     $(".remove_conta").remove();
     $(".remove_pix").remove();
     $("#contas_fornecedor").empty();
@@ -575,7 +585,7 @@ function limpaCamposDespesaJuridica() {
     $(".remove_processo").remove();
 }
 
-//adiciona delay de 500ms nos campos de pesquisa
+//adiciona delay nos campos de pesquisa
 function delay(callback, ms) {
     var timer = 0;
     return function () {

@@ -58,8 +58,8 @@ $("#rateio_empresa").keyup(function () {
 });
 
 var valorTotalRateio = 0;
-var valorTotalDespesa = 0;
 var valorRateado = 0;
+var valorTotalDespesa = 0;
 //informa o valor e gera a porcentagem
 $("#valor_rateado").blur(function () {
     var valorTotalItens = $("#valorTotal").val();
@@ -68,20 +68,17 @@ $("#valor_rateado").blur(function () {
         .replace(",", ".")
         .replace("R$", "");
 
-    valorRateado = Number($("#valor_rateado").val().replace(",", ".").replace("R$", ""));
-
-    var valorRateio = valorRateado * 100;
-    var porcentagem = valorRateio / ValorTotalDespesa;
-
-    // if (valorRateado > valorTotalDespesa && valorTotalDespesa != 0) {
-    //     alert("Valor maior que o valor total da depesa");
-    //     $("#valor_rateado").val("");
-    // }
+    valorRateado = Number(
+        $("#valor_rateado").val().replace(",", ".").replace("R$", "")
+    );
 
     if (valorTotalItens == "") {
         alert("Adicione os itens ou o valor total da despesa");
         $("#valor_rateado").val("");
     }
+
+    var valorRateio = valorRateado * 100;
+    var porcentagem = valorRateio / ValorTotalDespesa;
 
     $("#porcentagem_rateado").val(porcentagem.toFixed(2));
 });
@@ -98,11 +95,7 @@ $("#porcentagem_rateado").blur(function () {
 
     var porcentagem = valorTotalDespesa / 100;
     valorRateado = valorPorcentagem * porcentagem;
-
-
-    $("#valor_rateado").val(valorRateado);
-
-
+    $("#valor_rateado").val(tipoMoeda(valorRateado, "real"));
 });
 
 //id utilizado para autoincrementar os ids dos inputs e tabelas ao adicionar um rateio
@@ -113,7 +106,12 @@ $("#seleciona_rateio").click(function () {
     var custo_rateio = $("#custo_rateio").val();
     var valor_rateado = $("#valor_rateado").val();
     var porcentagem_valor = $("#porcentagem_rateado").val();
-    $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
+
+    valorTotalDespesa = $("#valorTotal")
+        .val()
+        .replace(".", "")
+        .replace(",", ".")
+        .replace("R$", "");
 
     if (
         rateio_empresa != "" &&
@@ -121,41 +119,41 @@ $("#seleciona_rateio").click(function () {
         valor_rateado != "" &&
         porcentagem_valor != ""
     ) {
-        valorTotalRateio = valorTotalRateio + valorRateado;
-        // if (valorRateado > valorTotalDespesa) {
-        //     alert("Valor maior que o valor total da despesa");
-        //     $("#valor_rateado").val("");
-        // }
-        // if (valorTotalRateio > valorTotalDespesa) {
-        //     alert("Valor total do rateio maior que o valor total da despesa");
-        //     $("#valor_rateado").val("");
-        // }
-        // if (valorTotalRateio + valorRateado > valorTotalDespesa) {
-        //     alert("Rateio excede valor total da despesa");
-        //     $("#valor_rateado").val("");
-        // }
+        if (
+            valorRateado > valorTotalDespesa ||
+            valorTotalRateio + valorRateado > valorTotalDespesa ||
+            valorTotalRateio > valorTotalDespesa
+        ) {
+            alert("Valor maior que o valor total da despesa");
+            $("#valor_rateado").val("");
+        } else if (valorRateado == 0) {
+            alert("O valor rateado não pode ser 0");
+        } else {
+            valorTotalRateio = valorTotalRateio + valorRateado;
+            $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
 
-        //gera a tabela com os dados do rateio
-        $("#table_rateio").append(
-            `<tr id="tab-generated${id_button_rateio}">` +
-                `<td>${rateio_empresa}</td>` +
-                `<td>${custo_rateio}</td>` +
-                `<td>${valor_rateado}</td>` +
-                `<td>${porcentagem_valor}</td>` +
-                `<td><button onclick="removeRateio(${id_button_rateio}, ${valor_rateado})" class="btn btn-danger btn-sm btn-delete-rateio">Excluir</button></td>` +
-                "</tr>"
-        );
+            //gera a tabela com os dados do rateio
+            $("#table_rateio").append(
+                `<tr id="tab-generated${id_button_rateio}">` +
+                    `<td>${rateio_empresa}</td>` +
+                    `<td>${custo_rateio}</td>` +
+                    `<td>${valor_rateado}</td>` +
+                    `<td>${porcentagem_valor}</td>` +
+                    `<td><button onclick="removeRateio(${id_button_rateio}, ${valor_rateado})" class="btn btn-danger btn-sm btn-delete-rateio">Excluir</button></td>` +
+                    "</tr>"
+            );
 
-        //gera o input com os dados do rateio para submeter no form
-        $("#hidden_inputs").append(
-            `<div id="input-generated${id_button_rateio}"><input type="hidden" name="empresa_rateio[]" value="${rateio_empresa}"/>` +
-                `<input type="hidden" name="custo_rateio[]" value="${custo_rateio}"/>` +
-                `<input type="hidden" name="valor_rateio[]" value="${valor_rateado}"/>` +
-                `<input type="hidden" name="porcentagem_rateio[]" value="${porcentagem_valor}"/></div>`
-        );
+            //gera o input com os dados do rateio para submeter no form
+            $("#hidden_inputs").append(
+                `<div id="input-generated${id_button_rateio}"><input type="hidden" name="empresa_rateio[]" value="${rateio_empresa}"/>` +
+                    `<input type="hidden" name="custo_rateio[]" value="${custo_rateio}"/>` +
+                    `<input type="hidden" name="valor_rateio[]" value="${valor_rateado}"/>` +
+                    `<input type="hidden" name="porcentagem_rateio[]" value="${porcentagem_valor}"/></div>`
+            );
 
-        id_button_rateio++;
-        limpaCamposRateio();
+            id_button_rateio++;
+            limpaCamposRateio();
+        }
     } else {
         alert("Preencha todos os campos!");
     }
