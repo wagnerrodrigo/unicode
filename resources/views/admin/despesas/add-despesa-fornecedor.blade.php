@@ -331,42 +331,53 @@
                         <i class="bi bi-x" data-feather="x"></i>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="d-flex flex-column" style="width: 100%">
-                        <div class="px-5 mb-3">
-                            <strong>TITULAR</strong>
-                            <input class="form-control input-busca" type="text" id="titular_conta" readonly style="width: 60rem" />
+                <form name="form_conta_bancaria">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="d-flex flex-column" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>TITULAR</strong>
+                                <input class="form-control input-busca" name="titular_conta" type="text" id="titular_conta" readonly style="width: 60rem" />
+                                <input name="id_titular_conta" type="hidden" id="id_titular_conta"/>
+                                <input name="tipo_da_despesa" type="hidden" id="tipo_da_despesa"/>
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>BANCO</strong>
+                                <select id="inst_financeiras" name="inst_financeira" class="form-control input-busca" style="width: 60rem">
+
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="px-5 mb-3">
-                            <strong>BANCO</strong>
-                            <select id="inst_financeiras" class="form-control input-busca" style="width: 60rem">
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>AGENCIA</strong>
+                                <input type="text" class="form-control" id="nu_agencia" name="nu_agencia" autocomplete="off" style="width: 28rem;">
+                            </div>
 
-                            </select>
+                            <div class="px-3 mb-3">
+                                <strong>NUMERO DA CONTA</strong>
+                                <input type="text" class="form-control" id="nu_conta" name="nu_conta" autocomplete="off" style="width: 28rem;">
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>CODIGO OPERAÇÃO</strong>
+                                <input type="text" class="form-control" id="co_operacao" name="co_operacao" autocomplete="off" style="width: 28rem;">
+                            </div>
                         </div>
                     </div>
-
-                    <div class="d-flex" style="width: 100%">
-                        <div class="px-5 mb-3">
-                            <strong>AGENCIA</strong>
-                            <input type="text" class="form-control" id="nu_agencia" name="nu_agencia" autocomplete="off" style="width: 28rem;">
-                        </div>
-
-                        <div class="px-3 mb-3">
-                            <strong>NUMERO DA CONTA</strong>
-                            <input type="text" class="form-control" id="nu_conta" name="nu_conta" autocomplete="off" style="width: 28rem;">
+                    <div class="modal-footer">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success me-1 mb-1">
+                                <i data-feather="check-circle"></i>Adicionar
+                            </button>
+                            <a class="btn btn-secondary me-1 mb-1">Cancelar</a>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="col-sm-12 d-flex justify-content-end">
-                        <button type="Button" onclick="salvaContaBancaria()" id="btn_Adicionar_produto" class="btn btn-success me-1 mb-1">
-                            <i data-feather="check-circle"></i>Adicionar
-                        </button>
-                        <a class="btn btn-secondary me-1 mb-1">Cancelar</a>
-                    </div>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </div>

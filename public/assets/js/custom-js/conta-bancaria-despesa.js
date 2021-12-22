@@ -1,56 +1,52 @@
 function adicionaContaBancaria() {
     var titular = $("#input_razao_social").val();
     var id_titular = $("#fk_empregado_fornecedor").val();
+    var tipo_despesa = $("input[name=tipo_despesa]:checked").val();
 
     $("#titular_conta").val(titular);
-    $("#titular_conta").attr("value", id_titular);
+    $("#id_titular_conta").val(id_titular);
+    $("#tipo_da_despesa").val(tipo_despesa);
 
-    $.ajax({
-        url: "http://localhost:8000/instituicoes-financeira",
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-            $.each(response, function (key, val) {
-                $("#inst_financeiras").append(
-                    `<option value="${val.id}">${val.co_banco} - ${val.de_banco} </option>`
-                );
-            });
-        },
-        error: function () {
-            alert("Erro ao carregar instituições financeiras");
-        },
-    });
+    if (titular == "") {
+        alert("Selecione um fornecedor ou um empregado!");
+        return false;
+    } else {
+        $.ajax({
+            url: "http://localhost:8000/instituicoes-financeira",
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                $.each(response, function (key, val) {
+                    $("#inst_financeiras").append(
+                        `<option value="${val.id}">${val.co_banco} - ${val.de_banco} </option>`
+                    );
+                });
+            },
+            error: function () {
+                alert("Erro ao carregar instituições financeiras");
+            },
+        });
+    }
 }
 
-function salvaContaBancaria() {
-    var banco = $("#inst_financeiras").val();
-    var agencia = $("#nu_agencia").val();
-    var conta = $("#nu_conta").val();
-    var titular = $("#titular_conta").val();
-    var id_titular = $("#titular_conta").attr("value");
-
-    $.ajax({
-        url: "http://localhost:8000/contas-bancarias",
-        type: "POST",
-        data: {
-            _token: '{{csrf_token()}}', //verificar o token na requisicao
-            banco: banco,
-            agencia: agencia,
-            conta: conta,
-            titular: titular,
-            id_titular: id_titular,
-        },
-        dataType: "json",
-        success: function (response) {
-            console.log({ respose: response });
-            $("#inst_financeiras").val("");
-            $("#agencia").val("");
-            $("#conta").val("");
-            $("#titular_conta").val("");
-            $("#titular_conta").attr("value", "");
-        },
-        error: function (data) {
-            console.log({ message: "Erro ao salvar conta bancaria", error: data });
-        },
+$(function () {
+    $('form[name="form_conta_bancaria"]').submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: "http://localhost:8000/store",
+            type: "POST",
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function (data) {
+                alert(data.message.toString())
+                $("#inst_financeiras").val("");
+                $("#nu_agencia").val("");
+                $("#nu_conta").val("");
+                $("#co_operacao").val("");
+            },
+            error: function (data) {
+                alert(data.message.toString());
+            },
+        });
     });
-}
+});

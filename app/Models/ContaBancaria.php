@@ -13,15 +13,15 @@ class ContaBancaria extends Model
     protected $table = 'contas_bancarias';
 
     protected $fillable = [
-        'instituicao_bancaria',
-        'numero_conta',
-        'digito_conta',
+        'nu_conta',
         'agencia',
-        'tipo_conta',
-        'titular',
-        'situacao',
-        'descricao',
-        'data_fim'
+        'fk_tab_inst_banco_id',
+        'fk_tab_fornecedor_id',
+        'fk_tab_empregado_id',
+        'fk_tab_empresa_id',
+        'dt_inicio',
+        'dt_fim',
+        'co_op'
     ];
 
     static function getContaBancariaFornecedor($id)
@@ -38,5 +38,31 @@ class ContaBancaria extends Model
         FROM intranet.tab_conta_bancaria as conta_bancaria
         inner join intranet.tab_inst_banco as banco on banco.id = conta_bancaria.fk_tab_inst_banco_id
         where conta_bancaria.fk_tab_fornecedor_id = $id");
+    }
+
+    static function create($contaBancaria)
+    {
+        DB::insert("INSERT INTO intranet.tab_conta_bancaria
+        (
+            nu_agencia,
+            nu_conta,
+            fk_tab_inst_banco_id,
+            fk_tab_fornecedor_id,
+            fk_tab_empregado_id,
+            fk_tab_empresa_id,
+            dt_inicio,
+            dt_fim,
+            co_op
+        ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+            $contaBancaria->nu_agencia,
+            $contaBancaria->nu_conta,
+            $contaBancaria->fk_tab_inst_banco_id,
+            $contaBancaria->fk_tab_fornecedor_id,
+            $contaBancaria->fk_tab_empregado_id,
+            $contaBancaria->fk_tab_empresa_id,
+            $contaBancaria->dt_inicio,
+            $contaBancaria->dt_fim,
+            $contaBancaria->co_op
+        ]);
     }
 }

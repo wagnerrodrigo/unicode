@@ -22,7 +22,7 @@ class ContaBancariaController extends Controller
         for ($i = 0; $i < count($contas); $i++) {
             if ($contas[$i]->data_fim === null) {
                 $contasAtivas[] = $contas[$i];
-            }else{
+            } else {
                 $contasInativas[] = $contas[$i];
             };
         }
@@ -52,23 +52,58 @@ class ContaBancariaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
-        dd($request);
-        $contas = new ContaBancaria();
+    {
+        return response()->json([
+            'message' => 'Conta Bancária cadastrada com sucesso!'
+        ]);
+        // $contas = new ContaBancaria();
 
-        $contas->instituicao_bancaria = $request->instituicao_bancaria;
-        $contas->numero_conta = $request->numero_conta;
-        $contas->digito_conta = $request->digito_conta;
-        $contas->agencia = $request->agencia;
-        $contas->tipo_conta = $request->tipo_conta;
-        $contas->titular = $request->titular;
-        $contas->situacao = $request->situacao;
-        $contas->descricao = $request->descricao;
-        $contas->data_fim = null;
+        // $contas->instituicao_bancaria = $request->instituicao_bancaria;
+        // $contas->numero_conta = $request->numero_conta;
+        // $contas->digito_conta = $request->digito_conta;
+        // $contas->agencia = $request->agencia;
+        // $contas->tipo_conta = $request->tipo_conta;
+        // $contas->titular = $request->titular;
+        // $contas->situacao = $request->situacao;
+        // $contas->descricao = $request->descricao;
+        // $contas->data_fim = null;
 
-        $contas->save();
+        // $contas->save();
 
-        return redirect()->route('contas-bancarias');
+        //return redirect()->route('contas-bancarias');
+    }
+
+    public function storeWithJSON(Request $request)
+    {
+        if (!empty($request)) {
+            $contas = new ContaBancaria();
+
+            $contas->nu_agencia = $request->nu_agencia;
+            $contas->nu_conta = $request->nu_conta;
+            $contas->fk_tab_inst_banco_id = $request->inst_financeira;
+
+            //verifica o tipo da despesa
+            if ($request->tipo_da_despesa == 'empregado') {
+                $contas->fk_tab_empregado_id = $request->id_titular_conta;
+                $contas->fk_tab_fornecedor_id = null;
+            } else {
+                $contas->fk_tab_fornecedor_id = $request->id_titular_conta;
+                $contas->fk_tab_empregado_id = null;
+            }
+
+            $contas->fk_tab_empresa_id = null;
+            $contas->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+            $contas->dt_fim = null;
+            $contas->co_op = $request->co_operacao;
+
+            ContaBancaria::create($contas);
+
+            return json_encode([
+                'message' => 'Conta Bancária cadastrada com sucesso!',
+            ]);
+        } else {
+            return json_encode(['message' => 'Não foi possível cadastrar a conta bancária, preencha todos os campos']);
+        }
     }
 
     /**
@@ -134,7 +169,8 @@ class ContaBancariaController extends Controller
         return redirect()->route('contas-bancarias');
     }
 
-    public function showByFornecedor($id){
+    public function showByFornecedor($id)
+    {
         $conta = ContaBancaria::getContaBancariaFornecedor($id);
 
         return response()->json($conta);

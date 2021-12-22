@@ -151,6 +151,7 @@ Route::get('/classificacao-contabil', [ClassificacaoContabilController::class, '
 Route::get('/classificacao-contabil/{id}', [ClassificacaoContabilController::class, 'showPlanoContas'])->name('show-plano-contas');
 
 // rotas Contas Bancárias
+Route::post('/store', [ContaBancariaController::class, 'storeWithJSON']);
 Route::get('/contas-bancarias', [ContaBancariaController::class, 'index'])->name('contas-bancarias');
 Route::get('/contas-bancarias/{id}', [ContaBancariaController::class, 'show'])->name('contas-bancarias-show');
 Route::post('/contas-bancarias', [ContaBancariaController::class, 'store']);
