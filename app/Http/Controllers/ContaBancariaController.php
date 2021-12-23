@@ -53,24 +53,6 @@ class ContaBancariaController extends Controller
      */
     public function store(Request $request)
     {
-        return response()->json([
-            'message' => 'Conta Bancária cadastrada com sucesso!'
-        ]);
-        // $contas = new ContaBancaria();
-
-        // $contas->instituicao_bancaria = $request->instituicao_bancaria;
-        // $contas->numero_conta = $request->numero_conta;
-        // $contas->digito_conta = $request->digito_conta;
-        // $contas->agencia = $request->agencia;
-        // $contas->tipo_conta = $request->tipo_conta;
-        // $contas->titular = $request->titular;
-        // $contas->situacao = $request->situacao;
-        // $contas->descricao = $request->descricao;
-        // $contas->data_fim = null;
-
-        // $contas->save();
-
-        //return redirect()->route('contas-bancarias');
     }
 
     public function storeWithJSON(Request $request)
@@ -172,6 +154,18 @@ class ContaBancariaController extends Controller
     public function showByFornecedor($id)
     {
         $conta = ContaBancaria::getContaBancariaFornecedor($id);
+
+        return response()->json($conta);
+    }
+
+    public function showByIdFornecedorEmpregado($id, $tipoDespesa)
+    {
+        if ($tipoDespesa == 'empregado') {
+            $conta = ContaBancaria::getContaBancariaEmpregado($id);
+        }
+        if ($tipoDespesa == 'fornecedor') {
+            $conta = ContaBancaria::getContaBancariaFornecedor($id);
+        }
 
         return response()->json($conta);
     }

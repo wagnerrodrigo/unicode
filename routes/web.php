@@ -153,6 +153,7 @@ Route::get('/classificacao-contabil/{id}', [ClassificacaoContabilController::cla
 // rotas Contas Bancárias
 Route::post('/store', [ContaBancariaController::class, 'storeWithJSON']);
 Route::get('/contas-bancarias', [ContaBancariaController::class, 'index'])->name('contas-bancarias');
+Route::get('/contas-bancarias/{id}/{tipo_despesa}', [ContaBancariaController::class, 'showByIdFornecedorEmpregado']);
 Route::get('/contas-bancarias/{id}', [ContaBancariaController::class, 'show'])->name('contas-bancarias-show');
 Route::post('/contas-bancarias', [ContaBancariaController::class, 'store']);
 Route::post('/contas-bancarias/editar/{id}', [ContaBancariaController::class, 'edit']);

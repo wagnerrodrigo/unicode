@@ -1,4 +1,6 @@
 var idFornecedor;
+var idEmpregado;
+var tipoDespesa;
 $(document).ready(function () {
     idFornecedor = 0;
     //fazer requisição ajax para buscar classificação contabil
@@ -340,17 +342,23 @@ document.getElementById("btnDespesa").onclick = function () {
                                     //seleciona o cnpj ou cpf desejada
                                     $(".item").click(function () {
                                         $("#Cnpj_Cpf").val($(this).text());
-                                        var idEmpregado = $(this).attr("value");
+                                        var cpfEmpregado =
+                                            $(this).attr("value");
 
                                         $("#ResultadoCnpjCpf").html("");
                                         // preenche o campo de input_cpf_cnpj e o input_razao_social com base no item anterior
                                         $.ajax({
                                             type: "GET",
-                                            url: `/empregados/cpf/${idEmpregado}`,
+                                            url: `/empregados/cpf/${cpfEmpregado}`,
                                             dataType: "json",
                                         }).done(function (response) {
                                             $("#btnCnpj_Cpf").click(
                                                 function () {
+                                                    //armazena id do empregado em uma variavel;
+                                                    idEmpregado =
+                                                        response[0]
+                                                            .id_empregado;
+
                                                     $("#input_cpf_cnpj").val(
                                                         response[0].nu_cpf_cnpj
                                                     );
@@ -518,10 +526,23 @@ $.ajax({
                         "<option value='' class='contas_fornecedor_resultado'></option>" +
                         "</select>"
                 );
+                var endpoint;
+                var url = "http://localhost:8000/contas-bancarias/";
+
+                tipoDespesa = $("input[name=tipo_despesa]:checked").val();
+
+
+                if (tipoDespesa == "empregado") {
+                    endpoint = `${idEmpregado}/${tipoDespesa}`;
+                    url = url + endpoint;
+                } else if (tipoDespesa == "fornecedor") {
+                    endpoint = `${idFornecedor}/${tipoDespesa}`;
+                    url = url + endpoint;
+                }
 
                 $.ajax({
                     type: "GET",
-                    url: `http://localhost:8000/contas-bancarias/fornecedor/${idFornecedor}`,
+                    url: url,
                     dataType: "json",
                 }).done(function (response) {
                     //mostra os resultados da busca em uma div
