@@ -162,7 +162,6 @@ $("#seleciona_rateio").click(function () {
 
 //remove o rateio da tabela e do form
 function removeRateio(id, valorRateado) {
-    console.log(id);
     //subtrai o valor removido do valor total do rateio
     valorTotalRateio = valorTotalRateio - valorRateado;
     //atualiza o valor total do rateio no input

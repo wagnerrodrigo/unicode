@@ -35,7 +35,7 @@ $(document).ready(function () {
                     //gera input do numero do processo
                     $("#despesa_juridica").append(
                         "<strong class='remove_processo'>NUMERO DO PROCESSO</strong>" +
-                            "<input class='form-control input-add remove_processo' name='numero_processo' id='input_despesa_juridica'></input>"
+                            '<input class="form-control  input-add remove_processo" onblur="getProcesso(this)" name="numero_processo" id="input_despesa_juridica"></input>'
                     );
                 } else {
                     limpaCamposDespesaJuridica();
@@ -522,7 +522,7 @@ $.ajax({
                 //gera input de conta
                 $("#conta_hidden").append(
                     "<strong class='remove_conta'>CONTA BANCÁRIA DO FORNECEDOR/EMPREGADO</strong>" +
-                        "<select name='conta_bancaria' class='form-control input-add remove_conta' id='contas_fornecedor'>" +
+                        "<select name='conta_bancaria' onclick='getContaBancaria(this)' class='form-control input-add remove_conta' id='contas_fornecedor'>" +
                         "<option value='' class='contas_fornecedor_resultado'></option>" +
                         "</select>"
                 );
@@ -530,7 +530,6 @@ $.ajax({
                 var url = "http://localhost:8000/contas-bancarias/";
 
                 tipoDespesa = $("input[name=tipo_despesa]:checked").val();
-
 
                 if (tipoDespesa == "empregado") {
                     endpoint = `${idEmpregado}/${tipoDespesa}`;
@@ -562,12 +561,13 @@ $.ajax({
                         </button>
                     </div>`
                 );
+                //tipo de pagamento 2 = pix
             } else if (id_tipo_pagamento == 2) {
                 limpaCamposContaBancariaPix();
 
                 $("#conta_hidden").append(
                     "<strong class='remove_conta'>PIX DO FORNECEDOR</strong>" +
-                        "<select name='pix' class='form-control input-add remove_pix' id='pix_fornecedor'>" +
+                        "<select onclick='getPix(this)' class='form-control input-add remove_pix' id='pix_fornecedor'>" +
                         "<option value='' class='pix_fornecedor_resultado'></option>" +
                         "</select>"
                 );
@@ -600,11 +600,15 @@ function limpaCamposContaBancariaPix() {
     $(".remove_pix").remove();
     $("#contas_fornecedor").empty();
     $("#pix_fornecedor").empty();
+    $("#numero_pix").attr("value", "");
+    $("#numero_conta_bancaria").attr("value", "");
 }
 
 function limpaCamposDespesaJuridica() {
     $(".remove_processo").remove();
+    $("input[name=numero_processo]").attr("value", '');
 }
+
 
 //adiciona delay nos campos de pesquisa
 function delay(callback, ms) {
@@ -617,4 +621,17 @@ function delay(callback, ms) {
             callback.apply(context, args);
         }, ms || 0);
     };
+}
+
+function getPix(object) {
+    $("input[name=numero_pix]").attr("value", object.value);
+}
+
+function getContaBancaria(object) {
+    $("input[name=numero_conta_bancaria]").attr("value", object.value);
+}
+
+function getProcesso(object){
+    $("input[name=numero_processo]").attr("value", object.value);
+
 }

@@ -16,6 +16,11 @@
                             @csrf
                             <div id="hidden_inputs"></div>
                             <div id="hidden_inputs_itens"></div>
+                            <input type="hidden" name="numero_processo" value="">
+                            <input type="hidden" name="numero_pix" value="">
+                            <input type="hidden" name="numero_conta_bancaria" value="">
+
+
                             <div class="px-5 mb-3">
                                 <strong>EMPRESA</strong>
                                 <input type="text" id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-busca" />
@@ -98,10 +103,6 @@
                     <div class="d-flex" style="width: 100%; align-items:center">
                         <div class="px-5 mb-3">
                             <h3>ITENS </h3>
-
-                            <!-- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlargeServico"> -->
-                            <!-- <i class="bi bi-plus"></i>serviço -->
-                            <!-- </button>  -->
                         </div>
                     </div>
 
