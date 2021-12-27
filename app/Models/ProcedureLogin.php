@@ -20,7 +20,7 @@ class ProcedureLogin extends Model
         $this->password = $password;
 
         //retorna vazio ou informações de login
-        $procedure = DB::select("select * from usu_13.check_login_v2('$this->cpf', '$this->password') as (nome VARCHAR, login VARCHAR, senha VARCHAR, email VARCHAR)");
+        $procedure = DB::select("select * from intranet.check_login('$this->cpf', '$this->password') as (nome VARCHAR, login VARCHAR, senha VARCHAR, email VARCHAR)");
 
         foreach ($procedure as $proc) {
             $this->procedureResult = $proc;
