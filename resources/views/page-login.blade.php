@@ -15,14 +15,14 @@
                         <form action="{{route('autenticacao')}}" method="POST">
                             @csrf
                             <div class="form-group position-relative has-icon-left">
-                                <label for="username" style="color:white">CPF</label>
+                                <label for="username" style="color:white">Login</label>
                                 <div class="position-relative">
-                                    <input type="text" class="form-control" id="cpf" name="cpf">
+                                    <input type="text" class="form-control" id="login" name="login">
                                     <div class="form-control-icon">
                                         <i data-feather="user"></i>
                                     </div>
                                 </div>
-                                <span class="error">{{$errors->has('cpf') ? $errors->first('cpf') : ''}}</span>
+                                <span class="error">{{$errors->has('login') ? $errors->first('login') : ''}}</span>
                             </div>
                             <div class="form-group position-relative has-icon-left">
                                 <div class="clearfix">

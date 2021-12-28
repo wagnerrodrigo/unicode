@@ -57,11 +57,9 @@
             <li class="nav-item dropdown  d-flex align-items-center hidden-arrow space-item-navbar" style="padding: 10px;">
                 <a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration:none; color:white;">
                     <i class="bi bi-person-fill"></i>
-                    <span>Pedroenrick</span>
+                    <span>{{session()->get('name')}}</span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">My profile</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
                     <li><a class="dropdown-item" href="{{route('logout')}}">Sair</a></li>
                 </ul>
             </li>

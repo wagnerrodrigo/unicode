@@ -10,21 +10,23 @@ class ProcedureLogin extends Model
 {
     use HasFactory;
 
-    private $cpf;
+    private $login;
     private $password;
     public $procedureResult;
 
-    public function __construct($cpf, $password)
+    public function __construct($login, $password)
     {
-        $this->cpf = $cpf;
+        $this->login = $login;
         $this->password = $password;
 
-        //retorna vazio ou informações de login
-        $procedure = DB::select("select * from usu_13.check_login_v2('$this->cpf', '$this->password') as (nome VARCHAR, login VARCHAR, senha VARCHAR, email VARCHAR)");
+        //troca a conexão para o banco de login
+        $this->setConnection('pgsql2');
+        //$procedure = DB::select("select * from usu_13.check_login_v2('$this->cpf', '$this->password') as (nome VARCHAR, login VARCHAR, senha VARCHAR, email VARCHAR)");
 
-        foreach ($procedure as $proc) {
-            $this->procedureResult = $proc;
-        }
+        $procedure = DB::select("SELECT usu_13.check_login_v2('$this->login','$this->password')");
+
+        $this->procedureResult = $procedure;
+
         return $this->procedureResult;
     }
 }

@@ -5,6 +5,7 @@ use Error;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Http\Middleware\UserAuthenticate;
 use App\Models\ProcedureLogin;
 use Illuminate\Http\Request;
 
@@ -42,13 +43,13 @@ class LoginController extends Controller
     {
         //regras de validação
         $rules = [
-            'cpf' => 'required',
+            'login' => 'required',
             'email' => 'email'
         ];
 
         //mensagens de feedback de validação
         $feedback = [
-            'cpf.required' => 'O campo CPF é obrigatório',
+            'login.required' => 'O campo Login é obrigatório',
             'email.email' => 'O campo Email é obrigatório'
         ];
 
@@ -57,14 +58,14 @@ class LoginController extends Controller
 
 
         //recupera valores do usuario e transforma toda a string em lowercase
-        $cpf = strtolower($request->get('cpf'));
+        $login = strtolower($request->get('login'));
         $email = strtolower($request->get('email'));
 
         //Iniciar model User
-        $user = new ProcedureLogin($cpf, $email);
+        $user = new ProcedureLogin($login, $email);
 
-        if (isset($user->cpf)) {
-            if ($user->cpf === $cpf && $user->email === $email) {
+        if (isset($user->login)) {
+            if ($user->login === $login && $user->email === $email) {
                 return "informações válidas";
             }
         } else {
@@ -78,13 +79,13 @@ class LoginController extends Controller
     {
         //regras de validação
         $rules = [
-            'cpf' => 'required',
+            'login' => 'required',
             'password' => 'required'
         ];
 
         //mensagens de feedback de validação
         $feedback = [
-            'cpf.required' => 'O campo CPF é obrigatório',
+            'login.required' => 'O campo Login é obrigatório',
             'password.required' => 'O campo senha é obrigatório'
         ];
 
@@ -92,21 +93,47 @@ class LoginController extends Controller
         $request->validate($rules, $feedback);
 
         //recupera valores do usuario
-        $cpf = $request->get('cpf');
+        $login = $request->get('login');
         $password = $request->get('password');
 
-        $user = new ProcedureLogin($cpf, $password);
+        $user = new ProcedureLogin($login, $password);
 
-        if (isset($user->procedureResult)) {
+        if (!empty($user->procedureResult)) {
+
+            dd($user->procedureResult[0])->check_;
+            $credentials = explode(',', $user->procedureResult[0]);
+            $credentials[0] = str_replace("(", "", $credentials[0]);
+            $credentials[0] = str_replace('"', "", $credentials[0]);
+            $credentials[3] = str_replace(")", "", $credentials[3]);
+
+            // foreach ($procedure as $proc) {
+            //     $this->procedureResult = $proc;
+            // }
+
+            //transforma em array associativo
+            $this->procedureResult = [
+                'name' => $credentials[0],
+                'login' => $credentials[1],
+                'password' => $credentials[2],
+                'email' => $credentials[3]
+            ];
+
             $result = $user->procedureResult;
 
-            if ($result->login === $cpf && $result->senha === $password) {
-                session_start();
-                $_SESSION['name'] = $result->nome;
-                $_SESSION['cpf'] = $result->login;
+            dd($result);
 
-                return redirect()->route('painel');
-            }
+
+            new UserAuthenticate($result['login'], $result['password']);
+
+            //dd($_SESSION);
+
+            // if ($result['login'] === $login && $result['password'] === $password) {
+            //     session_start();
+            //     $_SESSION['name'] = $result['name'];
+            //     $_SESSION['login'] = $result['login'];
+
+            return redirect()->route('painel');
+            // }
         } else {
             return redirect()->route('autenticacao', ['error' => 1]);
         }

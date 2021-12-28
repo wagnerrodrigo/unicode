@@ -15,11 +15,12 @@ class UserAuthenticate
      * @return mixed
      */
     public function handle(Request $request, Closure $next){
-        session_start();
-        if(isset($_SESSION['cpf']) && $_SESSION['cpf'] != ''){
+        dd($request);
+        if(isset($_SESSION['login']) && $_SESSION['login'] != ''){
+            session_start();
             return $next($request);
         }else{
-            return redirect()->route('autenticacao', ['error' => 2]); 
+            return redirect()->route('autenticacao', ['error' => 2]);
         }
     }
 }
