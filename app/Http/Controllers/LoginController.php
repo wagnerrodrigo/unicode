@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Error;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Http\Middleware\UserAuthenticate;
 use App\Models\ProcedureLogin;
 use Illuminate\Http\Request;
 
@@ -13,17 +12,22 @@ class LoginController extends Controller
 {   //retorna view login
     public function index(Request $request)
     {
-        $error = '';
+        if (session('login') !== null && session('login') != '') {
+            return redirect()->route('painel');
+        } else {
 
-        if ($request->get('error') == 1) {
-            $error = 'Usuario e/ou senha incorretos';
-        };
+            $error = '';
 
-        if ($request->get('error') == 2) {
-            $error = 'Necessário realizar login para ter acesso a página';
-        };
+            if ($request->get('error') == 1) {
+                $error = 'Usuario e/ou senha incorretos';
+            };
 
-        return view('page-login', ['error' => $error]);
+            if ($request->get('error') == 2) {
+                $error = 'Necessário realizar login para ter acesso a página';
+            };
+
+            return view('page-login', ['error' => $error]);
+        }
     }
 
     //retorna view esqueceu a senha
@@ -100,8 +104,7 @@ class LoginController extends Controller
 
         if (!empty($user->procedureResult)) {
 
-            dd($user->procedureResult[0])->check_;
-            $credentials = explode(',', $user->procedureResult[0]);
+            $credentials = explode(',', $user->procedureResult[0]->check_login_v2);
             $credentials[0] = str_replace("(", "", $credentials[0]);
             $credentials[0] = str_replace('"', "", $credentials[0]);
             $credentials[3] = str_replace(")", "", $credentials[3]);
@@ -111,29 +114,20 @@ class LoginController extends Controller
             // }
 
             //transforma em array associativo
-            $this->procedureResult = [
+            $result = [
                 'name' => $credentials[0],
                 'login' => $credentials[1],
                 'password' => $credentials[2],
                 'email' => $credentials[3]
             ];
 
-            $result = $user->procedureResult;
+            if ($result['login'] === $login && $result['password'] === $password) {
+                session_start();
+                session(['name' => $result['name']]);
+                session(['login' => $result['login']]);
 
-            dd($result);
-
-
-            new UserAuthenticate($result['login'], $result['password']);
-
-            //dd($_SESSION);
-
-            // if ($result['login'] === $login && $result['password'] === $password) {
-            //     session_start();
-            //     $_SESSION['name'] = $result['name'];
-            //     $_SESSION['login'] = $result['login'];
-
-            return redirect()->route('painel');
-            // }
+                return redirect()->route('painel');
+            }
         } else {
             return redirect()->route('autenticacao', ['error' => 1]);
         }
@@ -142,8 +136,10 @@ class LoginController extends Controller
     //faz o logout do usuario
     public function logout()
     {
-        if (isset($_SESSION))
-            session_destroy();
-        return redirect()->route('autenticacao');
+        if (session('name') !== null && session('login') !== null) {
+            session()->forget('name');
+            session()->forget('login');
+            return redirect()->route('autenticacao');
+        }
     }
 }

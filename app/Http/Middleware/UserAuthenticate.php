@@ -15,9 +15,8 @@ class UserAuthenticate
      * @return mixed
      */
     public function handle(Request $request, Closure $next){
-        dd($request);
-        if(isset($_SESSION['login']) && $_SESSION['login'] != ''){
-            session_start();
+        if(session('login') !== null && session('login') != ''){
+            session();
             return $next($request);
         }else{
             return redirect()->route('autenticacao', ['error' => 2]);
