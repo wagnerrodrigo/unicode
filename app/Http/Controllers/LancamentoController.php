@@ -18,8 +18,6 @@ class LancamentoController extends Controller
      */
     public function index(Request $request)
     {
-
-
         $lancamentos = Lancamento::selectAll();
 
         // dd($request->filtro);
@@ -117,7 +115,7 @@ class LancamentoController extends Controller
     public function showBydateAndstatus(Request $request)
     {
 
-        
+
 
     // $lancamento = DB::table('intranet.tab_lancamento')->paginate(15)
     // dd($lancamento->columns[0]->id_tab_lancamento); MUITO IMPORTANTE !!!!!
@@ -136,31 +134,31 @@ class LancamentoController extends Controller
         dt_provisionamento
         fk_tab_lancamento_id de_pagamento";
         // dd($campos); dataInicio
-        
+
         $lancamentosAll = Lancamento::selectAll();
-        
-      
+
+
         // dd($lancamentosAll);
         // $lancamentos = Lancamento::findOne($dataInicio,$dataFim);
         // dd($lancamentos);
        if($request->has('dataInicio','dataFim','status'))
-       {   
+       {
         $dataInicio = $request->dataInicio;
         $dataFim = $request->dataFim;
         $status = $request->status;
         dd($dataInicio,$dataFim,$status);
-        
+
            $filtro = explode("\r\n",$campos);
            foreach($filtro as $f ){
                $lancamentosAll = $this->$filtro->select($f)->get();
-                
+
              };
-           
+
         }else{
             return response()->json($lancamentosAll);
         }
-        
-        
+
+
     //     $lancamento = DB::table('intranet.tab_lancamento')
     //         ->select(DB::select('SELECT lancamento.id_tab_lancamento,
     //     lancamento.fk_condicao_pagamento_id,
@@ -176,14 +174,14 @@ class LancamentoController extends Controller
     //     pagamento.fk_tab_lancamento_id,
     //     pagamento.de_pagamento
     //     FROM intranet.tab_lancamento AS lancamento
-    //     RIGHT JOIN intranet.tab_despesa as despesa on (lancamento.fk_tab_despesa_id = despesa.id_despesa) 
+    //     RIGHT JOIN intranet.tab_despesa as despesa on (lancamento.fk_tab_despesa_id = despesa.id_despesa)
     //     LEFT JOIN intranet.tab_pagamento as pagamento on (despesa.id_despesa = pagamento.fk_tab_lancamento_id)
     //     inner join intranet.status_despesa as status_dep on (despesa.fk_status_despesa_id = status_dep.id_status_despesa)
     //     LIMIT 10'));
 
     //  $lancamento = DB::table('intranet.tab_lancamento');
     //  dd($lancamento);
-   
+
     }
 
 
