@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Lancamento;
 use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Arr;
 
 class LancamentoController extends Controller
 {
@@ -13,11 +16,14 @@ class LancamentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
 
         $lancamentos = Lancamento::selectAll();
+
+        // dd($request->filtro);
+        // $request->has('');
 
         $lancamentosAtivos = [];
         $lancamentosInativos = [];
@@ -96,7 +102,89 @@ class LancamentoController extends Controller
         return response()->json($lancamento);
     }
 
+    public function showCompanyAccountInformation($id)
+    {
+        $lancamento = Lancamento::findCompanyAccountBank($id);
+        return response()->json($lancamento);
+    }
 
+    public function showStatus($id_status)
+    {
+        $lancamento = Lancamento::findByStatus($id_status);
+        return response()->json($lancamento);
+    }
+
+    public function showBydateAndstatus(Request $request)
+    {
+
+        
+
+    // $lancamento = DB::table('intranet.tab_lancamento')->paginate(15)
+    // dd($lancamento->columns[0]->id_tab_lancamento); MUITO IMPORTANTE !!!!!
+
+    // return response()->json($lancamento);
+
+        $campos = "id_tab_lancamento
+        fk_condicao_pagamento_id
+        dt_vencimento
+        dt_fim
+        id_despesa
+        fk_status_despesa_id
+        de_status_despesa
+        de_despesa
+        valor_total_despesa
+        dt_provisionamento
+        fk_tab_lancamento_id de_pagamento";
+        // dd($campos); dataInicio
+        
+        $lancamentosAll = Lancamento::selectAll();
+        
+      
+        // dd($lancamentosAll);
+        // $lancamentos = Lancamento::findOne($dataInicio,$dataFim);
+        // dd($lancamentos);
+       if($request->has('dataInicio','dataFim','status'))
+       {   
+        $dataInicio = $request->dataInicio;
+        $dataFim = $request->dataFim;
+        $status = $request->status;
+        dd($dataInicio,$dataFim,$status);
+        
+           $filtro = explode("\r\n",$campos);
+           foreach($filtro as $f ){
+               $lancamentosAll = $this->$filtro->select($f)->get();
+                
+             };
+           
+        }else{
+            return response()->json($lancamentosAll);
+        }
+        
+        
+    //     $lancamento = DB::table('intranet.tab_lancamento')
+    //         ->select(DB::select('SELECT lancamento.id_tab_lancamento,
+    //     lancamento.fk_condicao_pagamento_id,
+    //     lancamento.dt_vencimento,
+    //     lancamento.dt_fim,
+    //     despesa.id_despesa,
+    //     despesa.fk_status_despesa_id,
+	//     status_dep.de_status_despesa,
+	//     despesa.de_despesa,
+    //     despesa.valor_total_despesa,
+    //     despesa.dt_vencimento,
+    //     despesa.dt_provisionamento,
+    //     pagamento.fk_tab_lancamento_id,
+    //     pagamento.de_pagamento
+    //     FROM intranet.tab_lancamento AS lancamento
+    //     RIGHT JOIN intranet.tab_despesa as despesa on (lancamento.fk_tab_despesa_id = despesa.id_despesa) 
+    //     LEFT JOIN intranet.tab_pagamento as pagamento on (despesa.id_despesa = pagamento.fk_tab_lancamento_id)
+    //     inner join intranet.status_despesa as status_dep on (despesa.fk_status_despesa_id = status_dep.id_status_despesa)
+    //     LIMIT 10'));
+
+    //  $lancamento = DB::table('intranet.tab_lancamento');
+    //  dd($lancamento);
+   
+    }
 
 
 

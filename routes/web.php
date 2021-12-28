@@ -99,7 +99,7 @@ Route::get('/centroCustoEmpresa/nome/{nome}', [CentroCustosController::class, 's
 Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
 Route::get('/lancamentos/paginate', [LancamentoController::class, 'paginate']);
 Route::get('/lancamentos/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
-Route::get('/lancamentos/provisionamento/{id}',[LancamentoController::class, 'provisionamento'])->name('add-lancamento-provisionamento');
+Route::get('/lancamentos/provisionamento/{id}',[LancamentoController::class, 'provisionamento'])->name('lancamento-provisionamento');
 Route::post('/lancamentos/provisionamento',[LancamentoController::class, 'store']);
 
 Route::get('/lancamentos/info-conta/{info}',[LancamentoController::class, 'showDataInsBanc']);
@@ -107,6 +107,12 @@ Route::get('/lancamentos/info-agencia/{id_conta}',[LancamentoController::class, 
 Route::get('/lancamentos/info-contaBancaria/{id_agencia}',[LancamentoController::class,'showBankAccount']);
 Route::get('/lancamentos/info-fornecedor-empregado/{id_despesa}',[LancamentoController::class,'showProvidedEmployee']);
 Route::get('/lancamentos/filtro-periodo/{info_data}/{info_dataFim}',[LancamentoController::class,'showPeriodDate']);
+
+
+Route::get('/lancamentos/filtro-empresaContas/{id}',[LancamentoController::class,'showCompanyAccountInformation']);
+Route::get('/lancamentos/filtro-status/{id_status}',[LancamentoController::class,'showStatus']);
+Route::get('/lancamentos/pesquisa/atributos',[LancamentoController::class,'showBydateAndstatus']);
+
 
 
 //rotas Receitas
