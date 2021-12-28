@@ -17,6 +17,8 @@ class Lancamento extends Model
         lancamento.dt_vencimento,
         lancamento.dt_fim,
         despesa.id_despesa,
+        despesa.fk_status_despesa_id,
+	    status_dep.de_status_despesa,
 	    despesa.de_despesa,
         despesa.valor_total_despesa,
         despesa.dt_vencimento,
@@ -25,7 +27,9 @@ class Lancamento extends Model
         pagamento.de_pagamento
         FROM intranet.tab_lancamento AS lancamento
         RIGHT JOIN intranet.tab_despesa as despesa on (lancamento.fk_tab_despesa_id = despesa.id_despesa) 
-        LEFT JOIN intranet.tab_pagamento as pagamento on (despesa.id_despesa = pagamento.fk_tab_lancamento_id)";
+        LEFT JOIN intranet.tab_pagamento as pagamento on (despesa.id_despesa = pagamento.fk_tab_lancamento_id)
+        inner join intranet.status_despesa as status_dep on (despesa.fk_status_despesa_id = status_dep.id_status_despesa)
+        LIMIT 10";
         
         $lancamentos = DB::select($query);
 
@@ -57,14 +61,14 @@ class Lancamento extends Model
 
 
     static function showInfoAccount($info){
-        $query = ("SELECT
+        $query =  DB::select("SELECT
                  id, co_banco, de_banco
                  FROM intranet.intranet.tab_inst_banco
-                 WHERE de_banco LIKE upper('%".$info."%')");
+                 WHERE id = ?;",[$info]);
 
-        $pagamento = DB::select($query);
-        return $pagamento;
+        return $query;
     }
+
 
     static function showInfoAgency($id)
     {
@@ -72,7 +76,7 @@ class Lancamento extends Model
                    conta_banco.nu_agencia
                    fROM intranet.tab_conta_bancaria AS conta_banco
                    JOIN intranet.tab_inst_banco AS ins_bank ON(ins_bank.id = conta_banco.fk_tab_inst_banco_id)
-                   WHERE ins_bank.id = ?;", [$id]);
+                   WHERE conta_banco.id_conta_bancaria = ?;", [$id]);
        
         return $query;
     }
@@ -84,7 +88,7 @@ class Lancamento extends Model
                     conta_banco.nu_conta
                     FROM intranet.tab_conta_bancaria AS conta_banco
                     JOIN intranet.tab_inst_banco AS ins_bank ON(ins_bank.id = conta_banco.fk_tab_inst_banco_id)
-                    WHERE ins_bank.id = ?", [$id]);
+                    WHERE conta_banco.id_conta_bancaria = ?", [$id]);
 
         return $query;
     }
@@ -117,4 +121,40 @@ class Lancamento extends Model
         
         return $query;
     }
+
+    static function findCompanyAccountBank($id)
+    {
+        $query = DB::select("SELECT conta_bancaria.fk_tab_empresa_id,
+		conta_bancaria.id_conta_bancaria,
+        conta_bancaria.nu_agencia,
+        conta_bancaria.nu_conta,
+       	conta_bancaria.fk_tab_inst_banco_id,
+        conta_bancaria.fk_tab_fornecedor_id,
+        conta_bancaria.co_op,
+        banco.co_banco,
+        banco.de_banco
+        FROM intranet.tab_conta_bancaria as conta_bancaria
+        inner join intranet.tab_inst_banco as banco on (banco.id = conta_bancaria.fk_tab_inst_banco_id)
+        where conta_bancaria.fk_tab_empresa_id = ?",[$id]);
+
+        return $query;
+    }
+
+
+    static function findByStatus($id_status)
+    {
+        $query = DB::select("SELECT despesa.fk_status_despesa_id,
+        despesa.dt_vencimento,
+        despesa.dt_provisionamento,
+        despesa.fk_status_despesa_id,
+        status_desp.id_status_despesa,
+        status_desp.de_status_despesa 
+        FROM intranet.status_despesa AS status_desp 
+        INNER JOIN intranet.tab_despesa AS despesa 
+        ON (status_desp.id_status_despesa = despesa.fk_status_despesa_id)
+        WHERE status_desp.id_status_despesa = ?",[$id_status]);
+
+        return $query;
+    }
+    
 }
