@@ -31,7 +31,7 @@
                                         <strong>VALOR</strong>
                                     </div>
                                     <span>{{ $lancamento->valor_total_despesa }}</span>
-                                    <input type="hidden" name="" id="valorDespesa"
+                                    <input type="hidden" name="" id="valorTotal"
                                         value="{{ $lancamento->valor_total_despesa }}">
                                 </div>
                             </div>
@@ -114,7 +114,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel16">Rateio Entre Contas</h4>
+                            <h4 class="modal-title" id="myModalLabel16">Rateio de Contas</h4>
                             <div>
                                 <span>Valor Total: </span>
                                 <input class="input-add" id="modal_valor_total" name="modal_valor_total" readonly
@@ -211,5 +211,6 @@
         <script src="{{ asset('assets/js/custom-js/lancamento.js') }}"></script>
         <script src="{{ asset('assets/js/custom-js/mascara-data.js') }}"></script>
         <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
+        <script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
 
     @endsection
