@@ -1,30 +1,15 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BIController;
 use App\Http\Controllers\CentroCustos;
-use App\Http\Controllers\ComplianceController;
-use App\Http\Controllers\ComprasController;
-use App\Http\Controllers\ContabilController;
 use App\Http\Controllers\FinanceiroController;
 use App\Http\Controllers\FornecedorController;
-use App\Http\Controllers\GestaoPessoasController;
-use App\Http\Controllers\JuridicoController;
-use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\PainelController;
 use App\Http\Controllers\ProdutoController;
-use App\Http\Controllers\NotaFiscalController;
 use App\Http\Controllers\PlanoContaController;
 use App\Http\Controllers\ContaBancariaController;
-use App\Http\Controllers\ContaPagarController;
-use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\DespesaController;
-use App\Http\Controllers\ContratoController;
-use App\Http\Controllers\MovimentoController;
 use App\Http\Controllers\LancamentoController;
-use App\Http\Controllers\ReceitaController;
 use App\Http\Controllers\ApiViaCepController;
 use App\Http\Controllers\InstituicaoFinanceiraController;
 use App\Http\Controllers\EnderecoController;
@@ -45,174 +30,168 @@ Route::post('forgot-password', [LoginController::class, 'forgotPassword'])->name
 Route::get('/login{error?}', [LoginController::class, 'index'])->name('autenticacao');
 Route::post('/login', [LoginController::class, 'authentication'])->name('autenticacao');
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::middleware('autenticacaoMiddleware')->group(function () {
+    Route::get('/home', [PainelController::class, 'index'])->name('painel');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('financeiro');
+    //Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    //Route::get('/bi', [BIController::class, 'index'])->name('bi');
+    //Route::get('/compliance', [ComplianceController::class, 'index'])->name('compliance');
+    //Route::get('/compras', [ComprasController::class, 'index'])->name('compras');
+    //Route::get('/contabil', [ContabilController::class, 'index'])->name('contabil');
+    //Route::get('/gestao-de-pessoas', [GestaoPessoasController::class, 'index'])->name('rh');
+    //Route::get('/juridico', [JuridicoController::class, 'index'])->name('juridico');
+    //Route::get('/relatorio', [RelatorioController::class, 'index'])->name('relatorio');
+    //Route::get('/contratos', [GestaoDeContratosController::class, 'index'])->name('contratos');
+    //Route::get('/nota', [NotaFiscalController::class, 'index'])->name('nota');
+});
 
-Route::get('/home', [PainelController::class, 'index'])->name('painel');
-Route::get('/nota', [NotaFiscalController::class, 'index'])->name('nota');
+//rotas extratos
+Route::middleware('autenticacaoMiddleware')->prefix('/extrato')->group(function () {
+    Route::get('/', [ExtratoController::class, 'index'])->name('extrato');
+    Route::get('/{id}', [ExtratoController::class, 'show'])->name('show-extrato');
+    Route::get('/empresa', [ExtratoController::class, 'showCompany']);
+    Route::get('/info/{id}', [ExtratoController::class, 'showInfo']);
+    // Route::get('/extrato/filtro-periodo/{info-data}', [ExtratoController::class, 'showPeriodDate']);
+});
 
-Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('financeiro');
+//rotas Fornecedores
+Route::middleware('autenticacaoMiddleware')->prefix('/fornecedores')->group(function () {
+    Route::get('/adicionar', [FornecedorController::class, 'formFornecedores'])->name('add-fornecedor');
+    Route::get('/', [FornecedorController::class, 'index'])->name('fornecedores');
+    Route::get('/{id}', [FornecedorController::class, 'show'])->name('show-fornecedor');
+    Route::get('/cnpj_cpf/{nu_cpf_cnpj}', [FornecedorController::class, 'showCnpjCpf']);
+    Route::post('/', [FornecedorController::class, 'store'])->name('fornecedores');
+    Route::get('/cnpj/{cnpj}', [FornecedorController::class, 'showByCnpj']);
+    Route::get('/nome/{name}', [FornecedorController::class, 'showByName']);
+    Route::post('/editar/{id}', [FornecedorController::class, 'edit'])->name('edit-fornecedores');
+    Route::post('/delete/{id}', [FornecedorController::class, 'destroy'])->name('destroy-fornecedores');
+});
 
-//rotas Fornecedor
-Route::get('/fornecedores/adicionar', [FornecedorController::class, 'formFornecedores'])->name('add-fornecedor');
-Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('fornecedores');
-Route::get('/fornecedores/{id}', [FornecedorController::class, 'show'])->name('show-fornecedor');
-Route::get('/fornecedores/cnpj_cpf/{nu_cpf_cnpj}', [FornecedorController::class, 'showCnpjCpf']);
-Route::post('/fornecedores', [FornecedorController::class, 'store'])->name('fornecedores');
-Route::get('/fornecedores/cnpj/{cnpj}', [FornecedorController::class, 'showByCnpj']);
-Route::get('/fornecedores/nome/{name}', [FornecedorController::class, 'showByName']);
-Route::post('/fornecedores/editar/{id}', [FornecedorController::class, 'edit'])->name('edit-fornecedores');
-Route::post('/fornecedores/delete/{id}', [FornecedorController::class, 'destroy'])->name('destroy-fornecedores');
 
 // rotas Empregados
-Route::get('/empregados/cpf/{nu_cpf_cnpj}', [EmpregadoController::class, 'showCpf']);
-
-//rotas Usuarios
-Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios');
-Route::get('/cadastro-usuarios', [UsuarioController::class, 'cadastro'])->name('cadastro-usuarios');
-Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuarios');
-Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('edit-usuarios');
+Route::middleware('autenticacaoMiddleware')->prefix('/empregados')->group(function () {
+    Route::get('/cpf/{nu_cpf_cnpj}', [EmpregadoController::class, 'showCpf']);
+});
 
 //rotas Despesas
-Route::get('/despesas', [DespesaController::class, 'index'])->name('despesas');
-Route::post('/despesas', [DespesaController::class, 'store']);
-Route::get('/despesas/adicionar', [DespesaController::class, 'formDespesa'])->name('adicionar-despesa');
-Route::get('/despesas/{id}', [DespesaController::class, 'show']);
+Route::middleware('autenticacaoMiddleware')->prefix('/despesas')->group(function () {
+    Route::get('/', [DespesaController::class, 'index'])->name('despesas');
+    Route::post('/', [DespesaController::class, 'store']);
+    Route::get('/adicionar', [DespesaController::class, 'formDespesa'])->name('adicionar-despesa');
+    Route::get('/{id}', [DespesaController::class, 'show']);
+});
 
 //rotas condicao pagamento
-Route::get('/condicao_pagamento', [CondicaoPagamentoController::class, 'index'])->name('condicao-pagamento');
+Route::middleware('autenticacaoMiddleware')->prefix('/condicao_pagamento')->group(function () {
+    Route::get('/', [CondicaoPagamentoController::class, 'index'])->name('condicao-pagamento');
+});
 //rotas Despesas
-Route::get('/empresas', [EmpresaController::class, 'index'])->name('empresas');
-Route::get('/empresas/adicionar', [EmpresaController::class, 'formEmpresa'])->name('adicionar-empresa');
-Route::post('/empresas/adicionar', [EmpresaController::class, 'store'])->name('add-empresas');
-Route::get('/empresas/{id}', [EmpresaController::class, 'show']);
-Route::get('/empresas/cnpj/{cnpj}', [EmpresaController::class, 'showByCnpj']);
-Route::get('/empresas/nome/{name}', [EmpresaController::class, 'showByName']);
+
+Route::middleware('autenticacaoMiddleware')->prefix('/empresas')->group(function () {
+    Route::get('/', [EmpresaController::class, 'index'])->name('empresas');
+    Route::get('/adicionar', [EmpresaController::class, 'formEmpresa'])->name('adicionar-empresa');
+    Route::post('/adicionar', [EmpresaController::class, 'store'])->name('add-empresas');
+    Route::get('/{id}', [EmpresaController::class, 'show']);
+    Route::get('/cnpj/{cnpj}', [EmpresaController::class, 'showByCnpj']);
+    Route::get('/nome/{name}', [EmpresaController::class, 'showByName']);
+});
 
 
 //Centro de custo Empresa rotas
-Route::get('/centroCustoEmpresa/{id}', [CentroCustosController::class, 'showById']);
-Route::get('/centroCustoEmpresa/nome/{nome}', [CentroCustosController::class, 'showByName']);
+Route::middleware('autenticacaoMiddleware')->prefix('/centroCustoEmpresa')->group(function () {
+    Route::get('/{id}', [CentroCustosController::class, 'showById']);
+    Route::get('/nome/{nome}', [CentroCustosController::class, 'showByName']);
+});
 
 //rotas Lançamentos
-Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
-Route::get('/lancamentos/paginate', [LancamentoController::class, 'paginate']);
-Route::get('/lancamentos/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
-Route::get('/lancamentos/provisionamento/{id}',[LancamentoController::class, 'provisionamento'])->name('lancamento-provisionamento');
-Route::post('/lancamentos/provisionamento',[LancamentoController::class, 'store']);
+Route::middleware('autenticacaoMiddleware')->prefix('/lancamentos')->group(function () {
 
-Route::get('/lancamentos/info-conta/{info}',[LancamentoController::class, 'showDataInsBanc']);
-Route::get('/lancamentos/info-agencia/{id_conta}',[LancamentoController::class, 'showDataAgency']);
-Route::get('/lancamentos/info-contaBancaria/{id_agencia}',[LancamentoController::class,'showBankAccount']);
-Route::get('/lancamentos/info-fornecedor-empregado/{id_despesa}',[LancamentoController::class,'showProvidedEmployee']);
-Route::get('/lancamentos/filtro-periodo/{info_data}/{info_dataFim}',[LancamentoController::class,'showPeriodDate']);
+    Route::get('/', [LancamentoController::class, 'index'])->name('lancamentos');
+    Route::get('/paginate', [LancamentoController::class, 'paginate']);
+    Route::get('/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
+    Route::get('/provisionamento/{id}', [LancamentoController::class, 'provisionamento'])->name('lancamento-provisionamento');
+    Route::post('/provisionamento', [LancamentoController::class, 'store']);
 
+    Route::get('/info-conta/{info}', [LancamentoController::class, 'showDataInsBanc']);
+    Route::get('/info-agencia/{id_conta}', [LancamentoController::class, 'showDataAgency']);
+    Route::get('info-contaBancaria/{id_agencia}', [LancamentoController::class, 'showBankAccount']);
+    Route::get('/info-fornecedor-empregado/{id_despesa}', [LancamentoController::class, 'showProvidedEmployee']);
+    Route::get('/filtro-periodo/{info_data}/{info_dataFim}', [LancamentoController::class, 'showPeriodDate']);
 
-Route::get('/lancamentos/filtro-empresaContas/{id}',[LancamentoController::class,'showCompanyAccountInformation']);
-Route::get('/lancamentos/filtro-status/{id_status}',[LancamentoController::class,'showStatus']);
-Route::get('/lancamentos/pesquisa/atributos',[LancamentoController::class,'showBydateAndstatus']);
-
-
-
-//rotas Receitas
-Route::get('/receitas', [ReceitaController::class, 'index'])->name('receitas');
-
-//rotas Movimentos
-Route::get('/movimentos', [MovimentoController::class, 'index'])->name('movimentos');
-
-//rotas Contratos
-Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos');
-
-//rotas Serviço
-Route::get('/servicos',              [ServicoController::class, 'index'])->name('servicos');
-Route::get('/servicos/{id}',         [ServicoController::class, 'show'])->name('list-servico');
-Route::post('/servicos',             [ServicoController::class, 'store']);
-Route::post('/servicos/editar/{id}', [ServicoController::class, 'edit']);
-Route::post('/servicos/delete/{id}', [ServicoController::class, 'destroy']);
-Route::get('/servico/classificacao', [ServicoController::class, 'showClassificacaoServico']);
-Route::get('/servico/classificacao/{id}', [ServicoController::class, 'showClassificacaoServicoId']);
+    Route::get('/filtro-empresaContas/{id}', [LancamentoController::class, 'showCompanyAccountInformation']);
+    Route::get('/filtro-status/{id_status}', [LancamentoController::class, 'showStatus']);
+    Route::get('/pesquisa/atributos', [LancamentoController::class, 'showBydateAndstatus']);
+});
 
 
 //rotas Produto
-Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos');
-Route::get('/produtos/{id}', [ProdutoController::class, 'show'])->name('lista-produtos');
-Route::post('/produtos', [ProdutoController::class, 'store']);
-Route::post('/produtos/editar/{id}', [ProdutoController::class, 'edit']);
-Route::post('/produtos/delete/{id}', [ProdutoController::class, 'destroy']);
-Route::get('/produto/classificacao', [ProdutoController::class, 'showClassificacaoProduto']);
-Route::get('/produto/classificacao/{id}', [ProdutoController::class, 'showClassificacaoProdutoId']);
+Route::middleware('autenticacaoMiddleware')->prefix('/produtos')->group(function () {
+    Route::get('/', [ProdutoController::class, 'index'])->name('produtos');
+    Route::get('/{id}', [ProdutoController::class, 'show'])->name('lista-produtos');
+    Route::post('/', [ProdutoController::class, 'store']);
+    Route::post('/editar/{id}', [ProdutoController::class, 'edit']);
+    Route::post('/delete/{id}', [ProdutoController::class, 'destroy']);
+    Route::get('/classificacao', [ProdutoController::class, 'showClassificacaoProduto']);
+    Route::get('/classificacao/{id}', [ProdutoController::class, 'showClassificacaoProdutoId']);
+});
 
 //rotas Centro de custo
-Route::get('/centro-custos', [CentroCustos::class, 'index'])->name('centro-custos');
-Route::get('/centro-custos/{id}', [CentroCustos::class, 'show']);
-Route::post('/centro-custos', [CentroCustos::class, 'store']);
-Route::post('/centro-custos/editar/{id}', [CentroCustos::class, 'edit']);
-Route::post('/centro-custos/delete/{id}', [CentroCustos::class, 'destroy']);
+Route::middleware('autenticacaoMiddleware')->prefix('/centro-custos')->group(function () {
+    Route::get('/', [CentroCustos::class, 'index'])->name('centro-custos');
+    Route::get('/{id}', [CentroCustos::class, 'show']);
+    Route::post('/', [CentroCustos::class, 'store']);
+    Route::post('/editar/{id}', [CentroCustos::class, 'edit']);
+    Route::post('/delete/{id}', [CentroCustos::class, 'destroy']);
+});
 
 // rotas Plano de contas
 Route::get('/plano-contas', [PlanoContaController::class, 'index'])->name('plano-contas');
 Route::get('/cadastro-planos-contas', [PlanoContaController::class, 'cadastro'])->name('cadastro-planos-contas');
 
 //rotas para classificacao contabil
-Route::get('/classificacao-contabil', [ClassificacaoContabilController::class, 'index'])->name('classificacao-contabil');
-Route::get('/classificacao-contabil/{id}', [ClassificacaoContabilController::class, 'showPlanoContas'])->name('show-plano-contas');
-
+Route::middleware('autenticacaoMiddleware')->prefix('/classificacao-contabil')->group(function () {
+    Route::get('/', [ClassificacaoContabilController::class, 'index'])->name('classificacao-contabil');
+    Route::get('/{id}', [ClassificacaoContabilController::class, 'showPlanoContas'])->name('show-plano-contas');
+});
 // rotas Contas Bancárias
-Route::post('/store', [ContaBancariaController::class, 'storeWithJSON']);
-Route::get('/contas-bancarias', [ContaBancariaController::class, 'index'])->name('contas-bancarias');
-Route::get('/contas-bancarias/{id}/{tipo_despesa}', [ContaBancariaController::class, 'showByIdFornecedorEmpregado']);
-Route::get('/contas-bancarias/{id}', [ContaBancariaController::class, 'show'])->name('contas-bancarias-show');
-Route::post('/contas-bancarias', [ContaBancariaController::class, 'store']);
-Route::post('/contas-bancarias/editar/{id}', [ContaBancariaController::class, 'edit']);
-Route::post('/contas-bancarias/delete/{id}', [ContaBancariaController::class, 'destroy']);
-Route::get('/contas-bancarias/fornecedor/{id}', [ContaBancariaController::class, 'showByFornecedor']);
-
-
-Route::get('/pix/fornecedor/{id}', [PixController::class, 'showByFornecedor'])->name('pix');
-
-//rotas Instituições Bancárias
-Route::get('/instituicoes-financeira', [InstituicaoFinanceiraController::class, 'index'])->name('instituicoes-financeira');
-Route::get('/instituicoes-financeira/{id}', [InstituicaoFinanceiraController::class, 'show'])->name('instituicoes-financeira-show');
-Route::post('/instituicoes-financeira', [InstituicaoFinanceiraController::class, 'store']);
-Route::post('/instituicoes-financeira/editar/{id}', [InstituicaoFinanceiraController::class, 'edit']);
-Route::post('/instituicoes-financeira/delete/{id}', [InstituicaoFinanceiraController::class, 'destroy']);
-
-// rotas de Contas a pagar
-Route::get('/contas', [ContaPagarController::class, 'index'])->name('contas-pagar');
-
-Route::post('/enderecos', [EnderecoController::class, 'store']);
-Route::get('/enderecos', [EnderecoController::class, 'index']);
-Route::get('/enderecos/empresas', [EnderecoController::class, 'selectEmpresa']);
-Route::get('/enderecos/adicionar', [EnderecoController::class, 'formEndereco']);
-Route::get('/enderecos/{id}', [EnderecoController::class, 'show']);
-//Route::post('/enderecos/adicionar', [EnderecoController::class, 'store']);
-
-// rotas de pagamentos
-Route::get('/pagamentos', [PagamentoController::class, 'index'])->name('pagamentos');
-
-// rotas de extrato
-Route::get('/extrato',[ExtratoController::class, 'index'])->name('extrato');
-Route::get('/extrato/id',[ExtratoController::class, 'show'])->name('show-extrato');
-Route::get('/extrato/empresa',[ExtratoController::class, 'showCompany']);
-Route::get('/extrato/info/{id}',[ExtratoController::class, 'showInfo']);
-// Route::get('/extrato/filtro-periodo/{info-data}', [ExtratoController::class, 'showPeriodDate']);
-
-//rotas com autenticação
-Route::prefix('/painel')->group(function () {
-    //Route::middleware('autenticacaoMiddleware')->get('/home', [PainelController::class, 'index'])->name('painel');
-
-    Route::middleware('autenticacaoMiddleware')->get('/logout', [LoginController::class, 'logout'])->name('logout');
-    //Route::middleware('autenticacaoMiddleware')->get('/admin', [AdminController::class, 'index'])->name('admin');
-    Route::middleware('autenticacaoMiddleware')->get('/bi', [BIController::class, 'index'])->name('bi');
-    Route::middleware('autenticacaoMiddleware')->get('/compliance', [ComplianceController::class, 'index'])->name('compliance');
-    Route::middleware('autenticacaoMiddleware')->get('/compras', [ComprasController::class, 'index'])->name('compras');
-    Route::middleware('autenticacaoMiddleware')->get('/contabil', [ContabilController::class, 'index'])->name('contabil');
-    // Route::middleware('autenticacaoMiddleware')->get('/financeiro', [FinanceiroController::class, 'index'])->name('financeiro');
-    Route::middleware('autenticacaoMiddleware')->get('/gestao-de-pessoas', [GestaoPessoasController::class, 'index'])->name('rh');
-    Route::middleware('autenticacaoMiddleware')->get('/juridico', [JuridicoController::class, 'index'])->name('juridico');
-    Route::middleware('autenticacaoMiddleware')->get('/relatorio', [RelatorioController::class, 'index'])->name('relatorio');
-    Route::middleware('autenticacaoMiddleware')->get('/contratos', [GestaoDeContratosController::class, 'index'])->name('contratos');
+Route::middleware('autenticacaoMiddleware')->prefix('/contas-bancarias')->group(function () {
+    Route::post('/store', [ContaBancariaController::class, 'storeWithJSON']);
+    Route::get('/', [ContaBancariaController::class, 'index'])->name('contas-bancarias');
+    Route::get('/{id}/{tipo_despesa}', [ContaBancariaController::class, 'showByIdFornecedorEmpregado']);
+    Route::get('/{id}', [ContaBancariaController::class, 'show'])->name('contas-bancarias-show');
+    Route::post('/', [ContaBancariaController::class, 'store']);
+    Route::post('/editar/{id}', [ContaBancariaController::class, 'edit']);
+    Route::post('/delete/{id}', [ContaBancariaController::class, 'destroy']);
+    Route::get('/fornecedor/{id}', [ContaBancariaController::class, 'showByFornecedor']);
 });
 
 
-Route::post('/cep', [ApiViaCepController::class, 'buscaCep']);
-Route::get('/cep', [FornecedorController::class, 'testeCep']);
+
+Route::middleware('autenticacaoMiddleware')->get('/pix/fornecedor/{id}', [PixController::class, 'showByFornecedor'])->name('pix');
+
+//rotas Instituições Bancárias
+Route::middleware('autenticacaoMiddleware')->prefix('/instituicoes-financeira')->group(function () {
+    Route::get('/', [InstituicaoFinanceiraController::class, 'index'])->name('instituicoes-financeira');
+    Route::get('/{id}', [InstituicaoFinanceiraController::class, 'show'])->name('instituicoes-financeira-show');
+    Route::post('/', [InstituicaoFinanceiraController::class, 'store']);
+    Route::post('/editar/{id}', [InstituicaoFinanceiraController::class, 'edit']);
+    Route::post('/delete/{id}', [InstituicaoFinanceiraController::class, 'destroy']);
+});
+
+Route::middleware('autenticacaoMiddleware')->prefix('/enderecos')->group(function () {
+    Route::post('/', [EnderecoController::class, 'store']);
+    Route::get('/', [EnderecoController::class, 'index']);
+    Route::get('/empresas', [EnderecoController::class, 'selectEmpresa']);
+    Route::get('/adicionar', [EnderecoController::class, 'formEndereco']);
+    Route::get('/{id}', [EnderecoController::class, 'show']);
+    //Route::post('/adicionar', [EnderecoController::class, 'store']);
+});
+
+// rotas de pagamentos
+Route::middleware('autenticacaoMiddleware')->get('/pagamentos', [PagamentoController::class, 'index'])->name('pagamentos');
+
+Route::middleware('autenticacaoMiddleware')->prefix('/cep')->group(function () {
+    Route::post('/', [ApiViaCepController::class, 'buscaCep']);
+    Route::get('/', [FornecedorController::class, 'testeCep']);
+});

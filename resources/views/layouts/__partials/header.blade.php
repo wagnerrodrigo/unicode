@@ -9,43 +9,17 @@
             </a>
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item space-item-navbar" style="padding: 10px;">
-                    <a class="nav-link " href="{{route('admin')}}">Admin</a>
-                </li>
-                <li class="nav-item space-item-navbar" style="padding: 10px;">
-                    <a class="nav-link" href="{{route('bi')}}">BI</a>
-                </li>
-                <li class="nav-item space-item-navbar" style="padding: 10px;">
-                    <a class="nav-link" href="{{route('compras')}}">Compras</a>
-                </li>
-                <li class="nav-item space-item-navbar" style="padding: 10px;">
-                    <a class="nav-link" href="{{route('compliance')}}">Compliance</a>
-                </li>
-                <li class="nav-item space-item-navbar" style="padding: 10px;">
-                    <a class="nav-link" href="{{route('contabil')}}">Contábil</a>
-                </li>
                 <li class="nav-item dropdown space-item-navbar" style="padding: 10px;">
                     <a class="nav-link dropdown-toggle" href="/#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Financeiro
+                        FINANCEIRO
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="financeiro">
-                        <li><a class="dropdown-item" href="{{route('fornecedores')}}">Fornecedores</a></li>
-                        <li><a class="dropdown-item" href="{{route('produtos')}}">Produtos</a></li>
-                        <li><a class="dropdown-item" href="{{route('servicos')}}">Serviços</a></li>
-                        <li><a class="dropdown-item" href="{{route('despesas')}}">Despesas</a></li>
-                        <li><a class="dropdown-item" href="{{route('plano-contas')}}">Plano de contas</a></li>
+                        <li><a class="dropdown-item" href="{{route('despesas')}}">DESPESAS</a></li>
+                        <li><a class="dropdown-item" href="{{route('fornecedores')}}">FORNECEDORES</a></li>
+                        <li><a class="dropdown-item" href="{{route('lancamentos')}}">LANÇAMENTOS</a></li>
+                        <li><a class="dropdown-item" href="{{route('pagamentos')}}">PAGAMENTOS</a></li>
                     </ul>
                 </li>
-                <li class="nav-item space-item-navbar" style="padding: 10px;">
-                    <a class="nav-link" href="{{route('rh')}}">Gestão de Pessoas</a>
-                </li>
-                <li class="nav-item space-item-navbar" style="padding: 10px;">
-                    <a class="nav-link" href="{{route('juridico')}}">Jurídico</a>
-                </li>
-                <li class="nav-item space-item-navbar" style="padding: 10px;">
-                    <a class="nav-link" href="{{route('relatorio')}}">Relatório</a>
-                </li>
-
             </ul>
             <!-- Left links -->
         </div>
@@ -60,10 +34,9 @@
                     <span>{{@SESSION('name')}}</span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="{{route('logout')}}">Sair</a></li>
+                    <li><a class="dropdown-item" href="{{route('logout')}}">SAIR</a></li>
                 </ul>
             </li>
-            <a class="dropdown-item" href="{{route('logout')}}">Sair</a>
         </div>
         <!-- Right elements -->
     </div>

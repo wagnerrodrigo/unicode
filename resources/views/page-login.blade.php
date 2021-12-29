@@ -2,11 +2,11 @@
 @section('title', 'Unicode - Login')
 @section('content')
 
-<div id="auth" style="background-color: #ccc;">
+<div id="auth" style="background-color: #fff;">
     <div class="container">
         <div class="row">
             <div class="col-md-5 col-sm-12 mx-auto">
-                <div class="card pt-4" style="background-color: #BA55D3">
+                <div class="card pt-4" style="background-color: #000921">
                     <div class="card-body">
                         <div class="text-center mb-5">
                             <img src="{{asset('img/ACE-sem-fundo.png')}}" height="98" class='mb-4'>
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <div class="clearfix">
-                                <button class="btn btn-primary float-end">Entrar</button>
+                                <button class="btn btn-secondary float-end">Entrar</button>
                             </div>
                         </form>
                         <span class="error">{{isset($error) && $error != '' ? $error : ''}}</span>

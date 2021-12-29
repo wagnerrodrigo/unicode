@@ -33,7 +33,7 @@ $(function () {
     $('form[name="form_conta_bancaria"]').submit(function (e) {
         e.preventDefault();
         $.ajax({
-            url: "http://localhost:8000/store",
+            url: "http://localhost:8000/contas-bancarias/store",
             type: "POST",
             data: $(this).serialize(),
             dataType: "json",

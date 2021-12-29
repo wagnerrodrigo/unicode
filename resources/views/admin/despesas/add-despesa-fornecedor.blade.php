@@ -23,7 +23,7 @@
 
                             <div class="px-5 mb-3">
                                 <strong>EMPRESA</strong>
-                                <input type="text" id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-busca" />
+                                <input required type="text" id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-busca" />
                                 <div id="results_empresa" class="resultado-busca"></div>
                                 <!--serve somente para armazenar o id da empresa selecionada-->
                                 <input type="hidden" id="id_busca_empresa"></input>
@@ -34,7 +34,7 @@
                     <div class="d-flex mt-10" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>CENTRO DE CUSTO</strong>
-                            <select class="form-control input-busca" name="centro_custo_empresa" id="empresa" style="cursor: pointer;">
+                            <select required class="form-control input-busca" name="centro_custo_empresa" id="empresa" style="cursor: pointer;">
                                 <option selected value="" class="resultado-busca"></option>
                             </select>
                         </div>
@@ -61,14 +61,14 @@
                     <div class="d-flex mt-10" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>CPF/CNPJ</strong>
-                            <input type="text" placeholder="CPF/CNPJ" class="form-control input-add" name="cpf_cnpj" id="input_cpf_cnpj" readonly />
+                            <input required type="text" placeholder="CPF/CNPJ" class="form-control input-add" name="cpf_cnpj" id="input_cpf_cnpj" readonly />
                             <input type="hidden" name="fk_empregado_fornecedor" id="fk_empregado_fornecedor">
                         </div>
 
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3" id="campo_razao_social">
                                 <strong>NOME/RAZÃO SOCIAL</strong>
-                                <input type="text" placeholder="Razão Social" class="form-control input-add" name="razao_social" id="input_razao_social" readonly />
+                                <input required type="text" placeholder="Razão Social" class="form-control input-add" name="razao_social" id="input_razao_social" readonly />
                             </div>
                         </div>
                     </div>
@@ -76,13 +76,13 @@
                     <div class="d-flex mt-10" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>CLASSIFICAÇÃO</strong>
-                            <input class="form-control input-add" name="classificacao" id="classificacao_con" readonly style="cursor: pointer;"></input>
+                            <input required class="form-control input-add" name="classificacao" id="classificacao_con" readonly style="cursor: pointer;"></input>
                             <div id="itens_classificacao" class="input-style" style="cursor: pointer;"></div>
                         </div>
 
                         <div class="px-5 mb-3">
                             <strong>TIPO</strong>
-                            <select class="form-control input-add" name="tipo_classificacao" id="tipo_classificacao" style="cursor: pointer;">
+                            <select required class="form-control input-add" name="tipo_classificacao" id="tipo_classificacao" style="cursor: pointer;">
                             </select>
                         </div>
                     </div>
@@ -95,8 +95,8 @@
 
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
-                            <strong>DESCRIÇÃO</strong>
-                            <textarea cols="145" rows="2" class="form-control" name="descricao"></textarea>
+                            <strong>TITULO</strong>
+                            <input required name="titulo_despesa" maxlength="50" class="form-control input-busca"></input>
                         </div>
                     </div>
 
@@ -137,11 +137,11 @@
                                 <table class="table table-bordered mb-0">
                                     <thead>
                                         <tr>
-                                            <th>Classificação</th>
-                                            <th>Produto</th>
-                                            <th>Valor Unitario</th>
-                                            <th>Quantidade</th>
-                                            <th>Ação</th>
+                                            <th>CLASSIFICAÇÃO</th>
+                                            <th>PRODUTO</th>
+                                            <th>VALOR UNITÁRIO</th>
+                                            <th>QUANTIDADE</th>
+                                            <th>AÇÃO</th>
                                         </tr>
                                     </thead>
                                     <tbody id="Tb">
@@ -162,7 +162,7 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>VALOR</strong>
-                            <input type="text" placeholder="Informe o numero" onkeyup="formataValor(this)" id="valorTotal" class="form-control input-add" name="valor_total" />
+                            <input required type="text" placeholder="Informe o numero" onkeyup="formataValor(this)" id="valorTotal" class="form-control input-add" name="valor_total" />
                         </div>
 
                         <div class="px-5 mb-3">
@@ -218,12 +218,12 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>QUANTIDADE PARCELAS</strong>
-                            <input type="text" class="form-control input-add" name="parcelas" />
+                            <input required type="text" class="form-control input-add" name="parcelas" />
                         </div>
 
                         <div class="px-5 mb-3">
                             <strong>TIPO DE PAGAMENTO</strong>
-                            <input class="form-control input-add teste" name="tipo_pagamento" id="condicao_pagamento" readonly style="cursor: pointer;"></input>
+                            <input required class="form-control input-add teste" name="tipo_pagamento" id="condicao_pagamento" readonly style="cursor: pointer;"></input>
                             <div id="itens_tipo_pagamento" class="input-style" style="cursor: pointer;"></div>
                         </div>
                     </div>
@@ -254,7 +254,12 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>TIPO DE DOCUMENTO</strong>
-                            <input type="text" class="form-control input-add" name="tipo_documento" />
+                            <select class="form-control input-add" name="tipo_documento" id="tipo_documento">
+                                <option value="BOLETO">BOLETO</option>
+                                <option value="NFE">NF-E</option>
+                                <option value="CONTRATO">CONTRATO</option>
+                            </select>
+                            <!-- <input type="text" class="form-control input-add" name="tipo_documento" /> -->
                         </div>
                         <div class="px-5 mb-3">
                             <strong>DATA DE EMISSÃO</strong>
@@ -309,7 +314,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" id="btnCnpj_Cpf">
-                            Selecionar
+                            SELECIONAR
                         </button>
                     </div>
                 </div>
@@ -339,8 +344,8 @@
                             <div class="px-5 mb-3">
                                 <strong>TITULAR</strong>
                                 <input class="form-control input-busca" name="titular_conta" type="text" id="titular_conta" readonly style="width: 60rem" />
-                                <input name="id_titular_conta" type="hidden" id="id_titular_conta"/>
-                                <input name="tipo_da_despesa" type="hidden" id="tipo_da_despesa"/>
+                                <input name="id_titular_conta" type="hidden" id="id_titular_conta" />
+                                <input name="tipo_da_despesa" type="hidden" id="tipo_da_despesa" />
                             </div>
 
                             <div class="px-5 mb-3">
@@ -373,9 +378,11 @@
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-success me-1 mb-1">
-                                <i data-feather="check-circle"></i>Adicionar
+                                <i data-feather="check-circle"></i>ADICIONAR
                             </button>
-                            <a class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                            <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal" aria-label="Close">
+                                CANCELAR
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -395,10 +402,10 @@
                     <h4 class="modal-title" id="myModalLabel16">Novo Rateio</h4>
 
                     <div>
-                        <span>Valor Total: </span>
+                        <span>VALOR TOTAL: </span>
                         <input class="input-add" id="modal_valor_total" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple; margin-right:20px">
 
-                        <span>Valor Rateado: </span>
+                        <span>VALOR RATEADO: </span>
                         <input class="input-add" id="modal_valor_rateado" name="modal_valor_rateado" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple">
                     </div>
 
@@ -443,9 +450,11 @@
                 <div class="modal-footer">
                     <div class="col-sm-12 d-flex justify-content-end">
                         <button class="btn btn-success me-1 mb-1" type="button" id="seleciona_rateio">
-                            <i data-feather="check-circle"></i>Adicionar
+                            <i data-feather="check-circle"></i>ADICIONAR
                         </button>
-                        <a href="{{route('adicionar-despesa')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                        <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal" aria-label="Close">
+                            CANCELAR
+                        </button>
                     </div>
                 </div>
             </div>

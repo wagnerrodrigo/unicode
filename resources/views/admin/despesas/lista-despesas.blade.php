@@ -18,12 +18,12 @@
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>Numero</th>
-                            <th>Valor</th>
-                            <th>Parcelas</th>
-                            <th>Vencimento</th>
-                            <th>Status</th>
-                            <th>Ação</th>
+                            <th>NÚMERO</th>
+                            <th>VALOR</th>
+                            <th>PARCELAS</th>
+                            <th>VENCIMENTO</th>
+                            <th>STATUS</th>
+                            <th>AÇÃO</th>
                         </tr>
                     </thead>
                     <tbody>
