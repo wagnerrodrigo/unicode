@@ -168,9 +168,9 @@
                         <div class="px-5 mb-3">
                             <strong>MOEDA</strong>
                             <select class="form-control input-add" name="moeda" id="moeda">
-                                <option selected value="real">BRL</option>
-                                <option value="dolar">USD</option>
-                                <option value="euro">EUR</option>
+                                <option selected value="REAL">BRL</option>
+                                <option value="DOLAR">USD</option>
+                                <option value="EURO">EUR</option>
                             </select>
                         </div>
                     </div>

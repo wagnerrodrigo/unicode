@@ -21,17 +21,17 @@ k("input"),watchDataMask:!1,byPassKeys:[9,16,17,18,36,37,38,39,40,91],translatio
 function tipoMoeda(valor, tipoMoeda)
 {
     var novoValor;
-    if(tipoMoeda ==  'real'){
+    if(tipoMoeda ==  'REAL'){
        novoValor = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
         }).format(valor);
-    }else if(tipoMoeda == 'dolar'){
+    }else if(tipoMoeda == 'DOLAR'){
         novoValor = Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",
         }).format(valor);
-    }else if(tipoMoeda == 'euro'){
+    }else if(tipoMoeda == 'EURO'){
         novoValor = Intl.NumberFormat("de-DE", {
             style: "currency",
             currency: "EUR",

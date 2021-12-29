@@ -34,16 +34,6 @@ Route::middleware('autenticacaoMiddleware')->group(function () {
     Route::get('/home', [PainelController::class, 'index'])->name('painel');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('financeiro');
-    //Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-    //Route::get('/bi', [BIController::class, 'index'])->name('bi');
-    //Route::get('/compliance', [ComplianceController::class, 'index'])->name('compliance');
-    //Route::get('/compras', [ComprasController::class, 'index'])->name('compras');
-    //Route::get('/contabil', [ContabilController::class, 'index'])->name('contabil');
-    //Route::get('/gestao-de-pessoas', [GestaoPessoasController::class, 'index'])->name('rh');
-    //Route::get('/juridico', [JuridicoController::class, 'index'])->name('juridico');
-    //Route::get('/relatorio', [RelatorioController::class, 'index'])->name('relatorio');
-    //Route::get('/contratos', [GestaoDeContratosController::class, 'index'])->name('contratos');
-    //Route::get('/nota', [NotaFiscalController::class, 'index'])->name('nota');
 });
 
 //rotas extratos
@@ -73,6 +63,8 @@ Route::middleware('autenticacaoMiddleware')->prefix('/fornecedores')->group(func
 Route::middleware('autenticacaoMiddleware')->prefix('/empregados')->group(function () {
     Route::get('/cpf/{nu_cpf_cnpj}', [EmpregadoController::class, 'showCpf']);
 });
+
+Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('financeiro');
 
 //rotas Despesas
 Route::middleware('autenticacaoMiddleware')->prefix('/despesas')->group(function () {
@@ -126,13 +118,13 @@ Route::middleware('autenticacaoMiddleware')->prefix('/lancamentos')->group(funct
 
 
 //rotas Produto
-Route::middleware('autenticacaoMiddleware')->prefix('/produtos')->group(function () {
+Route::prefix('/produto')->group(function () {
     Route::get('/', [ProdutoController::class, 'index'])->name('produtos');
+    Route::get('show/classificacao', [ProdutoController::class, 'showClassificacaoProduto']);
     Route::get('/{id}', [ProdutoController::class, 'show'])->name('lista-produtos');
     Route::post('/', [ProdutoController::class, 'store']);
     Route::post('/editar/{id}', [ProdutoController::class, 'edit']);
     Route::post('/delete/{id}', [ProdutoController::class, 'destroy']);
-    Route::get('/classificacao', [ProdutoController::class, 'showClassificacaoProduto']);
     Route::get('/classificacao/{id}', [ProdutoController::class, 'showClassificacaoProdutoId']);
 });
 
@@ -165,8 +157,6 @@ Route::middleware('autenticacaoMiddleware')->prefix('/contas-bancarias')->group(
     Route::post('/delete/{id}', [ContaBancariaController::class, 'destroy']);
     Route::get('/fornecedor/{id}', [ContaBancariaController::class, 'showByFornecedor']);
 });
-
-
 
 Route::middleware('autenticacaoMiddleware')->get('/pix/fornecedor/{id}', [PixController::class, 'showByFornecedor'])->name('pix');
 

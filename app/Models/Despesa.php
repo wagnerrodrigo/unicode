@@ -63,8 +63,12 @@ class Despesa extends Model
         dt_vencimento,
         moeda,
         dt_provisionamento,
-        fk_condicao_pagamento_id)
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        fk_condicao_pagamento_id,
+        numero_processo,
+        fk_tab_pix,
+        fk_conta_bancaria,
+        tipo_documento)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         ", [
 
             $despesa->fk_centro_de_custo,
@@ -85,7 +89,12 @@ class Despesa extends Model
             $despesa->moeda,
             $despesa->dt_provisionamento,
             $despesa->fk_condicao_pagamento_id,
+            $despesa->numero_processo,
+            $despesa->fk_tab_pix,
+            $despesa->fk_conta_bancaria,
+            $despesa->tipo_documento,
         ]);
+        
         //values(cnpj,razao_social,inscricao_estadual,dt_inicio,dt_fim,nome_fantasia)
     }
 

@@ -63,14 +63,29 @@ var valorTotalDespesa = 0;
 //informa o valor e gera a porcentagem
 $("#valor_rateado").blur(function () {
     var valorTotalItens = $("#valorTotal").val();
-    ValorTotalDespesa = valorTotalItens
-        .replace(".", "")
-        .replace(",", ".")
-        .replace("R$", "");
+    ValorTotalDespesa = Number(
+        valorTotalItens
+            .replace(".", "")
+            .replace(".", "")
+            .replace(".", "")
+            .replace(",", ".")
+            .replace("R$", "")
+    );
 
     valorRateado = Number(
-        $("#valor_rateado").val().replace(",", ".").replace("R$", "")
+        $("#valor_rateado")
+            .val()
+            .replace(".", "")
+            .replace(".", "")
+            .replace(".", "")
+            .replace(",", ".")
+            .replace("R$", "")
     );
+
+    console.log({
+        valor_despesa: ValorTotalDespesa,
+        valor_formatado: valorRateado,
+    });
 
     if (valorTotalItens == "") {
         alert("Adicione os itens ou o valor total da despesa");
@@ -147,7 +162,12 @@ $("#seleciona_rateio").click(function () {
             $("#hidden_inputs").append(
                 `<div id="input-generated${id_button_rateio}"><input type="hidden" name="empresa_rateio[]" value="${rateio_empresa}"/>` +
                     `<input type="hidden" name="custo_rateio[]" value="${custo_rateio}"/>` +
-                    `<input type="hidden" name="valor_rateio[]" value="${valor_rateado}"/>` +
+                    `<input type="hidden" name="valor_rateio[]" value="${valor_rateado
+                        .replace(".", "")
+                        .replace(".", "")
+                        .replace(".", "")
+                        .replace(",", ".")
+                        .replace("R$", "")}"/>` +
                     `<input type="hidden" name="porcentagem_rateio[]" value="${porcentagem_valor}"/></div>`
             );
 

@@ -66,7 +66,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "GET",
-        url: `http://localhost:8000/produto/classificacao`,
+        url: `http://localhost:8000/produto/show/classificacao`,
         dataType: "json",
     })
         .done(function (response) {
@@ -110,55 +110,6 @@ $(document).ready(function () {
         });
 
     // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO PRODUTO E O PRODUTO
-
-    // INICIO FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO SERVICO E O SERVICO
-
-    $.ajax({
-        type: "GET",
-        url: `http://localhost:8000/servico/classificacao`,
-        dataType: "json",
-    })
-        .done(function (response) {
-            //traz os resultados do banco para uma div hidden
-            $.each(response, function (key, val) {
-                $("#classificacao_tipo_servico")
-                    .append(
-                        `<div class="classificacao" value="${val.id_tipo_servico}">${val.de_tipo_servico}</div>`
-                    )
-                    .hide();
-            });
-            //ao clicar aparece os campos com resultados do banco
-            $("#classificacao_serv").click(function () {
-                $("#classificacao_tipo_servico").show();
-            });
-            //ao clicar em um item da lista, o campo recebe o valor do item
-            $(".classificacao").click(function () {
-                $("#classificacao_serv").val($(this).text());
-                $("#classificacao_tipo_servico").hide();
-
-                var id_classificacao = $(this).attr("value");
-                //a cada nova requisição, limpa o option do select
-                $("#servico").html("");
-                //faz a requisição ajax para buscar tipo de classificação
-                $.ajax({
-                    type: "GET",
-                    url: `http://localhost:8000/servico/classificacao/${id_classificacao}`,
-                    dataType: "json",
-                }).done(function (response) {
-                    //mostra os resultados da busca em uma div
-                    $.each(response, function (key, val) {
-                        $("#servico").append(
-                            `<option value="${val.id_servico}">${val.de_servico}</option>`
-                        );
-                    });
-                });
-            });
-        })
-        .fail(function () {
-            console.log("erro na requisição Ajax");
-        });
-
-    // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO SERVICO E O SERVICO
 });
 
 //função para buscar empresa
@@ -405,6 +356,8 @@ var totalItens = 0;
 var valorTotal = 0;
 var valorRemovido = 0;
 
+var moeda = $("#moeda").val();
+
 $("#Prod").click(function () {
     //  pega os valores dos campos preenchidos pelo usuario
     var class_prod = $("#classificacao_prod").val();
@@ -454,16 +407,20 @@ $("#Prod").click(function () {
         Number(quanti);
 
         valorTotal = valorTotal + valorFormatado * quanti;
+        console.log({ valotTotalItens: valorTotal });
         $("#valorTotal").attr("readonly", true);
 
-        $("#valorTotal").val(tipoMoeda(valorTotal, moeda));
-    }
-});
+        //verificar campo vazio!
 
-var moeda = $("#moeda").val();
-$("#moeda").click(function () {
-    moeda = $(this).val();
-    $("#valorTotal").val(tipoMoeda(valorTotal, moeda));
+        console.log({moeda: moeda});
+        if(moeda == 'real'){
+            $("#valorTotal").val(tipoMoeda(valorTotal, 'REAL'));
+        }if(moeda == 'dolar'){
+            $("#valorTotal").val(tipoMoeda(valorTotal, 'DOLAR'));
+        }if(moeda == 'euro'){
+            $("#valorTotal").val(tipoMoeda(valorTotal, 'EURO'));
+        }
+    }
 });
 
 //remove o rateio da tabela e do form e subtrai valor do total
@@ -606,9 +563,8 @@ function limpaCamposContaBancariaPix() {
 
 function limpaCamposDespesaJuridica() {
     $(".remove_processo").remove();
-    $("input[name=numero_processo]").attr("value", '');
+    $("input[name=numero_processo]").attr("value", "");
 }
-
 
 //adiciona delay nos campos de pesquisa
 function delay(callback, ms) {
@@ -631,7 +587,6 @@ function getContaBancaria(object) {
     $("input[name=numero_conta_bancaria]").attr("value", object.value);
 }
 
-function getProcesso(object){
+function getProcesso(object) {
     $("input[name=numero_processo]").attr("value", object.value);
-
 }
