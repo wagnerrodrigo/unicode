@@ -54,6 +54,17 @@ class LancamentoController extends Controller
     public function store(Request $request)
     {
         //
+      
+        $lancamento = new Lancamento();
+
+        $lancamento->valor_rateio_pagamento = $request->valor_rateio_pagamento;
+        $lancamento->fk_tab_conta_bancaria = $request->fk_tab_conta_bancaria;
+        $lancamento->dt_inicio = $request->dt_inicio;
+
+        Lancamento::create($lancamento);
+    
+        
+
     }
 
     /**
@@ -70,6 +81,7 @@ class LancamentoController extends Controller
 
     public function provisionamento($id){
         $lancamento = Lancamento::findOne($id);
+        $lancamento->valor_total_despesa= Mascaras::maskMoeda($lancamento->valor_total_despesa);
         return view('admin.lancamentos.add-lancamento',compact('lancamento'));
     }
 
