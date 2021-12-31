@@ -287,11 +287,11 @@ document.getElementById("btnDespesa").onclick = function () {
                                     //mostra os resultados da busca em uma div
                                     $.each(response, function (key, val) {
                                         $("#ResultadoCnpjCpf").append(
-                                            `<div class="item" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.nome_empregado} </div>`
+                                            `<div class="item-fornecedor-empregado" value="${val.nu_cpf_cnpj}">${val.nu_cpf_cnpj} --- ${val.nome_empregado} </div>`
                                         );
                                     });
                                     //seleciona o cnpj ou cpf desejada
-                                    $(".item").click(function () {
+                                    $(".item-fornecedor-empregado").click(function () {
                                         $("#Cnpj_Cpf").val($(this).text());
                                         var cpfEmpregado =
                                             $(this).attr("value");
@@ -413,11 +413,11 @@ $("#Prod").click(function () {
         //verificar campo vazio!
 
         console.log({moeda: moeda});
-        if(moeda == 'real'){
+        if(moeda == 'REAL'){
             $("#valorTotal").val(tipoMoeda(valorTotal, 'REAL'));
-        }if(moeda == 'dolar'){
+        }if(moeda == 'DOLAR'){
             $("#valorTotal").val(tipoMoeda(valorTotal, 'DOLAR'));
-        }if(moeda == 'euro'){
+        }if(moeda == 'EURO'){
             $("#valorTotal").val(tipoMoeda(valorTotal, 'EURO'));
         }
     }

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CondicaoPagamento;
 use Carbon\Carbon;
 use App\Models\Despesa;
 use App\Models\ItemDespesa;
 use App\Models\Rateio;
 use Illuminate\Http\Request;
+use App\Utils\CondicaoPagamentoId;
+
 
 class DespesaController extends Controller
 {
@@ -52,7 +55,15 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
-        
+
+         //formata valor total da despesa para o banco
+        $request->valor_total = str_replace("R$","", $request->valor_total);
+        $request->valor_total = str_replace(".", "", $request->valor_total);
+        $request->valor_total = str_replace(",", ".", $request->valor_total);
+
+        dd($request->all());
+        $condicaoPagamentoId = new CondicaoPagamentoId();
+
         //caso haja rateio na despesa executa
         if ($request->empresa_rateio) {
             $rateios = [];
@@ -91,29 +102,25 @@ class DespesaController extends Controller
             $despesa->fk_tab_empregado_id = null;
         }
 
-        //formata valor total da despesa para o banco
-        $request->valor_total = str_replace(".", "", $request->valor_total);
-        $request->valor_total = str_replace(",", ".", $request->valor_total);
-
         $despesa->fk_plano_contas = $request->tipo_classificacao;
         $despesa->numero_documento_despesa = $request->numero_nota_documento;
         $despesa->qt_parcelas_despesa = $request->parcelas;
         $despesa->serie_despesa = $request->serie_documento;
         $despesa->dt_emissao = $request->data_emissao;
         $despesa->valor_total_despesa = $request->valor_total;
-        $despesa->fk_status_despesa_id = 1;
+        $despesa->fk_status_despesa_id = config('constants.A_PAGAR');
         $despesa->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
         $despesa->de_despesa = strtoupper($request->titulo_despesa);
         $despesa->dt_vencimento = $request->data_vencimento;
         $despesa->moeda = $request->moeda;
         $despesa->dt_provisionamento = $request->data_provisionamento;
-        $despesa->fk_condicao_pagamento_id = $request->condicao_pagamento;
+        $despesa->fk_condicao_pagamento_id = $condicaoPagamentoId->getId($request->tipo_pagamento);
         $despesa->tipo_documento = $request->tipo_documento;
         $despesa->fk_conta_bancaria = $request->numero_conta_bancaria;
         $despesa->fk_tab_pix = $request->numero_pix;
         $despesa->numero_processo = $request->numero_processo;
         $despesa->dt_fim = null;
-       
+
         Despesa::create($despesa);
 
         //armazena timeStamp da data de criação da despesa

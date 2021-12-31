@@ -63,7 +63,7 @@ var valorTotalDespesa = 0;
 //informa o valor e gera a porcentagem
 $("#valor_rateado").blur(function () {
     var valorTotalItens = $("#valorTotal").val();
-    ValorTotalDespesa = Number(
+    valorTotalDespesa = Number(
         valorTotalItens
             .replace(".", "")
             .replace(".", "")
@@ -72,20 +72,15 @@ $("#valor_rateado").blur(function () {
             .replace("R$", "")
     );
 
-    valorRateado = Number(
-        $("#valor_rateado")
-            .val()
-            .replace(".", "")
-            .replace(".", "")
-            .replace(".", "")
-            .replace(",", ".")
-            .replace("R$", "")
-    );
+    valorRateado = $("#valor_rateado")
+        .val()
+        .replace(".", "")
+        .replace(".", "")
+        .replace(".", "")
+        .replace(",", ".")
+        .replace("R$", "");
 
-    console.log({
-        valor_despesa: ValorTotalDespesa,
-        valor_formatado: valorRateado,
-    });
+    valorRateado = Number(valorRateado);
 
     if (valorTotalItens == "") {
         alert("Adicione os itens ou o valor total da despesa");
@@ -93,7 +88,7 @@ $("#valor_rateado").blur(function () {
     }
 
     var valorRateio = valorRateado * 100;
-    var porcentagem = valorRateio / ValorTotalDespesa;
+    var porcentagem = valorRateio / valorTotalDespesa;
 
     $("#porcentagem_rateado").val(porcentagem.toFixed(2));
 });
@@ -103,6 +98,8 @@ $("#porcentagem_rateado").blur(function () {
     var valorTotalItens = $("#valorTotal").val();
     valorTotalDespesa = valorTotalItens
         .replace(".", "")
+        .replace(".", "")
+        .replace(".", "")
         .replace(",", ".")
         .replace("R$", "");
 
@@ -110,7 +107,18 @@ $("#porcentagem_rateado").blur(function () {
 
     var porcentagem = valorTotalDespesa / 100;
     valorRateado = valorPorcentagem * porcentagem;
-    $("#valor_rateado").val(tipoMoeda(valorRateado, "real"));
+
+    console.log({ porcentagem: porcentagem, valorRateado: valorRateado });
+
+    $("#valor_rateado").val(
+        Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        })
+            .format(valorRateado)
+            .toString()
+            .replace("R$", "")
+    );
 });
 
 //id utilizado para autoincrementar os ids dos inputs e tabelas ao adicionar um rateio
@@ -154,7 +162,15 @@ $("#seleciona_rateio").click(function () {
                     `<td>${custo_rateio}</td>` +
                     `<td>${valor_rateado}</td>` +
                     `<td>${porcentagem_valor}</td>` +
-                    `<td><button onclick="removeRateio(${id_button_rateio}, ${valor_rateado})" class="btn btn-danger btn-sm btn-delete-rateio">Excluir</button></td>` +
+                    `<td><button onclick="removeRateio(${id_button_rateio}, ${valor_rateado
+                        .replace(".", "")
+                        .replace(".", "")
+                        .replace(".", "")
+                        .replace(",", ".")
+                        .replace(
+                            "R$",
+                            ""
+                        )})" class="btn btn-danger btn-sm btn-delete-rateio">Excluir</button></td>` +
                     "</tr>"
             );
 
