@@ -68,7 +68,7 @@
 
                 <div class="card-body">
 
-                    <form action="/lancamentos/provisionamento" method="post">
+                    <form action="/lancamentos/adicionar" method="post">
                         @csrf
                         <input type="hidden" id="hidden_inputs_itens">
 
@@ -79,6 +79,7 @@
                                     <table class="table table-bordered mb-0">
                                         <thead>
                                             <tr>
+                                                <th>EMPRESA</th>
                                                 <th>CONTA BANCÁRIA</th>
                                                 <th>RATEIO</th>
                                                 <th>DATA DO EFETIVO PAGAMENTO</th>
@@ -121,12 +122,12 @@
                                     style="width: 120px; border-radius: 3px; border: 1px solid purple; margin-right:20px" />
 
 
-                                <span>Valor Rateado: </span>
+                                <span>Valor Rateado:  </span>
                                 <input class="input-add" id="modal_valor_rateado" name="modal_valor_rateado" readonly
                                     style="width: 120px; border-radius: 3px; border: 1px solid purple"/>
                             </div>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <i class="bi bi-x" data-feather="x"></i>
+                                <i class="bi bi-x" onclick="limpaCamposRateio()" data-feather="x"></i>
                             </button>
                         </div>
                         <div class="modal-body">
@@ -157,17 +158,20 @@
                                 <div class="px-5 mb-3">
                                     <strong>VALOR RATEADO</strong>
                                     <input class="form-control mt-1" id="valor_rateado" type="text"
-                                        onkeypress="return onlynumber();" placeholder="Valor do item"
+                                        onkeypress="return onlynumber();"  onkeyup="formataValor(this)" placeholder="Valor do item"
                                         style="width: 358px" />
+                                        <input type="hidden" id="id_valor_rateado"></input>
                                 </div>
                                 <div class="d-flex flex-row" style="width: 100%; align-items:center">
                                     <div>
                                         <input class="form-control mt-1" id="porcentagem_rateado" type="text" min="0"
                                             max="3" onkeyup="return validateValue(this);" onkeypress="return onlynumber();"
                                             maxlength="3" style="width: 58px" />
+                                            <input type="hidden" id="porcentagem_rateado"></input>
                                     </div>
                                     <div>
                                         <strong>%</strong>
+                                                                      
                                     </div>
 
                                     <div class="px-5 mb-3">
@@ -184,9 +188,7 @@
                                 <button class="btn btn-success me-1 mb-1" type="button" id="addContas">
                                     <i data-feather="check-circle"></i>Adicionar
                                 </button>
-                                {{-- <a href="/lancamentos/provisionamento/{{ $lancamento->id_despesa }}"
-                                    class="btn btn-secondary me-1 mb-1">Cancelar</a> --}}
-                                <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal"
+                                <button type="button" class="close btn btn-secondary me-1 mb-1" onclick="limpaCamposRateio()" data-bs-dismiss="modal"
                                     aria-label="Close">Cancelar</button>
                             </div>
                         </div>
