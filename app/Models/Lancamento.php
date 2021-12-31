@@ -72,7 +72,8 @@ class Lancamento extends Model
 
     static function showInfoAgency($id)
     {
-        $query = DB::select("SELECT conta_banco.fk_tab_inst_banco_id,
+        $query = DB::select("SELECT conta_banco.id_conta_bancaria, 
+                   conta_banco.fk_tab_inst_banco_id,
                    conta_banco.nu_agencia
                    fROM intranet.tab_conta_bancaria AS conta_banco
                    JOIN intranet.tab_inst_banco AS ins_bank ON(ins_bank.id = conta_banco.fk_tab_inst_banco_id)
@@ -156,5 +157,24 @@ class Lancamento extends Model
 
         return $query;
     }
+
+
+    static function create($lancamento){
+        DB::insert("INSERT INTO intranet.tab_rateio_pagamento
+        (
+            valor_rateio_pagamento,
+            fk_tab_conta_bancaria,
+            dt_inicio
+        )
+        VALUES(?, ?, ?)",[
+            $lancamento->valor_rateio_pagamento,
+            $lancamento->fk_tab_conta_bancaria,
+            $lancamento->dt_inicio
+        ]);
+
+    }
+
+   
+
 
 }
