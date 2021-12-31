@@ -103,7 +103,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/lancamentos')->group(funct
     Route::get('/paginate', [LancamentoController::class, 'paginate']);
     Route::get('/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
     Route::get('/provisionamento/{id}', [LancamentoController::class, 'provisionamento'])->name('lancamento-provisionamento');
-    Route::post('/provisionamento', [LancamentoController::class, 'store']);
+    Route::post('/adicionar', [LancamentoController::class, 'store']);
 
     Route::get('/info-conta/{info}', [LancamentoController::class, 'showDataInsBanc']);
     Route::get('/info-agencia/{id_conta}', [LancamentoController::class, 'showDataAgency']);
