@@ -238,6 +238,17 @@
                         </div>
                     </div>
 
+                    <div class="d-flex" style="width: 100%;">
+                        <div class="px-5 mb-3">
+                            <strong>DATA DE VENCIMENTO</strong>
+                            <input type="date" class="form-control input-add" name="data_vencimento" />
+                        </div>
+                        <div class="px-5 mb-3">
+                            <strong>DATA DE PROVISIONAMENTO</strong>
+                            <input type="date" class="form-control input-add" name="data_provisionamento" />
+                        </div>
+                    </div>
+
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <h3>INFORMAÇÕES DA NOTA</h3>
@@ -264,17 +275,6 @@
                         <div class="px-5 mb-3">
                             <strong>DATA DE EMISSÃO</strong>
                             <input type="date" class="form-control input-add" name="data_emissao" />
-                        </div>
-                    </div>
-
-                    <div class="d-flex" style="width: 100%;">
-                        <div class="px-5 mb-3">
-                            <strong>DATA DE VENCIMENTO</strong>
-                            <input type="date" class="form-control input-add" name="data_vencimento" />
-                        </div>
-                        <div class="px-5 mb-3">
-                            <strong>DATA DE PROVISIONAMENTO</strong>
-                            <input type="date" class="form-control input-add" name="data_provisionamento" />
                         </div>
                     </div>
 

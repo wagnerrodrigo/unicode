@@ -61,7 +61,6 @@ class DespesaController extends Controller
         $request->valor_total = str_replace(".", "", $request->valor_total);
         $request->valor_total = str_replace(",", ".", $request->valor_total);
 
-        dd($request->all());
         $condicaoPagamentoId = new CondicaoPagamentoId();
 
         //caso haja rateio na despesa executa

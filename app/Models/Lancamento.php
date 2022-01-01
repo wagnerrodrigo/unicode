@@ -10,7 +10,7 @@ class Lancamento extends Model
 {
     use HasFactory;
 
-    static function selectAll()
+    static function selectAll($dt_inicio = null, $dt_fim = null, $status_despesa_id = null)
     {
         $query = "SELECT lancamento.id_tab_lancamento,
         lancamento.fk_condicao_pagamento_id,
@@ -28,15 +28,24 @@ class Lancamento extends Model
         FROM intranet.tab_lancamento AS lancamento
         RIGHT JOIN intranet.tab_despesa as despesa on (lancamento.fk_tab_despesa_id = despesa.id_despesa)
         LEFT JOIN intranet.tab_pagamento as pagamento on (despesa.id_despesa = pagamento.fk_tab_lancamento_id)
-        inner join intranet.status_despesa as status_dep on (despesa.fk_status_despesa_id = status_dep.id_status_despesa)
-        LIMIT 10";
+        inner join intranet.status_despesa as status_dep on (despesa.fk_status_despesa_id = status_dep.id_status_despesa)";
 
+        if ($dt_inicio && $dt_fim && $status_despesa_id) {
+            $query .= " WHERE despesa.dt_vencimento BETWEEN '$dt_inicio' AND '$dt_fim'";
+            $query .= " AND despesa.fk_status_despesa_id = '$status_despesa_id'";
+        }
+        if ($dt_inicio && $dt_fim && !$status_despesa_id) {
+            $query .= " WHERE despesa.dt_vencimento BETWEEN '$dt_inicio' AND '$dt_fim'";
+        } else if ($status_despesa_id && !$dt_inicio && !$dt_fim) {
+            $query .= " WHERE despesa.fk_status_despesa_id = $status_despesa_id";
+        }
         $lancamentos = DB::select($query);
 
         return $lancamentos;
     }
 
-    static function findOne($id){
+    static function findOne($id)
+    {
         $data = DB::select("SELECT lancamento.id_tab_lancamento,
         lancamento.fk_condicao_pagamento_id,
         lancamento.dt_vencimento,
@@ -51,20 +60,20 @@ class Lancamento extends Model
         FROM intranet.tab_lancamento AS lancamento
         RIGHT JOIN intranet.tab_despesa AS despesa ON (lancamento.fk_tab_despesa_id = despesa.id_despesa)
         LEFT JOIN intranet.tab_pagamento AS pagamento ON (despesa.id_despesa = pagamento.fk_tab_lancamento_id)
-        WHERE despesa.id_despesa = ?;",[$id]);
+        WHERE despesa.id_despesa = ?;", [$id]);
 
         $lancamento = $data[0];
 
         return $lancamento;
-
     }
 
 
-    static function showInfoAccount($info){
+    static function showInfoAccount($info)
+    {
         $query =  DB::select("SELECT
                  id, co_banco, de_banco
                  FROM intranet.intranet.tab_inst_banco
-                 WHERE id = ?;",[$info]);
+                 WHERE id = ?;", [$info]);
 
         return $query;
     }
@@ -72,7 +81,7 @@ class Lancamento extends Model
 
     static function showInfoAgency($id)
     {
-        $query = DB::select("SELECT conta_banco.id_conta_bancaria, 
+        $query = DB::select("SELECT conta_banco.id_conta_bancaria,
                    conta_banco.fk_tab_inst_banco_id,
                    conta_banco.nu_agencia
                    fROM intranet.tab_conta_bancaria AS conta_banco
@@ -109,12 +118,13 @@ class Lancamento extends Model
                 intranet.intranet.tab_inst_banco b ON (a.fk_tab_inst_banco_id = b.id)
                 INNER JOIN
                 intranet.intranet.tab_despesa c ON (a.fk_tab_empregado_id = c.fk_tab_empregado_id)
-                WHERE c.id_despesa = ?;",[$id]);
+                WHERE c.id_despesa = ?;", [$id]);
 
         return $query;
     }
 
-    static function findByInitialPeriod($id_incio, $id_fim){
+    static function findByInitialPeriod($id_incio, $id_fim)
+    {
         $query = DB::select("SELECT *
                 FROM intranet.tab_despesa AS despesas
                 WHERE date_trunc('day',despesas.dt_inicio) >=('$id_incio')
@@ -136,7 +146,7 @@ class Lancamento extends Model
         banco.de_banco
         FROM intranet.tab_conta_bancaria as conta_bancaria
         inner join intranet.tab_inst_banco as banco on (banco.id = conta_bancaria.fk_tab_inst_banco_id)
-        where conta_bancaria.fk_tab_empresa_id = ?",[$id]);
+        where conta_bancaria.fk_tab_empresa_id = ?", [$id]);
 
         return $query;
     }
@@ -153,28 +163,24 @@ class Lancamento extends Model
         FROM intranet.status_despesa AS status_desp
         INNER JOIN intranet.tab_despesa AS despesa
         ON (status_desp.id_status_despesa = despesa.fk_status_despesa_id)
-        WHERE status_desp.id_status_despesa = ?",[$id_status]);
+        WHERE status_desp.id_status_despesa = ?", [$id_status]);
 
         return $query;
     }
 
 
-    static function create($lancamento){
+    static function create($lancamento)
+    {
         DB::insert("INSERT INTO intranet.tab_rateio_pagamento
         (
             valor_rateio_pagamento,
             fk_tab_conta_bancaria,
             dt_inicio
         )
-        VALUES(?, ?, ?)",[
+        VALUES(?, ?, ?)", [
             $lancamento->valor_rateio_pagamento,
             $lancamento->fk_tab_conta_bancaria,
             $lancamento->dt_inicio
         ]);
-
     }
-
-   
-
-
 }

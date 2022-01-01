@@ -27,12 +27,12 @@
                             <div class="form-group position-relative has-icon-left">
                                 <div class="clearfix">
                                     <label for="password" style="color:white">Senha</label>
-                                    <a href="{{route('forgot')}}" class='float-end'>
-                                        <small style="color:white">Esqueceu a senha?</small>
-                                    </a>
                                 </div>
                                 <div class="position-relative">
                                     <input type="password" class="form-control" id="password" name="password">
+                                    <a href="{{route('forgot')}}" class='float-end'>
+                                        <small style="color:white">Esqueceu a senha?</small>
+                                    </a>
                                     <div class="form-control-icon">
                                         <i data-feather="lock"></i>
                                     </div>

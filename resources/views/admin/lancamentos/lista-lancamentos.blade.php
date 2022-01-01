@@ -15,13 +15,13 @@
                         <div class="col-md-3">
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
-                                <input class="form-control" type="date" max="" name="dataInicio" id="inputDataInicio">
+                                <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputDataFim">DATA FIM</label>
-                                <input class="form-control" type="date" min="" name="dataFim" id="inputDataFim">
+                                <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
                             </div>
                         </div>
 
@@ -46,8 +46,8 @@
                             </button>
                         </div>
 
-                     
-                    
+
+
                     </div>
                 </form>
 
@@ -111,7 +111,7 @@
 
 
 <script>
-   
+
 </script>
 
 

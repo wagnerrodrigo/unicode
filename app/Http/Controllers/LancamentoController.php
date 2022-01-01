@@ -18,10 +18,15 @@ class LancamentoController extends Controller
      */
     public function index(Request $request)
     {
-        $lancamentos = Lancamento::selectAll();
+        if($request->has('dt_inicio') && $request->has('dt_fim') || $request->has('status')) {
+            $dt_inicio_periodo = $request->input('dt_inicio');
+            $dt_fim_periodo = $request->input('dt_fim');
+            $status_despesa_id = $request->input('status');
 
-        // dd($request->filtro);
-        // $request->has('');
+            $lancamentos = Lancamento::selectAll($dt_inicio_periodo, $dt_fim_periodo, $status_despesa_id);
+        }else{
+            $lancamentos = Lancamento::selectAll();
+        }
 
         $lancamentosAtivos = [];
         $lancamentosInativos = [];
@@ -34,7 +39,7 @@ class LancamentoController extends Controller
                 $lancamentosInativos[$i]->valor_total_despesa = Mascaras::maskMoeda($lancamentosInativos[$i]->valor_total_despesa);
             };
         }
-
+        dd($lancamentosAtivos);
 
         return view('admin.lancamentos.lista-lancamentos', compact('lancamentosAtivos'));
     }
@@ -54,7 +59,7 @@ class LancamentoController extends Controller
     public function store(Request $request)
     {
         //
-      
+
         $lancamento = new Lancamento();
 
         $lancamento->valor_rateio_pagamento = $request->valor_rateio_pagamento;
@@ -62,8 +67,8 @@ class LancamentoController extends Controller
         $lancamento->dt_inicio = $request->dt_inicio;
 
         Lancamento::create($lancamento);
-    
-        
+
+
 
     }
 
