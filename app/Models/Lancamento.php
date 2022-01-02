@@ -12,35 +12,27 @@ class Lancamento extends Model
 
     static function selectAll($dt_inicio = null, $dt_fim = null, $status_despesa_id = null)
     {
-        $query = "SELECT lancamento.id_tab_lancamento,
-        lancamento.fk_condicao_pagamento_id,
-        lancamento.dt_vencimento,
-        lancamento.dt_fim,
-        despesa.id_despesa,
-        despesa.fk_status_despesa_id,
-	    status_dep.de_status_despesa,
-	    despesa.de_despesa,
-        despesa.valor_total_despesa,
-        despesa.dt_vencimento,
-        despesa.dt_provisionamento,
-        pagamento.fk_tab_lancamento_id,
-        pagamento.de_pagamento
-        FROM intranet.tab_lancamento AS lancamento
-        RIGHT JOIN intranet.tab_despesa as despesa on (lancamento.fk_tab_despesa_id = despesa.id_despesa)
-        LEFT JOIN intranet.tab_pagamento as pagamento on (despesa.id_despesa = pagamento.fk_tab_lancamento_id)
-        inner join intranet.status_despesa as status_dep on (despesa.fk_status_despesa_id = status_dep.id_status_despesa)";
-
         if ($dt_inicio && $dt_fim && $status_despesa_id) {
-            $query .= " WHERE despesa.dt_vencimento BETWEEN '$dt_inicio' AND '$dt_fim'";
-            $query .= " AND despesa.fk_status_despesa_id = '$status_despesa_id'";
-        }
-        if ($dt_inicio && $dt_fim && !$status_despesa_id) {
-            $query .= " WHERE despesa.dt_vencimento BETWEEN '$dt_inicio' AND '$dt_fim'";
+            $lancamentos = DB::table('intranet.tab_despesa')
+                ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
+                ->whereBetween('intranet.tab_despesa.dt_vencimento', [$dt_inicio, $dt_fim])
+                ->where('intranet.tab_despesa.fk_status_despesa_id', '=', $status_despesa_id)
+                ->paginate(10);
+        } else if ($dt_inicio && $dt_fim && !$status_despesa_id) {
+            $lancamentos = DB::table('intranet.tab_despesa')
+                ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
+                ->whereBetween('intranet.tab_despesa.dt_vencimento', [$dt_inicio, $dt_fim])
+                ->paginate(10);
         } else if ($status_despesa_id && !$dt_inicio && !$dt_fim) {
-            $query .= " WHERE despesa.fk_status_despesa_id = $status_despesa_id";
+            $lancamentos = DB::table('intranet.tab_despesa')
+                ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
+                ->where('intranet.tab_despesa.fk_status_despesa_id', '=', $status_despesa_id)
+                ->paginate(10);
+        } else {
+            $lancamentos = DB::table('intranet.tab_despesa')
+                ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
+                ->paginate(10);
         }
-        $lancamentos = DB::select($query);
-
         return $lancamentos;
     }
 

@@ -27,15 +27,15 @@
 
                         <div class="col-md-3">
                             <div class="input-group mb-3" style="width: 250px">
-                                <label class="input-group-text" for="inputStatus"  >STATUS</label>
+                                <label class="input-group-text" for="inputStatus">STATUS</label>
                                 <select class="form-select" id="inputStatus" name="status">
-                                    <option value="" class=""></option>
-                                    <option  name="PROVISIONADO" value="1" selected class="PROVISIONADO">PROVISIONADO</option>
-                                    <option  name="PAGO"         value="2" class="PAGO">PAGO</option>
-                                    <option  name="CANCELADO"    value="3" class="CANCELADO">CANCELADO</option>
-                                    <option  name="EM ATRASO"    value="4" class="EM ATRASO">EM ATRASO</option>
-                                    <option  name="MIGRAÇÃO"     value="5" class="MIGRAÇÃO">MIGRAÇÃO</option>
-                                    <option  name="A PAGAR"      value="6" class="A PAGAR">A PAGAR</option>
+                                    <option value="" selected></option>
+                                    <option value="1">PROVISIONADO</option>
+                                    <option value="2">PAGO</option>
+                                    <option value="3">CANCELADO</option>
+                                    <option value="4">EM ATRASO</option>
+                                    <option value="5">MIGRAÇÃO</option>
+                                    <option value="6">A PAGAR</option>
                                 </select>
                             </div>
                         </div>
@@ -44,44 +44,41 @@
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
-
-
-
                     </div>
                 </form>
 
 
                 <table class='table table-striped' id="table1">
                     <thead>
-                        @if( $lancamentosAtivos == null || empty($lancamentosAtivos))
-                        <tbody>
-                            <tr>
-                                <td>Nenhum Lancamento Cadastrado</td>
-                            </tr>
-                        </tbody>
-                        @else
+                        @if( $lancamentos == null || empty($lancamentos))
+                    <tbody>
                         <tr>
-                            <th>DESPESA</th>
-                            <th>DESCRIÇÃO DESPESA</th>
-                            <th>VALOR DA DESPESA</th>
-                            <th>DATA VENCIMENTO</th>
-                            <th>DATA DO PROVISIONAMENTO</th>
-                            <th>STATUS</th>
-                            <th>AÇÕES</th>
+                            <td>Nenhum Lancamento Cadastrado</td>
                         </tr>
+                    </tbody>
+                    @else
+                    <tr>
+                        <th>DESPESA</th>
+                        <th>DESCRIÇÃO DESPESA</th>
+                        <th>VALOR DA DESPESA</th>
+                        <th>DATA DO PROVISIONAMENTO</th>
+                        <th>DATA VENCIMENTO</th>
+                        <th>STATUS</th>
+                        <th>AÇÕES</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach($lancamentosAtivos as $lancamentos)
+                        @foreach($lancamentos as $lancamento)
                         <tr>
-                            <td>{{$lancamentos->id_despesa}}</td>
-                            <td>{{$lancamentos->de_despesa}}</td>
-                            <td>{{$lancamentos->valor_total_despesa}}</td>
-                            <td>{{$lancamentos->dt_provisionamento}}</td>
-                            <td>{{$lancamentos->de_pagamento}}</td>
-                            <td>{{$lancamentos->de_status_despesa}}</td>
+                            <td>{{$lancamento->id_despesa}}</td>
+                            <td>{{$lancamento->de_despesa}}</td>
+                            <td>{{$mascara::maskMoeda($lancamento->valor_total_despesa)}}</td>
+                            <td>{{date("d/m/Y", strtotime($lancamento->dt_provisionamento))}}</td>
+                            <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
+                            <td>{{$lancamento->de_status_despesa}}</td>
                             <td>
                                 <!-- muda a rota-->
-                                <a href="lancamentos/provisionamento/{{$lancamentos->id_despesa}}" class="btn btn-success" style="padding: 8px 12px;">
+                                <a href="lancamentos/provisionamento/{{$lancamento->id_despesa}}" class="btn btn-success" style="padding: 8px 12px;">
                                     <i class="bi bi-eye-fill"></i>
                                 </a>
                                 <a href="" class="btn btn-danger" style="padding: 8px 12px;">
@@ -94,6 +91,7 @@
                     @endif
                 </table>
             </div>
+            <div>{{ $lancamentos->links() }}</div>
         </div>
     </div>
 </div>

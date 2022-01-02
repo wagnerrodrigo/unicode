@@ -10,7 +10,6 @@
                 <a href="/despesas/adicionar" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Nova Despesa
                 </a>
-
             </div>
             <div class="card-body">
                 <!-- Form de filtro por status -->
@@ -77,7 +76,7 @@
 
                 </table>
             </div>
-            {{ $despesas->links() }}
+            <div>{{ $despesas->links() }}</div>
         </div>
     </div>
 </div>
