@@ -7,7 +7,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>DESPESA N°{{$despesa->numero_despesa}}</h1>
+                <h1>DESPESA N°{{$despesa->id_despesa}}</h1>
             </div>
             <div class="card-body" style="font-size: 18px;">
                 <div class="card-body">
@@ -26,7 +26,7 @@
                                 <div>
                                     <strong>CENTRO DE CUSTO</strong>
                                 </div>
-                                <span>{{$despesa->de_centro_custo}}</span>
+                                <span>{{$despesa->de_departamento}}</span>
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                                 <div>
                                     <strong>NUMERO DA DESPESA</strong>
                                 </div>
-                                <span>{{$despesa->numero_despesa}}</span>
+                                <span>{{$despesa->id_despesa}}</span>
                             </div>
                         </div>
 

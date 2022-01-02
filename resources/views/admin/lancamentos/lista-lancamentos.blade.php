@@ -9,7 +9,6 @@
                 <h1>Detalhe do lançamento</h1>
             </div>
             <div class="card-body">
-
                 <form action="" method="GET">
                     <div class="d-flex">
                         <div class="col-md-3">

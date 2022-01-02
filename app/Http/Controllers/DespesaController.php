@@ -9,7 +9,7 @@ use App\Models\ItemDespesa;
 use App\Models\Rateio;
 use Illuminate\Http\Request;
 use App\Utils\CondicaoPagamentoId;
-
+use App\Utils\Mascaras\Mascaras;
 
 class DespesaController extends Controller
 {
@@ -18,22 +18,18 @@ class DespesaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $despesas = Despesa::selectAll();
+        $mascara = new Mascaras();
+        if($request->has('status')) {
+            $status_despesa = $request->input('status');
 
-        $despesasAtivas = [];
-        $despesasInativas = [];
-
-        for ($i = 0; $i < count($despesas); $i++) {
-            if ($despesas[$i]->dt_fim === null) {
-                $despesasAtivas[] = $despesas[$i];
-            } else {
-                $despesasInativos[] = $despesas[$i];
-            };
+            $despesas = Despesa::selectAll($status_despesa);
+        }else{
+            $despesas = Despesa::selectAll();
         }
 
-        return view('admin.despesas.lista-despesas', compact('despesasAtivas', 'despesasInativas'));
+        return view('admin.despesas.lista-despesas', compact('despesas', 'mascara'));
     }
 
     public function formDespesa()
@@ -46,9 +42,9 @@ class DespesaController extends Controller
         $despesa = Despesa::findOne($id);
 
         if ($despesa == null || empty($despesa)) {
-            return $despesa;
+            return "Despesa não encontrada";
         } else {
-            $despesa = $despesa[0];
+            $despesa->valor_total_despesa = Mascaras::maskMoeda($despesa->valor_total_despesa);
             return view('admin.despesas.detalhe-despesa', compact('despesa'));
         }
     }
