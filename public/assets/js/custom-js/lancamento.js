@@ -227,7 +227,7 @@ $("#adicionar_rateio").click(function() {
 
 
 
-// FORMATAR CAMPO DE DATAS 
+// FORMATAR CAMPO DE DATAS
 var inputDataInicio;
 var inputDataFim;
 $("#inputDataInicio").on("click", function() {

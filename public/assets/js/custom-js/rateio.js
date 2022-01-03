@@ -60,6 +60,8 @@ $("#rateio_empresa").keyup(function () {
 var valorTotalRateio = 0;
 var valorRateado = 0;
 var valorTotalDespesa = 0;
+
+var qtdRateio = 0;
 //informa o valor e gera a porcentagem
 $("#valor_rateado").blur(function () {
     var valorTotalItens = $("#valorTotal").val();
@@ -107,8 +109,6 @@ $("#porcentagem_rateado").blur(function () {
 
     var porcentagem = valorTotalDespesa / 100;
     valorRateado = valorPorcentagem * porcentagem;
-
-    console.log({ porcentagem: porcentagem, valorRateado: valorRateado });
 
     $("#valor_rateado").val(
         Intl.NumberFormat("pt-BR", {
@@ -186,7 +186,7 @@ $("#seleciona_rateio").click(function () {
                         .replace("R$", "")}"/>` +
                     `<input type="hidden" name="porcentagem_rateio[]" value="${porcentagem_valor}"/></div>`
             );
-
+            qtdRateio = qtdRateio + 1;
             id_button_rateio++;
             limpaCamposRateio();
         }
@@ -194,6 +194,13 @@ $("#seleciona_rateio").click(function () {
         alert("Preencha todos os campos!");
     }
     valorRateado = 0;
+
+    //se houver rateio cadastrado, desabilita o campo de valor total e de adicionar produto
+    if (qtdRateio != 0) {
+        $("#valorTotal").attr("readonly", true);
+        $("#Prod").attr("disabled", true);
+        $("#btn_item").attr("disabled", true);
+    }
 });
 
 //remove o rateio da tabela e do form
@@ -205,6 +212,14 @@ function removeRateio(id, valorRateado) {
 
     $(`#tab-generated${id}`).remove();
     $(`#input-generated${id}`).remove();
+
+    //se não houver rateio cadastrado, habilita o campo de valor total e de adicionar produto
+    qtdRateio = qtdRateio - 1;
+    if (qtdRateio == 0) {
+        $("#valorTotal").attr("readonly", false);
+        $("#Prod").attr("disabled", false);
+        $("#btn_item").attr("disabled", false);
+    }
 }
 
 //adiciona valor total ao input acima do modal de rateio

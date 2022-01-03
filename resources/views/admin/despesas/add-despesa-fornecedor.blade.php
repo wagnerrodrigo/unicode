@@ -167,7 +167,7 @@
 
                         <div class="px-5 mb-3">
                             <strong>MOEDA</strong>
-                            <select class="form-control input-add" name="moeda" id="moeda">
+                            <select readonly class="form-control input-add" name="moeda" id="moeda">
                                 <option selected value="REAL">BRL</option>
                                 <option value="DOLAR">USD</option>
                                 <option value="EURO">EUR</option>
@@ -240,12 +240,13 @@
 
                     <div class="d-flex" style="width: 100%;">
                         <div class="px-5 mb-3">
-                            <strong>DATA DE VENCIMENTO</strong>
-                            <input type="date" class="form-control input-add" name="data_vencimento" />
+                            <strong>DATA DE PROVISIONAMENTO</strong>
+                            <input required type="date" class="form-control input-add" id="dt_prov" name="data_provisionamento" />
                         </div>
                         <div class="px-5 mb-3">
-                            <strong>DATA DE PROVISIONAMENTO</strong>
-                            <input type="date" class="form-control input-add" name="data_provisionamento" />
+                            <strong>DATA DE VENCIMENTO</strong>
+                            <input required type="date" class="form-control input-add" id="dt_venc" name="data_vencimento" />
+                            <span id="erro_dt"></span>
                         </div>
                     </div>
 

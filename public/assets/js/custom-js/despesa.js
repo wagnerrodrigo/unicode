@@ -291,50 +291,56 @@ document.getElementById("btnDespesa").onclick = function () {
                                         );
                                     });
                                     //seleciona o cnpj ou cpf desejada
-                                    $(".item-fornecedor-empregado").click(function () {
-                                        $("#Cnpj_Cpf").val($(this).text());
-                                        var cpfEmpregado =
-                                            $(this).attr("value");
+                                    $(".item-fornecedor-empregado").click(
+                                        function () {
+                                            $("#Cnpj_Cpf").val($(this).text());
+                                            var cpfEmpregado =
+                                                $(this).attr("value");
 
-                                        $("#ResultadoCnpjCpf").html("");
-                                        // preenche o campo de input_cpf_cnpj e o input_razao_social com base no item anterior
-                                        $.ajax({
-                                            type: "GET",
-                                            url: `/empregados/cpf/${cpfEmpregado}`,
-                                            dataType: "json",
-                                        }).done(function (response) {
-                                            $("#btnCnpj_Cpf").click(
-                                                function () {
-                                                    //armazena id do empregado em uma variavel;
-                                                    idEmpregado =
-                                                        response[0]
-                                                            .id_empregado;
+                                            $("#ResultadoCnpjCpf").html("");
+                                            // preenche o campo de input_cpf_cnpj e o input_razao_social com base no item anterior
+                                            $.ajax({
+                                                type: "GET",
+                                                url: `/empregados/cpf/${cpfEmpregado}`,
+                                                dataType: "json",
+                                            }).done(function (response) {
+                                                $("#btnCnpj_Cpf").click(
+                                                    function () {
+                                                        //armazena id do empregado em uma variavel;
+                                                        idEmpregado =
+                                                            response[0]
+                                                                .id_empregado;
 
-                                                    $("#input_cpf_cnpj").val(
-                                                        response[0].nu_cpf_cnpj
-                                                    );
-                                                    $(
-                                                        "#input_razao_social"
-                                                    ).val(
-                                                        response[0]
-                                                            .nome_empregado
-                                                    );
+                                                        $(
+                                                            "#input_cpf_cnpj"
+                                                        ).val(
+                                                            response[0]
+                                                                .nu_cpf_cnpj
+                                                        );
+                                                        $(
+                                                            "#input_razao_social"
+                                                        ).val(
+                                                            response[0]
+                                                                .nome_empregado
+                                                        );
 
-                                                    $(
-                                                        "#fk_empregado_fornecedor"
-                                                    ).attr(
-                                                        "value",
-                                                        response[0].id_empregado
-                                                    );
+                                                        $(
+                                                            "#fk_empregado_fornecedor"
+                                                        ).attr(
+                                                            "value",
+                                                            response[0]
+                                                                .id_empregado
+                                                        );
 
-                                                    $("#Cnpj_Cpf").val("");
-                                                    $("#modal-busca").modal(
-                                                        "hide"
-                                                    );
-                                                }
-                                            );
-                                        });
-                                    });
+                                                        $("#Cnpj_Cpf").val("");
+                                                        $("#modal-busca").modal(
+                                                            "hide"
+                                                        );
+                                                    }
+                                                );
+                                            });
+                                        }
+                                    );
                                 })
                                 .fail(function () {
                                     $("#Cnpj_Cpf").val("");
@@ -375,7 +381,7 @@ $("#Prod").click(function () {
                 `<td>${prod_ser}</td>` +
                 `<td>${valor_uni}</td>` +
                 `<td>${quanti}</td>` +
-                `<td><button type="button" class="btn btn-danger" onclick="removeItem(${id_button_item})" style="padding: 8px 12px;">` +
+                `<td><button type="button" class="btn btn-danger" id="btn_item" onclick="removeItem(${id_button_item})" style="padding: 8px 12px;">` +
                 `<i class="bi bi-trash-fill"></i>` +
                 `</button></td>` +
                 "</tr>"
@@ -412,13 +418,14 @@ $("#Prod").click(function () {
 
         //verificar campo vazio!
 
-        console.log({moeda: moeda});
-        if(moeda == 'REAL'){
-            $("#valorTotal").val(tipoMoeda(valorTotal, 'REAL'));
-        }if(moeda == 'DOLAR'){
-            $("#valorTotal").val(tipoMoeda(valorTotal, 'DOLAR'));
-        }if(moeda == 'EURO'){
-            $("#valorTotal").val(tipoMoeda(valorTotal, 'EURO'));
+        if (moeda == "REAL") {
+            $("#valorTotal").val(tipoMoeda(valorTotal, "REAL"));
+        }
+        if (moeda == "DOLAR") {
+            $("#valorTotal").val(tipoMoeda(valorTotal, "DOLAR"));
+        }
+        if (moeda == "EURO") {
+            $("#valorTotal").val(tipoMoeda(valorTotal, "EURO"));
         }
     }
 });
@@ -590,3 +597,43 @@ function getContaBancaria(object) {
 function getProcesso(object) {
     $("input[name=numero_processo]").attr("value", object.value);
 }
+
+
+//validação das datas de provisionamento e vencimento
+$("#dt_venc").attr("disabled", true);
+
+$("#dt_prov").on("focusout", function () {
+    if ($("#dt_prov").val() != "") {
+        $("#dt_venc").attr("disabled", false);
+    }
+
+    if ($("#dt_venc").val() != "") {
+        var dateObj1 = new Date($("#dt_prov").val());
+        var dateObj2 = new Date($("#dt_venc").val());
+
+        if (dateObj1.getTime() > dateObj2.getTime()) {
+            $(this).css({ color: "red" });
+            $("#erro_dt")
+                .html("Data de vencimento menor que a data de provisão")
+                .css({ color: "red", fontStyle: "italic" });
+            $(this).focus(); // Volta o foco para o primeiro input
+        } else {
+            $("#erro_dt").html("");
+        }
+    }
+});
+
+$("#dt_venc").on("focusout", function () {
+    var dateObj1 = new Date($("#dt_prov").val());
+    var dateObj2 = new Date($("#dt_venc").val());
+
+    if (dateObj1.getTime() > dateObj2.getTime()) {
+        $(this).css({ color: "red" });
+        $("#erro_dt")
+            .html("Data de vencimento menor que a data de provisão")
+            .css({ color: "red", fontStyle: "italic" });
+        $(this).focus(); // Volta o foco para o segundo input
+    } else {
+        $("#erro_dt").html("");
+    }
+});
