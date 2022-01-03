@@ -79,17 +79,7 @@
                                 <span>{{$despesa->de_status_despesa}}</span>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div>
-                                    <strong>TIPO DESPESA</strong>
-                                </div>
-                                <span>{{$despesa->de_tipo_despesa}}</span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="d-flex">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
@@ -98,6 +88,9 @@
                                 <span>{{$despesa->qt_parcelas_despesa}}</span>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="d-flex">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>

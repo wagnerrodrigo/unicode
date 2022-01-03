@@ -218,7 +218,7 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>QUANTIDADE PARCELAS</strong>
-                            <input required type="text" class="form-control input-add" name="parcelas" />
+                            <input required type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add" name="parcelas" />
                         </div>
 
                         <div class="px-5 mb-3">
@@ -254,12 +254,12 @@
                         <div class="px-5 mb-3">
                             <h3>INFORMAÇÕES DA NOTA</h3>
                             <strong>NUMERO DA NOTA OU DOCUMENTO</strong>
-                            <input type="text" onkeyup="return onlynumber();" class="form-control input-add" name="numero_nota_documento" />
+                            <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add" name="numero_nota_documento" />
                         </div>
 
                         <div class="px-5 mb-3" style="margin-top: 38px">
                             <strong>SERIE</strong>
-                            <input type="text" onkeyup="return onlynumber();" class="form-control input-add" name="serie_documento" />
+                            <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add" name="serie_documento" />
                         </div>
                     </div>
 
@@ -325,8 +325,6 @@
     </div>
 </div>
 
-
-
 <!-- Inicio Modal Adicionar-->
 <div class="me-1 mb-1 d-inline-block">
     <!--Extra Large Modal -->
@@ -334,7 +332,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel16">NOVA CONTA BANCÁRIA</h4>
+                    <h4 class="modal-title" id="myModalLabel16">CONTA BANCÁRIA</h4>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <i class="bi bi-x" data-feather="x"></i>
                     </button>
@@ -361,19 +359,19 @@
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>AGENCIA</strong>
-                                <input type="text" class="form-control" id="nu_agencia" name="nu_agencia" autocomplete="off" style="width: 28rem;">
+                                <input type="text" onkeypress="return onlynumber();" class="form-control" id="nu_agencia" name="nu_agencia" autocomplete="off" style="width: 28rem;">
                             </div>
 
                             <div class="px-3 mb-3">
                                 <strong>NUMERO DA CONTA</strong>
-                                <input type="text" class="form-control" id="nu_conta" name="nu_conta" autocomplete="off" style="width: 28rem;">
+                                <input type="text" onkeypress="return onlynumber();" class="form-control" id="nu_conta" name="nu_conta" autocomplete="off" style="width: 28rem;">
                             </div>
                         </div>
 
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>CODIGO OPERAÇÃO</strong>
-                                <input type="text" class="form-control" id="co_operacao" name="co_operacao" autocomplete="off" style="width: 28rem;">
+                                <input type="text" class="form-control" onkeypress="return onlynumber();" id="co_operacao" name="co_operacao" autocomplete="off" style="width: 28rem;">
                             </div>
                         </div>
                     </div>

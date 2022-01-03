@@ -199,7 +199,7 @@ $("#seleciona_rateio").click(function () {
     if (qtdRateio != 0) {
         $("#valorTotal").attr("readonly", true);
         $("#Prod").attr("disabled", true);
-        $("#btn_item").attr("disabled", true);
+        $(".btn_item").attr("disabled", true);
     }
 });
 
@@ -218,7 +218,7 @@ function removeRateio(id, valorRateado) {
     if (qtdRateio == 0) {
         $("#valorTotal").attr("readonly", false);
         $("#Prod").attr("disabled", false);
-        $("#btn_item").attr("disabled", false);
+        $(".btn_item").attr("disabled", false);
     }
 }
 

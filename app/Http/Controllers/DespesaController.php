@@ -21,11 +21,11 @@ class DespesaController extends Controller
     public function index(Request $request)
     {
         $mascara = new Mascaras();
-        if($request->has('status')) {
+        if ($request->has('status')) {
             $status_despesa = $request->input('status');
 
             $despesas = Despesa::selectAll($status_despesa);
-        }else{
+        } else {
             $despesas = Despesa::selectAll();
         }
 
@@ -52,11 +52,11 @@ class DespesaController extends Controller
     public function store(Request $request)
     {
         //formata valor total da despesa para o banco
-        $request->valor_total = str_replace("R$","", $request->valor_total);
+        $request->valor_total = str_replace("R$", "", $request->valor_total);
+        $request->valor_total = trim(html_entity_decode($request->valor_total), " \t\n\r\0\x0B\xC2\xA0");
         $request->valor_total = str_replace(".", "", $request->valor_total);
         $request->valor_total = str_replace(",", ".", $request->valor_total);
         //remove um caracter especial do campo valor total -> bug gerado pelo R$
-        $request->valor_total = trim(html_entity_decode($request->valor_total), " \t\n\r\0\x0B\xC2\xA0");
         $condicaoPagamentoId = new CondicaoPagamentoId();
 
         //caso haja rateio na despesa executa
@@ -66,7 +66,7 @@ class DespesaController extends Controller
             for ($i = 0; $i < count($request->empresa_rateio); $i++) {
                 $rateios[] = [
                     'centro_custo_rateio' => $request->custo_rateio[$i],
-                    'valor_rateio' => $request->valor_rateio[$i],
+                    'valor_rateio' => trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0"),
                     'porcentagem_rateio' => $request->porcentagem_rateio[$i],
                 ];
             }
@@ -147,7 +147,6 @@ class DespesaController extends Controller
                 ItemDespesa::create($itemDespesa);
             }
         }
-
         return redirect()->route('despesas');
     }
 

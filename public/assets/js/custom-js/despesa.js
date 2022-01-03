@@ -14,7 +14,7 @@ $(document).ready(function () {
             $.each(response, function (key, val) {
                 $("#itens_classificacao")
                     .append(
-                        `<div class="classificacao" value="${val.id_clasificacao_contabil}">${val.de_clasificacao_contabil}</div>`
+                        `<div class="classificacao_produto" value="${val.id_clasificacao_contabil}">${val.de_clasificacao_contabil}</div>`
                     )
                     .hide();
             });
@@ -23,7 +23,7 @@ $(document).ready(function () {
                 $("#itens_classificacao").show();
             });
             //ao clicar em um item da lista, o campo recebe o valor do item
-            $(".classificacao").click(function () {
+            $(".classificacao_produto").click(function () {
                 $("#classificacao_con").val($(this).text());
                 $("#itens_classificacao").hide();
 
@@ -381,7 +381,7 @@ $("#Prod").click(function () {
                 `<td>${prod_ser}</td>` +
                 `<td>${valor_uni}</td>` +
                 `<td>${quanti}</td>` +
-                `<td><button type="button" class="btn btn-danger" id="btn_item" onclick="removeItem(${id_button_item})" style="padding: 8px 12px;">` +
+                `<td><button type="button" class="btn btn-danger btn_item" onclick="removeItem(${id_button_item})" style="padding: 8px 12px;">` +
                 `<i class="bi bi-trash-fill"></i>` +
                 `</button></td>` +
                 "</tr>"
