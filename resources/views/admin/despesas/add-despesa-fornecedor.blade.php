@@ -254,12 +254,12 @@
                         <div class="px-5 mb-3">
                             <h3>INFORMAÇÕES DA NOTA</h3>
                             <strong>NUMERO DA NOTA OU DOCUMENTO</strong>
-                            <input type="text" class="form-control input-add" name="numero_nota_documento" />
+                            <input type="text" onkeyup="return onlynumber();" class="form-control input-add" name="numero_nota_documento" />
                         </div>
 
                         <div class="px-5 mb-3" style="margin-top: 38px">
                             <strong>SERIE</strong>
-                            <input type="text" class="form-control input-add" name="serie_documento" />
+                            <input type="text" onkeyup="return onlynumber();" class="form-control input-add" name="serie_documento" />
                         </div>
                     </div>
 
@@ -267,6 +267,7 @@
                         <div class="px-5 mb-3">
                             <strong>TIPO DE DOCUMENTO</strong>
                             <select class="form-control input-add" name="tipo_documento" id="tipo_documento">
+                                <option selected value=""></option>
                                 <option value="BOLETO">BOLETO</option>
                                 <option value="NFE">NF-E</option>
                                 <option value="CONTRATO">CONTRATO</option>

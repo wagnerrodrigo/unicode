@@ -619,6 +619,7 @@ $("#dt_prov").on("focusout", function () {
             $(this).focus(); // Volta o foco para o primeiro input
         } else {
             $("#erro_dt").html("");
+            $(this).css({ color: "black" });
         }
     }
 });
@@ -635,5 +636,6 @@ $("#dt_venc").on("focusout", function () {
         $(this).focus(); // Volta o foco para o segundo input
     } else {
         $("#erro_dt").html("");
+        $(this).css({ color: "black" });
     }
 });

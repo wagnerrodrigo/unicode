@@ -18,6 +18,7 @@ class Lancamento extends Model
                 ->whereBetween('intranet.tab_despesa.dt_vencimento', [$dt_inicio, $dt_fim])
                 ->where('intranet.tab_despesa.fk_status_despesa_id', '=', $status_despesa_id)
                 ->paginate(10);
+
         } else if ($dt_inicio && $dt_fim && !$status_despesa_id) {
             $lancamentos = DB::table('intranet.tab_despesa')
                 ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
