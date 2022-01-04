@@ -5,7 +5,7 @@
     {{-- @dd($extratos) --}}
     <div id="main" style="margin-top: 5px;">
         <div class="main-content container-fluid">
-            
+
             <div class="card">
                 <div class="card-header">
                     <h1>DESPESA </h1>
@@ -38,8 +38,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($despesasAtivas != null || !empty($despesasAtivas))
-                                @foreach ($despesasAtivas as $despesa)
+                            @if ($despesas != null || !empty($despesas))
+                                @foreach ($despesas as $despesa)
                                     <tr>
                                         <td>
                                             {{ $despesa->id_despesa }}

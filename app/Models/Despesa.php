@@ -120,13 +120,13 @@ class Despesa extends Model
         $query = DB::select("SELECT * FROM intranet.tab_despesa AS despesa
         JOIN intranet.status_despesa AS status_despesa ON status_despesa.id_status_despesa = despesa.fk_status_despesa_id
         JOIN intranet.tab_fornecedor AS fornecedor ON fornecedor.id_fornecedor = despesa.fk_tab_fornecedor_id
-        left JOIN intranet.tab_empregado AS empregado on empregado.id_empregado =  despesa.fk_tab_empregado_id
+        JOIN intranet.tab_empregado AS empregado on empregado.id_empregado =  despesa.fk_tab_empregado_id
         JOIN intranet.tab_centro_custo AS centro_custo ON centro_custo.id_centro_custo = despesa.fk_tab_centro_custo_id
         JOIN intranet.tab_departamento AS departamento ON departamento.id_departamento = centro_custo.fk_tab_departamento
         JOIN intranet.tab_tipo_despesa AS tipo_despesa ON tipo_despesa.id_tipo_despesa = despesa.fk_tab_tipo_despesa_id
         WHERE id_despesa = ?;", [$id]);
 
-        return $query[0];
+        return $query;
     }
 
     static function set($despesa)

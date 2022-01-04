@@ -17,37 +17,11 @@ class ExtratoController extends Controller
      */
     public function index()
     {
-       
+
         $extratos = Extrato::selectAll();
-        // $extrato = (object) $extratos;
-        // $extratos->get()->paginate(10);
         $despesas = Despesa::selectAll();
 
-
-        $despesasAtivas = [];
-        $despesasInativas = [];
-
-
-        // for($i = 0; $i < count($extrato); $i++){
-        //     if($extrato[$i]->dtend === null){
-        //         $extratoAtivos[] = $extrato[$i];
-        //     }else{
-        //         $extratoInativos[] = $extrato[$i];
-        //     };
-        // };
-
-
-
-        for ($i = 0; $i < count($despesas); $i++) {
-            if ($despesas[$i]->dt_fim === null) {
-                $despesasAtivas[] = $despesas[$i];
-            } else {
-                $despesasInativas[] = $despesas[$i];
-            };
-        }
-
-
-        return view('admin.extrato.extrato', compact('extratos', 'despesasAtivas'));
+        return view('admin.extrato.extrato', compact('extratos', 'despesas'));
     }
 
 
