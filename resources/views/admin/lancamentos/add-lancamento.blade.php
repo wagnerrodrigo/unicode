@@ -8,6 +8,8 @@
             <div class="card">
                 <div class="card-header">
                     <h1>Efetivo Pagamento da despesa numero : {{ $lancamento->id_despesa }}</h1>
+                    <input type="hidden" id="id_despesa" value="{{$lancamento->id_despesa}}">
+                    <input type="hidden" id="fk_condicao_pagamento_id" value="{{$lancamento->fk_condicao_pagamento_id}}">
                 </div>
                 <div class="card-body" style="font-size: 18px;">
 
@@ -164,7 +166,7 @@
                                         <input class="form-control mt-1" id="porcentagem_rateado" type="text" min="0"
                                             max="3" onkeyup="return validateValue(this);" onkeypress="return onlynumber();"
                                             maxlength="3" style="width: 58px" />
-                                            <input type="hidden" id="porcentagem_rateado"></input>
+                                            <input type="hidden" id="porcentagem_rateado_hiddem"></input>
                                     </div>
                                     <div>
                                         <strong>%</strong>

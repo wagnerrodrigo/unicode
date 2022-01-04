@@ -162,18 +162,19 @@ class Lancamento extends Model
     }
 
 
-    static function create($lancamento)
-    {
-        DB::insert("INSERT INTO intranet.tab_rateio_pagamento
+    static function create($lancamento){
+        DB::insert("INSERT INTO intranet.tab_lancamento
         (
-            valor_rateio_pagamento,
-            fk_tab_conta_bancaria,
-            dt_inicio
+            id_despesa,
+            fk_condicao_pagamento_id,
+            dt_inicio,
+            dt_fim
         )
-        VALUES(?, ?, ?)", [
-            $lancamento->valor_rateio_pagamento,
-            $lancamento->fk_tab_conta_bancaria,
-            $lancamento->dt_inicio
+        VALUES(?, ?, ?, ?)",[
+            $lancamento->id_despesa,
+            $lancamento->fk_condicao_pagamento_id,
+            $lancamento->dt_inicio,
+            $lancamento->dt_fim
         ]);
     }
 }

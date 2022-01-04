@@ -1,5 +1,10 @@
+$(document).ready(function() {
+    $("#modal_valor_rateado").val("0,00");
+});
+
 //inicio função para buscar empresa
 var conta_bancaria;
+
 $("#busca_empresa").keyup(
     delay(function() {
         var words = $(this).val();
@@ -24,8 +29,6 @@ $("#busca_empresa").keyup(
                         $("#busca_empresa").val($(this).text());
                         $("#empresa").html("");
                         var id_empresa = $(this).attr("value");
-                        console.log(id_empresa);
-                        // console.log(id_empresa);
                         $("#id_busca_empresa").attr("value", id_empresa);
                         //busca centros de custo relacionados com a empresa e mostra no select
                         $("#results_empresa").html("");
@@ -68,16 +71,26 @@ var valorTotalDespesa = 0;
 //informa o valor e gera a porcentagem
 $("#valor_rateado").blur(function() {
     var valorTotalItens = $("#valorTotal").val();
-    valorTotalDespesa = valorTotalItens
+    valorTotalDespesa = Number(
+        valorTotalItens
+        .replace(".", "")
+        .replace(".", "")
+        .replace(".", "")
+        .replace(",", ".")
+        .replace("R$", "")
+    );
+
+    console.log(valorTotalDespesa, "<<<<< valor total despesa");
+
+    valorRateado = $("#valor_rateado")
+        .val()
+        .replace(".", "")
+        .replace(".", "")
         .replace(".", "")
         .replace(",", ".")
         .replace("R$", "");
 
-    console.log(valorTotalDespesa, "<<<<< valor total despesa");
-
-    valorRateado = Number(
-        $("#valor_rateado").val().replace(",", ".").replace("R$", "")
-    );
+    valorRateado = Number(valorRateado);
 
     if (valorTotalItens == "") {
         alert("Adicione os itens ou o valor total da despesa");
@@ -91,7 +104,38 @@ $("#valor_rateado").blur(function() {
 });
 
 
+//informa a porcentagem e gera o valor do rateio
+$("#porcentagem_rateado").blur(function() {
+    var valorTotalItens = $("#valorTotal").val();
+    valorTotalDespesa = valorTotalItens
+        .replace(".", "")
+        .replace(".", "")
+        .replace(".", "")
+        .replace(",", ".")
+        .replace("R$", "");
+
+    var valorPorcentagem = Number($("#porcentagem_rateado").val());
+
+    var porcentagem = valorTotalDespesa / 100;
+    valorRateado = valorPorcentagem * porcentagem;
+
+    console.log({ porcentagem: porcentagem, valorRateado: valorRateado });
+
+    $("#valor_rateado").val(
+        Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        })
+        .format(valorRateado)
+        .toString()
+        .replace("R$", "")
+    );
+});
+
+var data_efetivo_pag = 0;
 var id_button_conta = 0;
+var id_despesa_tela = $("#id_despesa_tela").val();
+var fk_condicao_pagamento_id_tela = $("#fk_condicao_pagamento_id_tela").val();
 
 // INICIO função para buscar Instituição bancaria
 $("#addContas").click(function() {
@@ -99,10 +143,8 @@ $("#addContas").click(function() {
     var inst_banco = $("#inst_banco").val();
     var porcentagem_valor = $("#porcentagem_rateado").val();
     var valor_rateado = $("#valor_rateado").val();
-    var data_efetivo_pag = $("#data_efetivo_pag").val();
+    data_efetivo_pag = $("#data_efetivo_pag").val();
     var rateio_empresa = $("#busca_empresa").val();
-
-    console.log(conta_bancaria);
 
     console.log(inst_banco, valor_rateado, data_efetivo_pag);
 
@@ -115,9 +157,26 @@ $("#addContas").click(function() {
         .replace("R$", "");
 
 
-    if (inst_banco == "" || valor_rateado == "" || data_efetivo_pag == "") {
-        alert("Preencha todos os campos da Conta !");
+    if (inst_banco == "" &&
+        porcentagem_valor == "" &&
+        valor_rateado == "" &&
+        data_efetivo_pag == "" &&
+        rateio_empresa == ""
+    ) {
+        alert("Preencha todos os campos do Rateio !");
+        // console.log(inst_banco);
     } else {
+
+        console.log({
+            conta_bancaria: conta_bancaria,
+            porcentagem_valor: porcentagem_valor,
+            valor_rateado: valor_rateado,
+            data_efetivo_pag: data_efetivo_pag,
+            rateio_empresa: rateio_empresa
+        });
+
+        valorTotalRateio = valorTotalRateio + valorRateado;
+        $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
         // criar novos itens com os valores preenchidos anteriormente
         dataFormatada(data_efetivo_pag);
         $("#Tb").append(
@@ -127,7 +186,14 @@ $("#addContas").click(function() {
             `<td>${valor_rateado}</td>` +
             `<td>${dataFormatada(data_efetivo_pag)}</td>` +
             `<td>${porcentagem_valor}</td>` +
-            `<td><button type="button" class="btn btn-danger" onclick="removeConta(${id_button_conta})" style="padding: 8px 12px;">` +
+            `<td><button type="button" class="btn btn-danger" onclick="removeConta(${id_button_conta}, ${valor_rateado
+                .replace(".", "")
+                .replace(".", "")
+                .replace(".", "")
+                .replace(",", ".")
+                .replace("R$", "")
+            
+            })" style="padding: 8px 12px;">` +
             `<i class="bi bi-trash-fill"></i>` +
             `</button></td>` +
             "</tr>"
@@ -137,6 +203,8 @@ $("#addContas").click(function() {
         //gera o input com os dados do item para submeter no form
         $("#hidden_inputs_itens").append(
             `<div id="input_generated_account${id_button_conta}">` +
+            `<input type="hidden"  name="id_despesa_tela[]" value="${id_despesa_tela}"/>` +
+            `<input type="hidden"  name="fk_condicao_pagamento_id_tela[]" value="${fk_condicao_pagamento_id_tela}"/>` +
             `<input type="hidden"  name="id_busca_empresa[]" value="${rateio_empresa}"/>` +
             `<input type="hidden"  name="id_inst_banco[]" value="${inst_banco}"/>` +
             `<input type="hidden"  name="valor_rateio_pagamento[]" value="${valor_rateado}"/>` +
@@ -149,23 +217,25 @@ $("#addContas").click(function() {
         id_button_conta++;
         limpaCamposRateio();
     }
+
 });
 // Fim função para buscar Instituição bancaria
 
 
 
 //remove a da tabela e das contas
-function removeConta(id) {
-    console.log(id);
+function removeConta(id, valorRateado) {
+    valorTotalRateio = valorTotalRateio - valorRateado;
     $(`#tab_conta${id}`).remove();
     $(`#input_generated_account${id}`).remove();
+    $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
 
 }
 
 // Formata input data
 $("#data_efetivo_pag").on("change", function() {
     data_efetivo_pag = $(this).val();
-    console.log(data_efetivo_pag, "aqui");
+    // console.log(data_efetivo_pag, "aqui");
     return data_efetivo_pag;
 })
 
@@ -180,28 +250,6 @@ function limpaCamposRateio() {
     $("#valor_rateado").val("");
     $("#data_efetivo_pag").val("");
 }
-
-
-
-$(document).ready(function() {
-    $("#modal_valor_rateado").val("0,00");
-});
-
-
-//informa a porcentagem e gera o valor do rateio
-$("#porcentagem_rateado").blur(function() {
-    var valorTotalItens = $("#valorTotal").val();
-    valorTotalDespesa = valorTotalItens
-        .replace(".", "")
-        .replace(",", ".")
-        .replace("R$", "");
-
-    var valorPorcentagem = Number($("#porcentagem_rateado").val());
-
-    var porcentagem = valorTotalDespesa / 100;
-    valorRateado = valorPorcentagem * porcentagem;
-    $("#valor_rateado").val(tipoMoeda(valorRateado, "real"));
-});
 
 
 

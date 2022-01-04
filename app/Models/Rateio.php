@@ -33,4 +33,16 @@ class Rateio extends Model
             $rateio->dt_fim
         ]);
     }
+
+    static function createRateioLancamento($rateio){
+        DB::insert("INSERT INTO intranet.tab_rateio_pagamento
+        (valor_rateio_pagamento, fk_tab_conta_bancaria, dt_inicio, dt_fim)
+        VALUES(?, ?, ?, ?)
+        ",[
+            $rateio->valor_rateio_pagamento,
+            $rateio->fk_tab_conta_bancaria,
+            $rateio->dt_inicio,
+            $rateio->dt_fim
+        ]);
+    }
 }
