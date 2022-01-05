@@ -44,15 +44,22 @@ class Lancamento extends Model
         lancamento.dt_vencimento,
         lancamento.dt_fim,
         despesa.id_despesa,
+        despesa.fk_tab_centro_custo_id,
+	    despesa.fk_status_despesa_id,
+        status_dep.de_status_despesa,
         despesa.de_despesa,
         despesa.valor_total_despesa,
         despesa.dt_vencimento,
         despesa.dt_provisionamento,
+        empresa.de_empresa,
         pagamento.fk_tab_lancamento_id,
         pagamento.de_pagamento
         FROM intranet.tab_lancamento AS lancamento
         RIGHT JOIN intranet.tab_despesa AS despesa ON (lancamento.fk_tab_despesa_id = despesa.id_despesa)
         LEFT JOIN intranet.tab_pagamento AS pagamento ON (despesa.id_despesa = pagamento.fk_tab_lancamento_id)
+        INNER JOIN intranet.tab_centro_custo as centroCusto on (despesa.fk_tab_centro_custo_id = centroCusto.id_centro_custo)
+        INNER JOIN intranet.status_despesa as status_dep on (despesa.fk_status_despesa_id = status_dep.id_status_despesa)
+        INNER JOIN intranet.tab_empresa as empresa on (centroCusto.fk_empresa_id = empresa.id_empresa)
         WHERE despesa.id_despesa = ?;", [$id]);
 
         $lancamento = $data[0];
@@ -165,7 +172,7 @@ class Lancamento extends Model
     static function create($lancamento){
         DB::insert("INSERT INTO intranet.tab_lancamento
         (
-            id_despesa,
+            fk_tab_despesa_id,
             fk_condicao_pagamento_id,
             dt_inicio,
             dt_fim

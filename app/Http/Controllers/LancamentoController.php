@@ -57,23 +57,24 @@ class LancamentoController extends Controller
 
         for($i =0; $i < count($request->valor_rateio_pagamento); $i++){
 
-            $valorRateio[$i] = str_replace(".", "", $request->valor_rateio_pagamento[$i]);
-            $valorRateio[$i] = str_replace(",", ".", $request->valor_rateio_pagamento[$i]);
+            // $valorRateio[$i] = str_replace(".", "", $request->valor_rateio_pagamento[$i]);
+            // $valorRateio[$i] = str_replace(",", ".", $request->valor_rateio_pagamento[$i]);
+            $valorRateio[$i] = preg_replace('/\D/', '', $request->valor_rateio_pagamento[$i]);
         }
-
 
         if($request->valor_rateio_pagamento){
             for($i = 0; $i < count($request->valor_rateio_pagamento); $i++){
-                $rateios = [
+                $rateios[] = [
                     'valor_rateio_pagamento' =>  trim(html_entity_decode($valorRateio[$i]), " \t\n\r\0\x0B\xC2\xA0"),
                     'fk_tab_conta_bancaria' => $request->fk_tab_conta_bancaria[$i],
                 ];
+                // dd($valorRateio);
             }
             $rateio = new Rateio();
 
             for($i = 0; $i < count($rateios); $i++){
-                $rateio->valor_rateio_pagamento = $rateios['valor_rateio_pagamento'];
-                $rateio->fk_tab_conta_bancaria = $rateios['fk_tab_conta_bancaria'];
+                $rateio->valor_rateio_pagamento = $rateios[$i]['valor_rateio_pagamento'];
+                $rateio->fk_tab_conta_bancaria = $rateios[$i]['fk_tab_conta_bancaria'];
                 $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 $rateio->dt_fim = null;
                 Rateio::createRateioLancamento($rateio);
@@ -83,7 +84,7 @@ class LancamentoController extends Controller
 
        if($request->id_despesa){
         for($i = 0; $i < count($request->id_despesa); $i++){
-            $lancamentos =[
+            $lancamentos[] =[
                 'id_despesa' => $request->id_despesa[$i],
                 'fk_condicao_pagamento_id' => $request->fk_condicao_pagamento_id,
             ];
@@ -91,8 +92,8 @@ class LancamentoController extends Controller
         $lancamento = new Lancamento();
 
         for($i =0; $i < count($lancamentos); $i++){
-            $lancamento->id_despesa = $lancamentos['id_despesa'];
-            $lancamento->fk_condicao_pagamento_id = $lancamentos['fk_condicao_pagamento_id'];
+            $lancamento->id_despesa = $lancamentos[$i]['id_despesa'];
+            $lancamento->fk_condicao_pagamento_id = $lancamentos[$i]['fk_condicao_pagamento_id'];
             $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
             $lancamento->dt_fim = null;
             Lancamento::create($lancamento);
