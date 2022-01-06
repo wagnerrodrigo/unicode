@@ -134,8 +134,10 @@ $("#porcentagem_rateado").blur(function() {
 
 var data_efetivo_pag = 0;
 var id_button_conta = 0;
-var id_despesa_tela = $("#id_despesa_tela").val();
+var id_despesa = $("#id_despesa").val();
 var fk_condicao_pagamento_id_tela = $("#fk_condicao_pagamento_id_tela").val();
+var id_empresa = $("#id_empresa").val();
+var valor_total_despesa = $("#valor_total_despesa").val();
 
 // INICIO função para buscar Instituição bancaria
 $("#addContas").click(function() {
@@ -157,14 +159,21 @@ $("#addContas").click(function() {
         .replace("R$", "");
 
 
-    if (inst_banco == "" &&
-        porcentagem_valor == "" &&
-        valor_rateado == "" &&
-        data_efetivo_pag == "" &&
+    if (inst_banco == "" ||
+        porcentagem_valor == "" ||
+        valor_rateado == "" ||
+        data_efetivo_pag == "" ||
         rateio_empresa == ""
     ) {
         alert("Preencha todos os campos do Rateio !");
         // console.log(inst_banco);
+    } else if (
+        valorRateado > valorTotalDespesa ||
+        valorTotalRateio + valorRateado > valorTotalDespesa ||
+        valorTotalRateio > valorTotalDespesa
+    ) {
+        alert("Valor maior que o valor total da despesa");
+        $("#adicionar_rateio").attr("disabled", true);
     } else {
 
         console.log({
@@ -186,7 +195,7 @@ $("#addContas").click(function() {
             `<td>${valor_rateado}</td>` +
             `<td>${dataFormatada(data_efetivo_pag)}</td>` +
             `<td>${porcentagem_valor}</td>` +
-            `<td><button type="button" class="btn btn-danger" onclick="removeConta(${id_button_conta}, ${valor_rateado
+            `<td><button type="button" class="btn btn-danger btn_item" onclick="removeConta(${id_button_conta}, ${valor_rateado
                 .replace(".", "")
                 .replace(".", "")
                 .replace(".", "")
@@ -203,21 +212,18 @@ $("#addContas").click(function() {
         //gera o input com os dados do item para submeter no form
         $("#hidden_inputs_itens").append(
             `<div id="input_generated_account${id_button_conta}">` +
-            `<input type="hidden"  name="id_despesa_tela[]" value="${id_despesa_tela}"/>` +
-            `<input type="hidden"  name="fk_condicao_pagamento_id_tela[]" value="${fk_condicao_pagamento_id_tela}"/>` +
             `<input type="hidden"  name="id_busca_empresa[]" value="${rateio_empresa}"/>` +
             `<input type="hidden"  name="id_inst_banco[]" value="${inst_banco}"/>` +
             `<input type="hidden"  name="valor_rateio_pagamento[]" value="${valor_rateado}"/>` +
             `<input type="hidden"  name="fk_tab_conta_bancaria[]" value="${conta_bancaria}"/>` +
             `<input type="hidden"  name="porcentagem_rateado[]" value="${porcentagem_valor}"/>` +
-            `<input type="hidden" name="dt_inicio[]" value="${data_efetivo_pag}"/>` +
+            `<input type="hidden"  name="dt_inicio[]" value="${data_efetivo_pag}"/>` +
             `</div>`
         );
 
         id_button_conta++;
         limpaCamposRateio();
     }
-
 });
 // Fim função para buscar Instituição bancaria
 
@@ -225,9 +231,13 @@ $("#addContas").click(function() {
 
 //remove a da tabela e das contas
 function removeConta(id, valorRateado) {
+    //subtrai o valor removido do valor total do rateio
     valorTotalRateio = valorTotalRateio - valorRateado;
+    //atualiza o valor total do rateio no input
+
     $(`#tab_conta${id}`).remove();
     $(`#input_generated_account${id}`).remove();
+    $("#adicionar_rateio").attr("disabled", false);
     $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
 
 }
@@ -240,9 +250,7 @@ $("#data_efetivo_pag").on("change", function() {
 })
 
 
-
-
-
+// função para limpar os campos de rateio
 function limpaCamposRateio() {
     $("#busca_empresa").val("");
     $("#inst_banco").val("");
@@ -252,27 +260,11 @@ function limpaCamposRateio() {
 }
 
 
-
-//remove o rateio da tabela e do form
-function removeRateio(id, valorRateado) {
-    //subtrai o valor removido do valor total do rateio
-    valorTotalRateio = valorTotalRateio - valorRateado;
-    //atualiza o valor total do rateio no input
-    $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
-
-    $(`#tab-generated${id}`).remove();
-    $(`#input-generated${id}`).remove();
-}
-
 //adiciona valor total ao input acima do modal de rateio
 $("#adicionar_rateio").click(function() {
     var valorTotal = $("#valorTotal").val();
     $("#modal_valor_total").val(valorTotal);
 });
-
-
-
-
 
 
 // FORMATAR CAMPO DE DATAS
