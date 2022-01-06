@@ -159,4 +159,12 @@ class Despesa extends Model
         SET dt_fim = ?
         WHERE id_fornecedor = ?", [$dataFim, $id]);
     }
+
+    static function setStatus($id_despesa){
+        DB::update(
+            "UPDATE intranet.tab_despesa
+            SET fk_status_despesa_id = 1
+            WHERE id_despesa = ?"    
+        ,[$id_despesa]);
+    }
 }
