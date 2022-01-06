@@ -51,6 +51,7 @@ class Lancamento extends Model
         despesa.valor_total_despesa,
         despesa.dt_vencimento,
         despesa.dt_provisionamento,
+        empresa.id_empresa,
         empresa.de_empresa,
         pagamento.fk_tab_lancamento_id,
         pagamento.de_pagamento
