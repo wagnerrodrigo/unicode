@@ -1,15 +1,14 @@
 @extends('layouts.templates.template')
 @section('title', 'Detalhes Lançamento')
 
+
 @section('content')
 
     <div id="main" style="margin-top: 5px;">
         <div class="main-content container-fluid">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header">                  
                     <h1>Efetivo Pagamento da despesa numero : {{ $lancamento->id_despesa }}</h1>
-                    <input type="hidden" id="id_despesa" value="{{$lancamento->id_despesa}}">
-                    <input type="hidden" id="fk_condicao_pagamento_id" value="{{$lancamento->fk_condicao_pagamento_id}}">
                 </div>
                 <div class="card-body" style="font-size: 18px;">
 
@@ -46,6 +45,24 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>EMPRESA</strong>
+                                </div>
+                                <span>{{ $lancamento->de_empresa }}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>STATUS</strong>
+                                </div>
+                                <span>{{ $lancamento->de_status_despesa }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,8 +86,14 @@
 
                     <form action="/lancamentos/adicionar" method="post">
                         @csrf
+                        
                         <input type="hidden" id="hidden_inputs_itens">
 
+                        <input type="hidden" name="id_despesa" id="id_despesa" value="{{$lancamento->id_despesa}}">
+                        <input type="hidden" name="fk_condicao_pagamento_id" id="fk_condicao_pagamento_id" value="{{$lancamento->fk_condicao_pagamento_id}}">
+                        <input type="hidden" name="id_empresa" id="id_empresa" value="{{$lancamento->id_empresa}}">
+                        <input type="hidden" name="valor_total_despesa" id="valor_total_despesa" value="{{ $lancamento->valor_total_despesa }}">
+                        
                         <div class="d-flex" style="width: 100%;  margin: 15px;">
                             <div class="px-1 mb-3">
                                 <div class="table-responsive">
@@ -114,7 +137,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel16">Rateio de Contas</h4>
+                            <h4 class="modal-title" id="myModalLabel16">RATEIO</h4>
                             <div>
                                 <span>Valor Total: </span>
                                 <input class="input-add" id="modal_valor_total" name="modal_valor_total" readonly
