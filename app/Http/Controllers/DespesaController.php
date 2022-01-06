@@ -39,12 +39,13 @@ class DespesaController extends Controller
 
     public function show($id)
     {
-        $despesa = Despesa::findOne($id);
+        $despesas = Despesa::findOne($id);
         $mascara = new Mascaras();
 
-        if ($despesa == null || empty($despesa)) {
+        if ($despesas == null || empty($despesas)) {
             return "Despesa não encontrada";
         } else {
+            $despesa = $despesas[0];
             return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara'));
         }
     }

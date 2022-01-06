@@ -96,7 +96,7 @@
                                 <div>
                                     <strong>VALOR TOTAL</strong>
                                 </div>
-                                <span>{{$despesa->valor_total_despesa}}</span>
+                                <span>{{$mascara::maskMoeda($despesa->valor_total_despesa)}}</span>
                             </div>
                         </div>
                     </div>
