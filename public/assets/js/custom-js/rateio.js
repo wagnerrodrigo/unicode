@@ -61,6 +61,8 @@ var valorTotalRateio = 0;
 var valorRateado = 0;
 var valorTotalDespesa = 0;
 
+var rateios = [];
+
 var qtdRateio = 0;
 //informa o valor e gera a porcentagem
 $("#valor_rateado").blur(function () {
@@ -150,45 +152,54 @@ $("#seleciona_rateio").click(function () {
             alert("Valor maior que o valor total da despesa");
             $("#valor_rateado").val("");
         } else if (valorRateado == 0) {
+            $("#valor_rateado").val("");
+            $("#porcentagem_rateado").val("");
             alert("O valor rateado não pode ser 0");
         } else {
-            valorTotalRateio = valorTotalRateio + valorRateado;
-            $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
+            if (rateios.includes(custo_rateio)) {
+                $("#valor_rateado").val("");
+                $("#porcentagem_rateado").val("");
+                alert("Já foi adicionado um rateio para esse centro de custo.");
+            } else {
+                rateios.push(custo_rateio);
+                valorTotalRateio = valorTotalRateio + valorRateado;
+                $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
 
-            //gera a tabela com os dados do rateio
-            $("#table_rateio").append(
-                `<tr id="tab-generated${id_button_rateio}">` +
-                    `<td>${rateio_empresa}</td>` +
-                    `<td>${custo_rateio}</td>` +
-                    `<td>${valor_rateado}</td>` +
-                    `<td>${porcentagem_valor}</td>` +
-                    `<td><button onclick="removeRateio(${id_button_rateio}, ${valor_rateado
-                        .replace(".", "")
-                        .replace(".", "")
-                        .replace(".", "")
-                        .replace(",", ".")
-                        .replace(
-                            "R$",
-                            ""
-                        )})" class="btn btn-danger btn-sm btn-delete-rateio">Excluir</button></td>` +
-                    "</tr>"
-            );
+                //gera a tabela com os dados do rateio
+                $("#table_rateio").append(
+                    `<tr id="tab-generated${id_button_rateio}">` +
+                        `<td>${rateio_empresa}</td>` +
+                        `<td>${custo_rateio}</td>` +
+                        `<td>${valor_rateado}</td>` +
+                        `<td>${porcentagem_valor}</td>` +
+                        `<td><button onclick="removeRateio(${id_button_rateio}, ${valor_rateado
+                            .replace(".", "")
+                            .replace(".", "")
+                            .replace(".", "")
+                            .replace(",", ".")
+                            .replace(
+                                "R$",
+                                ""
+                            )}, ${custo_rateio})" class="btn btn-danger btn-sm btn-delete-rateio">Excluir</button></td>` +
+                        "</tr>"
+                );
 
-            //gera o input com os dados do rateio para submeter no form
-            $("#hidden_inputs").append(
-                `<div id="input-generated${id_button_rateio}"><input type="hidden" name="empresa_rateio[]" value="${rateio_empresa}"/>` +
-                    `<input type="hidden" name="custo_rateio[]" value="${custo_rateio}"/>` +
-                    `<input type="hidden" name="valor_rateio[]" value="${valor_rateado
-                        .replace(".", "")
-                        .replace(".", "")
-                        .replace(".", "")
-                        .replace(",", ".")
-                        .replace("R$", "")}"/>` +
-                    `<input type="hidden" name="porcentagem_rateio[]" value="${porcentagem_valor}"/></div>`
-            );
-            qtdRateio = qtdRateio + 1;
-            id_button_rateio++;
-            limpaCamposRateio();
+                //gera o input com os dados do rateio para submeter no form
+                $("#hidden_inputs").append(
+                    `<div id="input-generated${id_button_rateio}"><input type="hidden" name="empresa_rateio[]" value="${rateio_empresa}"/>` +
+                        `<input type="hidden" name="custo_rateio[]" value="${custo_rateio}"/>` +
+                        `<input type="hidden" name="valor_rateio[]" value="${valor_rateado
+                            .replace(".", "")
+                            .replace(".", "")
+                            .replace(".", "")
+                            .replace(",", ".")
+                            .replace("R$", "")}"/>` +
+                        `<input type="hidden" name="porcentagem_rateio[]" value="${porcentagem_valor}"/></div>`
+                );
+                qtdRateio = qtdRateio + 1;
+                id_button_rateio++;
+                limpaCamposRateio();
+            }
         }
     } else {
         alert("Preencha todos os campos!");
@@ -204,11 +215,13 @@ $("#seleciona_rateio").click(function () {
 });
 
 //remove o rateio da tabela e do form
-function removeRateio(id, valorRateado) {
+function removeRateio(id, valorRateado, centro_custo) {
     //subtrai o valor removido do valor total do rateio
     valorTotalRateio = valorTotalRateio - valorRateado;
     //atualiza o valor total do rateio no input
     $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
+
+    rateios.splice(rateios.indexOf(centro_custo), 1);
 
     $(`#tab-generated${id}`).remove();
     $(`#input-generated${id}`).remove();
