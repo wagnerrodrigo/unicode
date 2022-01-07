@@ -20,12 +20,12 @@
                                 <label class="input-group-text" for="inputStatus">STATUS</label>
                                 <select class="form-select" id="inputStatus" name="status">
                                     <option selected value=""></option>
-                                    <option name="provisionado" value="1">PROVISIONADO</option>
-                                    <option name="pago" value="2">PAGO</option>
+                                    <option name="a_pagar" value="6">A PAGAR</option>
                                     <option name="cancelado" value="3">CANCELADO</option>
                                     <option name="em_atraso" value="4">EM ATRASO</option>
                                     <option name="migracao" value="5">MIGRAÇÃO</option>
-                                    <option name="a_pagar" value="6">A PAGAR</option>
+                                    <option name="pago" value="2">PAGO</option>
+                                    <option name="provisionado" value="1">PROVISIONADO</option>
                                 </select>
                             </div>
                         </div>
