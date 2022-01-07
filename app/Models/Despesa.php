@@ -164,7 +164,7 @@ class Despesa extends Model
         DB::update(
             "UPDATE intranet.tab_despesa
             SET fk_status_despesa_id = 1
-            WHERE id_despesa = ?"    
+            WHERE id_despesa = ?"
         ,[$id_despesa]);
     }
 }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Despesa;
 use App\Models\Extrato;
+use App\Models\Lancamento;
+use App\Utils\Mascaras\Mascaras;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 class ExtratoController extends Controller
 {
@@ -17,11 +19,12 @@ class ExtratoController extends Controller
      */
     public function index()
     {
-
+        $mascara = new Mascaras();
         $extratos = Extrato::selectAll();
-        $despesas = Despesa::selectAll();
+        $despesas = Despesa::selectAll(config('constants.PROVISIONADO'));
+        //$lancamentos = Lancamento::selectAll();
 
-        return view('admin.extrato.extrato', compact('extratos', 'despesas'));
+        return view('admin.extrato.extrato', compact('extratos', 'despesas', 'mascara'));
     }
 
 

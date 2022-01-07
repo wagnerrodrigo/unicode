@@ -1,4 +1,5 @@
 <?php
+//constants status despesas
 return [
     'PROVISIONADO' => 1,
     'PAGO' => 2,

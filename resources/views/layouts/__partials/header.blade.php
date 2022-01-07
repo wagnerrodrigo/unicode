@@ -17,7 +17,7 @@
                         <li><a class="dropdown-item" href="{{route('despesas')}}">DESPESAS</a></li>
                         <li><a class="dropdown-item" href="{{route('fornecedores')}}">FORNECEDORES</a></li>
                         <li><a class="dropdown-item" href="{{route('lancamentos')}}">LANÇAMENTOS</a></li>
-                        <li><a class="dropdown-item" href="{{route('pagamentos')}}">PAGAMENTOS</a></li>
+                        <li><a class="dropdown-item" href="{{route('extrato')}}">PAGAMENTOS</a></li>
                     </ul>
                 </li>
             </ul>

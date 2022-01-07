@@ -2,7 +2,6 @@
 @section('title', 'Extrato')
 @section('content')
 
-{{-- @dd($extratos) --}}
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
 
@@ -45,121 +44,56 @@
                                 {{ $despesa->id_despesa }}
                                 <input type="checkbox" name="despesa" value="{{ $despesa->id_despesa }}" id="">
                             </td>
-                            <td> {{ $despesa->dt_vencimento }}</td>
+                            <td>{{date("d/m/Y", strtotime($despesa->dt_vencimento))}}</td>
                             <td>{{ $despesa->de_despesa }}</td>
                             <td>
                                 <button class="accordion-button custon-btn custon-btn-accordion"
-                                type="button" data-bs-toggle="collapse"
-                                href="#collapseExample{{ $despesa->id_despesa }}" role="button"
-                                aria-expanded="false" id="" aria-controls="collapseExample" style="width: 25px">
+                                    type="button" data-bs-toggle="collapse"
+                                    href="#collapseExample{{ $despesa->id_despesa }}"
+                                    role="button" aria-expanded="false" id=""
+                                    aria-controls="collapseExample" style="width: 25px">
                                 </button>
                             </td>
+                        </tr>
+                        @if ($extratos != null || !empty($extratos))
+                        <table class="collapse table table-borderless" id="collapseExample{{ $despesa->id_despesa }}">
+                            <tr class="table-dark">
+                                <th>ID EXTRATO</th>
+                                <th>NOME BANCO</th>
+                                <th>NUMERO CONTA</th>
+                                <th>DATA FIM</th>
+                                <th>VALOR TOTAL</th>
+                            </tr>
+                            @foreach ($extratos as $extrato)
+                            <tr>
+                                <td>
+                                    {{ $extrato->id_extrato }}
+                                    <input type="checkbox" value="{{ $extrato->id_extrato }}" name="" id="">
+                                </td>
+                                <td>
+                                    {{ $extrato->de_banco }}
+                                </td>
+                                <td>
+                                    {{ $extrato->nu_conta }}
+                                </td>
+                                <td>
 
-                        </tr>
-                        <tr class="collapse" id="collapseExample{{ $despesa->id_despesa }}">
-                            <td colspan="3">
-                                Some placeholder content for the collapse component. This panel is hidden by
-                                default
-                                but
-                                revealed when the user activates the relevant trigger.
-                                Some placeholder content for the collapse component. This panel is hidden by
-                                default
-                                but
-                                revealed when the user activates the relevant trigger.
-                            </td>
-                            <td>
-                                <a href="/extrato/id" class="btn btn-primary" style="padding: 8px 12px;">
-                                    <i class="bi bi-eye-fill"></i>
-                                </a>
-                            </td>
-                        </tr>
+                                    {{date("d/m/Y", strtotime($extrato->dtend))}}
+                                </td>
+                                <td>
+                                    {{ $mascara::maskMoeda($extrato->balamt) }}
+                                </td>
+
+                            </tr>
+                            @endforeach
+                        </table>
+                        @endif
                     </tbody>
                     @endforeach
                     @endif
                 </table>
             </div>
         </div>
-
-        {{-- Inicio do Card Extrato --}}
-        <div class="card">
-            <div class="card-header">
-                <h1>EXTRATO </h1>
-            </div>
-            <div class="card-body">
-                {{-- INICIO DOS CAMPOS DE SELECT --}}
-                <div class="d-flex">
-                    <div class="col-md-3">
-                        <div class="input-group mb-3" style="width: 250px">
-                            <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
-                            <input class="form-control" type="date" max="" name="" id="inputDataInicio">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group mb-3" style="width: 250px">
-                            <label class="input-group-text" for="inputDataFim">DATA FIM</label>
-                            <input class="form-control" type="date" min="" name="" id="inputDataFim">
-                        </div>
-                    </div>
-                </div>
-                {{-- FIM DOS CAMPOS DE SELECT --}}
-
-                <table class='table table-striped' id="table1">
-                    <thead>
-                        <tr>
-                            <th>ID Extrato</th>
-                            <th>INSTITUIÇÃO</th>
-                            <th>CONTA BANCARIA</th>
-                            <th>DATA DO PAGAMENTO</th>
-                            <th>AÇÕES</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if ($extratos != null || !empty($extratos))
-                        @foreach ($extratos as $extrato)
-                        <tr>
-                            <td>
-                                {{ $extrato->id_extrato }}
-                                <input type="checkbox" value="{{ $extrato->id_extrato }}" name="" id="">
-                            </td>
-
-                            <td>
-                                {{ $extrato->de_banco }}
-                            </td>
-                            <td>
-                                {{ $extrato->nu_conta }}
-                            </td>
-                            <td>
-                                {{ $extrato->dtend }}
-                            </td>
-                            <td>
-                                <button class="accordion-button custon-btn custon-btn-accordion" type="button" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 25px">
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @endif
-                        <tr class="collapse" id="collapseExample">
-                            <td colspan="3">
-                                Some placeholder content for the collapse component. This panel is hidden by default
-                                but
-                                revealed when the user activates the relevant trigger.
-                                Some placeholder content for the collapse component. This panel is hidden by default
-                                but
-                                revealed when the user activates the relevant trigger.
-                            </td>
-                            <td>
-                                <a href="/extrato/id" class="btn btn-primary" style="padding: 8px 12px;">
-                                    <i class="bi bi-eye-fill"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-                {{-- {{ $extratos->links() }} --}}
-            </div>
-        </div>
-        {{-- FIM do Card Extrato --}}
 
         <div class="col-sm-12 d-flex justify-content-end">
             <button type="submit" class="btn btn-primary me-1 mb-1">
