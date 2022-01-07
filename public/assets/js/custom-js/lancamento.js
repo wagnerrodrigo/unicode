@@ -172,8 +172,7 @@ $("#addContas").click(function() {
         valorTotalRateio + valorRateado > valorTotalDespesa ||
         valorTotalRateio > valorTotalDespesa
     ) {
-        alert("Valor maior que o valor total da despesa");
-        $("#adicionar_rateio").attr("disabled", true);
+        alert("Valor Rateado é maior que o valor total da despesa");
     } else {
 
         console.log({
@@ -237,7 +236,6 @@ function removeConta(id, valorRateado) {
 
     $(`#tab_conta${id}`).remove();
     $(`#input_generated_account${id}`).remove();
-    $("#adicionar_rateio").attr("disabled", false);
     $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
 
 }
