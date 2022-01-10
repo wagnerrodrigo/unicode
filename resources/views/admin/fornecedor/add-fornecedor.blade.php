@@ -17,6 +17,8 @@
                         <form action="{{route('fornecedores')}}" method="POST" style="padding: 10px;">
                             @csrf
                             <div class="d-flex mt-10" style="width: 100%">
+                                <div id="enderecos_gerados"></div>
+
                                 <div class="px-5 mb-3">
                                     <strong>Nome Fantasia</strong>
                                     <input class="form-control mt-1" type="text" placeholder="Nome" name="de_nome_fantasia" style="width: 358px" />
@@ -71,24 +73,18 @@
                             <table class="table table-bordered mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Logradouro</th>
-                                        <th>Numero</th>
-                                        <th>Bairro</th>
-                                        <th>Cidade</th>
-                                        <th>Remover</th>
+                                        <th>CEP</th>
+                                        <th>LOGRADOURO</th>
+                                        <th>NUMERO</th>
+                                        <th>COMPLEMENTO</th>
+                                        <th>BAIRRO</th>
+                                        <th>CIDADE</th>
+                                        <th>UF</th>
+                                        <th>REMOVER</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-bold-500">RUA SÃO BENTO</td>
-                                        <td>8</td>
-                                        <td class="text-bold-500">CENTRO</td>
-                                        <td>RIO DE JANEIRO</td>
-                                        <td>
-                                            <!-- mudar a rota -->
-                                            <a href="#" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></a>
-                                        </td>
-                                    </tr>
+                                <tbody id="table_endereco">
+                                    <!-- aqui são gerados os campos do endereço -->
                                 </tbody>
                             </table>
                         </div>
@@ -137,8 +133,8 @@
                     </div>
                     <!--Fim formulario para envio de cep para api -->
 
-                    <form action="/enderecos" method="POST" style="padding: 10px;">
-                        @csrf
+                    <form style="padding: 10px;">
+
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>Logradouro</strong>
@@ -146,7 +142,7 @@
                             </div>
                             <div class="px-5 mb-3">
                                 <strong>Número</strong>
-                                <input class="form-control mt-1" type="text" placeholder="Número" name="numero" style="width: 358px" />
+                                <input class="form-control mt-1" type="text" id="numero" placeholder="Número" name="numero" style="width: 358px" />
                             </div>
                         </div>
 
@@ -174,14 +170,14 @@
                             </div>
 
                             <div>
-                                <input type="hidden" id="retornoCep" name="retornoCep" />
+                                <input type="hidden" id="retorno_cep" name="retornoCep" />
                             </div>
                         </div>
 
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success me-1 mb-1">
+                        <button type="button" id="btn_modal" class="btn btn-success me-1 mb-1">
                             <i data-feather="check-circle"></i>Adicionar
                         </button>
                         <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
@@ -198,11 +194,18 @@
 <script src="{{ asset('assets/js/custom-js/mascara-cnpj-cpf.js') }}"></script>
 <script>
     $(document).ready(function() {
+        var cepRetornado = "";
+        var logradouro = "";
+        var numero = null;
+        var complemento = "";
+        var bairro = "";
+        var localidade = "";
+        var uf = "";
 
         $("#button_endereco").click(function() {
             // Limpa valores do formulário de cep.
             $("#cep").val("");
-            $("#retornoCep").val("");
+            $("#retorno_cep").val("");
             $("#logradouro").val("");
             $("#bairro").val("");
             $("#localidade").val("");
@@ -225,8 +228,9 @@
                 if (validacep.test(cep)) {
 
                     //Preenche os campos com "..." enquanto consulta webservice.
-                    $("#retornoCep").val("...");
+                    $("#retorno_cep").val("...");
                     $("#logradouro").val("...");
+                    $("#numero").val("...");
                     $("#complemento").val("...");
                     $("#bairro").val("...");
                     $("#localidade").val("...");
@@ -246,12 +250,18 @@
 
                                 var dados = JSON.parse(data.scalar);
 
-                                $("#retornoCep").val(dados.cep);
-                                $("#logradouro").val(dados.logradouro);
-                                $("#complemento").val(dados.complemento);
-                                $("#bairro").val(dados.bairro);
-                                $("#localidade").val(dados.localidade);
-                                $("#uf").val(dados.uf);
+                                cepRetornado = $("#retorno_cep").val(dados.cep);
+                                logradouro = $("#logradouro").val(dados.logradouro);
+                                complemento = $("#complemento").val(dados.complemento);
+                                numero = $("#numero").val('');
+                                bairro = $("#bairro").val(dados.bairro);
+                                localidade = $("#localidade").val(dados.localidade);
+                                uf = $("#uf").val(dados.uf);
+
+
+                                //TRANSFORMA OS CAMPOS EM READONLY
+                                $("#localidade").prop('readonly', true);
+                                $("#uf").prop('readonly', true);
                             } //end if.
                             else {
                                 //CEP pesquisado não foi encontrado.
@@ -271,7 +281,54 @@
                 limpa_formulário_cep();
             }
         });
+        //comecei daqui o endereco dinamico
+
+        $("#btn_modal").click(function() {
+            if (
+                cepRetornado == "" ||
+                logradouro == "" ||
+                bairro == "" ||
+                localidade == "" ||
+                uf == ""
+            ) {
+                alert("Preencha todos os campos!");
+            } else {
+                numero = $("#numero").val();
+
+                $("#enderecos_gerados").append(
+                    `<div id="gerado_${cepRetornado.val()}">` +
+                    `<input type="hidden" name="cep[]" value="${cepRetornado.val().toUpperCase()}" />` +
+                    `<input type="hidden" name="logradouro[]" value="${logradouro.val().toUpperCase()}" />` +
+                    `<input type="hidden" name="numero[]" value="${numero}"/>` +
+                    `<input type="hidden" name="complemento[]" value="${complemento.val().toUpperCase()}" />` +
+                    `<input type="hidden" name="bairro[]" value="${bairro.val().toUpperCase()}" />` +
+                    `<input type="hidden" name="localidade[]" value="${localidade.val().toUpperCase()}" />` +
+                    `<input type="hidden" name="uf[]" value="${uf.val().toUpperCase()}" />` +
+                    `</div>`
+                );
+
+                $("#table_endereco").append(
+                    `<tr id="${cepRetornado.val()}">` +
+                    `<td>${cepRetornado.val()}</td>` +
+                    `<td>${logradouro.val()}</td>` +
+                    `<td>${numero}</td>` +
+                    `<td>${complemento.val()}</td>` +
+                    `<td>${bairro.val()}</td>` +
+                    `<td>${localidade.val()}</td>` +
+                    `<td>${uf.val()}</td>` +
+                    `<td><button onclick="removeEndereco('${cepRetornado.val()}')" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button></td>` +
+                    "</tr>"
+                );
+            }
+        });
+
     });
+
+    function removeEndereco(id) {
+        $("#gerado_" + id).remove();
+        $("#" + id).remove();
+    }
 </script>
+
 
 @endsection

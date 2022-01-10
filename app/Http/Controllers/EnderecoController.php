@@ -62,7 +62,8 @@ class EnderecoController extends Controller
 
     public function store(Request $request)
     {
-        $endereco = new Endereco();
-        return response()->json($endereco);
+        dd($request->all());
+
+        //return response()->json($endereco);
     }
 }

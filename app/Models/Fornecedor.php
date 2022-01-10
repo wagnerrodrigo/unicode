@@ -24,10 +24,13 @@ class Fornecedor extends Model
     //Ao passar parametros, se atentar a ordem que é passado na query
     static function selectAll()
     {
-        $query = "SELECT * FROM intranet.tab_fornecedor";
-        $fornecedores = DB::select($query);
-
+        $fornecedores = DB::table('intranet.tab_fornecedor')->orderBy('de_razao_social', 'asc')->paginate(10);
         return $fornecedores;
+    }
+
+    static function findByTimeStamp($timestamp)
+    {
+        return DB::select("SELECT id_fornecedor FROM intranet.tab_fornecedor WHERE dt_inicio = ?", [$timestamp]);
     }
 
     static function create($fornecedor)
@@ -83,10 +86,10 @@ class Fornecedor extends Model
     }
 
     static function buscaCnpjCpf($nu_cpf_cnpj){
-        $data = DB::select("SELECT * FROM intranet.tab_fornecedor 
+        $data = DB::select("SELECT * FROM intranet.tab_fornecedor
         WHERE nu_cpf_cnpj LIKE'%" . $nu_cpf_cnpj . "%'");
 
-        
+
         $fornecedor = $data;
         return $fornecedor;
     }

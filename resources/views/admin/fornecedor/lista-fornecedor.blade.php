@@ -13,7 +13,7 @@
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
-                    @if( $fornecedoresAtivos === null || empty($fornecedoresAtivos))
+                    @if( $fornecedores === null || empty($fornecedores))
                     <tbody>
                         <tr>
                             <td>Nenhum Fornecedor Cadastrado</td>
@@ -22,7 +22,7 @@
                     @else
                     <thead>
                         <tr>
-                            <th>RAZÃO SSOCIAL</th>
+                            <th>RAZÃO SOCIAL</th>
                             <th>CPF/CNPJ</th>
                             <th>INSCRIÇÃO ESTADUAL</th>
                             <th>AÇÕES</th>
@@ -30,10 +30,14 @@
                     </thead>
 
                     <tbody>
-                        @foreach($fornecedoresAtivos as $fornecedor)
+                        @foreach($fornecedores as $fornecedor)
                         <tr>
-                            <td>{{$fornecedor->de_razao_social}}</td>
-                            <td>{{$fornecedor->nu_cpf_cnpj}}</td>
+                            <td>{{strtoupper($fornecedor->de_razao_social)}}</td>
+                            <td>
+                                {{strlen($fornecedor->nu_cpf_cnpj) === 14
+                                ? $mascara::mask($fornecedor->nu_cpf_cnpj, '##.###.###/####-##')
+                                : $mascara::mask($fornecedor->nu_cpf_cnpj, '###.###.###-##')}}
+                            </td>
                             <td>{{$fornecedor->inscricao_estadual}}</td>
                             <td>
                                 <a href="fornecedores/{{$fornecedor->id_fornecedor}}" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
@@ -80,16 +84,17 @@
                     </tbody>
                     @endif
                 </table>
+                {{$fornecedores->links();}}
             </div>
         </div>
     </div>
 </div>
 
-<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
+<!-- <script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
 
 <script src="assets/js/feather-icons/feather.min.js"></script>
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-<script src="assets/js/vendors.js"></script>
+<script src="assets/js/vendors.js"></script> -->
 
 <script src="assets/js/main.js"></script>
 

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Fornecedor;
+use App\Models\Endereco;
+use App\Models\UF;
+use App\Models\Cidade;
 use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
 
@@ -17,30 +20,9 @@ class FornecedorController extends Controller
     public function index()
     {
         $fornecedores = Fornecedor::selectAll();
+        $mascara = new Mascaras();
 
-        $fornecedoresAtivos = [];
-        $fornecedoresInativos = [];
-        //percorre o array de retorno de fornecedores
-        for ($i = 0; $i < count($fornecedores); $i++) {
-            //verifica se o fornecedor está ativo - pela data fim nula
-            if ($fornecedores[$i]->dt_fim === null) {
-                //verifica se a variavel nu_cpf_cnpj tem 14 digitos ou 11
-                if (strlen($fornecedores[$i]->nu_cpf_cnpj) === 14) {
-                    //se for 14 digitos, é um cnpj e é aplicada a mascara
-                    $fornecedores[$i]->nu_cpf_cnpj = Mascaras::mask($fornecedores[$i]->nu_cpf_cnpj, '##.###.###/####-##');
-                } else {
-                    //se for 11 digitos, é um cpf e é aplicada a mascara
-                    $fornecedores[$i]->nu_cpf_cnpj = Mascaras::mask($fornecedores[$i]->nu_cpf_cnpj, '###.###.###-##');
-                }
-                //adiciona o fornecedor ativo ao array de fornecedores ativos
-                $fornecedoresAtivos[] = $fornecedores[$i];
-            } else {
-                //adiciona o fornecedor inativo ao array de fornecedores inativos
-                $fornecedoresInativos[] = $fornecedores[$i];
-            };
-        }
-
-        return view('admin.fornecedor.lista-fornecedor', compact('fornecedoresAtivos'));
+        return view('admin.fornecedor.lista-fornecedor', compact('fornecedores', 'mascara'));
     }
 
     public function formFornecedores()
@@ -57,19 +39,66 @@ class FornecedorController extends Controller
     public function store(Request $request)
     {
         $fornecedor = new Fornecedor();
-        $camposRequisicao = $request->all();
-
         //transforma todo o request em UpperCase
-        foreach ($camposRequisicao as $key => $value) {
-            if ($key != '_token') {
-                $fornecedor->$key = strtoupper($value);
-            }
+
+        $fornecedor->de_razao_social = strtoupper($request->de_razao_social);
+        $fornecedor->de_nome_fantasia = strtoupper($request->de_nome_fantasia);
+        $fornecedor->nu_cpf_cnpj = $request->nu_cpf_cnpj;
+        $fornecedor->inscricao_estadual = $request->inscricao_estadual;
+        $fornecedor->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+        //cria o fornecedor
+        Fornecedor::create($fornecedor);
+
+        //busca o id do fornecedor inserido
+
+        $timestamp = $fornecedor->dt_inicio;
+        $fornecedor_id = Fornecedor::findByTimeStamp($timestamp);
+
+
+        //instancia o model UF para buscar o id_uf
+        $uf = new UF();
+
+
+        //instancia o model cidade para buscar o id_cidade
+        $cidade = new Cidade();
+        //separa os enderecos em um array
+        for ($i = 0; $i < count($request->cep); $i++) {
+            $uf_id = $uf::findIdByUF($request->uf[$i]);
+            $cidade_id = $cidade::findIdByCidade($request->localidade[$i]);
+            $cep = str_replace('-', '', $request->cep[$i]);
+            $enderecos[] = [
+                "cep" => $cep ,
+                "logradouro" => $request->logradouro[$i],
+                "numero" => $request->numero[$i],
+                "complemento" => $request->complemento[$i],
+                "bairro" => $request->bairro[$i],
+                "fk_tab_cidade_id" => $cidade_id,
+                "fk_tab_uf_id" => $uf_id,
+            ];
+        }
+
+        //salva os enderecos
+        $endereco = new Endereco();
+
+        for ($i = 0; $i < count($enderecos); $i++) {
+            $endereco->fk_tab_fornecedor_id = $fornecedor_id[0]->id_fornecedor;
+            $endereco->cep = $enderecos[$i]['cep'];
+            $endereco->fk_tipo_logradouro = 1;
+            $endereco->fk_tipo_endereco_id = 2;
+            $endereco->logradouro = $enderecos[$i]['logradouro'];
+            $endereco->numero = $enderecos[$i]['numero'];
+            $endereco->complemento = $enderecos[$i]['complemento'];
+            $endereco->bairro = $enderecos[$i]['bairro'];
+            $endereco->fk_tab_cidade_id = $enderecos[$i]['fk_tab_cidade_id'];
+            $endereco->fk_tab_uf_id = $enderecos[$i]['fk_tab_uf_id'];
+            $endereco->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+            $endereco->dt_fim = null;
+
+            Endereco::create($endereco);
         }
 
         //Adiciona a data de inicio do fornecedor
-        $fornecedor->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
 
-        Fornecedor::create($fornecedor);
 
         return redirect()->route('fornecedores');
     }
