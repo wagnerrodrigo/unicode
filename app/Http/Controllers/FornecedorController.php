@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Fornecedor;
 use App\Models\Endereco;
-use App\Models\UF;
-use App\Models\Cidade;
+use App\Repository\EnderecoRepository;
 use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
 
@@ -55,50 +54,22 @@ class FornecedorController extends Controller
         $fornecedor_id = Fornecedor::findByTimeStamp($timestamp);
 
 
-        //instancia o model UF para buscar o id_uf
-        $uf = new UF();
 
-
-        //instancia o model cidade para buscar o id_cidade
-        $cidade = new Cidade();
-        //separa os enderecos em um array
         for ($i = 0; $i < count($request->cep); $i++) {
-            $uf_id = $uf::findIdByUF($request->uf[$i]);
-            $cidade_id = $cidade::findIdByCidade($request->localidade[$i]);
-            $cep = str_replace('-', '', $request->cep[$i]);
             $enderecos[] = [
-                "cep" => $cep ,
+                "cep" => $request->cep[$i],
                 "logradouro" => $request->logradouro[$i],
                 "numero" => $request->numero[$i],
                 "complemento" => $request->complemento[$i],
                 "bairro" => $request->bairro[$i],
-                "fk_tab_cidade_id" => $cidade_id,
-                "fk_tab_uf_id" => $uf_id,
+                "localidade" => $request->localidade[$i],
+                "uf" => $request->uf[$i],
             ];
         }
 
-        //salva os enderecos
-        $endereco = new Endereco();
-
-        for ($i = 0; $i < count($enderecos); $i++) {
-            $endereco->fk_tab_fornecedor_id = $fornecedor_id[0]->id_fornecedor;
-            $endereco->cep = $enderecos[$i]['cep'];
-            $endereco->fk_tipo_logradouro = 1;
-            $endereco->fk_tipo_endereco_id = 2;
-            $endereco->logradouro = $enderecos[$i]['logradouro'];
-            $endereco->numero = $enderecos[$i]['numero'];
-            $endereco->complemento = $enderecos[$i]['complemento'];
-            $endereco->bairro = $enderecos[$i]['bairro'];
-            $endereco->fk_tab_cidade_id = $enderecos[$i]['fk_tab_cidade_id'];
-            $endereco->fk_tab_uf_id = $enderecos[$i]['fk_tab_uf_id'];
-            $endereco->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-            $endereco->dt_fim = null;
-
-            Endereco::create($endereco);
-        }
-
-        //Adiciona a data de inicio do fornecedor
-
+        //salva o endereco
+        $repository = new EnderecoRepository();
+        $repository->createEndereco($fornecedor_id, $enderecos);
 
         return redirect()->route('fornecedores');
     }

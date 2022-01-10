@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Endereco;
-
 use Illuminate\Http\Request;
 
 class EnderecoController extends Controller
@@ -35,8 +34,6 @@ class EnderecoController extends Controller
     {
         $enderecos = Endereco::empresa();
 
-
-
         $enderecosAtivos = [];
         $enderecosInativos = [];
 
@@ -60,10 +57,7 @@ class EnderecoController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
-        dd($request->all());
+    public function store(){
 
-        //return response()->json($endereco);
     }
 }

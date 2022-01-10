@@ -17,8 +17,8 @@ class TesteController extends Controller
         $uf = new UF();
         $cidade = new Cidade();
 
-        $uf::findIdByUF('MG');
-        $cidade::findIdByCidade('BELO HORIZONTE');
+        $uf = $uf::findIdByUF('MG');
+        $cidade = $cidade::findIdByCidade('BELO HORIZONTE');
 
         dd($uf, $cidade);
     }
