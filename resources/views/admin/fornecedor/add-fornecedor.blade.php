@@ -61,7 +61,7 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <h3>Endereço</h3>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#xlarge">
+                            <button class="btn btn-primary" onclick="return limpaCampos()" type="button" data-bs-toggle="modal" data-bs-target="#xlarge">
                                 <i class="bi bi-plus"></i>
                             </button>
                         </div>
@@ -319,6 +319,8 @@
                     `<td><button onclick="removeEndereco('${cepRetornado.val()}')" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button></td>` +
                     "</tr>"
                 );
+
+                limpaCampos();
             }
         });
 
@@ -327,6 +329,17 @@
     function removeEndereco(id) {
         $("#gerado_" + id).remove();
         $("#" + id).remove();
+    }
+
+    function limpaCampos(){
+        $("#cep").val("");
+        $("#retorno_cep").val("");
+        $("#logradouro").val("");
+        $("#bairro").val("");
+        $("#localidade").val("");
+        $("#uf").val("");
+        $("#numero").val("");
+        $("#complemento").val("");
     }
 </script>
 
