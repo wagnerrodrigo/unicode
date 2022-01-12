@@ -10,6 +10,7 @@ class Despesa extends Model
 {
     use HasFactory;
 
+    protected $query;
     protected $fillable = [
         'fk_tab_centro_custo_id',
         'fk_tab_tipo_despesa_id',
@@ -36,20 +37,39 @@ class Despesa extends Model
     ];
 
     //Ao passar parametros, se atentar a ordem que é passado na query
-    static function selectAll($status = null)
+    static function selectAll($results, $status = null, $chave_busca = null, $valor_busca = null)
     {
-        if ($status) {
-            $despesas = DB::table('intranet.tab_despesa')
-                ->join(
-                    'intranet.status_despesa',
-                    'intranet.status_despesa.id_status_despesa',
-                    '=',
-                    'intranet.tab_despesa.fk_status_despesa_id'
-                )->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")->orderBy('de_status_despesa', 'asc')->paginate(10);
-        } else {
-            $despesas = DB::table('intranet.tab_despesa')
-                ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
-                ->orderBy('de_status_despesa', 'asc')->paginate(10);
+        $query = DB::table('intranet.tab_despesa')
+            ->join(
+                'intranet.status_despesa',
+                'intranet.status_despesa.id_status_despesa',
+                '=',
+                'intranet.tab_despesa.fk_status_despesa_id'
+            );
+
+        if ($chave_busca && $valor_busca && $status) {
+            $despesas = $query
+                ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
+                ->where("intranet.tab_despesa.$chave_busca", '=', "$valor_busca")
+                ->orderBy('de_status_despesa', 'asc')->paginate($results);
+
+        } else if ($chave_busca && $valor_busca && !$status) {
+            $despesas = $query
+                ->where("intranet.tab_despesa.$chave_busca", '=', "$valor_busca")
+                ->orderBy('de_status_despesa', 'asc')
+                ->paginate($results);
+
+        } else if (!$chave_busca && !$valor_busca && $status) {
+            $despesas = $query
+                ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
+                ->orderBy('de_status_despesa', 'asc')
+                ->paginate($results);
+
+        } else if (!$chave_busca && !$valor_busca && !$status) {
+
+            $despesas = $query
+                ->orderBy('de_status_despesa', 'asc')
+                ->paginate($results);
         }
         return $despesas;
     }
@@ -160,11 +180,13 @@ class Despesa extends Model
         WHERE id_fornecedor = ?", [$dataFim, $id]);
     }
 
-    static function setStatus($id_despesa){
+    static function setStatus($id_despesa)
+    {
         DB::update(
             "UPDATE intranet.tab_despesa
             SET fk_status_despesa_id = 1
-            WHERE id_despesa = ?"
-        ,[$id_despesa]);
+            WHERE id_despesa = ?",
+            [$id_despesa]
+        );
     }
 }

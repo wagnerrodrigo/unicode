@@ -20,14 +20,21 @@ class DespesaController extends Controller
      */
     public function index(Request $request)
     {
+        //dd($request);
         $mascara = new Mascaras();
-        if ($request->has('status')) {
-            $status_despesa = $request->input('status');
+        //quantidade de resultados por pagina
+        $results = $request->input('results');
+        $chave_busca = $request->input('chave_busca');
+        $valor_busca = $request->input('valor_busca');
+        $status_despesa = $request->input('status');
 
-            $despesas = Despesa::selectAll($status_despesa);
-        } else {
-            $despesas = Despesa::selectAll();
+        if($request->has('status')){
+
+            $despesas = Despesa::selectAll($results, $status_despesa, $chave_busca, $valor_busca);
+        }else{
+            $despesas = Despesa::selectAll($results = 10);
         }
+
 
         return view('admin.despesas.lista-despesas', compact('despesas', 'mascara'));
     }

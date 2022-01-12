@@ -30,9 +30,10 @@
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>ID Extrato</th>
+                            <th>ID EXTRATO</th>
                             <th>DATA DO VENCIMENTO</th>
                             <th>DESCRIÇÃO</th>
+                            <th>STATUS</th>
                             <th>AÇÕES</th>
                         </tr>
                     </thead>
@@ -46,12 +47,9 @@
                             </td>
                             <td>{{date("d/m/Y", strtotime($despesa->dt_vencimento))}}</td>
                             <td>{{ $despesa->de_despesa }}</td>
+
                             <td>
-                                <button class="accordion-button custon-btn custon-btn-accordion"
-                                    type="button" data-bs-toggle="collapse"
-                                    href="#collapseExample{{ $despesa->id_despesa }}"
-                                    role="button" aria-expanded="false" id=""
-                                    aria-controls="collapseExample" style="width: 25px">
+                                <button class="accordion-button custon-btn custon-btn-accordion" type="button" data-bs-toggle="collapse" href="#collapseExample{{ $despesa->id_despesa }}" role="button" aria-expanded="false" id="" aria-controls="collapseExample" style="width: 25px">
                                 </button>
                             </td>
                         </tr>

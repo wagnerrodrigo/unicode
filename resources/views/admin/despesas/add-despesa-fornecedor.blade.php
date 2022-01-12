@@ -269,8 +269,23 @@
                             <select class="form-control input-add" name="tipo_documento" id="tipo_documento">
                                 <option selected value=""></option>
                                 <option value="BOLETO">BOLETO</option>
-                                <option value="NFE">NF-E</option>
-                                <option value="CONTRATO">CONTRATO</option>
+                                <option value="DAE">DAE</option>
+                                <option value="DAJE">DAJE</option>
+                                <option value="DARF">DARF</option>
+                                <option value="DARF PREVIDENCIARIO">DARF PREVIDENCIÁRIO</option>
+                                <option value="DARM">DARM</option>
+                                <option value="DASP">DASP</option>
+                                <option value="DEPOSITO">DEPÓSITO</option>
+                                <option value="FATURA">FATURA</option>
+                                <option value="GPS">GPS</option>
+                                <option value="GRERJ">GRERJ</option>
+                                <option value="GRRF">GRRF</option>
+                                <option value="GRU">GRU</option>
+                                <option value="NOTA FISCAL">NOTA FISCAL</option>
+                                <option value="OUTROS">OUTROS</option>
+                                <option value="PIX">PIX</option>
+                                <option value="RECIBO">RECIBO</option>
+                                <option value="TRCT">TRCT</option>
                             </select>
                             <!-- <input type="text" class="form-control input-add" name="tipo_documento" /> -->
                         </div>
