@@ -6,9 +6,9 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Lista Fornecedores</h1>
+                <h1>LISTA FORNECEDORES</h1>
                 <a href="fornecedores/adicionar" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Novo Fornecedor
+                    <i class="bi bi-plus-circle"></i> NOVO FORNECEDOR
                 </a>
 
                 <!-- Form de filtro por status -->
@@ -51,7 +51,7 @@
                     @if( $fornecedores === null || empty($fornecedores))
                     <tbody>
                         <tr>
-                            <td>Nenhum Fornecedor Cadastrado</td>
+                            <td>NENHUM FORNECEDOR CADASTRADO</td>
                         </tr>
                     </tbody>
                     @else

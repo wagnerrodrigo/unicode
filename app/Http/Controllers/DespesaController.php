@@ -28,10 +28,10 @@ class DespesaController extends Controller
         $valor_busca = $request->input('valor_busca');
         $status_despesa = $request->input('status');
 
-        if($request->has('status')){
+        if ($request->has('status')) {
 
             $despesas = Despesa::selectAll($results, $status_despesa, $chave_busca, $valor_busca);
-        }else{
+        } else {
             $despesas = Despesa::selectAll($results = 10);
         }
 
@@ -66,30 +66,6 @@ class DespesaController extends Controller
         $request->valor_total = str_replace(",", ".", $request->valor_total);
         //remove um caracter especial do campo valor total -> bug gerado pelo R$
         $condicaoPagamentoId = new CondicaoPagamentoId();
-
-        //caso haja rateio na despesa executa
-        if ($request->empresa_rateio) {
-            $rateios = [];
-            //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
-            for ($i = 0; $i < count($request->empresa_rateio); $i++) {
-                $rateios[] = [
-                    'centro_custo_rateio' => $request->custo_rateio[$i],
-                    'valor_rateio' => trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0"),
-                    'porcentagem_rateio' => $request->porcentagem_rateio[$i],
-                ];
-            }
-            //instancia um objeto do model Rateio
-            $rateio = new Rateio();
-            //percorre o novo array e chama o metodo de inserção no banco para cada indice do array de rateios
-            for ($i = 0; $i < count($rateios); $i++) {
-                $rateio->fk_tab_centro_custo_id = $rateios[$i]['centro_custo_rateio'];
-                $rateio->valor_rateio_despesa = $rateios[$i]['valor_rateio'];
-                $rateio->porcentagem_rateio_despesa = $rateios[$i]['porcentagem_rateio'];
-                $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                $rateio->dt_fim = null;
-                Rateio::create($rateio);
-            }
-        }
 
         //instancia model Despesa
         $despesa = new Despesa();
@@ -130,6 +106,35 @@ class DespesaController extends Controller
         $timestamp = $despesa->dt_inicio;
         //pega o id da despesa criada anteriormente para inserir na tabela ItemDespesa
         $id_despesa = Despesa::findByTimeStamp($timestamp);
+
+       // dd($id_despesa[0]->id_despesa);
+
+        //caso haja rateio na despesa executa
+        if ($request->empresa_rateio) {
+            $rateios = [];
+            //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
+            for ($i = 0; $i < count($request->empresa_rateio); $i++) {
+                $rateios[] = [
+                    'centro_custo_rateio' => $request->custo_rateio[$i],
+                    'valor_rateio' => trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0"),
+                    'porcentagem_rateio' => $request->porcentagem_rateio[$i],
+                ];
+            }
+            //instancia um objeto do model Rateio
+            $rateio = new Rateio();
+            //percorre o novo array e chama o metodo de inserção no banco para cada indice do array de rateios
+            for ($i = 0; $i < count($rateios); $i++) {
+                $rateio->fk_tab_centro_custo_id = $rateios[$i]['centro_custo_rateio'];
+                $rateio->valor_rateio_despesa = $rateios[$i]['valor_rateio'];
+                $rateio->porcentagem_rateio_despesa = $rateios[$i]['porcentagem_rateio'];
+                $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                $rateio->dt_fim = null;
+                $rateio->fk_tab_despesa = $id_despesa[0]->id_despesa;
+                Rateio::create($rateio);
+            }
+        }
+
+
         //caso haja produto na despesa executa
         if ($request->id_produto) {
             $itensDespesa = [];

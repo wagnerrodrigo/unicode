@@ -7,7 +7,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Despesa</h1>
+                <h1>CADASTRAR DESPESA</h1>
             </div>
             <div class="card-body d-flex flex-column">
                 <div class="justify-content-center" id="list-despesa" style="padding: 10px;">
@@ -298,9 +298,9 @@
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-success me-1 mb-1">
-                                <i data-feather="check-circle"></i>Adicionar
+                                <i data-feather="check-circle"></i>ADICIONAR
                             </button>
-                            <a href="{{ route('despesas') }}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                            <a href="{{ route('despesas') }}" class="btn btn-secondary me-1 mb-1">CANCELAR</a>
                         </div>
                     </div>
                     </form>
@@ -414,7 +414,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel16">Novo Rateio</h4>
+                    <h4 class="modal-title" id="myModalLabel16">RATEIO</h4>
 
                     <div>
                         <span>VALOR TOTAL: </span>

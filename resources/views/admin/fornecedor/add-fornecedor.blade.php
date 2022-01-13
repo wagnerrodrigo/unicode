@@ -7,7 +7,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Novo Fornecedor/Prestador</h1>
+                <h1>NOVO FORNECEDOR/PRESTADOR</h1>
             </div>
             <div class="card-body d-flex justify-content-center">
                 <!--inicio Tab -->
@@ -20,18 +20,18 @@
                                 <div id="enderecos_gerados"></div>
 
                                 <div class="px-5 mb-3">
-                                    <strong>Nome Fantasia</strong>
+                                    <strong>NOME FANTASIA</strong>
                                     <input class="form-control mt-1" type="text" placeholder="Nome" name="de_nome_fantasia" style="width: 358px" />
                                 </div>
                                 <div class="px-5 mb-3">
-                                    <strong>Razão Social</strong>
+                                    <strong>RAZÃO SOCIAL</strong>
                                     <input class="form-control mt-1" type="text" placeholder="Razão Social" name="de_razao_social" style="width: 358px" />
                                 </div>
                             </div>
 
                             <div class="d-flex" style="width: 100%">
                                 <div class="px-5 mb-3">
-                                    <strong>Inscrição Estadual</strong>
+                                    <strong>INSCRIÇÃO ESTADUAL</strong>
                                     <input class="form-control mt-1" type="text" placeholder="Incrição estadual" name="inscricao_estadual" style="width: 358px" />
                                 </div>
 
@@ -60,7 +60,7 @@
 
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
-                            <h3>Endereço</h3>
+                            <h3>ENDEREÇO</h3>
                             <button class="btn btn-primary" onclick="return limpaCampos()" type="button" data-bs-toggle="modal" data-bs-target="#xlarge">
                                 <i class="bi bi-plus"></i>
                             </button>
@@ -94,9 +94,9 @@
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-success me-1 mb-1">
-                                <i data-feather="check-circle"></i>Adicionar
+                                <i data-feather="check-circle"></i>ADICIONAR
                             </button>
-                            <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                            <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">CANCELAR</a>
                         </div>
                         </form>
                     </div>
@@ -115,7 +115,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel16">Novo Endereço</h4>
+                    <h4 class="modal-title" id="myModalLabel16">CADASTRAR ENDEREÇO</h4>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <i class="bi bi-x" data-feather="x"></i>
                     </button>
@@ -126,7 +126,7 @@
                         <form action="#" method="POST" id="formCep" style="padding: 10px;">
                             @csrf
                             <div class="px-5 mb-3">
-                                <strong>Cep</strong>
+                                <strong>CEP</strong>
                                 <input class="form-control mt-1" type="text" id="cep" placeholder="Cep" name="cep" style="width: 358px" />
                             </div>
                         </form>
@@ -137,23 +137,23 @@
 
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>Logradouro</strong>
+                                <strong>LOGRADOURO</strong>
                                 <input class="form-control mt-1" type="text" id="logradouro" placeholder="Logradouro" name="logradouro" style="width: 358px" />
                             </div>
                             <div class="px-5 mb-3">
-                                <strong>Número</strong>
+                                <strong>NÚMERO</strong>
                                 <input class="form-control mt-1" type="text" id="numero" placeholder="Número" name="numero" style="width: 358px" />
                             </div>
                         </div>
 
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>Complemento(opcional)</strong>
+                                <strong>COMPLEMENTO(OPCIONAL)</strong>
                                 <input class="form-control mt-1" id="complemento" type="text" placeholder="Complemento" name="complemento" style="width: 358px" />
                             </div>
 
                             <div class="px-5 mb-3">
-                                <strong>Bairro</strong>
+                                <strong>BAIRRO</strong>
                                 <input class="form-control mt-1" id="bairro" type="text" placeholder="Bairro" name="bairro" style="width: 358px" />
                             </div>
 
@@ -161,11 +161,11 @@
 
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>Cidade</strong>
+                                <strong>CIDADE</strong>
                                 <input class="form-control mt-1" id="localidade" type="text" placeholder="Cidade" name="cidade" style="width: 358px" />
                             </div>
                             <div class="px-5 mb-3">
-                                <strong>Estado</strong>
+                                <strong>ESTADO</strong>
                                 <input class="form-control mt-1" id="uf" type="text" placeholder="Estado" name="estado" style="width: 358px" />
                             </div>
 
@@ -178,9 +178,9 @@
                 <div class="modal-footer">
                     <div class="col-sm-12 d-flex justify-content-end">
                         <button type="button" id="btn_modal" class="btn btn-success me-1 mb-1">
-                            <i data-feather="check-circle"></i>Adicionar
+                            <i data-feather="check-circle"></i>ADICIONAR
                         </button>
-                        <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                        <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">CANCELAR</a>
                     </div>
                     </form>
                 </div>

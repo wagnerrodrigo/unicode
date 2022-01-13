@@ -15,9 +15,9 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="financeiro">
                         <li><a class="dropdown-item" href="{{route('despesas')}}">DESPESAS</a></li>
+                        <li><a class="dropdown-item" href="{{route('extrato')}}">EXTRATO</a></li>
                         <li><a class="dropdown-item" href="{{route('fornecedores')}}">FORNECEDORES</a></li>
                         <li><a class="dropdown-item" href="{{route('lancamentos')}}">LANÇAMENTOS</a></li>
-                        <li><a class="dropdown-item" href="{{route('extrato')}}">EXTRATO</a></li>
                     </ul>
                 </li>
             </ul>

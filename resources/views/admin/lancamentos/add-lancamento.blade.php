@@ -7,8 +7,8 @@
     <div id="main" style="margin-top: 5px;">
         <div class="main-content container-fluid">
             <div class="card">
-                <div class="card-header">                  
-                    <h1>Efetivo Pagamento da despesa numero : {{ $lancamento->id_despesa }}</h1>
+                <div class="card-header">
+                    <h1>LANÇAMENTO DESPESA:{{ $lancamento->id_despesa }}</h1>
                 </div>
                 <div class="card-body" style="font-size: 18px;">
 
@@ -86,14 +86,14 @@
 
                     <form action="/lancamentos/adicionar" method="post">
                         @csrf
-                        
+
                         <input type="hidden" id="hidden_inputs_itens">
 
                         <input type="hidden" name="id_despesa" id="id_despesa" value="{{$lancamento->id_despesa}}">
                         <input type="hidden" name="fk_condicao_pagamento_id" id="fk_condicao_pagamento_id" value="{{$lancamento->fk_condicao_pagamento_id}}">
                         <input type="hidden" name="id_empresa" id="id_empresa" value="{{$lancamento->id_empresa}}">
                         <input type="hidden" name="valor_total_despesa" id="valor_total_despesa" value="{{ $lancamento->valor_total_despesa }}">
-                        
+
                         <div class="d-flex" style="width: 100%;  margin: 15px;">
                             <div class="px-1 mb-3">
                                 <div class="table-responsive">
@@ -121,8 +121,8 @@
 
                 <div class="card-footer col-sm-12 d-flex justify-content-end">
 
-                    <button type="submit" class="btn btn-primary  me-1 mb-1">Cadastra Pagamento</button>
-                    <a href="{{ route('pagamentos') }}" class="btn btn-danger  me-1 mb-1">Cancelar</a>
+                    <button type="submit" class="btn btn-primary  me-1 mb-1">ADICIONAR</button>
+                    <a href="{{ route('pagamentos') }}" class="btn btn-danger  me-1 mb-1">CANCELAR</a>
                 </div>
             </div>
             </form>
@@ -208,10 +208,10 @@
                         <div class="modal-footer">
                             <div class="col-sm-12 d-flex justify-content-end">
                                 <button class="btn btn-success me-1 mb-1" type="button" id="addContas">
-                                    <i data-feather="check-circle"></i>Adicionar
+                                    <i data-feather="check-circle"></i>ADICIONAR
                                 </button>
                                 <button type="button" class="close btn btn-secondary me-1 mb-1" onclick="limpaCamposRateio()" data-bs-dismiss="modal"
-                                    aria-label="Close">Cancelar</button>
+                                    aria-label="Close">CANCELAR</button>
                             </div>
                         </div>
                     </div>

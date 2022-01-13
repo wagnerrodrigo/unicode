@@ -6,7 +6,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Detalhe do lançamento</h1>
+                <h1>LANÇAMENTOS</h1>
             </div>
             <div class="card-body">
                 <form action="" method="GET">

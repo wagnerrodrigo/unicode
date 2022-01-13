@@ -6,9 +6,9 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Despesas</h1>
+                <h1>DESPESAS</h1>
                 <a href="/despesas/adicionar" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Nova Despesa
+                    <i class="bi bi-plus-circle"></i> NOVA DESPESA
                 </a>
             </div>
             <div class="card-body">
@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="input-group mb-3" style="width: 350px">
-                                <label class="input-group-text" for="inputStatus">BUSCA</label>
+                                <label class="input-group-text" for="inputStatus">FILTRO</label>
                                 <select class="form-select" id="inputBusca" name="chave_busca">
                                     <option selected value=""></option>
                                     <option value="id_despesa">NÚMERO</option>
