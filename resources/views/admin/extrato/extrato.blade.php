@@ -35,6 +35,7 @@
                             <th>DESCRIÇÃO</th>
                             <th>STATUS</th>
                             <th>AÇÕES</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,6 +48,12 @@
                             </td>
                             <td>{{date("d/m/Y", strtotime($despesa->dt_vencimento))}}</td>
                             <td>{{ $despesa->de_despesa }}</td>
+                            <td>{{ $despesa->de_despesa }}</td>
+                            <td>
+                                <button data-bs-toggle="modal" data-bs-target="#xlarge-view" class="btn btn-primary" style="padding: 8px 12px;">
+                                    <i class="bi bi-eye-fill"></i>
+                                </button>
+                            </td>
 
                             <td>
                                 <button class="accordion-button custon-btn custon-btn-accordion" type="button" data-bs-toggle="collapse" href="#collapseExample{{ $despesa->id_despesa }}" role="button" aria-expanded="false" id="" aria-controls="collapseExample" style="width: 25px">
@@ -81,7 +88,6 @@
                                 <td>
                                     {{ $mascara::maskMoeda($extrato->balamt) }}
                                 </td>
-
                             </tr>
                             @endforeach
                         </table>

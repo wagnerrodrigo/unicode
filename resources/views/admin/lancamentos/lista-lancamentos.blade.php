@@ -31,11 +31,7 @@
                                 <select class="form-select" id="inputStatus" name="status">
                                     <option value="" selected></option>
                                     <option name="a_pagar" value="6">A PAGAR</option>
-                                    <option name="cancelado" value="3">CANCELADO</option>
                                     <option name="em_atraso" value="4">EM ATRASO</option>
-                                    <option name="migracao" value="5">MIGRAÇÃO</option>
-                                    <option name="pago" value="2">PAGO</option>
-                                    <option name="provisionado" value="1">PROVISIONADO</option>
                                 </select>
                             </div>
                         </div>
@@ -61,7 +57,6 @@
                         <th>DESPESA</th>
                         <th>DESCRIÇÃO DESPESA</th>
                         <th>VALOR DA DESPESA</th>
-                        <th>DATA DO PROVISIONAMENTO</th>
                         <th>DATA VENCIMENTO</th>
                         <th>STATUS</th>
                         <th>AÇÕES</th>
@@ -73,7 +68,6 @@
                             <td>{{$lancamento->id_despesa}}</td>
                             <td>{{$lancamento->de_despesa}}</td>
                             <td>{{$mascara::maskMoeda($lancamento->valor_total_despesa)}}</td>
-                            <td>{{date("d/m/Y", strtotime($lancamento->dt_provisionamento))}}</td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
                             <td>{{$lancamento->de_status_despesa}}</td>
                             <td>

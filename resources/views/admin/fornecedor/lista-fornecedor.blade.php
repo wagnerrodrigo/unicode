@@ -10,6 +10,41 @@
                 <a href="fornecedores/adicionar" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Novo Fornecedor
                 </a>
+
+                <!-- Form de filtro por status -->
+                <div style="margin-top: 10px">
+                    <form name="form_status">
+                        <div class="d-flex">
+                            <div class="col-md-3">
+                                <div class="input-group mb-3" style="width: 250px">
+                                    <label class="input-group-text" for="inputStatus">RESULTADOS</label>
+                                    <select class="form-select" id="inputStatus" name="results">
+                                        <option name="results" selected value="10">10</option>
+                                        <option name="results" value="15">15</option>
+                                        <option name="results" value="20">20</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group mb-3" style="width: 350px">
+                                    <label class="input-group-text" for="inputStatus">FILTRO</label>
+                                    <select class="form-select" id="inputBusca" name="chave_busca_fornecedor">
+                                        <option selected value=""></option>
+                                        <option value="de_razao_social">RAZÃO SOCIAL</option>
+                                        <option value="nu_cpf_cnpj">CPF/CNPJ</option>
+                                    </select>
+                                    <input type="text" class="busca_despesa" id="valor_busca_fornecedor" name="valor_busca_fornecedor">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary" style="padding: 8px 12px;">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">

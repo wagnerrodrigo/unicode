@@ -22,9 +22,18 @@ class Fornecedor extends Model
     ];
 
     //Ao passar parametros, se atentar a ordem que é passado na query
-    static function selectAll()
+    static function selectAll($results, $chave_filtro = null, $valor_filtro = null)
     {
-        $fornecedores = DB::table('intranet.tab_fornecedor')->orderBy('de_razao_social', 'asc')->paginate(10);
+        if ($chave_filtro && $valor_filtro) {
+            $fornecedores = DB::table('intranet.tab_fornecedor')
+                ->where($chave_filtro, 'like', '%' . $valor_filtro . '%')
+                ->paginate($results);
+        } else {
+            $fornecedores = DB::table('intranet.tab_fornecedor')
+                ->orderBy('de_razao_social', 'asc')
+                ->paginate($results);
+        }
+
         return $fornecedores;
     }
 
@@ -85,7 +94,8 @@ class Fornecedor extends Model
         ]);
     }
 
-    static function buscaCnpjCpf($nu_cpf_cnpj){
+    static function buscaCnpjCpf($nu_cpf_cnpj)
+    {
         $data = DB::select("SELECT * FROM intranet.tab_fornecedor
         WHERE nu_cpf_cnpj LIKE'%" . $nu_cpf_cnpj . "%'");
 
