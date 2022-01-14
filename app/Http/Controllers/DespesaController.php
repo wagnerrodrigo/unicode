@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CondicaoPagamento;
 use Carbon\Carbon;
 use App\Models\Despesa;
 use App\Models\ItemDespesa;
@@ -20,7 +19,6 @@ class DespesaController extends Controller
      */
     public function index(Request $request)
     {
-        //dd($request);
         $mascara = new Mascaras();
         //quantidade de resultados por pagina
         $results = $request->input('results');

@@ -18,6 +18,7 @@ class FornecedorController extends Controller
      */
     public function index(Request $request)
     {
+
         if ($request->has('chave_busca_fornecedor') && $request->has('valor_busca_fornecedor')) {
             $chave = $request->input('chave_busca_fornecedor');
             $valor = $request->input('valor_busca_fornecedor');
@@ -43,12 +44,18 @@ class FornecedorController extends Controller
      */
     public function store(Request $request)
     {
+
         $fornecedor = new Fornecedor();
+        $cpf_cnpj_corrigido = str_replace(['.', '-', '/'], '', $request->input('nu_cpf_cnpj'));
+
+        dd($request->nu_cpf_cnpj,$cpf_cnpj_corrigido);
+
+
         //transforma todo o request em UpperCase
 
         $fornecedor->de_razao_social = strtoupper($request->de_razao_social);
         $fornecedor->de_nome_fantasia = strtoupper($request->de_nome_fantasia);
-        $fornecedor->nu_cpf_cnpj = $request->nu_cpf_cnpj;
+        $fornecedor->nu_cpf_cnpj = $cpf_cnpj_corrigido;
         $fornecedor->inscricao_estadual = $request->inscricao_estadual;
         $fornecedor->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
         //cria o fornecedor

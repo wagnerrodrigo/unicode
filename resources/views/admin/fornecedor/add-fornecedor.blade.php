@@ -38,7 +38,8 @@
                                 <div class="px-5 mb-3">
                                     <div>
                                         <strong>CPF/CNPJ</strong>
-                                        <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" onkeypress='mascaraMutuario(this,cpfCnpj)' maxlength="18" onblur='clearTimeout()' name="nu_cpf_cnpj" style="width: 358px" />
+                                        <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" onkeypress='mascaraMutuario(this,cpfCnpj)' onblur="return validaCpfCnpj(this.value)" maxlength="18" onblur='clearTimeout()' name="nu_cpf_cnpj" style="width: 358px" />
+                                        <span id="invalid_cpf_cnpj"></span>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +94,7 @@
 
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-success me-1 mb-1">
+                            <button type="submit" id="btn_cadastra_fornecedor" disabled class="btn btn-success me-1 mb-1">
                                 <i data-feather="check-circle"></i>ADICIONAR
                             </button>
                             <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">CANCELAR</a>
@@ -192,6 +193,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="{{ asset('assets/js/custom-js/mascara-cnpj-cpf.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/valida-cpf-cnpj.js') }}"></script>
 <script>
     $(document).ready(function() {
         var cepRetornado = "";

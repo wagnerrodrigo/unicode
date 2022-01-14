@@ -69,7 +69,7 @@
                         <tr>
                             <td>{{strtoupper($fornecedor->de_razao_social)}}</td>
                             <td>
-                                {{strlen($fornecedor->nu_cpf_cnpj) === 14
+                                {{strlen($fornecedor->nu_cpf_cnpj) == 14
                                 ? $mascara::mask($fornecedor->nu_cpf_cnpj, '##.###.###/####-##')
                                 : $mascara::mask($fornecedor->nu_cpf_cnpj, '###.###.###-##')}}
                             </td>
