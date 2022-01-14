@@ -240,13 +240,15 @@
 
                     <div class="d-flex" style="width: 100%;">
                         <div class="px-5 mb-3">
-                            <strong>DATA DE PROVISIONAMENTO</strong>
-                            <input required type="date" class="form-control input-add" id="dt_prov" name="data_provisionamento" />
-                        </div>
-                        <div class="px-5 mb-3">
                             <strong>DATA DE VENCIMENTO</strong>
                             <input required type="date" class="form-control input-add" id="dt_venc" name="data_vencimento" />
-                            <span id="erro_dt"></span>
+                            <span id="erro_dt_venc"></span>
+                        </div>
+
+                        <div class="px-5 mb-3">
+                            <strong>DATA DE PROVISIONAMENTO</strong>
+                            <input required type="date" class="form-control input-add" id="dt_prov" name="data_provisionamento" />
+                            <span id="erro_dt_prov"></span>
                         </div>
                     </div>
 
@@ -291,7 +293,9 @@
                         </div>
                         <div class="px-5 mb-3">
                             <strong>DATA DE EMISSÃO</strong>
-                            <input type="date" class="form-control input-add" name="data_emissao" />
+                            <!-- onblur="return validaData(this, 'erro_dt_emissao')" -->
+                            <input type="date" class="form-control input-add"  id="dt_emissao" name="data_emissao" />
+                            <span id="erro_dt_emissao"></span>
                         </div>
                     </div>
 

@@ -146,6 +146,8 @@ function validaCpfCnpj(val) {
         }
     } else {
         invalid_cpf_cnpj.innerHTML = 'Informe um CPF ou um CNPJ válido';
+        invalid_cpf_cnpj.style.display = 'block';
+        invalid_cpf_cnpj.style.color = 'red';
         btn_cadastra_fornecedor.disabled = true;
         return false;
     }
