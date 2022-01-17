@@ -241,13 +241,14 @@
                     <div class="d-flex" style="width: 100%;">
                         <div class="px-5 mb-3">
                             <strong>DATA DE VENCIMENTO</strong>
-                            <input required type="date" class="form-control input-add" id="dt_venc" name="data_vencimento" />
+                            <input required type="date" onblur="return validaData(this)" class="form-control input-add" id="dt_venc" name="data_vencimento" />
+                            <!-- id do span tem que ser (erro_ + id do input data) -->
                             <span id="erro_dt_venc"></span>
                         </div>
 
                         <div class="px-5 mb-3">
                             <strong>DATA DE PROVISIONAMENTO</strong>
-                            <input required type="date" class="form-control input-add" id="dt_prov" name="data_provisionamento" />
+                            <input required type="date" onblur="return validaData(this)" class="form-control input-add" id="dt_prov" name="data_provisionamento" />
                             <span id="erro_dt_prov"></span>
                         </div>
                     </div>
@@ -293,8 +294,7 @@
                         </div>
                         <div class="px-5 mb-3">
                             <strong>DATA DE EMISSÃO</strong>
-                            <!-- onblur="return validaData(this, 'erro_dt_emissao')" -->
-                            <input type="date" class="form-control input-add"  id="dt_emissao" name="data_emissao" />
+                            <input type="date" onblur="return validaData(this)" class="form-control input-add"  id="dt_emissao" name="data_emissao" />
                             <span id="erro_dt_emissao"></span>
                         </div>
                     </div>
@@ -498,5 +498,6 @@
 <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/rateio.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/conta-bancaria-despesa.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/valida-data-atual.js') }}"></script>
 
 @endsection

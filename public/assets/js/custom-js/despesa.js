@@ -600,108 +600,64 @@ function getProcesso(object) {
     $("input[name=numero_processo]").attr("value", object.value);
 }
 
-$("#dt_prov").on("focusout", function () {
-    var dateObj = $("#dt_prov").val();
-
-    var dataDividida = dateObj.split("-");
-    var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
-    var now = new Date();
-    var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-    if (data < dataAtual) {
-        $(this).css({ color: "red" });
-        $("#erro_dt_prov")
-            .html("Data de provisionamento menor que a data atual")
-            .css({ color: "red", fontStyle: "italic" });
-        $(this).focus();
-    } else {
-        $("#erro_dt_prov").html("");
-        $(this).css({ color: "black" });
-    }
-});
-
-$("#dt_venc").on("change", function () {
-    var dateObj = $("#dt_venc").val();
-
-    var dataDividida = dateObj.split("-");
-    var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
-    var now = new Date();
-    var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-    if (data < dataAtual) {
-        $(this).css({ color: "red" });
-        $("#erro_dt_venc")
-            .html("Data de vencimento menor que a data atual")
-            .css({ color: "red", fontStyle: "italic" });
-        $(this).focus();
-    } else {
-        $("#erro_dt_venc").html("");
-        $(this).css({ color: "black" });
-    }
-});
-
-$("#dt_emissao").on("change", function () {
-    var dateObj = $("#dt_emissao").val();
-
-    var dataDividida = dateObj.split("-");
-    var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
-    var now = new Date();
-    var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-    if (data < dataAtual) {
-        $(this).css({ color: "red" });
-        $("#erro_dt_emissao")
-            .html("Data de emissão menor que a data atual")
-            .css({ color: "red", fontStyle: "italic" });
-        $(this).focus();
-    } else {
-        $("#erro_dt_emissao").html("");
-        $(this).css({ color: "black" });
-    }
-});
-
-// function validaData(obj, id_msg) {
-//     var dateObj = obj.value;
+// $("#dt_prov").on("focusout", function () {
+//     var dateObj = $("#dt_prov").val();
 
 //     var dataDividida = dateObj.split("-");
-//     var novaData = new Date(
-//         dataDividida[0],
-//         dataDividida[1] - 1,
-//         dataDividida[2]
-//     );
+//     var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
 //     var now = new Date();
 //     var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-//     if (novaData < dataAtual) {
-//         if (id_msg == "dt_prov") {
-//             $("#dt_prov").css({ color: "red" });
-//             $("#erro_dt_prov")
-//                 .html("Data de provisão menor que a data atual")
-//                 .css({ color: "red", fontStyle: "italic" });
-//             $("#dt_prov").focus();
-//         } else if (id_msg == "dt_emissao") {
-//             $("#dt_emissao").css({ color: "red" });
-//             $("#erro_dt_emissao")
-//                 .html("Data de emissão menor que a data atual")
-//                 .css({ color: "red", fontStyle: "italic" });
-//             $("#dt_emissao").focus();
-//         } else if (id_msg == "dt_venc") {
-//             $("#dt_venc").css({ color: "red" });
-//             $("#erro_dt_venc")
-//                 .html("Data de vencimento menor que a data atual")
-//                 .css({ color: "red", fontStyle: "italic" });
-//             $("#dt_venc").focus();
-//         }
+//     if (data < dataAtual) {
+//         $(this).css({ color: "red" });
+//         $("#erro_dt_prov")
+//             .html("Data de provisionamento menor que a data atual")
+//             .css({ color: "red", fontStyle: "italic" });
+//         $(this).focus();
 //     } else {
-//         if (id_msg == "dt_prov") {
-//             $("#erro_dt_prov").html("");
-//             $("#dt_prov").css({ color: "black" });
-//         } else if (id_msg == "dt_emissao") {
-//             $("#erro_dt_emissao").html("");
-//             $("#dt_emissao").css({ color: "black" });
-//         } else if (id_msg == "dt_venc") {
-//             $("#erro_dt_venc").html("");
-//             $("#dt_venc").css({ color: "black" });
-//         }
+//         $("#erro_dt_prov").html("");
+//         $(this).css({ color: "black" });
 //     }
-// }
+// });
+
+// $("#dt_venc").on("change", function () {
+//     var dateObj = $("#dt_venc").val();
+
+//     var dataDividida = dateObj.split("-");
+//     var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
+//     var now = new Date();
+//     var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+//     if (data < dataAtual) {
+//         $(this).css({ color: "red" });
+//         $("#erro_dt_venc")
+//             .html("Data de vencimento menor que a data atual")
+//             .css({ color: "red", fontStyle: "italic" });
+//         $(this).focus();
+//     } else {
+//         $("#erro_dt_venc").html("");
+//         $(this).css({ color: "black" });
+//     }
+// });
+
+// $("#dt_emissao").on("change", function () {
+//     var dateObj = $("#dt_emissao").val();
+
+//     var dataDividida = dateObj.split("-");
+//     var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
+//     var now = new Date();
+//     var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+//     if (data < dataAtual) {
+//         $(this).css({ color: "red" });
+//         $("#erro_dt_emissao")
+//             .html("Data de emissão menor que a data atual")
+//             .css({ color: "red", fontStyle: "italic" });
+//         $(this).focus();
+//     } else {
+//         $("#erro_dt_emissao").html("");
+//         $(this).css({ color: "black" });
+//     }
+// });
+
+
