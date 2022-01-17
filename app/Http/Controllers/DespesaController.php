@@ -29,11 +29,10 @@ class DespesaController extends Controller
         if ($request->has('status')) {
 
             $despesas = Despesa::selectAll($results, $status_despesa, $chave_busca, $valor_busca);
+
         } else {
             $despesas = Despesa::selectAll($results = 10);
         }
-
-
         return view('admin.despesas.lista-despesas', compact('despesas', 'mascara'));
     }
 
@@ -46,6 +45,8 @@ class DespesaController extends Controller
     {
         $despesas = Despesa::findOne($id);
         $mascara = new Mascaras();
+
+        //dd($despesas);
 
         if ($despesas == null || empty($despesas)) {
             return "Despesa não encontrada";

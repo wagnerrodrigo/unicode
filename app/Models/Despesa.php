@@ -45,7 +45,7 @@ class Despesa extends Model
                 'intranet.status_despesa.id_status_despesa',
                 '=',
                 'intranet.tab_despesa.fk_status_despesa_id'
-            );
+            )->where('intranet.tab_despesa.dt_fim', '=', null);
 
         if ($chave_busca && $valor_busca && $status) {
             $despesas = $query
@@ -144,7 +144,7 @@ class Despesa extends Model
         JOIN intranet.tab_centro_custo AS centro_custo ON centro_custo.id_centro_custo = despesa.fk_tab_centro_custo_id
         JOIN intranet.tab_departamento AS departamento ON departamento.id_departamento = centro_custo.fk_tab_departamento
         JOIN intranet.tab_tipo_despesa AS tipo_despesa ON tipo_despesa.id_tipo_despesa = despesa.fk_tab_tipo_despesa_id
-        WHERE id_despesa = ?;", [$id]);
+        WHERE despesa.dt_fim is null AND id_despesa = ? ;", [$id]);
 
         return $query;
     }

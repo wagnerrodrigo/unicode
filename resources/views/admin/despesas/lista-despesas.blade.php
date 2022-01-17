@@ -70,7 +70,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if($despesas != null || !empty($despesas))
+                        @if(count($despesas) > 0)
                         @foreach($despesas as $despesa)
                         <tr>
                             <td>{{$despesa->id_despesa}}</td>
@@ -90,7 +90,7 @@
                         @endforeach
                         @else
                         <tr>
-                            <td colspan="6">Nenhuma despesa cadastrada</td>
+                            <td colspan="6">DESPESA NÃO CADASTRADA</td>
                         </tr>
                         @endif
                     </tbody>
