@@ -21,10 +21,10 @@ class ExtratoController extends Controller
     {
         $mascara = new Mascaras();
         $extratos = Extrato::selectAll();
-        $despesas = Despesa::selectAll(config('constants.PROVISIONADO'));
-        //$lancamentos = Lancamento::selectAll();
+        $lancamentos = Lancamento::findByStatus(config('constants.PROVISIONADO'));
 
-        return view('admin.extrato.extrato', compact('extratos', 'despesas', 'mascara'));
+
+        return view('admin.extrato.extrato', compact('extratos', 'lancamentos', 'mascara'));
     }
 
 

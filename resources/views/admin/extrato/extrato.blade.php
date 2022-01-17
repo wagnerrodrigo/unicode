@@ -39,16 +39,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($despesas != null || !empty($despesas))
-                        @foreach ($despesas as $despesa)
+                        @if ($lancamentos != null || !empty($lancamentos))
+                        @foreach ($lancamentos as $lancamento)
                         <tr>
                             <td>
-                                {{ $despesa->id_despesa }}
-                                <input type="checkbox" name="despesa" value="{{ $despesa->id_despesa }}" id="">
+                                {{ $lancamento->id_despesa }}
+                                <input type="checkbox" name="despesa" value="{{ $lancamento->fk_tab_despesa_id }}" id="">
                             </td>
-                            <td>{{date("d/m/Y", strtotime($despesa->dt_vencimento))}}</td>
-                            <td>{{ $despesa->de_despesa }}</td>
-                            <td>{{ $despesa->de_despesa }}</td>
+                            <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
+                            <td>{{ $lancamento->de_despesa }}</td>
+                            <td>{{ $lancamento->de_status_despesa }}</td>
                             <td>
                                 <button data-bs-toggle="modal" data-bs-target="#xlarge-view" class="btn btn-primary" style="padding: 8px 12px;">
                                     <i class="bi bi-eye-fill"></i>
@@ -56,11 +56,11 @@
                             </td>
 
                             <td>
-                                <button class="accordion-button custon-btn custon-btn-accordion" type="button" data-bs-toggle="collapse" href="#collapseExample{{ $despesa->id_despesa }}" role="button" aria-expanded="false" id="" aria-controls="collapseExample" style="width: 25px">
+                                <button class="accordion-button custon-btn custon-btn-accordion" type="button" data-bs-toggle="collapse" href="#collapseExample{{ $lancamento->fk_tab_despesa_id }}" role="button" aria-expanded="false" id="" aria-controls="collapseExample" style="width: 25px">
                                 </button>
                             </td>
                         </tr>
-                        @if ($extratos != null || !empty($extratos))
+                        <!-- @if ($extratos != null || !empty($extratos))
                         <table class="collapse table table-borderless" id="collapseExample{{ $despesa->id_despesa }}">
                             <tr class="table-dark">
                                 <th>ID EXTRATO</th>
@@ -91,18 +91,12 @@
                             </tr>
                             @endforeach
                         </table>
-                        @endif
+                        @endif -->
                     </tbody>
                     @endforeach
                     @endif
                 </table>
             </div>
-        </div>
-
-        <div class="col-sm-12 d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary me-1 mb-1">
-                <i data-feather="check-circle"></i>CONCILIAÇÃO
-            </button>
         </div>
     </div>
 </div>

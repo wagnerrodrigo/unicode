@@ -30,7 +30,7 @@ class Lancamento extends Model
                 ->paginate(10);
         } else {
             $lancamentos = $query->where('intranet.tab_despesa.fk_status_despesa_id', '=', 6)
-            ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)->paginate(10);
+                ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)->paginate(10);
         }
         return $lancamentos;
     }
@@ -153,18 +153,19 @@ class Lancamento extends Model
 
     static function findByStatus($id_status)
     {
-        $query = DB::select("SELECT despesa.fk_status_despesa_id,
-        despesa.dt_vencimento,
-        despesa.dt_provisionamento,
-        despesa.fk_status_despesa_id,
-        status_desp.id_status_despesa,
-        status_desp.de_status_despesa
-        FROM intranet.status_despesa AS status_desp
-        INNER JOIN intranet.tab_despesa AS despesa
-        ON (status_desp.id_status_despesa = despesa.fk_status_despesa_id)
-        WHERE status_desp.id_status_despesa = ?", [$id_status]);
+        $data = DB::table('intranet.tab_lancamento')->join(
+            'intranet.tab_despesa',
+            'id_despesa',
+            '=',
+            'intranet.tab_lancamento.fk_tab_despesa_id'
+        )->join(
+            'intranet.status_despesa',
+            'id_status_despesa',
+            '=',
+            'intranet.tab_despesa.fk_status_despesa_id'
+        )->where("intranet.tab_despesa.fk_status_despesa_id", "=", $id_status)->paginate(10);
 
-        return $query;
+        return $data;
     }
 
 
