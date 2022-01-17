@@ -52,19 +52,16 @@ class Despesa extends Model
                 ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
                 ->where("intranet.tab_despesa.$chave_busca", '=', "$valor_busca")
                 ->orderBy('de_status_despesa', 'asc')->paginate($results);
-
         } else if ($chave_busca && $valor_busca && !$status) {
             $despesas = $query
                 ->where("intranet.tab_despesa.$chave_busca", '=', "$valor_busca")
                 ->orderBy('de_status_despesa', 'asc')
                 ->paginate($results);
-
         } else if (!$chave_busca && !$valor_busca && $status) {
             $despesas = $query
                 ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
                 ->orderBy('de_status_despesa', 'asc')
                 ->paginate($results);
-
         } else if (!$chave_busca && !$valor_busca && !$status) {
 
             $despesas = $query

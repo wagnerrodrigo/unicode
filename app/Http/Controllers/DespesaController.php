@@ -46,10 +46,8 @@ class DespesaController extends Controller
         $despesas = Despesa::findOne($id);
         $mascara = new Mascaras();
 
-        //dd($despesas);
-
         if ($despesas == null || empty($despesas)) {
-            return "Despesa não encontrada";
+            return view('admin.despesas.despesa-nao-encontrada');
         } else {
             $despesa = $despesas[0];
             return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara'));
