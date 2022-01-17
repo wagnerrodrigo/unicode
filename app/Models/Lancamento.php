@@ -12,27 +12,25 @@ class Lancamento extends Model
 
     static function selectAll($dt_inicio = null, $dt_fim = null, $status_despesa_id = null)
     {
+        $query = DB::table('intranet.tab_despesa')
+            ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id');
+
         if ($dt_inicio && $dt_fim && $status_despesa_id) {
-            $lancamentos = DB::table('intranet.tab_despesa')
-                ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
+            $lancamentos = $query
                 ->whereBetween('intranet.tab_despesa.dt_vencimento', [$dt_inicio, $dt_fim])
                 ->where('intranet.tab_despesa.fk_status_despesa_id', '=', $status_despesa_id)
                 ->paginate(10);
-
         } else if ($dt_inicio && $dt_fim && !$status_despesa_id) {
-            $lancamentos = DB::table('intranet.tab_despesa')
-                ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
-                ->whereBetween('intranet.tab_despesa.dt_vencimento', [$dt_inicio, $dt_fim])
+            $lancamentos = $query->whereBetween('intranet.tab_despesa.dt_vencimento', [$dt_inicio, $dt_fim])
+                ->where('intranet.tab_despesa.fk_status_despesa_id', '=', 6)
+                ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)
                 ->paginate(10);
         } else if ($status_despesa_id && !$dt_inicio && !$dt_fim) {
-            $lancamentos = DB::table('intranet.tab_despesa')
-                ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
-                ->where('intranet.tab_despesa.fk_status_despesa_id', '=', $status_despesa_id)
+            $lancamentos = $query->where('intranet.tab_despesa.fk_status_despesa_id', '=', $status_despesa_id)
                 ->paginate(10);
         } else {
-            $lancamentos = DB::table('intranet.tab_despesa')
-                ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
-                ->paginate(10);
+            $lancamentos = $query->where('intranet.tab_despesa.fk_status_despesa_id', '=', 6)
+                ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)->paginate(10);
         }
         return $lancamentos;
     }
@@ -155,22 +153,24 @@ class Lancamento extends Model
 
     static function findByStatus($id_status)
     {
-        $query = DB::select("SELECT despesa.fk_status_despesa_id,
-        despesa.dt_vencimento,
-        despesa.dt_provisionamento,
-        despesa.fk_status_despesa_id,
-        status_desp.id_status_despesa,
-        status_desp.de_status_despesa
-        FROM intranet.status_despesa AS status_desp
-        INNER JOIN intranet.tab_despesa AS despesa
-        ON (status_desp.id_status_despesa = despesa.fk_status_despesa_id)
-        WHERE status_desp.id_status_despesa = ?", [$id_status]);
+        $data = DB::table('intranet.tab_lancamento')->join(
+            'intranet.tab_despesa',
+            'id_despesa',
+            '=',
+            'intranet.tab_lancamento.fk_tab_despesa_id'
+        )->join(
+            'intranet.status_despesa',
+            'id_status_despesa',
+            '=',
+            'intranet.tab_despesa.fk_status_despesa_id'
+        )->where("intranet.tab_despesa.fk_status_despesa_id", "=", $id_status)->paginate(10);
 
-        return $query;
+        return $data;
     }
 
 
-    static function create($lancamento){
+    static function create($lancamento)
+    {
         DB::insert("INSERT INTO intranet.tab_lancamento
         (
             fk_tab_despesa_id,
@@ -178,7 +178,7 @@ class Lancamento extends Model
             dt_inicio,
             dt_fim
         )
-        VALUES(?, ?, ?, ?)",[
+        VALUES(?, ?, ?, ?)", [
             $lancamento->id_despesa,
             $lancamento->fk_condicao_pagamento_id,
             $lancamento->dt_inicio,

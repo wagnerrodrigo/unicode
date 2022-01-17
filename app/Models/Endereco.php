@@ -29,20 +29,6 @@ class Endereco extends Model
 
     static function selectAll()
     {
-        /*$enderecos = DB::select("SELECT
-        id_endereco,
-        logradouro,
-        numero,
-        bairro,
-        complemento,
-        fk_tab_cidade_id,
-        fk_tab_uf_id,
-        cep,
-        fk_tab_fornecedor_id,
-        fk_tab_empregado_id,
-        fk_tab_empresa_id
-        FROM intranet.tab_endereco INNER JOIN intranet.tab_empresa on fk_tab_empresa_id = id_empresa");*/
-
         $enderecos = DB::select("SELECT *
         FROM intranet.tab_endereco AS endereco
         JOIN intranet.tab_empresa AS empresa ON endereco.fk_tab_empresa_id = empresa.id_empresa
@@ -50,6 +36,36 @@ class Endereco extends Model
         JOIN intranet.tab_fornecedor AS fornecedor ON endereco.fk_tab_fornecedor_id = fornecedor.id_fornecedor");
 
         return $enderecos;
+    }
+
+    static function create($endereco)
+    {
+        DB::insert("INSERT INTO intranet.tab_endereco
+        (
+            fk_tipo_endereco_id,
+            fk_tipo_logradouro,
+            logradouro,
+            numero,
+            bairro,
+            cep,
+            fk_tab_cidade_id,
+            fk_tab_uf_id,
+            complemento,
+            dt_inicio,
+            fk_tab_fornecedor_id
+        )VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+            $endereco->fk_tipo_endereco_id,
+            $endereco->fk_tipo_logradouro,
+            $endereco->logradouro,
+            $endereco->numero,
+            $endereco->bairro,
+            $endereco->cep,
+            $endereco->fk_tab_cidade_id,
+            $endereco->fk_tab_uf_id,
+            $endereco->complemento,
+            $endereco->dt_inicio,
+            $endereco->fk_tab_fornecedor_id
+        ]);
     }
 
     static function empresa()

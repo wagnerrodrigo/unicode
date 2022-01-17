@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Fornecedor;
+use App\Models\Endereco;
+use App\Repository\EnderecoRepository;
 use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
 
@@ -14,33 +16,19 @@ class FornecedorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $fornecedores = Fornecedor::selectAll();
 
-        $fornecedoresAtivos = [];
-        $fornecedoresInativos = [];
-        //percorre o array de retorno de fornecedores
-        for ($i = 0; $i < count($fornecedores); $i++) {
-            //verifica se o fornecedor está ativo - pela data fim nula
-            if ($fornecedores[$i]->dt_fim === null) {
-                //verifica se a variavel nu_cpf_cnpj tem 14 digitos ou 11
-                if (strlen($fornecedores[$i]->nu_cpf_cnpj) === 14) {
-                    //se for 14 digitos, é um cnpj e é aplicada a mascara
-                    $fornecedores[$i]->nu_cpf_cnpj = Mascaras::mask($fornecedores[$i]->nu_cpf_cnpj, '##.###.###/####-##');
-                } else {
-                    //se for 11 digitos, é um cpf e é aplicada a mascara
-                    $fornecedores[$i]->nu_cpf_cnpj = Mascaras::mask($fornecedores[$i]->nu_cpf_cnpj, '###.###.###-##');
-                }
-                //adiciona o fornecedor ativo ao array de fornecedores ativos
-                $fornecedoresAtivos[] = $fornecedores[$i];
-            } else {
-                //adiciona o fornecedor inativo ao array de fornecedores inativos
-                $fornecedoresInativos[] = $fornecedores[$i];
-            };
+        if ($request->has('chave_busca_fornecedor') && $request->has('valor_busca_fornecedor')) {
+            $chave = $request->input('chave_busca_fornecedor');
+            $valor = $request->input('valor_busca_fornecedor');
+            $fornecedores = Fornecedor::selectAll($request->results, $chave, strtoupper($valor));
+        } else {
+            $fornecedores = Fornecedor::selectAll($results = 10);
         }
+        $mascara = new Mascaras();
 
-        return view('admin.fornecedor.lista-fornecedor', compact('fornecedoresAtivos'));
+        return view('admin.fornecedor.lista-fornecedor', compact('fornecedores', 'mascara'));
     }
 
     public function formFornecedores()
@@ -56,20 +44,45 @@ class FornecedorController extends Controller
      */
     public function store(Request $request)
     {
+
         $fornecedor = new Fornecedor();
-        $camposRequisicao = $request->all();
+        $cpf_cnpj_corrigido = str_replace(['.', '-', '/'], '', $request->input('nu_cpf_cnpj'));
+
+        dd($request->nu_cpf_cnpj,$cpf_cnpj_corrigido);
+
 
         //transforma todo o request em UpperCase
-        foreach ($camposRequisicao as $key => $value) {
-            if ($key != '_token') {
-                $fornecedor->$key = strtoupper($value);
-            }
+
+        $fornecedor->de_razao_social = strtoupper($request->de_razao_social);
+        $fornecedor->de_nome_fantasia = strtoupper($request->de_nome_fantasia);
+        $fornecedor->nu_cpf_cnpj = $cpf_cnpj_corrigido;
+        $fornecedor->inscricao_estadual = $request->inscricao_estadual;
+        $fornecedor->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+        //cria o fornecedor
+        Fornecedor::create($fornecedor);
+
+        //busca o id do fornecedor inserido
+
+        $timestamp = $fornecedor->dt_inicio;
+        $fornecedor_id = Fornecedor::findByTimeStamp($timestamp);
+
+
+
+        for ($i = 0; $i < count($request->cep); $i++) {
+            $enderecos[] = [
+                "cep" => $request->cep[$i],
+                "logradouro" => $request->logradouro[$i],
+                "numero" => $request->numero[$i],
+                "complemento" => $request->complemento[$i],
+                "bairro" => $request->bairro[$i],
+                "localidade" => $request->localidade[$i],
+                "uf" => $request->uf[$i],
+            ];
         }
 
-        //Adiciona a data de inicio do fornecedor
-        $fornecedor->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-
-        Fornecedor::create($fornecedor);
+        //salva o endereco
+        $repository = new EnderecoRepository();
+        $repository->createEndereco($fornecedor_id, $enderecos);
 
         return redirect()->route('fornecedores');
     }

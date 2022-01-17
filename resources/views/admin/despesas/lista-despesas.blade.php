@@ -6,9 +6,9 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Despesas</h1>
+                <h1>DESPESAS</h1>
                 <a href="/despesas/adicionar" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Nova Despesa
+                    <i class="bi bi-plus-circle"></i> NOVA DESPESA
                 </a>
             </div>
             <div class="card-body">
@@ -17,16 +17,37 @@
                     <div class="d-flex">
                         <div class="col-md-3">
                             <div class="input-group mb-3" style="width: 250px">
+                                <label class="input-group-text" for="inputStatus">RESULTADOS</label>
+                                <select class="form-select" id="inputStatus" name="results">
+                                    <option name="results" selected value="10">10</option>
+                                    <option name="results" value="15">15</option>
+                                    <option name="results" value="20">20</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputStatus">STATUS</label>
                                 <select class="form-select" id="inputStatus" name="status">
                                     <option selected value=""></option>
-                                    <option name="provisionado" value="1">PROVISIONADO</option>
-                                    <option name="pago" value="2">PAGO</option>
-                                    <option name="cancelado" value="3">CANCELADO</option>
-                                    <option name="em_atraso" value="4">EM ATRASO</option>
-                                    <option name="migracao" value="5">MIGRAÇÃO</option>
-                                    <option name="a_pagar" value="6">A PAGAR</option>
+                                    <option value="6">A PAGAR</option>
+                                    <option value="3">CANCELADO</option>
+                                    <option value="4">EM ATRASO</option>
+                                    <option value="5">MIGRAÇÃO</option>
+                                    <option value="2">PAGO</option>
+                                    <option value="1">PROVISIONADO</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3" style="width: 350px">
+                                <label class="input-group-text" for="inputStatus">FILTRO</label>
+                                <select class="form-select" id="inputBusca" name="chave_busca">
+                                    <option selected value=""></option>
+                                    <option value="id_despesa">NÚMERO</option>
+                                    <option value="dt_vencimento">VENCIMENTO</option>
+                                </select>
+                                <input type="text" class="busca_despesa" id="valor_busca" name="valor_busca">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -75,8 +96,9 @@
                     </tbody>
 
                 </table>
+                <div>{{ $despesas->links() }}</div>
             </div>
-            <div>{{ $despesas->links() }}</div>
+
         </div>
     </div>
 </div>
@@ -84,12 +106,23 @@
 <!-- <script src="assets/js/feather-icons/feather.min.js"></script> -->
 <!-- <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script> -->
 
-<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
-<script src="assets/js/vendors.js"></script>
+<!-- <script src="assets/vendors/simple-datatables/simple-datatables.js"></script> -->
+<!-- <script src="assets/js/vendors.js"></script> -->
 
 <script src="assets/js/main.js"></script>
 
 <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<script>
+    $("#inputBusca").on("change", function() {
+        if ($(this).val() == "id_depesa") {
+            $("#valor_busca").attr("type", "text");
+        } else if ($(this).val() == "dt_vencimento") {
+            $("#valor_busca").attr("type", "date");
+        }
+    });
+</script>
 
 
 @endsection

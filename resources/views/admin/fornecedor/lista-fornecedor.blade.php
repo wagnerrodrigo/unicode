@@ -6,23 +6,58 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Lista Fornecedores</h1>
+                <h1>LISTA FORNECEDORES</h1>
                 <a href="fornecedores/adicionar" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> Novo Fornecedor
+                    <i class="bi bi-plus-circle"></i> NOVO FORNECEDOR
                 </a>
+
+                <!-- Form de filtro por status -->
+                <div style="margin-top: 10px">
+                    <form name="form_status">
+                        <div class="d-flex">
+                            <div class="col-md-3">
+                                <div class="input-group mb-3" style="width: 250px">
+                                    <label class="input-group-text" for="inputStatus">RESULTADOS</label>
+                                    <select class="form-select" id="inputStatus" name="results">
+                                        <option name="results" selected value="10">10</option>
+                                        <option name="results" value="15">15</option>
+                                        <option name="results" value="20">20</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group mb-3" style="width: 350px">
+                                    <label class="input-group-text" for="inputStatus">FILTRO</label>
+                                    <select class="form-select" id="inputBusca" name="chave_busca_fornecedor">
+                                        <option selected value=""></option>
+                                        <option value="de_razao_social">RAZÃO SOCIAL</option>
+                                        <option value="nu_cpf_cnpj">CPF/CNPJ</option>
+                                    </select>
+                                    <input type="text" class="busca_despesa" id="valor_busca_fornecedor" name="valor_busca_fornecedor">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary" style="padding: 8px 12px;">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
-                    @if( $fornecedoresAtivos === null || empty($fornecedoresAtivos))
+                    @if( $fornecedores === null || empty($fornecedores))
                     <tbody>
                         <tr>
-                            <td>Nenhum Fornecedor Cadastrado</td>
+                            <td>NENHUM FORNECEDOR CADASTRADO</td>
                         </tr>
                     </tbody>
                     @else
                     <thead>
                         <tr>
-                            <th>RAZÃO SSOCIAL</th>
+                            <th>RAZÃO SOCIAL</th>
                             <th>CPF/CNPJ</th>
                             <th>INSCRIÇÃO ESTADUAL</th>
                             <th>AÇÕES</th>
@@ -30,10 +65,14 @@
                     </thead>
 
                     <tbody>
-                        @foreach($fornecedoresAtivos as $fornecedor)
+                        @foreach($fornecedores as $fornecedor)
                         <tr>
-                            <td>{{$fornecedor->de_razao_social}}</td>
-                            <td>{{$fornecedor->nu_cpf_cnpj}}</td>
+                            <td>{{strtoupper($fornecedor->de_razao_social)}}</td>
+                            <td>
+                                {{strlen($fornecedor->nu_cpf_cnpj) == 14
+                                ? $mascara::mask($fornecedor->nu_cpf_cnpj, '##.###.###/####-##')
+                                : $mascara::mask($fornecedor->nu_cpf_cnpj, '###.###.###-##')}}
+                            </td>
                             <td>{{$fornecedor->inscricao_estadual}}</td>
                             <td>
                                 <a href="fornecedores/{{$fornecedor->id_fornecedor}}" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
@@ -80,16 +119,17 @@
                     </tbody>
                     @endif
                 </table>
+                {{$fornecedores->links();}}
             </div>
         </div>
     </div>
 </div>
 
-<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
+<!-- <script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
 
 <script src="assets/js/feather-icons/feather.min.js"></script>
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-<script src="assets/js/vendors.js"></script>
+<script src="assets/js/vendors.js"></script> -->
 
 <script src="assets/js/main.js"></script>
 

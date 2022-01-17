@@ -6,7 +6,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Detalhe do lançamento</h1>
+                <h1>LANÇAMENTOS</h1>
             </div>
             <div class="card-body">
                 <form action="" method="GET">
@@ -30,12 +30,8 @@
                                 <label class="input-group-text" for="inputStatus">STATUS</label>
                                 <select class="form-select" id="inputStatus" name="status">
                                     <option value="" selected></option>
-                                    <option value="1">PROVISIONADO</option>
-                                    <option value="2">PAGO</option>
-                                    <option value="3">CANCELADO</option>
-                                    <option value="4">EM ATRASO</option>
-                                    <option value="5">MIGRAÇÃO</option>
-                                    <option value="6">A PAGAR</option>
+                                    <option name="a_pagar" value="6">A PAGAR</option>
+                                    <option name="em_atraso" value="4">EM ATRASO</option>
                                 </select>
                             </div>
                         </div>
@@ -61,7 +57,6 @@
                         <th>DESPESA</th>
                         <th>DESCRIÇÃO DESPESA</th>
                         <th>VALOR DA DESPESA</th>
-                        <th>DATA DO PROVISIONAMENTO</th>
                         <th>DATA VENCIMENTO</th>
                         <th>STATUS</th>
                         <th>AÇÕES</th>
@@ -73,7 +68,6 @@
                             <td>{{$lancamento->id_despesa}}</td>
                             <td>{{$lancamento->de_despesa}}</td>
                             <td>{{$mascara::maskMoeda($lancamento->valor_total_despesa)}}</td>
-                            <td>{{date("d/m/Y", strtotime($lancamento->dt_provisionamento))}}</td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
                             <td>{{$lancamento->de_status_despesa}}</td>
                             <td>

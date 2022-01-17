@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CentroCustos;
+use App\Http\Controllers\TesteController;
 use App\Http\Controllers\FinanceiroController;
 use App\Http\Controllers\FornecedorController;
 use App\Http\Controllers\LoginController;
@@ -35,6 +36,8 @@ Route::middleware('autenticacaoMiddleware')->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('financeiro');
 });
+
+Route::get('/teste', [TesteController::class, 'all'])->name('teste');
 
 //rotas extratos
 Route::middleware('autenticacaoMiddleware')->prefix('/extrato')->group(function () {

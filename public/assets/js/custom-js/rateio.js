@@ -69,18 +69,14 @@ $("#valor_rateado").blur(function () {
     var valorTotalItens = $("#valorTotal").val();
     valorTotalDespesa = Number(
         valorTotalItens
-            .replace(".", "")
-            .replace(".", "")
-            .replace(".", "")
+            .replace(/\./g, '')
             .replace(",", ".")
             .replace("R$", "")
     );
 
     valorRateado = $("#valor_rateado")
         .val()
-        .replace(".", "")
-        .replace(".", "")
-        .replace(".", "")
+        .replace(/\./g, '')
         .replace(",", ".")
         .replace("R$", "");
 
@@ -101,9 +97,7 @@ $("#valor_rateado").blur(function () {
 $("#porcentagem_rateado").blur(function () {
     var valorTotalItens = $("#valorTotal").val();
     valorTotalDespesa = valorTotalItens
-        .replace(".", "")
-        .replace(".", "")
-        .replace(".", "")
+        .replace(/\./g, '')
         .replace(",", ".")
         .replace("R$", "");
 
@@ -134,7 +128,7 @@ $("#seleciona_rateio").click(function () {
 
     valorTotalDespesa = $("#valorTotal")
         .val()
-        .replace(".", "")
+        .replace(/\./g, '')
         .replace(",", ".")
         .replace("R$", "");
 
@@ -173,9 +167,7 @@ $("#seleciona_rateio").click(function () {
                         `<td>${valor_rateado}</td>` +
                         `<td>${porcentagem_valor}</td>` +
                         `<td><button onclick="removeRateio(${id_button_rateio}, ${valor_rateado
-                            .replace(".", "")
-                            .replace(".", "")
-                            .replace(".", "")
+                            .replace(/\./g, '')
                             .replace(",", ".")
                             .replace(
                                 "R$",
@@ -189,9 +181,7 @@ $("#seleciona_rateio").click(function () {
                     `<div id="input-generated${id_button_rateio}"><input type="hidden" name="empresa_rateio[]" value="${rateio_empresa}"/>` +
                         `<input type="hidden" name="custo_rateio[]" value="${custo_rateio}"/>` +
                         `<input type="hidden" name="valor_rateio[]" value="${valor_rateado
-                            .replace(".", "")
-                            .replace(".", "")
-                            .replace(".", "")
+                            .replace(/\./g, '')
                             .replace(",", ".")
                             .replace("R$", "")}"/>` +
                         `<input type="hidden" name="porcentagem_rateio[]" value="${porcentagem_valor}"/></div>`

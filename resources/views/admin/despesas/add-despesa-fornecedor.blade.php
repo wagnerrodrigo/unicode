@@ -7,7 +7,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Despesa</h1>
+                <h1>CADASTRAR DESPESA</h1>
             </div>
             <div class="card-body d-flex flex-column">
                 <div class="justify-content-center" id="list-despesa" style="padding: 10px;">
@@ -240,13 +240,15 @@
 
                     <div class="d-flex" style="width: 100%;">
                         <div class="px-5 mb-3">
-                            <strong>DATA DE PROVISIONAMENTO</strong>
-                            <input required type="date" class="form-control input-add" id="dt_prov" name="data_provisionamento" />
-                        </div>
-                        <div class="px-5 mb-3">
                             <strong>DATA DE VENCIMENTO</strong>
                             <input required type="date" class="form-control input-add" id="dt_venc" name="data_vencimento" />
-                            <span id="erro_dt"></span>
+                            <span id="erro_dt_venc"></span>
+                        </div>
+
+                        <div class="px-5 mb-3">
+                            <strong>DATA DE PROVISIONAMENTO</strong>
+                            <input required type="date" class="form-control input-add" id="dt_prov" name="data_provisionamento" />
+                            <span id="erro_dt_prov"></span>
                         </div>
                     </div>
 
@@ -269,23 +271,40 @@
                             <select class="form-control input-add" name="tipo_documento" id="tipo_documento">
                                 <option selected value=""></option>
                                 <option value="BOLETO">BOLETO</option>
-                                <option value="NFE">NF-E</option>
-                                <option value="CONTRATO">CONTRATO</option>
+                                <option value="DAE">DAE</option>
+                                <option value="DAJE">DAJE</option>
+                                <option value="DARF">DARF</option>
+                                <option value="DARF PREVIDENCIARIO">DARF PREVIDENCIÁRIO</option>
+                                <option value="DARM">DARM</option>
+                                <option value="DASP">DASP</option>
+                                <option value="DEPOSITO">DEPÓSITO</option>
+                                <option value="FATURA">FATURA</option>
+                                <option value="GPS">GPS</option>
+                                <option value="GRERJ">GRERJ</option>
+                                <option value="GRRF">GRRF</option>
+                                <option value="GRU">GRU</option>
+                                <option value="NOTA FISCAL">NOTA FISCAL</option>
+                                <option value="OUTROS">OUTROS</option>
+                                <option value="PIX">PIX</option>
+                                <option value="RECIBO">RECIBO</option>
+                                <option value="TRCT">TRCT</option>
                             </select>
                             <!-- <input type="text" class="form-control input-add" name="tipo_documento" /> -->
                         </div>
                         <div class="px-5 mb-3">
                             <strong>DATA DE EMISSÃO</strong>
-                            <input type="date" class="form-control input-add" name="data_emissao" />
+                            <!-- onblur="return validaData(this, 'erro_dt_emissao')" -->
+                            <input type="date" class="form-control input-add"  id="dt_emissao" name="data_emissao" />
+                            <span id="erro_dt_emissao"></span>
                         </div>
                     </div>
 
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-success me-1 mb-1">
-                                <i data-feather="check-circle"></i>Adicionar
+                                <i data-feather="check-circle"></i>ADICIONAR
                             </button>
-                            <a href="{{ route('despesas') }}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                            <a href="{{ route('despesas') }}" class="btn btn-secondary me-1 mb-1">CANCELAR</a>
                         </div>
                     </div>
                     </form>
@@ -399,7 +418,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel16">Novo Rateio</h4>
+                    <h4 class="modal-title" id="myModalLabel16">RATEIO</h4>
 
                     <div>
                         <span>VALOR TOTAL: </span>
