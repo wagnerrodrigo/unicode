@@ -2,7 +2,6 @@
 @section('title', "Despesa")
 
 @section('content')
-
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
         <div class="card">
@@ -14,10 +13,21 @@
                     <div class="d-flex">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <div>
-                                    <strong>{{$despesa->fk_tab_tipo_despesa_id == $tipo::FORNECEDOR ? 'EMPRESA' : 'EMPREGADO'}}</strong>
-                                </div>
-                                <span>{{$despesa->fk_tab_tipo_despesa_id == $tipo::FORNECEDOR ? $despesa->de_razao_social : $despesa->nome_empregado}}</span>
+                                @if($despesa->fk_tab_tipo_despesa_id == $tipo::FORNECEDOR)
+                                    <div>
+                                        <strong>EMPRESA</strong>
+                                    </div>
+                                    <span>{{$despesa->de_razao_social}}</span>
+
+                                @elseif($despesa->fk_tab_tipo_despesa_id == $tipo::EMPREGADO)
+                                    <div>
+                                        <strong>EMPREGADO</strong>
+                                    </div>
+                                    <span>{{$despesa->nome_empregado}}</span>
+                                @else
+                                    <strong>EMPREGADO/FORNECEDOR</strong>
+                                    <span></span>
+                                @endif
                             </div>
                         </div>
 

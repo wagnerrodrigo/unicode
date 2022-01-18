@@ -172,10 +172,10 @@ class DespesaController extends Controller
 
     public function edit($id, Request $request)
     {
-        //$despesa = Despesa::findOne($id);
+        $despesa = Despesa::findOne($id);
         $camposRequisicao = $request->all();
 
-        //Despesa::set($despesa);
+        Despesa::set($despesa);
 
         return redirect()->route('despesas');
     }
