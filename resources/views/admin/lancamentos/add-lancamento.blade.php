@@ -104,7 +104,6 @@
                                                 <th>EMPRESA</th>
                                                 <th>CONTA BANCÁRIA</th>
                                                 <th>RATEIO</th>
-                                                <th>DATA DO EFETIVO PAGAMENTO</th>
                                                 <th>%</th>
                                                 <th>EDITAR</th>
                                             </tr>
@@ -195,13 +194,7 @@
                                         <strong>%</strong>
 
                                     </div>
-
-                                    <div class="px-5 mb-3">
-                                        <strong>DT EFETIVO PAGAMENTO</strong>
-                                        <div class="inserirData" style="padding:10px;">
-                                            <input type="date" name="" id="data_efetivo_pag" min="" class="form-control">
-                                        </div>
-                                    </div>
+                                        
                                 </div>
                             </div>
                         </div>
