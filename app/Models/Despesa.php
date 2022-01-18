@@ -186,4 +186,8 @@ class Despesa extends Model
             [$id_despesa]
         );
     }
+
+    static function findPaymentConditionById($id){
+        return DB::select("SELECT fk_condicao_pagamento_id FROM intranet.tab_despesa WHERE id_despesa =?;",[$id]);
+    }
 }

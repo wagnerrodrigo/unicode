@@ -8,6 +8,7 @@ use App\Models\Rateio;
 use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
 use Carbon\Carbon;
+use App\Repository\DespesaRepository;
 
 
 use function PHPUnit\Framework\isEmpty;
@@ -21,6 +22,7 @@ class LancamentoController extends Controller
      */
     public function index(Request $request)
     {
+
         $mascara = new Mascaras();
         if ($request->has('dt_inicio') && $request->has('dt_fim') || $request->has('status')) {
             $dt_inicio_periodo = $request->input('dt_inicio');
@@ -49,6 +51,9 @@ class LancamentoController extends Controller
      */
     public function store(Request $request)
     {
+        $despesaRepository = new DespesaRepository();
+        $fk_condicao_pagamento = $despesaRepository->findPaymentCondition($request->id_despesa);
+
         if (!empty($request->valor_rateio_pagamento)) {
 
             if ($request->valor_rateio_pagamento) {
@@ -74,8 +79,9 @@ class LancamentoController extends Controller
                 $lancamento = new Lancamento();
 
                 $lancamento->id_despesa = $request->id_despesa;
-                $lancamento->fk_condicao_pagamento_id = $request->fk_condicao_pagamento_id;
+                $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
                 $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 $lancamento->dt_fim = null;
                 Lancamento::create($lancamento);
         }
@@ -84,8 +90,9 @@ class LancamentoController extends Controller
                $lancamento = new Lancamento();
 
                 $lancamento->id_despesa = $request->id_despesa;
-                $lancamento->fk_condicao_pagamento_id = $request->fk_condicao_pagamento_id;
-                $lancamento->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
+                $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 $lancamento->dt_fim = null;
                 Lancamento::create($lancamento);
                 // FIM requeste somente lancamento
