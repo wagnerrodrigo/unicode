@@ -160,14 +160,10 @@ class Despesa extends Model
         );
 
         if (
-            $tipoDespesa == TipoDespesa::EMPREGADO &&
-            $formaPagamento == CondicaoPagamentoId::DEPOSITO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO &&
-            $formaPagamento == CondicaoPagamentoId::DOC ||
-            $tipoDespesa == TipoDespesa::EMPREGADO &&
-            $formaPagamento == CondicaoPagamentoId::TRANSFERENCIA ||
-            $tipoDespesa == TipoDespesa::EMPREGADO &&
-            $formaPagamento == CondicaoPagamentoId::TED
+            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DEPOSITO ||
+            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DOC ||
+            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::TRANSFERENCIA ||
+            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::TED
         ) {
             $query->leftJoin(
                 'intranet.tab_empregado',
@@ -181,14 +177,10 @@ class Despesa extends Model
                 'intranet.tab_despesa.fk_conta_bancaria'
             );
         } else if (
-            $tipoDespesa == TipoDespesa::FORNECEDOR &&
-            $formaPagamento == CondicaoPagamentoId::DEPOSITO ||
-            $tipoDespesa == TipoDespesa::FORNECEDOR &&
-            $formaPagamento == CondicaoPagamentoId::DOC ||
-            $tipoDespesa == TipoDespesa::FORNECEDOR &&
-            $formaPagamento == CondicaoPagamentoId::TRANSFERENCIA ||
-            $tipoDespesa == TipoDespesa::FORNECEDOR &&
-            $formaPagamento == CondicaoPagamentoId::TED
+            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::DEPOSITO ||
+            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::DOC ||
+            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::TRANSFERENCIA ||
+            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::TED
         ) {
             $query->join(
                 'intranet.tab_fornecedor',
@@ -202,14 +194,10 @@ class Despesa extends Model
                 'intranet.tab_despesa.fk_conta_bancaria'
             );
         } else if (
-            $tipoDespesa == TipoDespesa::EMPREGADO &&
-            $formaPagamento == CondicaoPagamentoId::BOLETO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO &&
-            $formaPagamento == CondicaoPagamentoId::CHEQUE ||
-            $tipoDespesa == TipoDespesa::EMPREGADO &&
-            $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO &&
-            $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO
+            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::BOLETO ||
+            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CHEQUE ||
+            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
+            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO
         ) {
             $query->leftJoin(
                 'intranet.tab_empregado',
@@ -218,14 +206,10 @@ class Despesa extends Model
                 'intranet.tab_despesa.fk_tab_empregado_id'
             );
         } else if (
-            $tipoDespesa == TipoDespesa::FORNECEDOR &&
-            $formaPagamento == CondicaoPagamentoId::BOLETO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO &&
-            $formaPagamento == CondicaoPagamentoId::CHEQUE ||
-            $tipoDespesa == TipoDespesa::EMPREGADO &&
-            $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO &&
-            $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO
+            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::BOLETO ||
+            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CHEQUE ||
+            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
+            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO
         ) {
             $query->join(
                 'intranet.tab_fornecedor',

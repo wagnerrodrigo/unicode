@@ -387,7 +387,7 @@ $("#Prod").click(function () {
                 "</tr>"
         );
         //retira virgulas do valor unitário
-        var valorFormatado = valor_uni.replace(".", "").replace(",", ".");
+        var valorFormatado = valor_uni.replace(/\./g, '').replace(",", ".");
         //gera o input com os dados do item para submeter no form
         $("#hidden_inputs_itens").append(
             `<div id="input_generated_itens${id_button_item}">` +

@@ -121,7 +121,7 @@
                                     </div>
 
                                     <div class="inserirValor" style="padding:15px">
-                                        <input class="form-control mt-1" id="valor_item" type="text" class="dinheiro" autocomplete="off" placeholder="Valor" style="width: 180px" />
+                                        <input class="form-control mt-1" id="valor_item" onkeyup="formataValor(this)" type="text" onkeypress="return onlynumber();" type="text" class="dinheiro" autocomplete="off" placeholder="Valor" style="width: 180px" />
                                     </div>
 
                                     <div class="inserirDesc" style="padding:15px">

@@ -1,7 +1,6 @@
 function validaCpfCnpj(val) {
     if (val.length == 14) {
         var cpf = val.trim();
-        console.log({CPF:cpf});
 
         cpf = cpf.replace(/\./g, '');
         cpf = cpf.replace('-', '');

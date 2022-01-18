@@ -48,9 +48,6 @@ class FornecedorController extends Controller
         $fornecedor = new Fornecedor();
         $cpf_cnpj_corrigido = str_replace(['.', '-', '/'], '', $request->input('nu_cpf_cnpj'));
 
-        dd($request->nu_cpf_cnpj,$cpf_cnpj_corrigido);
-
-
         //transforma todo o request em UpperCase
 
         $fornecedor->de_razao_social = strtoupper($request->de_razao_social);
