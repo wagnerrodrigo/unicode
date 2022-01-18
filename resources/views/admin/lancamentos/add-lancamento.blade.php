@@ -120,8 +120,8 @@
 
                 <div class="card-footer col-sm-12 d-flex justify-content-end">
 
-                    <button type="submit" class="btn btn-primary  me-1 mb-1">ADICIONAR</button>
-                    <a href="{{ route('pagamentos') }}" class="btn btn-danger  me-1 mb-1">CANCELAR</a>
+                    <button type="submit" class="btn btn-primary  me-1 mb-1" id="btnSalvar">SALVAR</button>
+                    <a href="{{ route('lancamentos') }}" class="btn btn-danger  me-1 mb-1">CANCELAR</a>
                 </div>
             </div>
             </form>

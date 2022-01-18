@@ -132,7 +132,7 @@ $("#porcentagem_rateado").blur(function() {
     );
 });
 
-
+btnSalvar.disabled = true
 var id_button_conta = 0;
 var id_despesa = $("#id_despesa").val();
 var fk_condicao_pagamento_id_tela = $("#fk_condicao_pagamento_id_tela").val();
@@ -214,6 +214,10 @@ $("#addContas").click(function() {
             `</div>`
         );
 
+        if(valorTotalRateio == valorTotalDespesa ){
+            btnSalvar.disabled = false;
+        }
+        
         id_button_conta++;
         limpaCamposRateio();
     }
@@ -231,6 +235,7 @@ function removeConta(id, valorRateado) {
     $(`#tab_conta${id}`).remove();
     $(`#input_generated_account${id}`).remove();
     $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
+    btnSalvar.disabled = true
 
 }
 
