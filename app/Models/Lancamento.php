@@ -168,6 +168,16 @@ class Lancamento extends Model
         return $data;
     }
 
+    static function findPaymentCondition()
+    {
+        $data = DB::table('intranet.tab_lancamento')->join(
+            'intranet.tab_rateio_pagamento',
+            'id_rateio_pagamento', '=', 'intranet.tab_lancamento.fk_tab_lancamento'
+        );
+
+        return $data;
+        
+    }
 
     static function create($lancamento)
     {
@@ -185,4 +195,5 @@ class Lancamento extends Model
             $lancamento->dt_fim
         ]);
     }
+   
 }
