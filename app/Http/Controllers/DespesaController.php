@@ -8,7 +8,9 @@ use App\Models\ItemDespesa;
 use App\Models\Rateio;
 use Illuminate\Http\Request;
 use App\Utils\CondicaoPagamentoId;
+use App\Utils\TipoDespesa;
 use App\Utils\Mascaras\Mascaras;
+use App\Repository\DespesaRepository;
 
 class DespesaController extends Controller
 {
@@ -43,14 +45,22 @@ class DespesaController extends Controller
 
     public function show($id)
     {
-        $despesas = Despesa::findOne($id);
-        $mascara = new Mascaras();
+        $despesaRepository = new DespesaRepository();
+        $infosDespesa = $despesaRepository->findInfosDespesa($id);
 
+        $tipo = TipoDespesa::class;
+
+        $condicao_pagamento = $infosDespesa[0]->fk_condicao_pagamento_id;
+        $tipo_despesa = $infosDespesa[0]->fk_tab_tipo_despesa_id;
+
+        $despesas = Despesa::findOne($id, $condicao_pagamento, $tipo_despesa);
+
+        $mascara = new Mascaras();
         if ($despesas == null || empty($despesas)) {
             return view('admin.despesas.despesa-nao-encontrada');
         } else {
             $despesa = $despesas[0];
-            return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara'));
+            return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo'));
         }
     }
 
@@ -162,10 +172,10 @@ class DespesaController extends Controller
 
     public function edit($id, Request $request)
     {
-        $despesa = Despesa::findOne($id);
+        //$despesa = Despesa::findOne($id);
         $camposRequisicao = $request->all();
 
-        Despesa::set($despesa);
+        //Despesa::set($despesa);
 
         return redirect()->route('despesas');
     }

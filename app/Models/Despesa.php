@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Utils\TipoDespesa;
+use App\Utils\CondicaoPagamentoId;
 
 class Despesa extends Model
 {
@@ -45,7 +47,8 @@ class Despesa extends Model
                 'intranet.status_despesa.id_status_despesa',
                 '=',
                 'intranet.tab_despesa.fk_status_despesa_id'
-            )->where('intranet.tab_despesa.dt_fim', '=', null);
+            )
+            ->where('intranet.tab_despesa.dt_fim', '=', null);
 
         if ($chave_busca && $valor_busca && $status) {
             $despesas = $query
@@ -132,18 +135,98 @@ class Despesa extends Model
         return DB::select("SELECT id_despesa FROM intranet.tab_despesa WHERE dt_inicio = ?", [$timestamp]);
     }
 
-    static function findOne($id)
+    static function findOne($id, $formaPagamento = null, $tipoDespesa = null)
     {
-        $query = DB::select("SELECT * FROM intranet.tab_despesa AS despesa
-        JOIN intranet.status_despesa AS status_despesa ON status_despesa.id_status_despesa = despesa.fk_status_despesa_id
-        JOIN intranet.tab_fornecedor AS fornecedor ON fornecedor.id_fornecedor = despesa.fk_tab_fornecedor_id
-        LEFT JOIN intranet.tab_empregado AS empregado on empregado.id_empregado =  despesa.fk_tab_empregado_id
-        JOIN intranet.tab_centro_custo AS centro_custo ON centro_custo.id_centro_custo = despesa.fk_tab_centro_custo_id
-        JOIN intranet.tab_departamento AS departamento ON departamento.id_departamento = centro_custo.fk_tab_departamento
-        JOIN intranet.tab_tipo_despesa AS tipo_despesa ON tipo_despesa.id_tipo_despesa = despesa.fk_tab_tipo_despesa_id
-        WHERE despesa.dt_fim is null AND id_despesa = ? ;", [$id]);
+        $query = DB::table('intranet.tab_despesa')->join(
+            'intranet.status_despesa',
+            'intranet.status_despesa.id_status_despesa',
+            '=',
+            'intranet.tab_despesa.fk_status_despesa_id'
+        )->join(
+            'intranet.tab_tipo_despesa',
+            'intranet.tab_tipo_despesa.id_tipo_despesa',
+            '=',
+            'intranet.tab_despesa.fk_tab_tipo_despesa_id'
+        )->join(
+            'intranet.tab_centro_custo',
+            'intranet.tab_centro_custo.id_centro_custo',
+            '=',
+            'intranet.tab_despesa.fk_tab_centro_custo_id'
+        )->join(
+            'intranet.tab_departamento',
+            'intranet.tab_departamento.id_departamento',
+            '=',
+            'intranet.tab_centro_custo.fk_tab_departamento'
+        );
 
-        return $query;
+        if (
+            $tipoDespesa == TipoDespesa::EMPREGADO &&
+            $formaPagamento == CondicaoPagamentoId::DEPOSITO ||
+            $formaPagamento == CondicaoPagamentoId::DOC ||
+            $formaPagamento == CondicaoPagamentoId::TRANSFERENCIA ||
+            $formaPagamento == CondicaoPagamentoId::TED
+        ) {
+            $query->leftJoin(
+                'intranet.tab_empregado',
+                'intranet.tab_empregado.id_empregado',
+                '=',
+                'intranet.tab_despesa.fk_tab_empregado_id'
+            )->join(
+                'intranet.tab_conta_bancaria',
+                'intranet.tab_conta_bancaria.id_conta_bancaria',
+                '=',
+                'intranet.tab_despesa.fk_conta_bancaria'
+            );
+        } else if (
+            $tipoDespesa == TipoDespesa::FORNECEDOR &&
+            $formaPagamento == CondicaoPagamentoId::DEPOSITO ||
+            $formaPagamento == CondicaoPagamentoId::DOC ||
+            $formaPagamento == CondicaoPagamentoId::TRANSFERENCIA ||
+            $formaPagamento == CondicaoPagamentoId::TED
+        ) {
+            $query->join(
+                'intranet.tab_fornecedor',
+                'intranet.tab_fornecedor.id_fornecedor',
+                '=',
+                'intranet.tab_despesa.fk_tab_fornecedor_id'
+            )->join(
+                'intranet.tab_conta_bancaria',
+                'intranet.tab_conta_bancaria.id_conta_bancaria',
+                '=',
+                'intranet.tab_despesa.fk_conta_bancaria'
+            );
+        } else if (
+            $tipoDespesa == TipoDespesa::EMPREGADO &&
+            $formaPagamento == CondicaoPagamentoId::BOLETO ||
+            $formaPagamento == CondicaoPagamentoId::CHEQUE ||
+            $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
+            $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO
+        ) {
+            $query->leftJoin(
+                'intranet.tab_empregado',
+                'intranet.tab_empregado.id_empregado',
+                '=',
+                'intranet.tab_despesa.fk_tab_empregado_id'
+            );
+        } else if (
+            $tipoDespesa == TipoDespesa::FORNECEDOR &&
+            $formaPagamento == CondicaoPagamentoId::BOLETO ||
+            $formaPagamento == CondicaoPagamentoId::CHEQUE ||
+            $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
+            $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO
+        ) {
+            $query->join(
+                'intranet.tab_fornecedor',
+                'intranet.tab_fornecedor.id_fornecedor',
+                '=',
+                'intranet.tab_despesa.fk_tab_fornecedor_id'
+            );
+        } else if ($tipoDespesa == TipoDespesa::MIGRACAO) {
+            $query;
+        }
+
+
+        return $query->where('intranet.tab_despesa.id_despesa', '=', "$id")->where('intranet.tab_despesa.dt_fim', '=', null)->get();
     }
 
     static function set($despesa)
@@ -187,7 +270,13 @@ class Despesa extends Model
         );
     }
 
-    static function findPaymentConditionById($id){
-        return DB::select("SELECT fk_condicao_pagamento_id FROM intranet.tab_despesa WHERE id_despesa =?;",[$id]);
+    static function findPaymentConditionById($id)
+    {
+        return DB::select("SELECT fk_condicao_pagamento_id FROM intranet.tab_despesa WHERE id_despesa =?;", [$id]);
+    }
+    static function findInfosDespesaById($id)
+    {
+        $query = "SELECT fk_tab_tipo_despesa_id, fk_condicao_pagamento_id FROM intranet.tab_despesa WHERE id_despesa = ?;";
+        return DB::select($query, [$id]);
     }
 }

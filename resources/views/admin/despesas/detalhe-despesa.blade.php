@@ -15,9 +15,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>EMPRESA</strong>
+                                    <strong>{{$despesa->fk_tab_tipo_despesa_id == $tipo::FORNECEDOR ? 'EMPRESA' : 'EMPREGADO'}}</strong>
                                 </div>
-                                <span>{{$despesa->de_razao_social}}</span>
+                                <span>{{$despesa->fk_tab_tipo_despesa_id == $tipo::FORNECEDOR ? $despesa->de_razao_social : $despesa->nome_empregado}}</span>
                             </div>
                         </div>
 
@@ -130,7 +130,7 @@
 
                                 <div class="px-5 mb-3">
                                     <strong>EMPRESA</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$despesa->fk_tab_empresa_id}}" placeholder="Empresa" name="fk_tab_empresa_id" style="width: 358px" />
+                                    <input class="form-control mt-1" type="text" value="{{$despesa->fk_empresa_id}}" placeholder="Empresa" name="fk_tab_empresa_id" style="width: 358px" />
                                 </div>
 
                                 <div class="px-5 mb-3">

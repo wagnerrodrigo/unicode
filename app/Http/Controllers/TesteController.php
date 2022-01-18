@@ -24,7 +24,7 @@ class TesteController extends Controller
         // dd($uf, $cidade);
 
         $despesaRepository = new DespesaRepository();
-        $test = $despesaRepository->findPaymentCondition("18164");
-        dd($test[0]->fk_condicao_pagamento_id);
+        $test = $despesaRepository->findInfosDespesa("18164");
+        dd($test);
     }
 }

@@ -13,6 +13,7 @@ class CondicaoPagamentoId
     const TED = 7;
     const TRANSFERENCIA = 8;
     const MIGRACAO = 9;
+    const CARTAO_CREDITO = 10;
 
     function getId($string)
     {
@@ -43,6 +44,9 @@ class CondicaoPagamentoId
                 break;
             case 'MIGRAÇÃO':
                 return $this::MIGRACAO;
+                break;
+            case 'CARTÃO DE CRÉDITO':
+                return $this::CARTAO_CREDITO;
                 break;
         }
     }
