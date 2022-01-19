@@ -372,6 +372,7 @@
                                 <select id="inst_financeiras" name="inst_financeira" class="form-control input-busca" style="width: 60rem">
 
                                 </select>
+                                <span id="erro_instituicao"></span>
                             </div>
                         </div>
 
@@ -379,11 +380,13 @@
                             <div class="px-5 mb-3">
                                 <strong>AGENCIA</strong>
                                 <input type="text" onkeypress="return onlynumber();" class="form-control" id="nu_agencia" name="nu_agencia" autocomplete="off" style="width: 28rem;">
+                                <span id="erro_agencia"></span>
                             </div>
 
                             <div class="px-3 mb-3">
                                 <strong>NUMERO DA CONTA</strong>
                                 <input type="text" onkeypress="return onlynumber();" class="form-control" id="nu_conta" name="nu_conta" autocomplete="off" style="width: 28rem;">
+                                <span id="erro_conta"></span>
                             </div>
                         </div>
 

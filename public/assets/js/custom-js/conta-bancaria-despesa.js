@@ -32,21 +32,50 @@ function adicionaContaBancaria() {
 $(function () {
     $('form[name="form_conta_bancaria"]').submit(function (e) {
         e.preventDefault();
-        $.ajax({
-            url: "http://localhost:8000/contas-bancarias/store",
-            type: "POST",
-            data: $(this).serialize(),
-            dataType: "json",
-            success: function (data) {
-                alert(data.message.toString())
-                $("#inst_financeiras").val("");
-                $("#nu_agencia").val("");
-                $("#nu_conta").val("");
-                $("#co_operacao").val("");
-            },
-            error: function (data) {
-                alert(data.message.toString());
-            },
-        });
+        if ($("#inst_financeiras").val().trim() == "") {
+            $("#inst_financeiras").focus();
+            $("#erro_instuicao")
+                .html("Selecione uma instituição financeira!")
+                .css({ color: "red", fontStyle: "italic" });
+            return false;
+        } else {
+            $("#erro_instuicao").html("");
+        }
+        if ($("#nu_agencia").val().trim() == "") {
+            $("#nu_agencia").focus();
+            $("#erro_agencia")
+                .html("Informe a agência!")
+                .css({ color: "red", fontStyle: "italic" });
+            return false;
+        } else {
+            $("#erro_agencia").html("");
+        }
+        if ($("#nu_conta").val().trim() == "") {
+            $("#nu_conta").focus();
+            $("#erro_conta")
+                .html("Informe a conta!")
+                .css({ color: "red", fontStyle: "italic" });
+            return false;
+        } else {
+            $("#erro_conta").html("");
+            $.ajax({
+                url: "http://localhost:8000/contas-bancarias/store",
+                type: "POST",
+                data: $(this).serialize(),
+                dataType: "json",
+                success: function (data) {
+                    alert(data.message.toString());
+                    $("#inst_financeiras").val("");
+                    $("#nu_agencia").val("");
+                    $("#nu_conta").val("");
+                    $("#co_operacao").val("");
+                },
+                error: function (data) {
+                    alert(data.message.toString());
+                },
+            });
+            $("#condicao_pagamento").val("");
+            limpaCamposContaBancariaPix();
+        }
     });
 });

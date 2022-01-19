@@ -413,7 +413,7 @@ $("#Prod").click(function () {
         Number(quanti);
 
         valorTotal = valorTotal + valorFormatado * quanti;
-
+        console.log({ valotTotalItens: valorTotal });
         $("#valorTotal").attr("readonly", true);
 
         //verificar campo vazio!
@@ -434,7 +434,6 @@ $("#Prod").click(function () {
 function removeItem(id) {
     valorRemovido = Number($(`#val_produto${id}`).val());
     qtdItems = Number($(`#quantidade${id}`).val());
-
     //subtrai 1 ao total de itens
     totalItens--;
 
