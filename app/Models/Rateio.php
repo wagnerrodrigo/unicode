@@ -37,11 +37,12 @@ class Rateio extends Model
 
     static function createRateioLancamento($rateio){
         DB::insert("INSERT INTO intranet.tab_rateio_pagamento
-        (valor_rateio_pagamento, fk_tab_conta_bancaria, dt_inicio, dt_fim)
-        VALUES(?, ?, ?, ?)
+        (valor_rateio_pagamento, fk_tab_conta_bancaria, fk_tab_lancamento, dt_inicio, dt_fim)
+        VALUES(?, ?, ?, ?, ?)
         ",[
             $rateio->valor_rateio_pagamento,
             $rateio->fk_tab_conta_bancaria,
+            $rateio->fk_tab_lancamento,
             $rateio->dt_inicio,
             $rateio->dt_fim
         ]);

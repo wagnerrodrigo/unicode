@@ -55,7 +55,20 @@ class LancamentoController extends Controller
         $fk_condicao_pagamento = $despesaRepository->findPaymentCondition($request->id_despesa);
 
         if (!empty($request->valor_rateio_pagamento)) {
+           
+            $lancamento = new Lancamento();
 
+            $lancamento->id_despesa = $request->id_despesa;
+            $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
+            $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+            $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+            $lancamento->dt_fim = null;
+            Lancamento::create($lancamento);
+
+            $timeStamp = $lancamento->dt_inicio;
+            $idLancamento = Lancamento::findIdByTimeStamp($timeStamp);
+
+            
             if ($request->valor_rateio_pagamento) {
                 for ($i = 0; $i < count($request->valor_rateio_pagamento); $i++) {
                     $rateios[] = [
@@ -69,21 +82,14 @@ class LancamentoController extends Controller
                 for ($i = 0; $i < count($rateios); $i++) {
                     $rateio->valor_rateio_pagamento = $rateios[$i]['valor_rateio_pagamento'];
                     $rateio->fk_tab_conta_bancaria = $rateios[$i]['fk_tab_conta_bancaria'];
+                    $rateio->fk_tab_lancamento = $idLancamento[0]->id_tab_lancamento;
                     $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                     $rateio->dt_fim = null;
                     Rateio::createRateioLancamento($rateio);
                 }
+                
             }
-
-
-                $lancamento = new Lancamento();
-
-                $lancamento->id_despesa = $request->id_despesa;
-                $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
-                $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                $lancamento->dt_fim = null;
-                Lancamento::create($lancamento);
+             
         }
         else{
                // INICIO requeste somente lancamento
@@ -96,8 +102,6 @@ class LancamentoController extends Controller
                 $lancamento->dt_fim = null;
                 Lancamento::create($lancamento);
                 // FIM requeste somente lancamento
-
-
             }
 
             $despesa = new Despesa();
