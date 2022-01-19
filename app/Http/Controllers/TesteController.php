@@ -6,6 +6,7 @@ use App\Models\UF;
 use App\Models\Cidade;
 use Illuminate\Http\Request;
 use App\Repository\DespesaRepository;
+use App\Models\Lancamento;
 
 
 class TesteController extends Controller
@@ -25,6 +26,8 @@ class TesteController extends Controller
 
         $despesaRepository = new DespesaRepository();
         $test = $despesaRepository->findInfosDespesa("18164");
-        dd($test);
+        
+        $timeStamp = Lancamento::findIdByTimeStamp('2022-01-17 12:11:56');
+        dd($timeStamp[0]->id_tab_lancamento);
     }
 }
