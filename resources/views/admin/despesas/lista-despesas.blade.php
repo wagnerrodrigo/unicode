@@ -14,8 +14,8 @@
             <div class="card-body">
                 <!-- Form de filtro por status -->
                 <form name="form_status">
-                    <div class="d-flex">
-                        <div class="col-md-3">
+                    <div class="d-flex flex-row justify-content-around">
+                        <div >
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputStatus">RESULTADOS</label>
                                 <select class="form-select" id="inputStatus" name="results">
@@ -25,7 +25,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div >
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputStatus">STATUS</label>
                                 <select class="form-select" id="inputStatus" name="status">
@@ -39,7 +39,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div >
                             <div class="input-group mb-3" style="width: 350px">
                                 <label class="input-group-text" for="inputStatus">FILTRO</label>
                                 <select class="form-select" id="inputBusca" name="chave_busca">
@@ -50,7 +50,7 @@
                                 <input type="text" class="busca_despesa" id="valor_busca" name="valor_busca">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div >
                             <button type="submit" class="btn btn-primary" style="padding: 8px 12px;">
                                 <i class="bi bi-search"></i>
                             </button>
