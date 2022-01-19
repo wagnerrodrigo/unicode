@@ -93,6 +93,7 @@
                         <input type="hidden" name="fk_condicao_pagamento_id" id="fk_condicao_pagamento_id" value="{{$lancamento->fk_condicao_pagamento_id}}">
                         <input type="hidden" name="id_empresa" id="id_empresa" value="{{$lancamento->id_empresa}}">
                         <input type="hidden" name="valor_total_despesa" id="valor_total_despesa" value="{{ $lancamento->valor_total_despesa }}">
+                        <input type="hidden" name="dt_vencimento" id="dt_vencimento" value="{{ $lancamento->dt_vencimento }}">
 
                         <div class="d-flex" style="width: 100%;  margin: 15px;">
                             <div class="px-1 mb-3">

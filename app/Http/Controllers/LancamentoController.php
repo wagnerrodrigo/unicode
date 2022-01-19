@@ -62,6 +62,7 @@ class LancamentoController extends Controller
             $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
             $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
             $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+            $lancamento->dt_vencimento = $request->dt_vencimento;
             $lancamento->dt_fim = null;
             Lancamento::create($lancamento);
 
@@ -99,6 +100,7 @@ class LancamentoController extends Controller
                 $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
                 $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                $lancamento->dt_vencimento = $request->dt_vencimento;
                 $lancamento->dt_fim = null;
                 Lancamento::create($lancamento);
                 // FIM requeste somente lancamento

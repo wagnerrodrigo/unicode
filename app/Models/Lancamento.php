@@ -185,12 +185,16 @@ class Lancamento extends Model
         (
             fk_tab_despesa_id,
             fk_condicao_pagamento_id,
+            dt_lancamento,
+            dt_vencimento,
             dt_inicio,
             dt_fim
         )
-        VALUES(?, ?, ?, ?)", [
+        VALUES(?, ?, ?, ?, ?, ?)", [
             $lancamento->id_despesa,
             $lancamento->fk_condicao_pagamento_id,
+            $lancamento->dt_lancamento,
+            $lancamento->dt_vencimento,
             $lancamento->dt_inicio,
             $lancamento->dt_fim
         ]);
