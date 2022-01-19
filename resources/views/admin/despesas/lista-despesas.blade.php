@@ -76,7 +76,7 @@
                             <td>{{$despesa->id_despesa}}</td>
                             <td>{{$mascara::maskMoeda($despesa->valor_total_despesa)}}</td>
                             <td>{{$despesa->qt_parcelas_despesa}}</td>
-                            <td>{{date("d/m/Y", strtotime($despesa->dt_vencimento))}}</td>
+                            <td>{{$despesa->dt_vencimento != null ? date("d/m/Y", strtotime($despesa->dt_vencimento)) : ''}}</td>
                             <td>{{$despesa->de_status_despesa}}</td>
                             <td>
                                 <a href="/despesas/{{$despesa->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;">
