@@ -195,5 +195,9 @@ class Lancamento extends Model
             $lancamento->dt_fim
         ]);
     }
+
+    static function findIdByTimeStamp($timestamp){
+        return DB::select("SELECT id_tab_lancamento FROM intranet.tab_lancamento WHERE dt_inicio = ?", [$timestamp]);
+    }
    
 }
