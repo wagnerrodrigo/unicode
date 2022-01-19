@@ -19,8 +19,7 @@ class Extrato extends Model
     }
 
     static function selectAll()
-    {
-
+    {  
     }
 
     // "SELECT extrato.id_extrato,
@@ -39,7 +38,19 @@ class Extrato extends Model
     //                 INNER JOIN intranet.tab_empresa AS empresa on (empresa.id_empresa = extrato.fk_empresa_id) LIMIT 5;"
 
 
-    static function findByPeriod()
+    static function findByPeriod($id)
     {
+
+        $query = DB::table('intranet.tab_extrato')
+                ->join('intranet.tab_conta_bancaria','intranet.tab_conta_bancaria.id_conta_bancaria', 
+                '=', 'intranet.tab_extrato.fk_tab_conta_bancaria')
+                ->join('intranet.tab_rateio_pagamento','intranet.tab_rateio_pagamento.fk_tab_conta_bancaria' ,
+                '=', 'intranet.tab_conta_bancaria.id_conta_bancaria')
+                ->join('intranet.tab_lancamento','intranet.tab_lancamento.id_tab_lancamento' ,
+                '=', 'intranet.tab_rateio_pagamento.fk_tab_lancamento')
+                ->where('intranet.tab_lancamento.id_tab_lancamento', '=', $id)
+                ->get();
+        return $query;
+
     }
 }
