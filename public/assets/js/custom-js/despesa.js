@@ -393,7 +393,7 @@ $("#Prod").click(function () {
             `<div id="input_generated_itens${id_button_item}">` +
                 `<input type="hidden"  name="id_produto[]" value="${prod_ser}"/>` +
                 `<input type="hidden" id="val_produto${id_button_item}" name="valor_unitario[]" value="${valorFormatado}"/>` +
-                `<input type="hidden" name="quantidade[]" value="${quanti}"/>` +
+                `<input type="hidden" id="quantidade${id_button_item}" name="quantidade[]" value="${quanti}"/>` +
                 `</div>`
         );
 
@@ -413,7 +413,7 @@ $("#Prod").click(function () {
         Number(quanti);
 
         valorTotal = valorTotal + valorFormatado * quanti;
-        console.log({ valotTotalItens: valorTotal });
+
         $("#valorTotal").attr("readonly", true);
 
         //verificar campo vazio!
@@ -433,10 +433,12 @@ $("#Prod").click(function () {
 //remove o rateio da tabela e do form e subtrai valor do total
 function removeItem(id) {
     valorRemovido = Number($(`#val_produto${id}`).val());
+    qtdItems = Number($(`#quantidade${id}`).val());
+
     //subtrai 1 ao total de itens
     totalItens--;
 
-    valorTotal = valorTotal - valorRemovido;
+    valorTotal = valorTotal - (valorRemovido * qtdItems);
 
     //verifica quantos itens existem na table e modifica o campo valorTotal para readonly caso seja difernte de 0
     if (totalItens == 0) {
