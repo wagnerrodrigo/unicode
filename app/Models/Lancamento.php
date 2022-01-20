@@ -203,5 +203,18 @@ class Lancamento extends Model
     static function findIdByTimeStamp($timestamp){
         return DB::select("SELECT id_tab_lancamento FROM intranet.tab_lancamento WHERE dt_inicio = ?", [$timestamp]);
     }
+
+    static function findByPeriod($dt_lancamento, $dt_vencimento)
+    {
+
+        $query = DB::table('intranet.tab_lancamento')
+                ->join('intranet.tab_despesa','intranet.tab_despesa.id_despesa', '=' , 'intranet.tab_lancamento.fk_tab_despesa_id')
+                ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
+                ->where('intranet.tab_lancamento.dt_vencimento', '>=', $dt_lancamento)
+                ->where('intranet.tab_lancamento.dt_vencimento', '<=', $dt_vencimento)
+                ->paginate(10);
+        return $query;
+
+    }
    
 }
