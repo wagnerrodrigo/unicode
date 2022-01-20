@@ -45,7 +45,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/extrato')->group(function 
     Route::get('/{id}', [ExtratoController::class, 'show'])->name('show-extrato');
     Route::get('/empresa', [ExtratoController::class, 'showCompany']);
     Route::get('/info/{id}', [ExtratoController::class, 'showInfo']);
-    Route::get('/pesquisa/atributos/', [ExtratoController::class, 'showPeriodDate']);
+    Route::get('/pesquisa/{dt_inicio}/{dt_fim}', [ExtratoController::class, 'showPeriodDate']);
 });
 
 //rotas Fornecedores

@@ -38,7 +38,7 @@ class Extrato extends Model
     //                 INNER JOIN intranet.tab_empresa AS empresa on (empresa.id_empresa = extrato.fk_empresa_id) LIMIT 5;"
 
 
-    static function findByPeriod($id)
+    static function findByExtract($id)
     {
 
         $query = DB::table('intranet.tab_extrato')

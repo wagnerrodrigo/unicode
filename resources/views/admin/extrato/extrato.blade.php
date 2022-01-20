@@ -11,7 +11,7 @@
             </div>
             <div class="card-body">
                 {{-- INICIO DOS CAMPOS DE SELECT --}}
-                <form action="" method="GET">
+                <form action="{{ route('extrato') }}" method="GET">
                     <div class="d-flex">
                         <div class="col-md-3">
                             <div class="input-group mb-3" style="width: 250px">
@@ -37,8 +37,8 @@
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>ID EXTRATO</th>
-                            <th>DATA DO VENCIMENTO</th>
+                            <th>ID DESPESA</th>
+                            <th>DATA DO VENCIMENTO DESPESA</th>
                             <th>DESCRIÇÃO</th>
                             <th>STATUS</th>
                             <th>AÇÕES</th>
@@ -67,7 +67,7 @@
                                 </button>
                             </td>
                         </tr>
-                        <!-- @if ($extratos != null || !empty($extratos))
+                         @if ($extratos != null || !empty($extratos))
                         <table class="collapse table table-borderless" id="collapseExample{{ $despesa->id_despesa }}">
                             <tr class="table-dark">
                                 <th>ID EXTRATO</th>
@@ -98,11 +98,12 @@
                             </tr>
                             @endforeach
                         </table>
-                        @endif -->
+                        @endif 
                     </tbody>
                     @endforeach
                     @endif
                 </table>
+                <div>{{ $lancamentos->links() }}</div>
             </div>
         </div>
     </div>
@@ -125,9 +126,6 @@
             return inputDataInicio;
         })
         console.log(inputDataInicio);
-        $.ajax({
-
-        })
     })
 
 
@@ -137,6 +135,7 @@
         $("#inputDataInicio").prop("max", function() {
             return inputDataFim;
         })
+        console.log(inputDataFim);
     })
 </script>
 

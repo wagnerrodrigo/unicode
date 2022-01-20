@@ -17,14 +17,35 @@ class ExtratoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $mascara = new Mascaras();
-        $extratos = Extrato::selectAll();
-        $lancamentos = Lancamento::findByStatus(config('constants.PROVISIONADO'));
+   
+        if( $request->has('dt_inicio') && $request->has('dt_fim'))
+        {
+            $dt_lancamento = $request->input('dt_inicio');
+            $dt_vencimento = $request->input('dt_fim');
+            $mascara = new Mascaras();
+            
+            if(empty($dt_lancamento) && empty($dt_vencimento)){
+                $extratos = Extrato::selectAll();
+                $lancamentos = Lancamento::findByStatus(config('constants.PROVISIONADO'));
+                return view('admin.extrato.extrato', compact('extratos', 'lancamentos', 'mascara'));
+            }
+            else{
+                $lancamentos  = $this->showPeriodDate($dt_lancamento, $dt_vencimento );
+                $extratos = Extrato::selectAll();
+                return view('admin.extrato.extrato', compact('extratos', 'lancamentos', 'mascara'));
+            }
+        }
+        else {
+            $mascara = new Mascaras();
+            $extratos = Extrato::selectAll();
+            $lancamentos = Lancamento::findByStatus(config('constants.PROVISIONADO'));
+
+            return view('admin.extrato.extrato', compact('extratos', 'lancamentos', 'mascara'));
+    }
 
 
-        return view('admin.extrato.extrato', compact('extratos', 'lancamentos', 'mascara'));
     }
 
 
@@ -35,10 +56,9 @@ class ExtratoController extends Controller
         return response()->json($extrato);
     }
 
-    public function showPeriodDate($id){
-        $extrato = Extrato::findByPeriod($id);
-         dd($extrato);
-        // return response()-json($extrato);
+    public function showPeriodDate($dt_lancamento , $dt_vencimento){    
+        $lancamentos = Lancamento::findByPeriod($dt_lancamento, $dt_vencimento);
+        return $lancamentos;
     }
 
 
