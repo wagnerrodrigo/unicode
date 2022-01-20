@@ -93,6 +93,7 @@
                         <input type="hidden" name="fk_condicao_pagamento_id" id="fk_condicao_pagamento_id" value="{{$lancamento->fk_condicao_pagamento_id}}">
                         <input type="hidden" name="id_empresa" id="id_empresa" value="{{$lancamento->id_empresa}}">
                         <input type="hidden" name="valor_total_despesa" id="valor_total_despesa" value="{{ $lancamento->valor_total_despesa }}">
+                        <input type="hidden" name="dt_vencimento" id="dt_vencimento" value="{{ $lancamento->dt_vencimento }}">
 
                         <div class="d-flex" style="width: 100%;  margin: 15px;">
                             <div class="px-1 mb-3">
@@ -104,7 +105,6 @@
                                                 <th>EMPRESA</th>
                                                 <th>CONTA BANCÁRIA</th>
                                                 <th>RATEIO</th>
-                                                <th>DATA DO EFETIVO PAGAMENTO</th>
                                                 <th>%</th>
                                                 <th>EDITAR</th>
                                             </tr>
@@ -121,8 +121,8 @@
 
                 <div class="card-footer col-sm-12 d-flex justify-content-end">
 
-                    <button type="submit" class="btn btn-primary  me-1 mb-1">ADICIONAR</button>
-                    <a href="{{ route('pagamentos') }}" class="btn btn-danger  me-1 mb-1">CANCELAR</a>
+                    <button type="submit" class="btn btn-primary  me-1 mb-1" id="btnSalvar">SALVAR</button>
+                    <a href="{{ route('lancamentos') }}" class="btn btn-danger  me-1 mb-1">CANCELAR</a>
                 </div>
             </div>
             </form>
@@ -195,13 +195,7 @@
                                         <strong>%</strong>
 
                                     </div>
-
-                                    <div class="px-5 mb-3">
-                                        <strong>DT EFETIVO PAGAMENTO</strong>
-                                        <div class="inserirData" style="padding:10px;">
-                                            <input type="date" name="" id="data_efetivo_pag" min="" class="form-control">
-                                        </div>
-                                    </div>
+                                        
                                 </div>
                             </div>
                         </div>

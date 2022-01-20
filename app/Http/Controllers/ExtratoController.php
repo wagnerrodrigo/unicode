@@ -35,10 +35,11 @@ class ExtratoController extends Controller
         return response()->json($extrato);
     }
 
-    // public function showPeriodDate(){
-    //     $extrato = Extrato::findByPeriod();
-    //     return response()-json($extrato);
-    // }
+    public function showPeriodDate($id){
+        $extrato = Extrato::findByPeriod($id);
+         dd($extrato);
+        // return response()-json($extrato);
+    }
 
 
     /**

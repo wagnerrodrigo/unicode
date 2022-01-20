@@ -11,20 +11,27 @@
             </div>
             <div class="card-body">
                 {{-- INICIO DOS CAMPOS DE SELECT --}}
-                <div class="d-flex">
-                    <div class="col-md-2">
-                        <div class="input-group mb-3" style="width: 250px">
-                            <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
-                            <input class="form-control" type="date" max="" name="" id="inputDataInicio">
+                <form action="" method="GET">
+                    <div class="d-flex">
+                        <div class="col-md-3">
+                            <div class="input-group mb-3" style="width: 250px">
+                                <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
+                                <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3" style="width: 250px">
+                                <label class="input-group-text" for="inputDataFim">DATA FIM</label>
+                                <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary" style="padding: 8px 12px;">
+                                <i class="bi bi-search"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="input-group mb-3" style="width: 250px">
-                            <label class="input-group-text" for="inputDataFim">DATA FIM</label>
-                            <input class="form-control" type="date" min="" name="" id="inputDataFim">
-                        </div>
-                    </div>
-                </div>
+                </form>
                 {{-- FIM DOS CAMPOS DE SELECT --}}
 
                 <table class='table table-striped' id="table1">

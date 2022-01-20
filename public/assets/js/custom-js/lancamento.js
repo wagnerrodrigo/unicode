@@ -132,7 +132,7 @@ $("#porcentagem_rateado").blur(function() {
     );
 });
 
-var data_efetivo_pag = 0;
+btnSalvar.disabled = true
 var id_button_conta = 0;
 var id_despesa = $("#id_despesa").val();
 var fk_condicao_pagamento_id_tela = $("#fk_condicao_pagamento_id_tela").val();
@@ -145,10 +145,9 @@ $("#addContas").click(function() {
     var inst_banco = $("#inst_banco").val();
     var porcentagem_valor = $("#porcentagem_rateado").val();
     var valor_rateado = $("#valor_rateado").val();
-    data_efetivo_pag = $("#data_efetivo_pag").val();
     var rateio_empresa = $("#busca_empresa").val();
 
-    console.log(inst_banco, valor_rateado, data_efetivo_pag);
+    console.log(inst_banco, valor_rateado);
 
     valorTotalDespesa = $("#valorTotal")
         .val()
@@ -162,7 +161,6 @@ $("#addContas").click(function() {
     if (inst_banco == "" ||
         porcentagem_valor == "" ||
         valor_rateado == "" ||
-        data_efetivo_pag == "" ||
         rateio_empresa == ""
     ) {
         alert("Preencha todos os campos do Rateio !");
@@ -179,20 +177,17 @@ $("#addContas").click(function() {
             conta_bancaria: conta_bancaria,
             porcentagem_valor: porcentagem_valor,
             valor_rateado: valor_rateado,
-            data_efetivo_pag: data_efetivo_pag,
             rateio_empresa: rateio_empresa
         });
 
         valorTotalRateio = valorTotalRateio + valorRateado;
         $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
         // criar novos itens com os valores preenchidos anteriormente
-        dataFormatada(data_efetivo_pag);
         $("#Tb").append(
             `<tr id="tab_conta${id_button_conta}">` +
             `<td>${rateio_empresa}</td>` +
             `<td>${inst_banco}</td>` +
             `<td>${valor_rateado}</td>` +
-            `<td>${dataFormatada(data_efetivo_pag)}</td>` +
             `<td>${porcentagem_valor}</td>` +
             `<td><button type="button" class="btn btn-danger btn_item" onclick="removeConta(${id_button_conta}, ${valor_rateado
                 .replace(".", "")
@@ -216,10 +211,13 @@ $("#addContas").click(function() {
             `<input type="hidden"  name="valor_rateio_pagamento[]" value="${valor_rateado}"/>` +
             `<input type="hidden"  name="fk_tab_conta_bancaria[]" value="${conta_bancaria}"/>` +
             `<input type="hidden"  name="porcentagem_rateado[]" value="${porcentagem_valor}"/>` +
-            `<input type="hidden"  name="dt_inicio[]" value="${data_efetivo_pag}"/>` +
             `</div>`
         );
 
+        if(valorTotalRateio == valorTotalDespesa ){
+            btnSalvar.disabled = false;
+        }
+        
         id_button_conta++;
         limpaCamposRateio();
     }
@@ -237,15 +235,10 @@ function removeConta(id, valorRateado) {
     $(`#tab_conta${id}`).remove();
     $(`#input_generated_account${id}`).remove();
     $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
+    btnSalvar.disabled = true
 
 }
 
-// Formata input data
-$("#data_efetivo_pag").on("change", function() {
-    data_efetivo_pag = $(this).val();
-    // console.log(data_efetivo_pag, "aqui");
-    return data_efetivo_pag;
-})
 
 
 // função para limpar os campos de rateio
@@ -254,7 +247,6 @@ function limpaCamposRateio() {
     $("#inst_banco").val("");
     $("#porcentagem_rateado").val("");
     $("#valor_rateado").val("");
-    $("#data_efetivo_pag").val("");
 }
 
 
