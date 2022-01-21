@@ -61,6 +61,12 @@ class ExtratoController extends Controller
         return $lancamentos;
     }
 
+    public function showExtract($id){
+        $extrato = Extrato::findByExtract($id);
+        dd($extrato);
+        return response()->json($extrato);
+    }
+
 
     /**
      * Show the form for creating a new resource.
