@@ -19,49 +19,43 @@ class ExtratoController extends Controller
      */
     public function index(Request $request)
     {
-   
-        if( $request->has('dt_inicio') && $request->has('dt_fim'))
-        {
+        if ($request->has('dt_inicio') && $request->has('dt_fim')) {
             $dt_lancamento = $request->input('dt_inicio');
             $dt_vencimento = $request->input('dt_fim');
             $mascara = new Mascaras();
-            
-            if(empty($dt_lancamento) && empty($dt_vencimento)){
-                $extratos = Extrato::selectAll();
+
+            if (empty($dt_lancamento) && empty($dt_vencimento)) {
                 $lancamentos = Lancamento::findByStatus(config('constants.PROVISIONADO'));
-                return view('admin.extrato.extrato', compact('extratos', 'lancamentos', 'mascara'));
+                return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
+            } else {
+                $lancamentos  = $this->showPeriodDate($dt_lancamento, $dt_vencimento);
+                return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
             }
-            else{
-                $lancamentos  = $this->showPeriodDate($dt_lancamento, $dt_vencimento );
-                $extratos = Extrato::selectAll();
-                return view('admin.extrato.extrato', compact('extratos', 'lancamentos', 'mascara'));
-            }
-        }
-        else {
+        } else {
             $mascara = new Mascaras();
-            $extratos = Extrato::selectAll();
             $lancamentos = Lancamento::findByStatus(config('constants.PROVISIONADO'));
 
-            return view('admin.extrato.extrato', compact('extratos', 'lancamentos', 'mascara'));
+            return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
+        }
     }
 
 
-    }
 
-
-
-    public function showCompany(){
+    public function showCompany()
+    {
         $extrato = Extrato::findByCompany();
 
         return response()->json($extrato);
     }
 
-    public function showPeriodDate($dt_lancamento , $dt_vencimento){    
+    public function showPeriodDate($dt_lancamento, $dt_vencimento)
+    {
         $lancamentos = Lancamento::findByPeriod($dt_lancamento, $dt_vencimento);
         return $lancamentos;
     }
 
-    public function showExtract($id){
+    public function showExtract($id)
+    {
         $extrato = Extrato::findByExtract($id);
         dd($extrato);
         return response()->json($extrato);
