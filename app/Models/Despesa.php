@@ -275,4 +275,17 @@ class Despesa extends Model
         $query = "SELECT fk_tab_tipo_despesa_id, fk_condicao_pagamento_id FROM intranet.tab_despesa WHERE id_despesa = ?;";
         return DB::select($query, [$id]);
     }
+
+    static function findByDueDate($date)
+    {
+        return DB::table('intranet.tab_despesa')
+            ->where('fk_status_despesa_id', '=', config('constants.A_PAGAR'))->where('dt_vencimento', '<', $date)->get();
+    }
+
+    static function setStatusIfDefeaded($id)
+    {
+        DB::table('intranet.tab_despesa')
+            ->where('id_despesa', '=', $id)
+            ->update(['fk_status_despesa_id' => config('constants.EM_ATRASO')]);
+    }
 }

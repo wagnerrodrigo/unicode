@@ -15,7 +15,7 @@
                 <!-- Form de filtro por status -->
                 <form name="form_status">
                     <div class="d-flex flex-row justify-content-around">
-                        <div >
+                        <div>
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputStatus">RESULTADOS</label>
                                 <select class="form-select" id="inputStatus" name="results">
@@ -25,7 +25,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div >
+                        <div>
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputStatus">STATUS</label>
                                 <select class="form-select" id="inputStatus" name="status">
@@ -39,7 +39,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div >
+                        <div>
                             <div class="input-group mb-3" style="width: 350px">
                                 <label class="input-group-text" for="inputStatus">FILTRO</label>
                                 <select class="form-select" id="inputBusca" name="chave_busca">
@@ -50,7 +50,7 @@
                                 <input type="text" class="busca_despesa" id="valor_busca" name="valor_busca">
                             </div>
                         </div>
-                        <div >
+                        <div>
                             <button type="submit" class="btn btn-primary" style="padding: 8px 12px;">
                                 <i class="bi bi-search"></i>
                             </button>
@@ -72,20 +72,20 @@
                     <tbody>
                         @if(count($despesas) > 0)
                         @foreach($despesas as $despesa)
-                        <tr>
-                            <td>{{$despesa->id_despesa}}</td>
-                            <td>{{$mascara::maskMoeda($despesa->valor_total_despesa)}}</td>
-                            <td>{{$despesa->qt_parcelas_despesa}}</td>
-                            <td>{{$despesa->dt_vencimento != null ? date("d/m/Y", strtotime($despesa->dt_vencimento)) : ''}}</td>
-                            <td>{{$despesa->de_status_despesa}}</td>
-                            <td>
-                                <a href="/despesas/{{$despesa->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;">
-                                    <i class="bi bi-eye-fill"></i>
-                                </a>
-                                <button data-bs-toggle="modal" data-bs-target="#xlarge-view" class="btn btn-primary" style="padding: 8px 12px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
+                        <tr class={{$despesa->de_status_despesa != 'EM ATRASO' ? "font-color-despesa" : "font-color-despesa-vencida"}}>
+                        <td>{{$despesa->id_despesa}}</td>
+                        <td>{{$mascara::maskMoeda($despesa->valor_total_despesa)}}</td>
+                        <td>{{$despesa->qt_parcelas_despesa}}</td>
+                        <td>{{$despesa->dt_vencimento != null ? date("d/m/Y", strtotime($despesa->dt_vencimento)) : ''}}</td>
+                        <td>{{$despesa->de_status_despesa}}</td>
+                        <td>
+                            <a href="/despesas/{{$despesa->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;">
+                                <i class="bi bi-eye-fill"></i>
+                            </a>
+                            <button data-bs-toggle="modal" data-bs-target="#xlarge-view" class="btn btn-primary" style="padding: 8px 12px;">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
                         </tr>
                         @endforeach
                         @else

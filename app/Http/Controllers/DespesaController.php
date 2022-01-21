@@ -21,6 +21,9 @@ class DespesaController extends Controller
      */
     public function index(Request $request)
     {
+        $despesaRepository = new DespesaRepository();
+        $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
+
         $mascara = new Mascaras();
         //quantidade de resultados por pagina
         $results = $request->input('results');

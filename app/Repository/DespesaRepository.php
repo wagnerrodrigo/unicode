@@ -18,4 +18,13 @@ class DespesaRepository
     {
         return Despesa::findInfosDespesaById($id);
     }
+
+    function setStatusIfDefeaded($data)
+    {
+        $despesasVencidas = Despesa::findByDueDate($data);
+
+        for ($i = 0; $i < count($despesasVencidas); $i++) {
+            Despesa::setStatusIfDefeaded($despesasVencidas[$i]->id_despesa);
+        }
+    }
 }

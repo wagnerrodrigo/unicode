@@ -618,6 +618,17 @@ footer {
     color: #fff;
 }
 
+
+.font-color-despesa{
+    color: #727e8c;
+}
+
+.font-color-despesa-vencida {
+    color: #ff5b5c !important;
+    font-style: italic;
+    font-weight: 500;
+}
+
 /*fim css personalizado */
 
 .select-tab {

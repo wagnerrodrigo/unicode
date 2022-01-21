@@ -8,7 +8,7 @@ use App\Models\Extrato;
 use Illuminate\Http\Request;
 use App\Repository\DespesaRepository;
 use App\Models\Lancamento;
-
+use Carbon\Carbon;
 
 class TesteController extends Controller
 {
@@ -26,11 +26,13 @@ class TesteController extends Controller
         // dd($uf, $cidade);
 
         $despesaRepository = new DespesaRepository();
-        $test = $despesaRepository->findInfosDespesa("18164");
-        
+       // $test = $despesaRepository->findInfosDespesa("18164");
+        $teste = $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
+
+        dd($teste);
         // $timeStamp = Lancamento::findIdByTimeStamp('2022-01-17 12:11:56');
-        $test = Lancamento::findByPeriod('2022-01-01','2022-01-20');
-        dd($test);
+        //$test = Lancamento::findByPeriod('2022-01-01','2022-01-20');
+        //dd($test);
         // dd($timeStamp[0]->id_tab_lancamento);
     }
 }

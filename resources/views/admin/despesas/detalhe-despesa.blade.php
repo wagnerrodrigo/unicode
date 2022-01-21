@@ -75,7 +75,7 @@
                                 <div>
                                     <strong>DATA DE EMISSÃO</strong>
                                 </div>
-                                <span>{{date("d/m/Y", strtotime($despesa->dt_emissao))}}</span>
+                                <span>{{$despesa->dt_emissao == null ? '' : date("d/m/Y", strtotime($despesa->dt_emissao))}}</span>
                             </div>
                         </div>
                     </div>

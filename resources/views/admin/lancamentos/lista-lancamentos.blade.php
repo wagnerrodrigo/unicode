@@ -64,7 +64,7 @@
                     </thead>
                     <tbody>
                         @foreach($lancamentos as $lancamento)
-                        <tr>
+                        <tr class={{$lancamento->de_status_despesa != 'EM ATRASO' ? "font-color-despesa" : "font-color-despesa-vencida"}}>
                             <td>{{$lancamento->id_despesa}}</td>
                             <td>{{$lancamento->de_despesa}}</td>
                             <td>{{$mascara::maskMoeda($lancamento->valor_total_despesa)}}</td>

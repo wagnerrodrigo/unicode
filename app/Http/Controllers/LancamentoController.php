@@ -22,6 +22,8 @@ class LancamentoController extends Controller
      */
     public function index(Request $request)
     {
+        $despesaRepository = new DespesaRepository();
+        $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
 
         $mascara = new Mascaras();
         if ($request->has('dt_inicio') && $request->has('dt_fim') || $request->has('status')) {
@@ -55,7 +57,7 @@ class LancamentoController extends Controller
         $fk_condicao_pagamento = $despesaRepository->findPaymentCondition($request->id_despesa);
 
         if (!empty($request->valor_rateio_pagamento)) {
-           
+
             $lancamento = new Lancamento();
 
             $lancamento->id_despesa = $request->id_despesa;
@@ -69,14 +71,13 @@ class LancamentoController extends Controller
             $timeStamp = $lancamento->dt_inicio;
             $idLancamento = Lancamento::findIdByTimeStamp($timeStamp);
 
-            
+
             if ($request->valor_rateio_pagamento) {
                 for ($i = 0; $i < count($request->valor_rateio_pagamento); $i++) {
                     $rateios[] = [
                         'valor_rateio_pagamento' => preg_replace('/\D/', '', $request->valor_rateio_pagamento[$i]),
                         'fk_tab_conta_bancaria' => $request->fk_tab_conta_bancaria[$i],
                     ];
-
                 }
                 $rateio = new Rateio();
 
@@ -88,26 +89,23 @@ class LancamentoController extends Controller
                     $rateio->dt_fim = null;
                     Rateio::createRateioLancamento($rateio);
                 }
-                
             }
-             
+        } else {
+            // INICIO requeste somente lancamento
+            $lancamento = new Lancamento();
+
+            $lancamento->id_despesa = $request->id_despesa;
+            $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
+            $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+            $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+            $lancamento->dt_vencimento = $request->dt_vencimento;
+            $lancamento->dt_fim = null;
+            Lancamento::create($lancamento);
+            // FIM requeste somente lancamento
         }
-        else{
-               // INICIO requeste somente lancamento
-               $lancamento = new Lancamento();
 
-                $lancamento->id_despesa = $request->id_despesa;
-                $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
-                $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                $lancamento->dt_vencimento = $request->dt_vencimento;
-                $lancamento->dt_fim = null;
-                Lancamento::create($lancamento);
-                // FIM requeste somente lancamento
-            }
-
-            $despesa = new Despesa();
-            $despesa::setStatus($request->id_despesa);
+        $despesa = new Despesa();
+        $despesa::setStatus($request->id_despesa);
 
         return  redirect()->route('lancamentos');
     }
@@ -204,7 +202,6 @@ class LancamentoController extends Controller
         } else {
             return response()->json($lancamentosAll);
         }
-
     }
 
 
