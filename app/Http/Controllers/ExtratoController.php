@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Despesa;
 use App\Models\Extrato;
 use App\Models\Lancamento;
+use App\Models\Rateio;
 use App\Utils\Mascaras\Mascaras;
 use Illuminate\Http\Request;
 
@@ -62,9 +63,10 @@ class ExtratoController extends Controller
     }
 
     public function showExtractDetails($id){
-        $lancamento = Lancamento::findOne($id);
+        $lancamentos = Lancamento::findOne($id);
+        $rateios = Rateio::findByApportionment($id);
         $extratos = Extrato::selectAll();
-        return view('admin.extrato.add-extrato', compact('lancamento', 'extratos'));
+        return view('admin.extrato.add-extrato', compact('lancamentos', 'extratos', 'rateios'));
     }
 
     /**
