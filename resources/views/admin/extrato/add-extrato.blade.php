@@ -14,13 +14,12 @@
                     </div>
                     <div class="card-body" style="font-size: 18px;">
 
-                        {{-- INICIO DA INFORMAÇÃO DA DESPESA --}}
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div>
-                                            <strong>DESCRIÇÃO DA DESPESA</strong>
+                                            <strong>TITULO DA DESPESA</strong>
                                         </div>
                                         <span>{{ $lancamento->de_despesa }}</span>
                                     </div>
@@ -31,11 +30,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div>
-                                            <strong>VALOR</strong>
+                                            <strong>VALOR TOTAL DA DESPESA</strong>
                                         </div>
-                                        <span>{{ $lancamento->valor_total_despesa }}</span>
-                                        <input type="hidden" name="" id="valorTotal"
-                                            value="{{ $lancamento->valor_total_despesa }}">
+                                        <span>{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -61,155 +58,172 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div>
-                                            <strong>STATUS</strong>
+                                            <strong>CNPJ</strong>
                                         </div>
-                                        <span>{{ $lancamento->de_status_despesa }}</span>
+                                        <span> {{ $mascara::mask($lancamento->cnpj_empresa, '##.###.###/####-##') }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="d-flex">
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div>
-                                            <strong>
-                                                INSTITUIÇÃO BANCARIA
-                                            </strong>
-                                        </div>
-                                        <span></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div>
-                                            <strong>
-                                                RATEIO ENTRE CONTAS
-                                            </strong>
-                                        </div>
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="d-flex">
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div>
-                                            <strong>
-                                                RATEADO EM EMPRESAS
-                                            </strong>
-                                        </div>
-                                        <span></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div>
-                                            <strong>
-                                                DATA DO LANCAMENTO
-                                            </strong>
-                                        </div>
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
 
         @endforeach
 
-        {{-- INICO CARD EXTRATO --}}
-        <div class="card">
-            <div class="card-header">
-                <h3>EXTRATOS</h3>
+        <div style="padding: 10px">
+            <h3>RATEIOS</h3>
+        </div>
+
+        <hr>
+
+        @foreach ($rateios as $rateio)
+            <div class="d-flex">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div>
+                            <strong>
+                                VALOR DO RATEIO
+                            </strong>
+                        </div>
+                        <span>
+                            {{ $mascara::maskMoeda($rateio->valor_rateio_pagamento) }}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div>
+                            <strong>
+                                NUMERO DA CONTA
+                            </strong>
+                        </div>
+                        <span>
+                            {{ $rateio->nu_conta }}
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-
-                <form action="" method="post">
-                    @csrf
-
-                    <input type="hidden" id="hidden_inputs_itens">
 
 
-                    <table class='table table-striped' id="table1">
-                        <thead>
-                            <tr>
-                                <th>EXTRATO</th>
-                                <th>BANCO</th>
-                                <th>CONTA</th>
+            <div class="d-flex">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div>
+                            <strong>
+                                INSTITUIÇÃO BANCARIA
+                            </strong>
+                        </div>
+                        <span>
+                            {{ $rateio->de_banco }}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div>
+                            <strong>
+                                AGENCIA
+                            </strong>
+                        </div>
+                        <span>
+                            {{ $rateio->nu_agencia }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="d-flex">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div>
+                            <strong>
+                                CÓDIGO OPERAÇÃO
+                            </strong>
+                        </div>
+                        <span>
+                            {{ $rateio->co_op }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        @endforeach
+
+    </div>
+    </div>
+
+    </div>
+    {{-- INICO CARD EXTRATO --}}
+    <div class="card">
+        <div class="card-header">
+            <h3>EXTRATOS</h3>
+        </div>
+        <div class="card-body">
+            <form action="" method="post">
+                @csrf
+                <input type="hidden" id="hidden_inputs_itens">
+                <table class='table table-striped' id="table1">
+                    <thead>
+                        <tr>
+                            <th>EXTRATO</th>
+                            <th>BANCO</th>
+                            <th>CONTA</th>
+                            <th>DATA FIM</th>
+                            <th>VALOR TOTAL</th>
+                            <th>AÇÃO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>asdf</td>
+                            <td>asdf</td>
+                            <td>asdfasdfasdf</td>
+                            <td>asdfasdfasdfasdfasdfasdfasd</td>
+                            <td>asoidpofiajsdopif </td>
+                            <td>
+                                <input type="checkbox" name="despesa" id="">
+                            </td>
+
+                        </tr>
+                        <table class="collapse table table-borderless"
+                            id="collapseExample{{ $lancamento->id_tab_lancamento }}">
+                            <tr class="table-dark">
+                                <th>ID EXTRATO</th>
+                                <th>NOME BANCO</th>
+                                <th>NUMERO CONTA</th>
                                 <th>DATA FIM</th>
                                 <th>VALOR TOTAL</th>
-                                <th>AÇÃO</th>
                             </tr>
-                        </thead>
-                        <tbody>
-
                             <tr>
-                                <td>asdf</td>
-                                <td>asdf</td>
-                                <td>asdfasdfasdf</td>
-                                <td>asdfasdfasdfasdfasdfasdfasd</td>
-                                <td>asoidpofiajsdopif </td>
                                 <td>
-                                    <input type="checkbox" name="despesa" id="">
+                                    <input type="checkbox" value="" name="" id="">
                                 </td>
+                                <td>
 
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+
+
+                                </td>
+                                <td>
+
+                                </td>
                             </tr>
-                            @if ($extratos != null || !empty($extratos))
-                                <table class="collapse table table-borderless"
-                                    id="collapseExample{{ $despesa->id_despesa }}">
-                                    <tr class="table-dark">
-                                        <th>ID EXTRATO</th>
-                                        <th>NOME BANCO</th>
-                                        <th>NUMERO CONTA</th>
-                                        <th>DATA FIM</th>
-                                        <th>VALOR TOTAL</th>
-                                    </tr>
-                                    @foreach ($extratos as $extrato)
-                                        <tr>
-                                            <td>
-                                                {{ $extrato->id_extrato }}
-                                                <input type="checkbox" value="{{ $extrato->id_extrato }}" name="" id="">
-                                            </td>
-                                            <td>
-                                                {{ $extrato->de_banco }}
-                                            </td>
-                                            <td>
-                                                {{ $extrato->nu_conta }}
-                                            </td>
-                                            <td>
-
-                                                {{ date('d/m/Y', strtotime($extrato->dtend)) }}
-                                            </td>
-                                            <td>
-                                                {{ $mascara::maskMoeda($extrato->balamt) }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </table>
-                            @endif
-                        </tbody>
-
-
-                    </table>
-
-
-            </div>
-
-
-            <div class="card-footer col-sm-12 d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary  me-1 mb-1" id="btnConciliacao">CONCILIAR</button>
-                <a href="{{ route('extrato') }}" class="btn btn-danger  me-1 mb-1">CANCELAR</a>
-            </div>
+                        </table>
+                    </tbody>
+                </table>
         </div>
-        </form>
-        {{-- FIM CARD EXTRATO --}}
 
+
+        <div class="card-footer col-sm-12 d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary  me-1 mb-1" id="btnConciliacao">CONCILIAR</button>
+            <a href="{{ route('extrato') }}" class="btn btn-danger  me-1 mb-1">CANCELAR</a>
+        </div>
+    </div>
+    </form>
+    {{-- FIM CARD EXTRATO --}}
 
     </div>
     {{-- FIM CARD CONCILICAÇÃO --}}
