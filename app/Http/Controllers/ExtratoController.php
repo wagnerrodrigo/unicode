@@ -103,7 +103,7 @@ class ExtratoController extends Controller
 
        $mascara = new Mascaras();
 
-        return view('admin.extrato.detalhe-extrato', compact('lancamentos', 'rateios', 'mascara'));
+        return view('admin.extrato.add-extrato', compact('lancamentos', 'rateios', 'mascara'));
     }
 
     public function showInfo($id)
