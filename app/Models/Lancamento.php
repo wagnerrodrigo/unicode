@@ -30,40 +30,22 @@ class Lancamento extends Model
                 ->paginate(10);
         } else {
             $lancamentos = $query->where('intranet.tab_despesa.fk_status_despesa_id', '=', 6)
-                ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)->paginate(10);
+                ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)->orderBy('intranet.status_despesa.de_status_despesa', 'asc')
+                ->paginate(10);
         }
         return $lancamentos;
     }
 
     static function findOne($id)
     {
-        $data = DB::select("SELECT lancamento.id_tab_lancamento,
-        lancamento.fk_condicao_pagamento_id,
-        lancamento.dt_vencimento,
-        lancamento.dt_fim,
-        despesa.id_despesa,
-        despesa.fk_tab_centro_custo_id,
-	    despesa.fk_status_despesa_id,
-        status_dep.de_status_despesa,
-        despesa.de_despesa,
-        despesa.valor_total_despesa,
-        despesa.dt_vencimento,
-        despesa.dt_provisionamento,
-        empresa.id_empresa,
-        empresa.de_empresa,
-        pagamento.fk_tab_lancamento_id,
-        pagamento.de_pagamento
-        FROM intranet.tab_lancamento AS lancamento
-        RIGHT JOIN intranet.tab_despesa AS despesa ON (lancamento.fk_tab_despesa_id = despesa.id_despesa)
-        LEFT JOIN intranet.tab_pagamento AS pagamento ON (despesa.id_despesa = pagamento.fk_tab_lancamento_id)
-        INNER JOIN intranet.tab_centro_custo as centroCusto on (despesa.fk_tab_centro_custo_id = centroCusto.id_centro_custo)
-        INNER JOIN intranet.status_despesa as status_dep on (despesa.fk_status_despesa_id = status_dep.id_status_despesa)
-        INNER JOIN intranet.tab_empresa as empresa on (centroCusto.fk_empresa_id = empresa.id_empresa)
-        WHERE despesa.id_despesa = ?;", [$id]);
+        return DB::table('intranet.tab_lancamento')
+        ->rightJoin('intranet.tab_despesa','intranet.tab_lancamento.fk_tab_despesa_id', '=', 'intranet.tab_despesa.id_despesa')
+        ->join('intranet.tab_centro_custo','intranet.tab_despesa.fk_tab_centro_custo_id', '=', 'intranet.tab_centro_custo.id_centro_custo')
+        ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
+        ->join('intranet.tab_empresa', 'intranet.tab_empresa.id_empresa', '=', 'intranet.tab_centro_custo.fk_empresa_id')
+        ->where('intranet.tab_lancamento.id_tab_lancamento', '=', $id)
+        ->get();
 
-        $lancamento = $data[0];
-
-        return $lancamento;
     }
 
 
@@ -176,7 +158,6 @@ class Lancamento extends Model
         );
 
         return $data;
-        
     }
 
     static function create($lancamento)
@@ -216,5 +197,5 @@ class Lancamento extends Model
         return $query;
 
     }
-   
+
 }

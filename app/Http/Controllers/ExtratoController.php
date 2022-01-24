@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Despesa;
 use App\Models\Extrato;
 use App\Models\Lancamento;
+use App\Repository\LancamentoRepository;
+use App\Repository\RateioRepository;
 use App\Utils\Mascaras\Mascaras;
 use Illuminate\Http\Request;
 
@@ -34,7 +36,6 @@ class ExtratoController extends Controller
         } else {
             $mascara = new Mascaras();
             $lancamentos = Lancamento::findByStatus(config('constants.PROVISIONADO'));
-
             return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
         }
     }
@@ -89,9 +90,21 @@ class ExtratoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id_lancamento)
     {
-        return view('admin.extrato.detalhe-extrato');
+        //busca o lançamentos no repository pelo id
+       $lancamentoRepository = new LancamentoRepository();
+       $lancamentos = $lancamentoRepository->findAccountingEntryById($id_lancamento);
+
+        //busca o rateio no repository pelo id do lançamento
+       $rateioRepository = new RateioRepository();
+       $rateios = $rateioRepository->findRateioLancamento($id_lancamento);
+        //busca os extratos relacionados ao lançamento
+       $extatos = Extrato::findByExtract($id_lancamento);
+
+       $mascara = new Mascaras();
+
+        return view('admin.extrato.detalhe-extrato', compact('lancamentos', 'rateios', 'mascara'));
     }
 
     public function showInfo($id)

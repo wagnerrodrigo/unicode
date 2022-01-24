@@ -49,16 +49,16 @@
                         @foreach ($lancamentos as $lancamento)
                         <tr>
                             <td>
-                                {{ $lancamento->id_despesa }}
+                                {{ $lancamento->id_tab_lancamento }}
                             </td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
                             <td>{{ $lancamento->de_despesa }}</td>
                             <td>{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}</td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
                             <td>
-                                <button data-bs-toggle="modal" data-bs-target="#xlarge-view" class="btn btn-primary" style="padding: 8px 12px;">
+                                <a href="extrato/lancamento/{{ $lancamento->id_tab_lancamento }}" class="btn btn-primary" style="padding: 8px 12px;">
                                     <i class="bi bi-eye-fill"></i>
-                                </button>
+                                </a>
                             </td>
                         </tr>
                     </tbody>

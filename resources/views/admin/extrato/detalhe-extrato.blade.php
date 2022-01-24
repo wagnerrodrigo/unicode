@@ -24,20 +24,27 @@
                                                 <table class=" table table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th>EMPRESA </th>
-                                                            <th>BANCO </th>
-                                                            <th>CONTA</th>
+                                                            <th>TITULO</th>
+                                                            <th>EMPRESA</th>
+                                                            <th>CNPJ</th>
+                                                            <th>CENTRO CUSTO</th>
+                                                            <th>VALOR TOTAL DESPESA</th>
                                                             <th>DATA DO VENCIMENTO</th>
-                                                            <th>VALOR</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td>asdf</td>
-                                                            <td>BANCO DA AMAZNIA S.A. </td>
-                                                            <td>111111111</td>
-                                                            <td>07/12/2021</td>
-                                                            <td>100</td>
+                                                            @if(!empty($lancamentos))
+                                                            @foreach($lancamentos as $lancamento)
+                                                            <td>{{$lancamento->de_despesa}}</td>
+                                                            <td>{{$lancamento->de_empresa}}</td>
+                                                            <td>{{$lancamento->cnpj_empresa}}</td>
+                                                            <td>{{$mascara::mask($lancamento->cnpj_empresa, '##.###.###/####-##')}}</td>
+                                                            <td>{{$lancamento->fk_tab_centro_custo_id}}</td>
+                                                            <td>{{$mascara::maskMoeda($lancamento->valor_total_despesa)}}</td>
+                                                            <td>{{$lancamento->dt_vencimento}}</td>
+                                                            @endforeach
+                                                            @endif
                                                         </tr>
                                                     </tbody>
                                                 </table>

@@ -35,16 +35,27 @@ class Rateio extends Model
         ]);
     }
 
-    static function createRateioLancamento($rateio){
+    static function createRateioLancamento($rateio)
+    {
         DB::insert("INSERT INTO intranet.tab_rateio_pagamento
         (valor_rateio_pagamento, fk_tab_conta_bancaria, fk_tab_lancamento, dt_inicio, dt_fim)
         VALUES(?, ?, ?, ?, ?)
-        ",[
+        ", [
             $rateio->valor_rateio_pagamento,
             $rateio->fk_tab_conta_bancaria,
             $rateio->fk_tab_lancamento,
             $rateio->dt_inicio,
             $rateio->dt_fim
         ]);
+    }
+
+    static function getRateioLancamento($id)
+    {
+        return DB::table('intranet.tab_rateio_pagamento')
+            ->join('intranet.tab_conta_bancaria', 'tab_rateio_pagamento.fk_tab_conta_bancaria', '=', 'tab_conta_bancaria.id_conta_bancaria')
+            ->join('intranet.tab_inst_banco', 'intranet.tab_conta_bancaria.fk_tab_inst_banco_id', '=', 'intranet.tab_inst_banco.id')
+            ->join('intranet.tab_empresa', 'intranet.tab_conta_bancaria.fk_tab_empresa_id', '=', 'intranet.tab_empresa.id_empresa')
+            ->where('fk_tab_lancamento', '=', $id)
+            ->get();
     }
 }

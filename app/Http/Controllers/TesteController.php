@@ -6,7 +6,7 @@ use App\Models\UF;
 use App\Models\Cidade;
 use App\Models\Extrato;
 use Illuminate\Http\Request;
-use App\Repository\DespesaRepository;
+use App\Repository\LancamentoRepository;
 use App\Models\Lancamento;
 use Carbon\Carbon;
 
@@ -25,9 +25,9 @@ class TesteController extends Controller
 
         // dd($uf, $cidade);
 
-        $despesaRepository = new DespesaRepository();
+        $lancamentoRepository = new LancamentoRepository();
        // $test = $despesaRepository->findInfosDespesa("18164");
-        $teste = $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
+        $teste = $lancamentoRepository->findAccountingEntryById(18162);
 
         dd($teste);
         // $timeStamp = Lancamento::findIdByTimeStamp('2022-01-17 12:11:56');
