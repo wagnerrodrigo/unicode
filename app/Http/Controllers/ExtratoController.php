@@ -62,7 +62,6 @@ class ExtratoController extends Controller
         return response()->json($extrato);
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
