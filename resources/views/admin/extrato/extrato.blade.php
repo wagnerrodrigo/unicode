@@ -7,7 +7,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h1>DESPESA </h1>
+                <h1>LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO </h1>
             </div>
             <div class="card-body">
                 <form action="{{ route('extrato') }}" method="GET">
