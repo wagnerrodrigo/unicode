@@ -44,23 +44,25 @@
                             <th></th>
                         </tr>
                     </thead>
+
                     <tbody>
                         @if ($lancamentos != null || !empty($lancamentos))
                         @foreach ($lancamentos as $lancamento)
                         <tr>
                             <td>
-                                {{ $lancamento->id_tab_lancamento }}
+                                {{ $lancamento->id_despesa }}
+                                <input type="checkbox" name="despesa" value="{{ $lancamento->fk_tab_despesa_id }}" id="">
                             </td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
                             <td>{{ $lancamento->de_despesa }}</td>
-                            <td>{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}</td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
+
                             <td>
-                                <a href="extrato/lancamento/{{ $lancamento->id_tab_lancamento }}" class="btn btn-primary" style="padding: 8px 12px;">
-                                    <i class="bi bi-eye-fill"></i>
-                                </a>
+                                <button class="accordion-button custon-btn custon-btn-accordion" onclick="getExtrato(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{ $lancamento->fk_tab_despesa_id }}" role="button" aria-expanded="false" id="" aria-controls="collapseExample" style="width: 25px">
+                                </button>
                             </td>
                         </tr>
+
                     </tbody>
                     @endforeach
                     @endif
@@ -70,6 +72,24 @@
         </div>
     </div>
 </div>
+
+<script>
+    function getExtrato(object) {
+        var href = object.getAttribute("href");
+        var id = href.substring(href.indexOf("-") + 1);
+
+        $.ajax({
+            url: `extrato/lancamento/${id}`,
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                //$("#collapseExample-" + id).html(data);
+            }
+        });
+    };
+</script>
+
 
 <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
 <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>

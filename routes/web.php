@@ -42,7 +42,7 @@ Route::get('/teste', [TesteController::class, 'all'])->name('teste');
 //rotas extratos
 Route::middleware('autenticacaoMiddleware')->prefix('/extrato')->group(function () {
     Route::get('/', [ExtratoController::class, 'index'])->name('extrato');
-    Route::get('/lancamento/{id}', [ExtratoController::class, 'show']);
+    Route::get('/lancamento/{id}', [ExtratoController::class, 'getBankAccount']);
     Route::get('/empresa', [ExtratoController::class, 'showCompany']);
     Route::get('/pesquisa/{dt_inicio}/{dt_fim}', [ExtratoController::class, 'showPeriodDate']);
 });

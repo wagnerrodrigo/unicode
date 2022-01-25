@@ -19,7 +19,7 @@ class Extrato extends Model
     }
 
     static function selectAll()
-    {  
+    {
     }
 
     // "SELECT extrato.id_extrato,
@@ -42,16 +42,46 @@ class Extrato extends Model
     {
 
         $query = DB::table('intranet.tab_extrato')
-                ->join('intranet.tab_conta_bancaria','intranet.tab_conta_bancaria.id_conta_bancaria', 
-                '=', 'intranet.tab_extrato.fk_tab_conta_bancaria')
-                ->join('intranet.tab_rateio_pagamento','intranet.tab_rateio_pagamento.fk_tab_conta_bancaria',
-                '=', 'intranet.tab_extrato.fk_tab_conta_bancaria')
-                ->join('intranet.tab_lancamento','intranet.tab_lancamento.id_tab_lancamento' , 
-                '=', 'intranet.tab_rateio_pagamento.fk_tab_lancamento')
-                ->where('intranet.tab_lancamento.id_tab_lancamento',
-                 '=', $id)
-                 ->get();
+            ->join(
+                'intranet.tab_conta_bancaria',
+                'intranet.tab_conta_bancaria.id_conta_bancaria',
+                '=',
+                'intranet.tab_extrato.fk_tab_conta_bancaria'
+            )
+            ->join(
+                'intranet.tab_rateio_pagamento',
+                'intranet.tab_rateio_pagamento.fk_tab_conta_bancaria',
+                '=',
+                'intranet.tab_extrato.fk_tab_conta_bancaria'
+            )
+            ->join(
+                'intranet.tab_lancamento',
+                'intranet.tab_lancamento.id_tab_lancamento',
+                '=',
+                'intranet.tab_rateio_pagamento.fk_tab_lancamento'
+            )
+            ->where(
+                'intranet.tab_lancamento.id_tab_lancamento',
+                '=',
+                $id
+            )
+            ->get();
         return $query;
+    }
 
+    static function findByBankAccount($id_conta)
+    {
+        return DB::table('intranet.tab_extrato')
+            ->join(
+                'intranet.tab_conta_bancaria',
+                'intranet.tab_conta_bancaria.id_conta_bancaria',
+                '=',
+                'intranet.tab_extrato.fk_tab_conta_bancaria'
+            )
+            ->where(
+                'intranet.tab_conta_bancaria.id_conta_bancaria',
+                '=',
+                $id_conta
+            )->get();
     }
 }

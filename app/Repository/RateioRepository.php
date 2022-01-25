@@ -7,9 +7,8 @@ use App\Models\Rateio;
 
 class RateioRepository
 {
-
-    function findRateioLancamento($id_lancamento)
+    function findContaBancariaRateioByLancamento($id_lancamento)
     {
-        return Rateio::getRateioLancamento($id_lancamento);
+        return Rateio::getContaBancariaRateioByLancamento($id_lancamento);
     }
 }

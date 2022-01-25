@@ -6,7 +6,7 @@ use App\Models\UF;
 use App\Models\Cidade;
 use App\Models\Extrato;
 use Illuminate\Http\Request;
-use App\Repository\LancamentoRepository;
+use App\Repository\RateioRepository;
 use App\Models\Lancamento;
 use Carbon\Carbon;
 
@@ -25,11 +25,11 @@ class TesteController extends Controller
 
         // dd($uf, $cidade);
 
-        $lancamentoRepository = new LancamentoRepository();
-       // $test = $despesaRepository->findInfosDespesa("18164");
-        $teste = $lancamentoRepository->findAccountingEntryById(18162);
 
-        dd($teste);
+        //$rateioRepository = new RateioRepository();
+        //$rateio = $rateioRepository->findContaBancariaRateioByLancamento(18191);
+
+        //dd($rateio);
         // $timeStamp = Lancamento::findIdByTimeStamp('2022-01-17 12:11:56');
         //$test = Lancamento::findByPeriod('2022-01-01','2022-01-20');
         //dd($test);

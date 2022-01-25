@@ -58,4 +58,14 @@ class Rateio extends Model
             ->where('fk_tab_lancamento', '=', $id)
             ->get();
     }
+
+    static function getContaBancariaRateioByLancamento($id)
+    {
+        return DB::table('intranet.tab_rateio_pagamento')->select(
+            "id_conta_bancaria"
+        )
+            ->join('intranet.tab_conta_bancaria', 'tab_rateio_pagamento.fk_tab_conta_bancaria', '=', 'tab_conta_bancaria.id_conta_bancaria')
+            ->where('fk_tab_lancamento', '=', $id)
+            ->get();
+    }
 }
