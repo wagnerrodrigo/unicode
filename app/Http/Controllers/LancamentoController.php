@@ -10,9 +10,6 @@ use App\Utils\Mascaras\Mascaras;
 use Carbon\Carbon;
 use App\Repository\DespesaRepository;
 
-
-use function PHPUnit\Framework\isEmpty;
-
 class LancamentoController extends Controller
 {
     /**
@@ -124,9 +121,11 @@ class LancamentoController extends Controller
 
     public function provisionamento($id)
     {
-        $lancamento = Lancamento::findOne($id);
-        $lancamento->valor_total_despesa = Mascaras::maskMoeda($lancamento->valor_total_despesa);
-        return view('admin.lancamentos.add-lancamento', compact('lancamento'));
+        $despesaRepository = new DespesaRepository();
+        $lancamentos = $despesaRepository->getExpenseById($id);
+        $mascara = new Mascaras();
+
+        return view('admin.lancamentos.add-lancamento', compact('lancamentos' , 'mascara'));
     }
 
 

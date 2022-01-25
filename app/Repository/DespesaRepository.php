@@ -27,4 +27,9 @@ class DespesaRepository
             Despesa::setStatusIfDefeaded($despesasVencidas[$i]->id_despesa);
         }
     }
+
+    function getExpenseById($id_despesa)
+    {
+        return Despesa::findOne($id_despesa);
+    }
 }
