@@ -70,9 +70,16 @@ class LancamentoController extends Controller
 
 
             if ($request->valor_rateio_pagamento) {
+
                 for ($i = 0; $i < count($request->valor_rateio_pagamento); $i++) {
+                    $removeCifrao = trim(html_entity_decode($request->valor_rateio_pagamento[$i]), " \t\n\r\0\x0B\xC2\xA0");
+                    $removePonto = str_replace(".", "", $removeCifrao);
+                    $substituiVirgula = str_replace(",", ".", $removePonto);
+
+                    $valor_rateio = $substituiVirgula;
+
                     $rateios[] = [
-                        'valor_rateio_pagamento' => preg_replace('/\D/', '', $request->valor_rateio_pagamento[$i]),
+                        'valor_rateio_pagamento' => $valor_rateio,
                         'fk_tab_conta_bancaria' => $request->fk_tab_conta_bancaria[$i],
                     ];
                 }
@@ -125,7 +132,7 @@ class LancamentoController extends Controller
         $lancamentos = $despesaRepository->getExpenseById($id);
         $mascara = new Mascaras();
 
-        return view('admin.lancamentos.add-lancamento', compact('lancamentos' , 'mascara'));
+        return view('admin.lancamentos.add-lancamento', compact('lancamentos', 'mascara'));
     }
 
 
