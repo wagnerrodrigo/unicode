@@ -45,27 +45,72 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div>
-                                <strong>EMPRESA</strong>
+                    <div class="d-flex">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>EMPRESA</strong>
+                                </div>
+                                <span>{{ $lancamento->de_empresa }}</span>
                             </div>
-                            <span>{{ $lancamento->de_empresa }}</span>
                         </div>
-                    </div>
+    
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>STATUS</strong>
+                                </div>
+                                <span>{{ $lancamento->de_status_despesa }}</span>
+                            </div>
+                        </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div>
-                                <strong>STATUS</strong>
+                    </div>
+                    
+                    <hr>
+
+                    <div class="d-flex">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div>
+                                    <strong>JUROS</strong>
+                                </div>
+                                <span >TESTE</span>
                             </div>
-                            <span>{{ $lancamento->de_status_despesa }}</span>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div>
+                                    <strong>MULTA</strong>
+                                </div>
+                                <span >TESTE</span>
+                            </div>
+                        </div>
+
+                         
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div>
+                                    <strong>DESCONTO</strong>
+                                </div>
+                                <span >TESTE</span>
+                            </div>
                         </div>
                     </div>
+                   
+                <hr>
+                </div>
+            </div>
+            @endforeach
+
+            <div class="d-flex">
+                <div class="px-5 mb-3">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#xconciliacao" class="btn btn-danger  me-1 mb-1" >
+                        ADICIONAR JUROS E MUTAS
+                    </button>
                 </div>
             </div>
         </div>
-        @endforeach
 
         <div class="card">
 
@@ -75,7 +120,8 @@
 
             <div class="d-flex" style="width: 100%;justify-content:start; align-items:center">
                 <div class="px-5 mb-3">
-                    <button class="btn btn-primary" id="adicionar_rateio" type="button" data-bs-toggle="modal" data-bs-target="#xrateio">
+                    <button class="btn btn-primary" id="adicionar_rateio" type="button" data-bs-toggle="modal" 
+                     data-bs-target="#xrateio">
                         ADICIONAR <i class="bi bi-plus"></i>
                     </button>
                 </div>
@@ -87,6 +133,7 @@
                     @csrf
 
                     <input type="hidden" id="hidden_inputs_itens">
+                    <input type="hidden" id="hiddenInputs">
 
                     <input type="hidden" name="id_despesa" id="id_despesa" value="{{$lancamento->id_despesa}}">
                     <input type="hidden" name="fk_condicao_pagamento_id" id="fk_condicao_pagamento_id" value="{{$lancamento->fk_condicao_pagamento_id}}">
@@ -195,6 +242,86 @@
                                 <i data-feather="check-circle"></i>ADICIONAR
                             </button>
                             <button type="button" class="close btn btn-secondary me-1 mb-1" onclick="limpaCamposRateio()" data-bs-dismiss="modal" aria-label="Close">CANCELAR</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fim modal Adicionar -->
+
+
+
+    <!-- Inicio Modal Conciliação-->
+    <div class="me-1 mb-1 d-inline-block">
+        <!--Extra Large Modal -->
+        <div class="modal fade text-left w-100" id="xconciliacao" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel16">Conciliação</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="bi bi-x" data-feather="x"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <h3>DESPESA N° {{ $lancamento->id_despesa }}</h3>
+                            </div>
+                        </div>
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>DATA DO EFETIVO PAGAMENTO</strong>
+                                <input class="form-control" type="date" autocomplete="off" placeholder="data" style="width: 60rem" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>VALOR DESPESA</strong>
+                                <input class="form-control" readonly type="text" autocomplete="off" placeholder="VALOR DA DESPESA"
+                                value="{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}" style="width: 60rem" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>DESCONTO</strong>
+                                <input class="form-control" id="desconto" onkeyup="formataValor(this)" type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" autocomplete="off" placeholder="DESCONTO" style="width: 60rem" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>JUROS</strong>
+                                <input class="form-control" id="juros" onkeyup="formataValor(this)" type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" autocomplete="off" placeholder="JUROS" style="width: 60rem" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>MULTA</strong>
+                                <input class="form-control" id="multa" type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" autocomplete="off" placeholder="MULTA" style="width: 60rem" />
+                            </div>
+                        </div>
+
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>VALOR TOTAL PAGO</strong>
+                                <input class="form-control" readonly type="text" autocomplete="off" placeholder="VALOR TOTAL PAGO" style="width: 60rem" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button class="btn btn-success me-1 mb-1" type="button" id="btnConciliacao">
+                                <i data-feather="check-circle"></i>ADICIONAR sadfasd
+                            </button>
+                            <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal" aria-label="Close">
+                                CANCELAR
+                            </button>
                         </div>
                     </div>
                 </div>

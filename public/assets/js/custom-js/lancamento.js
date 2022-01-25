@@ -276,3 +276,12 @@ function delay(callback, ms) {
         }, ms || 0);
     };
 }
+
+
+$("#btnConciliacao").click(function () {
+    var juros = $("#juros").val();
+    var multa = $("#multa").val();
+    var desconto = $("#desconto").val();
+    // ("#hiddenInputs")
+    console.log({valorJuros: juros, valorMulta: multa, valorDesconto: desconto})
+});
