@@ -59,19 +59,21 @@ class ExtratoController extends Controller
         return response()->json($extrato);
     }
 
-    public function getExtractByBankAccount($ids_contas)
+    public function getExtractByBankAccount($ids_contas, $dt_pagamento)
     {
         foreach ($ids_contas as $id_conta) {
-            $extrato = Extrato::findByBankAccount($id_conta);
+            $extrato = Extrato::findByBankAccount($id_conta, $dt_pagamento);
             $extratos[] = $extrato;
         }
 
+        dd($extratos);
         return response()->json($extratos);
     }
 
 
     public function getBankAccount($id_lancamento)
     {
+        //pegar data do efetivo pagamento do lançamento para trazer o extrato do dia
         $rateioRepository = new RateioRepository();
         $rateios = $rateioRepository->findContaBancariaRateioByLancamento($id_lancamento);
 
@@ -79,9 +81,8 @@ class ExtratoController extends Controller
         foreach ($rateios as $rateio) {
             $contas_bancarias[] = $rateio->id_conta_bancaria;
         }
-
-
-        $this->getExtractByBankAccount($contas_bancarias);
+        //segundo parâmetro é a data do efetivo pagamento
+        $this->getExtractByBankAccount($contas_bancarias, '2022-01-01');
     }
     /**
      * Show the form for editing the specified resource.

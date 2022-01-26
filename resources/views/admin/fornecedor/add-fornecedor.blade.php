@@ -7,7 +7,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>NOVO FORNECEDOR/PRESTADOR</h1>
+                <h1>FORNECEDOR/PRESTADOR</h1>
             </div>
             <div class="card-body d-flex justify-content-center">
                 <!--inicio Tab -->
@@ -333,7 +333,7 @@
         $("#" + id).remove();
     }
 
-    function limpaCampos(){
+    function limpaCampos() {
         $("#cep").val("");
         $("#retorno_cep").val("");
         $("#logradouro").val("");
