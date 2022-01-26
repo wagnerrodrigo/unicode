@@ -35,12 +35,21 @@
                                 <input type="hidden" name="" id="valorTotal" value="{{ $lancamento->valor_total_despesa }}">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <div>
                                     <strong>DATA DO VENCIMENTO</strong>
                                 </div>
                                 <span>{{ date('d/m/Y', strtotime($lancamento->dt_vencimento)) }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div>
+                                    <strong>DATA DO EFETIVO PAGAMENTO</strong>
+                                </div>
+                               <input class="form-control" type="date" name="data_efetivo_pagamento" id="id_Efetivo_Pg">
                             </div>
                         </div>
                     </div>
@@ -55,7 +64,7 @@
                             </div>
                         </div>
     
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <div>
                                     <strong>STATUS</strong>
@@ -64,52 +73,34 @@
                             </div>
                         </div>
 
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div>
+                                    <strong>CODIÇÃO DE PARGAMENTO</strong>
+                                </div>
+                                <span>{{ $lancamento->de_condicao_pagamento }}</span>
+                            </div>
+                        </div>
+
                     </div>
                     
                     <hr>
-
-                    <div class="d-flex">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div>
-                                    <strong>JUROS</strong>
-                                </div>
-                                <span >TESTE</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div>
-                                    <strong>MULTA</strong>
-                                </div>
-                                <span >TESTE</span>
-                            </div>
-                        </div>
-
-                         
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div>
-                                    <strong>DESCONTO</strong>
-                                </div>
-                                <span >TESTE</span>
-                            </div>
-                        </div>
+                        <div id="acrescidos"></div>
+                    <hr>
+                </div>
+                
+                <div class="d-flex">
+                    <div class="px-5 mb-3">
+                        <button type="button" id="modalJurosMulta" data-bs-toggle="modal" data-bs-target="#xconciliacao" 
+                                class="btn btn-danger  me-1 mb-1" >
+                            ADICIONAR JUROS E MULTAS
+                        </button>
                     </div>
-                   
-                <hr>
                 </div>
             </div>
             @endforeach
 
-            <div class="d-flex">
-                <div class="px-5 mb-3">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#xconciliacao" class="btn btn-danger  me-1 mb-1" >
-                        ADICIONAR JUROS E MUTAS
-                    </button>
-                </div>
-            </div>
+         
         </div>
 
         <div class="card">
@@ -132,14 +123,15 @@
                 <form action="/lancamentos/adicionar" method="post">
                     @csrf
 
-                    <input type="hidden" id="hidden_inputs_itens">
-                    <input type="hidden" id="hiddenInputs">
+                    <input type="hidden" id="hidden_inputs_itens">                    
 
                     <input type="hidden" name="id_despesa" id="id_despesa" value="{{$lancamento->id_despesa}}">
                     <input type="hidden" name="fk_condicao_pagamento_id" id="fk_condicao_pagamento_id" value="{{$lancamento->fk_condicao_pagamento_id}}">
                     <input type="hidden" name="id_empresa" id="id_empresa" value="{{$lancamento->id_empresa}}">
                     <input type="hidden" name="valor_total_despesa" id="valor_total_despesa" value="{{ $lancamento->valor_total_despesa }}">
                     <input type="hidden" name="dt_vencimento" id="dt_vencimento" value="{{ $lancamento->dt_vencimento }}">
+                    
+                    <input type="hidden" id="hiddenInputs">
 
                     <div class="d-flex" style="width: 100%;  margin: 15px;">
                         <div class="px-1 mb-3">
@@ -268,12 +260,6 @@
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <h3>DESPESA N° {{ $lancamento->id_despesa }}</h3>
-                            </div>
-                        </div>
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>DATA DO EFETIVO PAGAMENTO</strong>
-                                <input class="form-control" type="date" autocomplete="off" placeholder="data" style="width: 60rem" />
                             </div>
                         </div>
 

@@ -217,6 +217,17 @@ function removeConta(id, valorRateado) {
     btnSalvar.disabled = true;
 }
 
+// remove area de juros multa e desconto 
+
+function removeDadoAcrecimos(){
+    $("#removeJurosMulta").remove();
+    $("#removeJurosMultaHidden").remove();
+    $("#juros").val("");
+    $("#multa").val("");
+    $("#desconto").val("");
+    $("#modalJurosMulta").attr("disabled", false);
+}
+
 // função para limpar os campos de rateio
 function limpaCamposRateio() {
     $("#busca_empresa").val("");
@@ -282,6 +293,65 @@ $("#btnConciliacao").click(function () {
     var juros = $("#juros").val();
     var multa = $("#multa").val();
     var desconto = $("#desconto").val();
-    // ("#hiddenInputs")
     console.log({valorJuros: juros, valorMulta: multa, valorDesconto: desconto})
+
+    // adiciona os valores do que e digitado no modal ADICIONAR JUROS E MULTAS
+    $("#acrescidos").append(
+        `<div class="d-flex" id="removeJurosMulta">`+
+            `<div class="col-md-4">` + 
+                `<div class="form-group">` +
+                `<div>`+ 
+                    `<strong>JUROS</strong>`+     
+                `</div>`+
+                    `<span>${juros}</span>`+    
+                `</div>`+  
+            `</div>`+  
+
+            `<div class="col-md-4">`+   
+                `<div class="form-group">`+    
+                `<div>`+      
+                    `<strong>MULTA</strong>`+   
+                `</div>`+    
+                    `<span>${multa}</span>`+    
+                `</div>`+  
+            `</div>`+  
+            
+            `<div class="col-md-3">`+ 
+                `<div class="form-group">`+ 
+                `<div>`+   
+                    ` <strong>DESCONTO</strong>`+      
+                `</div>`+   
+                    `<span>${desconto}</span>`+   
+                `</div>`+  
+            `</div>` +
+
+            `<div class="col-md-1">`+ 
+                `<div class="form-group">`+ 
+                `<div style="padding-top: 10px;">`+ 
+                `</div>`+   
+                    `<button type="button" class="btn btn-danger btn_item" info-mouse="Remover" 
+                        style="padding: 8px 12px;" onclick="removeDadoAcrecimos()">
+                        <i class="bi bi-trash-fill">
+                    </i></button>`+   
+                `</div>`+  
+            `</div>`+
+        `</div>`
+    );
+
+
+
+    // adiciona campos hidden com os valores de juro multa e desconto
+  $("#hiddenInputs").append(
+    `<div class="d-flex" id="removeJurosMultaHidden">`+
+    `<input type="hidden"  name="juros" value="${juros}"/>`+
+    `<input type="hidden"  name="multa" value="${multa}"/>`+
+    `<input type="hidden"  name="desconto" value="${desconto}"/>`+
+    `</div>`
+  );
+
+    $("#modalJurosMulta").attr("disabled", true)
+});
+
+$("#acrescidos").on("change", function(){
+    console.log("oi")
 });
