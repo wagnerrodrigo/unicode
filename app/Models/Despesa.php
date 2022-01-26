@@ -157,8 +157,14 @@ class Despesa extends Model
             'intranet.tab_departamento.id_departamento',
             '=',
             'intranet.tab_centro_custo.fk_tab_departamento'
-        )->join('intranet.tab_empresa', 'id_empresa', '=', 'intranet.tab_centro_custo.fk_empresa_id');
-
+        )->join('intranet.tab_empresa', 
+            'id_empresa',
+            '=',
+            'intranet.tab_centro_custo.fk_empresa_id'
+        )->join('intranet.tab_condicao_pagamento', 
+            'intranet.tab_condicao_pagamento.id_condicao_pagamento',
+            '=',
+            'intranet.tab_despesa.fk_condicao_pagamento_id');
         if (
             $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DEPOSITO ||
             $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DOC ||
