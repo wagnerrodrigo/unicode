@@ -8,10 +8,8 @@ use App\Repository\RateioRepository;
 use App\Utils\Mascaras\Mascaras;
 use Illuminate\Http\Request;
 
-
 class ExtratoController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -55,35 +53,23 @@ class ExtratoController extends Controller
     public function showExtract($id)
     {
         $extrato = Extrato::findByExtract($id);
-        dd($extrato);
+
         return response()->json($extrato);
     }
 
-    public function getExtractByBankAccount($ids_contas, $dt_pagamento)
+    //pega a conta bancara pelo id do lançamento -> pega o extrato pelos ids das contas bancarias relacionadas ao lancamento
+    public function getExtractByBankAccount($id_lancamento)
     {
-        foreach ($ids_contas as $id_conta) {
-            $extrato = Extrato::findByBankAccount($id_conta, $dt_pagamento);
-            $extratos[] = $extrato;
-        }
-
-        dd($extratos);
-        return response()->json($extratos);
-    }
-
-
-    public function getBankAccount($id_lancamento)
-    {
-        //pegar data do efetivo pagamento do lançamento para trazer o extrato do dia
         $rateioRepository = new RateioRepository();
         $rateios = $rateioRepository->findContaBancariaRateioByLancamento($id_lancamento);
 
-
         foreach ($rateios as $rateio) {
-            $contas_bancarias[] = $rateio->id_conta_bancaria;
+            $extratos = Extrato::findByBankAccount($rateio->id_conta_bancaria);
         }
-        //segundo parâmetro é a data do efetivo pagamento
-        $this->getExtractByBankAccount($contas_bancarias, '2022-01-01');
+
+        return response()->json($extratos);
     }
+
     /**
      * Show the form for editing the specified resource.
      *

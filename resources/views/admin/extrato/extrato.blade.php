@@ -38,7 +38,7 @@
                             <th>ID DESPESA</th>
                             <th>DATA DO VENCIMENTO DESPESA</th>
                             <th>DESCRIÇÃO</th>
-                            <th>VALOR</th>
+                            <th style="padding:1px">VALOR</th>
                             <th>STATUS</th>
                             <th>AÇÕES</th>
                             <th></th>
@@ -55,6 +55,7 @@
                             </td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
                             <td>{{ $lancamento->de_despesa }}</td>
+                            <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}</td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
 
                             <td>
@@ -79,15 +80,30 @@
         var id = href.substring(href.indexOf("-") + 1);
 
         $.ajax({
-            url: `extrato/lancamento/${id}`,
             type: "GET",
+            url: `http://localhost:8000/extrato/lancamento/${id}`,
             dataType: "json",
             success: function(data) {
-                console.log(data);
-                //$("#collapseExample-" + id).html(data);
+                console.log(data)
             }
         });
-    };
+
+        // $.ajax({
+        //     url: "http://localhost:8000/instituicoes-financeira",
+        //     type: "GET",
+        //     dataType: "json",
+        //     success: function (response) {
+        //         $.each(response, function (key, val) {
+        //             $("#inst_financeiras").append(
+        //                 `<option value="${val.id}">${val.co_banco} - ${val.de_banco} </option>`
+        //             );
+        //         });
+        //     },
+        //     error: function () {
+        //         alert("Erro ao carregar instituições financeiras");
+        //     },
+        // });
+    }
 </script>
 
 
