@@ -541,6 +541,27 @@ footer {
     border-color: #820ad1;
 }
 
+[info-mouse]{
+    position: relative;
+    font-weight: bold;
+}
+
+[info-mouse]:after{
+    display: none;
+    position: absolute;
+    top: -5px;
+    padding: 5px;
+    border-radius: 3px;
+    left: calc(100% + 2px);
+    content: attr(info-mouse);
+    white-space: nowrap;
+    background-color:#820ad1;
+    color:white;
+}
+[info-mouse]:hover:after{
+    display: block;
+}
+
 .input-style {
     background-color: #ccc;
     position: absolute;

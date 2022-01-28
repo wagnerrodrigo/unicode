@@ -119,8 +119,6 @@ $("#porcentagem_rateado").blur(function () {
     var porcentagem = valorTotalDespesa / 100;
     valorRateado = valorPorcentagem * porcentagem;
 
-
-
     console.log({ porcentagem: valorPorcentagem, valorRateado: valorRateado });
 
     $("#valor_rateado").val(
@@ -194,7 +192,10 @@ $("#addContas").click(function () {
                 `</div>`
         );
 
-        console.log({valorTotalRateio: valorTotalRateio, valorTotalDespesa: valorTotalDespesa});
+        console.log({
+            valorTotalRateio: valorTotalRateio,
+            valorTotalDespesa: valorTotalDespesa,
+        });
         if (valorTotalRateio == valorTotalDespesa) {
             btnSalvar.disabled = false;
         }
@@ -217,6 +218,17 @@ function removeConta(id, valorRateado) {
     btnSalvar.disabled = true;
 }
 
+// remove area de juros multa e desconto
+function removeDadoAcrecimos() {
+    $("#juros").val("");
+    $("#multa").val("");
+    $("#desconto").val("");
+    $("#removeJurosMulta").remove();
+    $("#removeJurosMultaHidden").remove();
+    limparDescontoJurosMulta();
+    $("#modalJurosMulta").attr("disabled", false);
+}
+
 // função para limpar os campos de rateio
 function limpaCamposRateio() {
     $("#busca_empresa").val("");
@@ -225,14 +237,102 @@ function limpaCamposRateio() {
     $("#valor_rateado").val("");
 }
 
+function limparDescontoJurosMulta(){   
+    var valorDescontoAtual = $("#desconto").val();
+    var valorModalAtual = $("#modal_valor_total").val();
+    var resultadoModalValorTotal = 0;
+
+    resultadoModalValorTotal = (valorModalAtual - valorDescontoAtual);
+    $("#modal_valor_total").val(resultadoModalValorTotal);
+
+}
+
 //adiciona valor total ao input acima do modal de rateio
 $("#adicionar_rateio").click(function () {
-    var valorTotal = Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-    }).format($("#valorTotal").val());
+    var SOMA = 0;
+    var valorTotal = 0 ;
+    var des = $("#hiddemDesconto").val()
+    var jus = $("#hiddemJuros").val()
+    var mul = $("#hiddemMulta").val()
 
-    $("#modal_valor_total").val(valorTotal);
+
+    console.log({ desconto_valor_Inicial: des, jusros_valor_Inicial: jus, multa_valor_Inicial:mul });
+    
+    
+    if ($("#hiddemJuros").val() != null && $("#hiddemMulta").val() != null) {
+        valorTotal = Number($("#valorTotal").val());
+        var juros = $("#hiddemJuros")
+            .val()
+            .replace(/\./g, "")
+            .replace(",", ".");
+
+        var multa = $("#hiddemMulta")
+            .val()
+            .replace(/\./g, "")
+            .replace(",", ".");
+
+        SOMA = Number(juros) + Number(multa) + valorTotal;
+
+        console.log({ ValorJuros: juros, ValorMulta: multa });
+
+        console.log({ SomaJurosMutas: SOMA });
+        
+        SOMA = Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        }).format(SOMA);
+    
+        $("#modal_valor_total").val(SOMA);
+    }
+
+    else if ($("#hiddemDesconto").val() != null) {
+        valorTotal = Number($("#valorTotal").val());
+        desconto = $("#hiddemDesconto")
+            .val()
+            .replace(/\./g, "")
+            .replace(",", ".");
+
+        SUB = (valorTotal - Number(desconto));
+
+        console.log({ __Sub__: SUB });
+
+        SUB = Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        }).format(SUB);
+    
+        $("#modal_valor_total").val(SUB);
+    }
+   
+    else{
+        var valorTotal = Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        }).format($("#valorTotal").val());
+    
+        $("#modal_valor_total").val(valorTotal);
+    }
+
+   
+
+    
+
+    
+});
+
+// pega o valor da data do efetivo pagamento e coloca em um campo hidden
+$("#input_efetivo_pagamento").on("change", function () {
+    var dt_efetivo_pagamento = $(this).val();
+    console.log(dt_efetivo_pagamento);
+    $("#hidden_dt_efetivo_pagamento").attr("value", dt_efetivo_pagamento);
+});
+
+$("#formRateio").on("submit", function () {
+    if ($("#input_efetivo_pagamento").val() == "") {
+        event.preventDefault();
+        alert("FAVOR INSERIR UM DATA DE EFETIVO PAGAMENTO");
+        $("#input_efetivo_pagamento").focus();
+    }
 });
 
 // FORMATAR CAMPO DE DATAS
@@ -276,3 +376,91 @@ function delay(callback, ms) {
         }, ms || 0);
     };
 }
+
+// desabilita campos de juros e multa se existir desconto
+$("#desconto").on("change", function () {
+    var desconto = $(this).val();
+    if (desconto != "") {
+        $("#juros").attr("disabled", true);
+        $("#multa").attr("disabled", true);
+    } else {
+        $("#juros").attr("disabled", false);
+        $("#multa").attr("disabled", true);
+    }
+});
+
+$("#multa").attr("disabled", true);
+
+// desabilita o campo de desconto e habilita multa se existir juros
+$("#juros").on("change", function () {
+    var juros = $(this).val();
+    if (juros != "") {
+        $("#desconto").attr("disabled", true);
+        $("#multa").attr("disabled", false);
+    } else {
+        $("#desconto").attr("disabled", false);
+        $("#multa").attr("disabled", true);
+    }
+});
+
+var valorTotalJurosMulta = 0;
+
+$("#btnConciliacao").click(function () {
+    var juros = $("#juros").val();
+    var multa = $("#multa").val();
+    var desconto = $("#desconto").val();
+
+    // adiciona os valores do que e digitado no modal ADICIONAR JUROS E MULTAS
+    $("#acrescidos").append(
+        `<div class="d-flex" id="removeJurosMulta">` +
+            `<div class="col-md-4">` +
+            `<div class="form-group">` +
+            `<div>` +
+            `<strong>JUROS</strong>` +
+            `</div>` +
+            `<span>${juros}</span>` +
+            `</div>` +
+            `</div>` +
+            `<div class="col-md-4">` +
+            `<div class="form-group">` +
+            `<div>` +
+            `<strong>MULTA</strong>` +
+            `</div>` +
+            `<span>${multa}</span>` +
+            `</div>` +
+            `</div>` +
+            `<div class="col-md-3">` +
+            `<div class="form-group">` +
+            `<div>` +
+            ` <strong>DESCONTO</strong>` +
+            `</div>` +
+            `<span>${desconto}</span>` +
+            `</div>` +
+            `</div>` +
+            `<div class="col-md-1">` +
+            `<div class="form-group">` +
+            `<div style="padding-top: 10px;">` +
+            `</div>` +
+            `<button type="button" class="btn btn-danger btn_item" info-mouse="Remover" 
+                        style="padding: 8px 12px;" onclick="removeDadoAcrecimos()">
+                        <i class="bi bi-trash-fill">
+                    </i></button>` +
+            `</div>` +
+            `</div>` +
+            `</div>`
+    );
+
+    // adiciona campos hidden com os valores de juro multa e desconto
+    $("#hiddenInputs").append(
+        `<div class="d-flex" id="removeJurosMultaHidden">` +
+            `<input type="hidden" id="hiddemJuros" name="juros" value="${juros}"/>` +
+            `<input type="hidden" id="hiddemMulta" name="multa" value="${multa}"/>` +
+            `<input type="hidden" id="hiddemDesconto" name="desconto" value="${desconto}"/>` +
+            `</div>`
+    );
+
+    $("#modalJurosMulta").attr("disabled", true);
+
+    // valorTotalJurosMulta = juros + multa;
+    // console.log({valor_Total_Juros_Multa: valorTotalJurosMulta});
+});
