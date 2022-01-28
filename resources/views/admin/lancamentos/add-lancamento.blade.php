@@ -49,7 +49,7 @@
                                 <div>
                                     <strong>DATA DO EFETIVO PAGAMENTO</strong>
                                 </div>
-                               <input class="form-control" type="date" name="data_efetivo_pagamento" id="id_Efetivo_Pg">
+                               <input class="form-control" id="input_efetivo_pagamento" type="date" name="data_efetivo_pagamento" id="id_Efetivo_Pg">
                             </div>
                         </div>
                     </div>
@@ -120,7 +120,7 @@
 
             <div class="card-body">
 
-                <form action="/lancamentos/adicionar" method="post">
+                <form id="formRateio" action="/lancamentos/adicionar" method="post">
                     @csrf
 
                     <input type="hidden" id="hidden_inputs_itens">                    
@@ -130,6 +130,7 @@
                     <input type="hidden" name="id_empresa" id="id_empresa" value="{{$lancamento->id_empresa}}">
                     <input type="hidden" name="valor_total_despesa" id="valor_total_despesa" value="{{ $lancamento->valor_total_despesa }}">
                     <input type="hidden" name="dt_vencimento" id="dt_vencimento" value="{{ $lancamento->dt_vencimento }}">
+                    <input type="hidden" name="dt_efetivo_pagamento" id="hidden_dt_efetivo_pagamento" value="">
                     
                     <input type="hidden" id="hiddenInputs">
 
@@ -251,26 +252,12 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel16">Conciliação</h4>
+                        <h4 class="modal-title" id="myModalLabel16">VALORES DE ACRÉSCIMO NA DESPESA</h4>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <i class="bi bi-x" data-feather="x"></i>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <h3>DESPESA N° {{ $lancamento->id_despesa }}</h3>
-                            </div>
-                        </div>
-
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>VALOR DESPESA</strong>
-                                <input class="form-control" readonly type="text" autocomplete="off" placeholder="VALOR DA DESPESA"
-                                value="{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}" style="width: 60rem" />
-                            </div>
-                        </div>
-
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>DESCONTO</strong>
@@ -288,22 +275,18 @@
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>MULTA</strong>
-                                <input class="form-control" id="multa" type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" autocomplete="off" placeholder="MULTA" style="width: 60rem" />
+                                <input class="form-control" id="multa" type="text"  onkeyup="formataValor(this)" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" autocomplete="off" placeholder="MULTA" style="width: 60rem" />
                             </div>
                         </div>
 
 
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>VALOR TOTAL PAGO</strong>
-                                <input class="form-control" readonly type="text" autocomplete="off" placeholder="VALOR TOTAL PAGO" style="width: 60rem" />
-                            </div>
-                        </div>
+       
                     </div>
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
-                            <button class="btn btn-success me-1 mb-1" type="button" id="btnConciliacao">
-                                <i data-feather="check-circle"></i>ADICIONAR sadfasd
+                            <button class="btn btn-success me-1 mb-1" type="button" id="btnConciliacao"
+                            class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i data-feather="check-circle"></i>ADICIONAR 
                             </button>
                             <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal" aria-label="Close">
                                 CANCELAR
