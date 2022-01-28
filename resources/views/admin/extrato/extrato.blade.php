@@ -59,14 +59,12 @@
                             <td>{{ $lancamento->de_status_despesa }}</td>
 
                             <td>
-                                <button class="accordion-button custon-btn custon-btn-accordion" onclick="getExtrato(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{ $lancamento->fk_tab_despesa_id }}" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 25px">
+                                <button type="button" class="accordion-button custon-btn custon-btn-accordion" onclick="getExtrato(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{ $lancamento->fk_tab_despesa_id }}" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 25px">
                                 </button>
                             </td>
                         </tr>
 
                         <tr class="collapse" id="collapseExample-{{$lancamento->fk_tab_despesa_id }}">
-
-
                             <th></th>
                             <th>ID EXTRATO</th>
                             <th>NOME BANCO</th>
@@ -75,12 +73,11 @@
                             <th></th>
                         </tr>
                         <tr>
-                    <tbody id="teste_{{$lancamento->fk_tab_despesa_id }}">
-                    </tbody>
+                        <tbody id="extrato_{{$lancamento->fk_tab_despesa_id }}">
+                           
+                        </tbody>
+                        
                     </tr>
-
-
-
                     </tr>
                     </tbody>
                     @endforeach
@@ -100,22 +97,22 @@
         var expanded = object.getAttribute("aria-expanded");
 
         if (expanded == 'true') {
-
-            var response
-            console.log('aberto');
             $.ajax({
                 type: "GET",
                 url: `http://localhost:8000/extrato/lancamento/${id}`,
                 dataType: "json",
                 success: function(response) {
                     $.each(response, function(key, val) {
-                        $(`#teste_${id}`).append(
+                        $(`#extrato_${id}`).append(
                             `<tr class="table-dark tr_generated_${id}">` +
                             "<td></td>" +
                             `<td>` + val.id_extrato + `<input type="checkbox" name="ids_extratos[]" value="${val.id_extrato}"/></td>` +
-                            "<td>" + val.org + "</td>" +
-                            "<td>" + val.dataposted + "</td>" +
-                            "<td>" + val.balamt + "</td>" +
+                            `<td>${val.org == null ? 'BRADESCO S.A.' : val.org}</td>` +
+                            "<td>" + Intl.DateTimeFormat('pt-BR').format(new Date(val.dataposted)) + "</td>" +
+                            "<td>" + Intl.NumberFormat('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            }).format(val.balamt) + "</td>" +
                             "<td></td>" +
                             "</tr>"
                         );
@@ -125,7 +122,6 @@
         } else {
             $(`.tr_generated_${id}`).remove();
         }
-
     }
 </script>
 
