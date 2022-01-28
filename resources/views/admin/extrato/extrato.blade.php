@@ -59,11 +59,29 @@
                             <td>{{ $lancamento->de_status_despesa }}</td>
 
                             <td>
-                                <button class="accordion-button custon-btn custon-btn-accordion" onclick="getExtrato(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{ $lancamento->fk_tab_despesa_id }}" role="button" aria-expanded="false" id="" aria-controls="collapseExample" style="width: 25px">
+                                <button class="accordion-button custon-btn custon-btn-accordion" onclick="getExtrato(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{ $lancamento->fk_tab_despesa_id }}" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 25px">
                                 </button>
                             </td>
                         </tr>
 
+                        <tr class="collapse" id="collapseExample-{{$lancamento->fk_tab_despesa_id }}">
+
+
+                            <th></th>
+                            <th>ID EXTRATO</th>
+                            <th>NOME BANCO</th>
+                            <th>DATA PAGAMENTO</th>
+                            <th>PREÇO</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                    <tbody id="teste_{{$lancamento->fk_tab_despesa_id }}">
+                    </tbody>
+                    </tr>
+
+
+
+                    </tr>
                     </tbody>
                     @endforeach
                     @endif
@@ -74,35 +92,40 @@
     </div>
 </div>
 
+
 <script>
     function getExtrato(object) {
         var href = object.getAttribute("href");
         var id = href.substring(href.indexOf("-") + 1);
+        var expanded = object.getAttribute("aria-expanded");
 
-        $.ajax({
-            type: "GET",
-            url: `http://localhost:8000/extrato/lancamento/${id}`,
-            dataType: "json",
-            success: function(data) {
-                console.log(data)
-            }
-        });
+        if (expanded == 'true') {
 
-        // $.ajax({
-        //     url: "http://localhost:8000/instituicoes-financeira",
-        //     type: "GET",
-        //     dataType: "json",
-        //     success: function (response) {
-        //         $.each(response, function (key, val) {
-        //             $("#inst_financeiras").append(
-        //                 `<option value="${val.id}">${val.co_banco} - ${val.de_banco} </option>`
-        //             );
-        //         });
-        //     },
-        //     error: function () {
-        //         alert("Erro ao carregar instituições financeiras");
-        //     },
-        // });
+            var response
+            console.log('aberto');
+            $.ajax({
+                type: "GET",
+                url: `http://localhost:8000/extrato/lancamento/${id}`,
+                dataType: "json",
+                success: function(response) {
+                    $.each(response, function(key, val) {
+                        $(`#teste_${id}`).append(
+                            `<tr class="table-dark tr_generated_${id}">` +
+                            "<td></td>" +
+                            `<td>` + val.id_extrato + `<input type="checkbox" name="ids_extratos[]" value="${val.id_extrato}"/></td>` +
+                            "<td>" + val.org + "</td>" +
+                            "<td>" + val.dataposted + "</td>" +
+                            "<td>" + val.balamt + "</td>" +
+                            "<td></td>" +
+                            "</tr>"
+                        );
+                    });
+                }
+            });
+        } else {
+            $(`.tr_generated_${id}`).remove();
+        }
+
     }
 </script>
 

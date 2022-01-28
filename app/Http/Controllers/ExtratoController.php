@@ -61,10 +61,10 @@ class ExtratoController extends Controller
     public function getExtractByBankAccount($id_lancamento)
     {
         $rateioRepository = new RateioRepository();
-        $rateios = $rateioRepository->findContaBancariaRateioByLancamento($id_lancamento);
+        $contas = $rateioRepository->findContaBancariaRateioByLancamento($id_lancamento);
 
-        foreach ($rateios as $rateio) {
-            $extratos = Extrato::findByBankAccount($rateio->id_conta_bancaria);
+        foreach ($contas as $conta) {
+            $extratos = Extrato::findByBankAccount($conta->id_conta_bancaria);
         }
 
         return response()->json($extratos);
