@@ -250,60 +250,31 @@ function limparDescontoJurosMulta(){
 //adiciona valor total ao input acima do modal de rateio
 $("#adicionar_rateio").click(function () {
     var SOMA = 0;
-    var valorTotal = 0 ;
-    var des = $("#hiddemDesconto").val()
-    var jus = $("#hiddemJuros").val()
-    var mul = $("#hiddemMulta").val()
+    var valorTotal = $("#valorTotal").val();   
+   
+    if (($("#hiddemJuros").val() != "" && $("#hiddemMulta").val() != "") && 
+        $("#hiddemJuros").val() != null && $("#hiddemMulta").val() != null) {
+        var juros = $("#hiddemJuros").val().replace(/\./g, "").replace(",", ".");
+        var multa = $("#hiddemMulta").val().replace(/\./g, "").replace(",", ".");
 
+        SOMA = Number(juros) + Number(multa) + Number(valorTotal);
 
-    console.log({ desconto_valor_Inicial: des, jusros_valor_Inicial: jus, multa_valor_Inicial:mul });
-    
-    
-    if ($("#hiddemJuros").val() != null && $("#hiddemMulta").val() != null) {
-        valorTotal = Number($("#valorTotal").val());
-        var juros = $("#hiddemJuros")
-            .val()
-            .replace(/\./g, "")
-            .replace(",", ".");
-
-        var multa = $("#hiddemMulta")
-            .val()
-            .replace(/\./g, "")
-            .replace(",", ".");
-
-        SOMA = Number(juros) + Number(multa) + valorTotal;
-
-        console.log({ ValorJuros: juros, ValorMulta: multa });
-
-        console.log({ SomaJurosMutas: SOMA });
-        
         SOMA = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
         }).format(SOMA);
-    
+
         $("#modal_valor_total").val(SOMA);
     }
-
-    else if ($("#hiddemDesconto").val() != null) {
-        valorTotal = Number($("#valorTotal").val());
-        desconto = $("#hiddemDesconto")
-            .val()
-            .replace(/\./g, "")
-            .replace(",", ".");
-
-        SUB = (valorTotal - Number(desconto));
-
-        console.log({ __Sub__: SUB });
-
-        SUB = Intl.NumberFormat("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-        }).format(SUB);
-    
-        $("#modal_valor_total").val(SUB);
+   else if ($("#hiddemDesconto").val() != "" && $("#hiddemDesconto").val() != null) {
+            var desconto = $("#hiddemDesconto").val().replace(/\./g, "").replace(",", ".");
+            SUB = (Number(valorTotal) - Number(desconto));            
+            SUB = Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+            }).format(SUB);        
+            $("#modal_valor_total").val(SUB);
     }
-   
     else{
         var valorTotal = Intl.NumberFormat("pt-BR", {
             style: "currency",
@@ -311,13 +282,7 @@ $("#adicionar_rateio").click(function () {
         }).format($("#valorTotal").val());
     
         $("#modal_valor_total").val(valorTotal);
-    }
-
-   
-
-    
-
-    
+    }    
 });
 
 // pega o valor da data do efetivo pagamento e coloca em um campo hidden
