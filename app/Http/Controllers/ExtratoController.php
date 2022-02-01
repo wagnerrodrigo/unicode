@@ -60,14 +60,24 @@ class ExtratoController extends Controller
     //pega a conta bancara pelo id do lançamento -> pega o extrato pelos ids das contas bancarias relacionadas ao lancamento
     public function getExtractByBankAccount($id_lancamento)
     {
-        $rateioRepository = new RateioRepository();
-        $contas = $rateioRepository->findContaBancariaRateioByLancamento($id_lancamento);
+        try {
+            $rateioRepository = new RateioRepository();
+            $contas = $rateioRepository->findContaBancariaRateioByLancamento($id_lancamento);
 
-        foreach ($contas as $conta) {
-            $extratos = Extrato::findByBankAccount($conta->id_conta_bancaria);
+            $lancamentoRepository = new LancamentoRepository();
+            $lancamento = $lancamentoRepository->findAccountingEntryById($id_lancamento);
+
+            //quebra a data em ano-mes-dia
+            $dt_pagamento = str_split($lancamento[0]->dt_efetivo_pagamento, 10);
+
+            foreach ($contas as $conta) {
+                $extratos[] = Extrato::findByBankAccountAndDate($conta->id_conta_bancaria, $dt_pagamento[0]);
+            }
+
+            return response()->json($extratos);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
         }
-
-        return response()->json($extratos);
     }
 
     /**

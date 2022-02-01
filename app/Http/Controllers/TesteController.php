@@ -7,6 +7,7 @@ use App\Models\Cidade;
 use App\Models\Extrato;
 use Illuminate\Http\Request;
 use App\Repository\RateioRepository;
+use App\Repository\LancamentoRepository;
 use App\Models\Lancamento;
 use Carbon\Carbon;
 
@@ -24,12 +25,16 @@ class TesteController extends Controller
         // $cidade = $cidade::findIdByCidade('BELO HORIZONTE');
 
         // dd($uf, $cidade);
+        $lancamentoRepository = new LancamentoRepository();
+        $lancamento = $lancamentoRepository->findAccountingEntryById(1866);
+
+        dd($lancamento);
 
 
-        //$rateioRepository = new RateioRepository();
-        //$rateio = $rateioRepository->findContaBancariaRateioByLancamento(18191);
+        // $rateioRepository = new RateioRepository();
+        // $rateio = $rateioRepository->findContaBancariaRateioByLancamento(18191);
 
-        //dd($rateio);
+        // dd($rateio);
         // $timeStamp = Lancamento::findIdByTimeStamp('2022-01-17 12:11:56');
         //$test = Lancamento::findByPeriod('2022-01-01','2022-01-20');
         //dd($test);

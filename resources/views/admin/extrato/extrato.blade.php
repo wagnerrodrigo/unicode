@@ -36,7 +36,7 @@
                     <thead>
                         <tr>
                             <th>ID DESPESA</th>
-                            <th>DATA DO VENCIMENTO DESPESA</th>
+                            <th>DATA DO PAGAMENTO</th>
                             <th>DESCRIÇÃO</th>
                             <th style="padding:1px">VALOR</th>
                             <th>STATUS</th>
@@ -50,8 +50,8 @@
                         @foreach ($lancamentos as $lancamento)
                         <tr>
                             <td>
-                                {{ $lancamento->id_despesa }}
-                                <input type="checkbox" name="despesa" value="{{ $lancamento->fk_tab_despesa_id }}" id="">
+                                {{ $lancamento->id_tab_lancamento }}
+                                <input type="radio" name="despesa" value=" {{ $lancamento->id_tab_lancamento }}" id="">
                             </td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
                             <td>{{ $lancamento->de_despesa }}</td>
@@ -59,24 +59,23 @@
                             <td>{{ $lancamento->de_status_despesa }}</td>
 
                             <td>
-                                <button type="button" class="accordion-button custon-btn custon-btn-accordion" onclick="getExtrato(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{ $lancamento->fk_tab_despesa_id }}" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 25px">
+                                <button type="button" class="accordion-button custon-btn custon-btn-accordion" onclick="getExtrato(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{ $lancamento->id_tab_lancamento }}" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 25px">
                                 </button>
                             </td>
                         </tr>
 
-                        <tr class="collapse" id="collapseExample-{{$lancamento->fk_tab_despesa_id }}">
+                        <tr class="collapse" id="collapseExample-{{ $lancamento->id_tab_lancamento }}">
                             <th></th>
                             <th>ID EXTRATO</th>
                             <th>NOME BANCO</th>
                             <th>DATA PAGAMENTO</th>
                             <th>PREÇO</th>
-                            <th></th>
+                            <th> <button class="btn btn-small btn-primary" id="conciliacao_{{ $lancamento->id_tab_lancamento }}" disabled>Conciliar</button></th>
                         </tr>
                         <tr>
-                        <tbody id="extrato_{{$lancamento->fk_tab_despesa_id }}">
-                           
-                        </tbody>
-                        
+                    <tbody id="extrato_{{ $lancamento->id_tab_lancamento }}">
+
+                    </tbody>
                     </tr>
                     </tr>
                     </tbody>
@@ -102,21 +101,38 @@
                 url: `http://localhost:8000/extrato/lancamento/${id}`,
                 dataType: "json",
                 success: function(response) {
-                    $.each(response, function(key, val) {
+                    console.log(response);
+                    if (response != []) {
+                        for (i = 0; i < response.length; i++) {
+                            $.each(response[i], function(key, val) {
+                                $(`#extrato_${id}`).append(
+                                    `<tr class="table-dark tr_generated_${id}">` +
+                                    "<td></td>" +
+                                    `<td>` + val.id_extrato + `<input type="checkbox" name="ids_extratos[]" value="${val.id_extrato}"/></td>` +
+                                    `<td>${val.org == null ? 'BRADESCO S.A.' : val.org}</td>` +
+                                    "<td>" + Intl.DateTimeFormat('pt-BR').format(new Date(val.dtposted)) + "</td>" +
+                                    "<td>" + Intl.NumberFormat('pt-BR', {
+                                        style: 'currency',
+                                        currency: 'BRL'
+                                    }).format(val.balamt) + "</td>" +
+                                    "<td></td>"
+
+                                );
+
+                            });
+                        }
+                    } else {
                         $(`#extrato_${id}`).append(
-                            `<tr class="table-dark tr_generated_${id}">` +
+                            `<tr class="table-light tr_generated_${id}">` +
+                            `<td><span style="color: red; font-weight: bold;">Não há extrato</span></td>` +
                             "<td></td>" +
-                            `<td>` + val.id_extrato + `<input type="checkbox" name="ids_extratos[]" value="${val.id_extrato}"/></td>` +
-                            `<td>${val.org == null ? 'BRADESCO S.A.' : val.org}</td>` +
-                            "<td>" + Intl.DateTimeFormat('pt-BR').format(new Date(val.dataposted)) + "</td>" +
-                            "<td>" + Intl.NumberFormat('pt-BR', {
-                                style: 'currency',
-                                currency: 'BRL'
-                            }).format(val.balamt) + "</td>" +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "<td></td>" +
                             "<td></td>" +
                             "</tr>"
                         );
-                    });
+                    }
                 }
             });
         } else {

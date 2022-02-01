@@ -53,23 +53,10 @@ class Extrato extends Model
         return $query;
     }
 
-    static function findByBankAccount($id_conta, $dt_pagamento = null)
+    static function findByBankAccountAndDate($id_conta, $dt_pagamento = null)
     {
-        $query = "SELECT * FROM intranet.tab_extrato WHERE fk_tab_conta_bancaria = $id_conta";
-        $extratos = DB::select($query);
+        $query = "SELECT * FROM intranet.tab_extrato WHERE intranet.tab_extrato.fk_tab_conta_bancaria = $id_conta AND intranet.tab_extrato.dtposted = '$dt_pagamento'";
 
-        return $extratos;
-        // return DB::table('intranet.tab_extrato')
-        //     ->join(
-        //         'intranet.tab_conta_bancaria',
-        //         'intranet.tab_conta_bancaria.id_conta_bancaria',
-        //         '=',
-        //         'intranet.tab_extrato.fk_tab_conta_bancaria'
-        //     )
-        //     ->where(
-        //         'intranet.tab_conta_bancaria.id_conta_bancaria',
-        //         '=',
-        //         $id_conta
-        //     )->get();
+       return DB::select($query);
     }
 }
