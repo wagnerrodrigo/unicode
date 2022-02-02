@@ -169,14 +169,16 @@ class Lancamento extends Model
             dt_lancamento,
             dt_vencimento,
             dt_inicio,
+            dt_efetivo_pagamento,
             dt_fim
         )
-        VALUES(?, ?, ?, ?, ?, ?)", [
+        VALUES(?, ?, ?, ?, ?, ?, ?)", [
             $lancamento->id_despesa,
             $lancamento->fk_condicao_pagamento_id,
             $lancamento->dt_lancamento,
             $lancamento->dt_vencimento,
             $lancamento->dt_inicio,
+            $lancamento->dt_efetivo_pagamento,
             $lancamento->dt_fim
         ]);
     }
