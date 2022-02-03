@@ -35,7 +35,7 @@
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>ID DESPESA</th>
+                            <th>ID LANÇAMENTO</th>
                             <th>DATA DO PAGAMENTO</th>
                             <th>DESCRIÇÃO</th>
                             <th style="padding:1px">VALOR</th>
@@ -87,10 +87,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 
 <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
 <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
@@ -145,9 +141,7 @@
                                         currency: 'BRL'
                                     }).format(val.balamt) + "</td>" +
                                     "<td></td>"
-
                                 );
-
                             });
                         }
                     } else {
@@ -212,31 +206,6 @@
             }
         })
     })
-
-    // $('#conciliacao_').click(function() {
-    //     var id = $(this).attr('id').substring(11);
-    //     var ids_extratos = [];
-    //     $('input[name="ids_extratos[]"]:checked').each(function() {
-    //         ids_extratos.push($(this).val());
-    //     });
-    //     // $.ajax({
-    //     //     type: "POST",
-    //     //     url: `http://localhost:8000/extrato/conciliacao/${id}`,
-    //     //     data: {
-    //     //         ids_extratos: ids_extratos
-    //     //     },
-    //     //     dataType: "json",
-    //     //     success: function(response) {
-    //     //         if (response == 'success') {
-    //     //             $('#collapseExample-' + id).attr('class', 'collapse');
-    //     //             $(".tr_generated_" + id).remove();
-    //     //             $('#abrir_extratos_' + id).attr('aria-expanded', false);
-    //     //             $('input.inputs_selecionandos').removeAttr('disabled');
-    //     //             $('#abrir_extratos_' + id).attr('disabled', true);
-    //     //         }
-    //     //     }
-    //     // });
-    // });
 </script>
 
 @endsection
