@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Conciliacao;
+use App\Repository\LancamentoRepository;
+use App\Repository\DespesaRepository;
 
 class ConciliacaoController extends Controller
 {
-   
+
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +25,29 @@ class ConciliacaoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        try {
+            $conciliacao = new Conciliacao();
+
+            foreach ($request->ids_extratos as $id_extrato) {
+                $conciliacao->id_lancamento = $request->id_lancamento;
+                $conciliacao->id_extrato = $id_extrato;
+                Conciliacao::store($conciliacao);
+            }
+
+            $lancamentoRepository = new LancamentoRepository();
+            $lancamento = $lancamentoRepository->findAccountingEntryById($request->id_lancamento);
+
+            $despesaRepository = new DespesaRepository();
+            $despesaRepository->setStatusIfPaid($lancamento[0]->fk_tab_despesa_id);
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false]);
+        }
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -33,7 +56,6 @@ class ConciliacaoController extends Controller
      */
     public function store(Request $request)
     {
-        
     }
 
     /**

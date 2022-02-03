@@ -164,11 +164,36 @@
                     }
                 }
             });
+
+            $(`#conciliacao_${id}`).click(function() {
+                var id = $(this).attr('id').substring(12);
+                var ids_extratos = [];
+                $('input[name="ids_extratos[]"]:checked').each(function() {
+                    ids_extratos.push($(this).val());
+                });
+                if (ids_extratos == '') {
+                    alert("Selecione pelo menos um extrato para conciliar");
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: `http://localhost:8000/conciliacao/${id}`,
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            id_lancamento: id,
+                            ids_extratos: ids_extratos
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            window.location.href = "http://localhost:8000/extrato";
+                        }
+                    });
+                }
+            });
         } else {
             $(`.tr_generated_${id}`).remove();
         }
     }
-
+    //função para validar os checkboxes
     $(function() {
         $('input.inputs_selecionandos').click(function() {
             if ($(this).is(":checked")) {
@@ -178,8 +203,8 @@
             } else {
                 $('input.inputs_selecionandos').removeAttr('disabled');
                 $('#abrir_extratos_' + $(this).val()).attr('disabled', true);
-                
-                if($('#abrir_extratos_' + $(this).val()).attr('aria-expanded') == 'true'){
+
+                if ($('#abrir_extratos_' + $(this).val()).attr('aria-expanded') == 'true') {
                     $('#collapseExample-' + $(this).val()).attr('class', 'collapse');
                     $(".tr_generated_" + $(this).val()).remove();
                     $('#abrir_extratos_' + $(this).val()).attr('aria-expanded', false);
@@ -187,6 +212,31 @@
             }
         })
     })
+
+    // $('#conciliacao_').click(function() {
+    //     var id = $(this).attr('id').substring(11);
+    //     var ids_extratos = [];
+    //     $('input[name="ids_extratos[]"]:checked').each(function() {
+    //         ids_extratos.push($(this).val());
+    //     });
+    //     // $.ajax({
+    //     //     type: "POST",
+    //     //     url: `http://localhost:8000/extrato/conciliacao/${id}`,
+    //     //     data: {
+    //     //         ids_extratos: ids_extratos
+    //     //     },
+    //     //     dataType: "json",
+    //     //     success: function(response) {
+    //     //         if (response == 'success') {
+    //     //             $('#collapseExample-' + id).attr('class', 'collapse');
+    //     //             $(".tr_generated_" + id).remove();
+    //     //             $('#abrir_extratos_' + id).attr('aria-expanded', false);
+    //     //             $('input.inputs_selecionandos').removeAttr('disabled');
+    //     //             $('#abrir_extratos_' + id).attr('disabled', true);
+    //     //         }
+    //     //     }
+    //     // });
+    // });
 </script>
 
 @endsection

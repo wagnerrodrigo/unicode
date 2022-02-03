@@ -7,6 +7,7 @@ use App\Models\Cidade;
 use App\Models\Extrato;
 use Illuminate\Http\Request;
 use App\Repository\RateioRepository;
+use App\Repository\DespesaRepository;
 use App\Repository\LancamentoRepository;
 use App\Models\Lancamento;
 use Carbon\Carbon;
@@ -25,10 +26,13 @@ class TesteController extends Controller
         // $cidade = $cidade::findIdByCidade('BELO HORIZONTE');
 
         // dd($uf, $cidade);
-        $lancamentoRepository = new LancamentoRepository();
-        $lancamento = $lancamentoRepository->findAccountingEntryById(1866);
+        //$lancamentoRepository = new LancamentoRepository();
+        //$lancamento = $lancamentoRepository->findAccountingEntryById(1866);
 
-        dd($lancamento);
+        $despesaRepository = new DespesaRepository();
+        $despesa = $despesaRepository->setStatusIfPaid(18178);
+
+        dd($despesa);
 
 
         // $rateioRepository = new RateioRepository();

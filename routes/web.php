@@ -8,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PainelController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\PlanoContaController;
+use App\Http\Controllers\ConciliacaoController;
 use App\Http\Controllers\ContaBancariaController;
 use App\Http\Controllers\DespesaController;
 use App\Http\Controllers\LancamentoController;
@@ -89,6 +90,11 @@ Route::middleware('autenticacaoMiddleware')->prefix('/empresas')->group(function
     Route::get('/{id}', [EmpresaController::class, 'show']);
     Route::get('/cnpj/{cnpj}', [EmpresaController::class, 'showByCnpj']);
     Route::get('/nome/{name}', [EmpresaController::class, 'showByName']);
+});
+
+//Centro de custo Empresa rotas
+Route::middleware('autenticacaoMiddleware')->prefix('/conciliacao')->group(function () {
+    Route::post('/{id}', [ConciliacaoController::class, 'create']);
 });
 
 

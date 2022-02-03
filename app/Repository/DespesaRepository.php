@@ -28,6 +28,10 @@ class DespesaRepository
         }
     }
 
+    function setStatusIfPaid($id_despesa){
+        Despesa::setStatusIfPaid($id_despesa);
+    }
+
     function getExpenseById($id_despesa)
     {
         return Despesa::findOne($id_despesa);
