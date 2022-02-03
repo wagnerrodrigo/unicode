@@ -63,6 +63,10 @@ class LancamentoController extends Controller
             $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
             $lancamento->dt_vencimento = $request->dt_vencimento;
             $lancamento->dt_efetivo_pagamento = $request->dt_efetivo_pagamento;
+            $lancamento->juros = $request->juros;
+            $lancamento->multa = $request->multa;
+            $lancamento->desconto = $request->desconto;
+            $lancamento->valor_pago = trim(html_entity_decode($request->valor_pago), " \t\n\r\0\x0B\xC2\xA0");
             $lancamento->dt_fim = null;
             Lancamento::create($lancamento);
 
@@ -105,6 +109,10 @@ class LancamentoController extends Controller
             $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
             $lancamento->dt_vencimento = $request->dt_vencimento;
             $lancamento->dt_efetivo_pagamento = $request->dt_efetivo_pagamento;
+            $lancamento->juros = $request->juros;
+            $lancamento->multa = $request->multa;
+            $lancamento->desconto = $request->desconto;
+            $lancamento->valor_pago = trim(html_entity_decode($request->valor_pago), " \t\n\r\0\x0B\xC2\xA0");
             $lancamento->dt_fim = null;
             Lancamento::create($lancamento);
             // FIM requeste somente lancamento

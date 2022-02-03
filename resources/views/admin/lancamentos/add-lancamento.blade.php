@@ -267,14 +267,14 @@
 
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>JUROS</strong>
+                                <strong>VALOR DO JUROs</strong>
                                 <input class="form-control" id="juros" onkeyup="formataValor(this)" type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" autocomplete="off" placeholder="JUROS" style="width: 60rem" />
                             </div>
                         </div>
 
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>MULTA</strong>
+                                <strong>VALOR DA MULTA</strong>
                                 <input class="form-control" id="multa" type="text"  onkeyup="formataValor(this)" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" autocomplete="off" placeholder="MULTA" style="width: 60rem" />
                             </div>
                         </div>
