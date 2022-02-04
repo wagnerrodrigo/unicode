@@ -149,6 +149,8 @@ var fk_condicao_pagamento_id_tela = $("#fk_condicao_pagamento_id_tela").val();
 var id_empresa = $("#id_empresa").val();
 var valor_total_despesa = $("#valor_total_despesa").val();
 
+var rateios_contas = [];
+
 // INICIO função para buscar Instituição bancaria
 $("#addContas").click(function () {
     //  pega os valores dos campos preenchidos pelo usuario
@@ -170,44 +172,59 @@ $("#addContas").click(function () {
         valorTotalRateio > novoValorTotal
     ) {
         alert("Valor Rateado é maior que o valor total da despesa");
-    } else {
-        valorTotalRateio = valorTotalRateio + valorRateado;
-        $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
-        // criar novos itens com os valores preenchidos anteriormente
-        $("#Tb").append(
-            `<tr id="tab_conta${id_button_conta}">` +
-                `<td>${rateio_empresa}</td>` +
-                `<td>${inst_banco}</td>` +
-                `<td>${valor_rateado}</td>` +
-                `<td>${porcentagem_valor}</td>` +
-                `<td><button type="button" class="btn btn-danger btn_item" onclick="removeConta(${id_button_conta}, ${valor_rateado
-                    .replace(/\./g, "")
-                    .replace(",", ".")
-                    .replace("R$", "")})" style="padding: 8px 12px;">` +
-                `<i class="bi bi-trash-fill"></i>` +
-                `</button></td>` +
-                "</tr>"
-        );
-        //retira virgulas do valor unitário
-        // var valorFormatado = valor_uni.replace(".", "").replace(",", ".");
-        //gera o input com os dados do item para submeter no form
-        $("#hidden_inputs_itens").append(
-            `<div id="input_generated_account${id_button_conta}">` +
-                `<input type="hidden"  name="id_busca_empresa[]" value="${rateio_empresa}"/>` +
-                `<input type="hidden"  name="id_inst_banco[]" value="${inst_banco}"/>` +
-                `<input type="hidden"  name="valor_rateio_pagamento[]" value="${valor_rateado}"/>` +
-                `<input type="hidden"  name="fk_tab_conta_bancaria[]" value="${conta_bancaria}"/>` +
-                `<input type="hidden"  name="porcentagem_rateado[]" value="${porcentagem_valor}"/>` +
-                `<input type="hidden"  name="valor_pago" value="${novoValorTotal}"/>` +
-                `</div>`
-        );
+    }
+       else {
 
-        if (valorTotalRateio == novoValorTotal) {
-            btnSalvar.disabled = false;
+        console.log({inst_banco:inst_banco});
+        if (rateios_contas.includes(inst_banco)){
+            $("#valor_rateado").val("");
+            $("#porcentagem_rateado").val("");
+            alert("Já foi adicionado um rateio para essa Conta por favor selecione outra conta.");
+            limpaCamposRateio();
+            console.log({inst_banco:inst_banco});
+        }
+        else{
+            rateios_contas.push(inst_banco);
+            valorTotalRateio = valorTotalRateio + valorRateado;
+            $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
+            // criar novos itens com os valores preenchidos anteriormente
+            $("#Tb").append(
+                `<tr id="tab_conta${id_button_conta}">` +
+                    `<td>${rateio_empresa}</td>` +
+                    `<td>${inst_banco}</td>` +
+                    `<td>${valor_rateado}</td>` +
+                    `<td>${porcentagem_valor}</td>` +
+                    `<td><button type="button" class="btn btn-danger btn_item" onclick="removeConta(${id_button_conta}, ${valor_rateado
+                        .replace(/\./g, "")
+                        .replace(",", ".")
+                        .replace("R$", "")})" style="padding: 8px 12px;">` +
+                    `<i class="bi bi-trash-fill"></i>` +
+                    `</button></td>` +
+                    "</tr>"
+            );
+            //retira virgulas do valor unitário
+            // var valorFormatado = valor_uni.replace(".", "").replace(",", ".");
+            //gera o input com os dados do item para submeter no form
+            $("#hidden_inputs_itens").append(
+                `<div id="input_generated_account${id_button_conta}">` +
+                    `<input type="hidden"  name="id_busca_empresa[]" value="${rateio_empresa}"/>` +
+                    `<input type="hidden"  name="id_inst_banco[]" value="${inst_banco}"/>` +
+                    `<input type="hidden"  name="valor_rateio_pagamento[]" value="${valor_rateado}"/>` +
+                    `<input type="hidden"  name="fk_tab_conta_bancaria[]" value="${conta_bancaria}"/>` +
+                    `<input type="hidden"  name="porcentagem_rateado[]" value="${porcentagem_valor}"/>` +
+                    `<input type="hidden"  name="valor_pago" value="${novoValorTotal}"/>` +
+                    `</div>`
+            );
+    
+            if (valorTotalRateio == novoValorTotal) {
+                btnSalvar.disabled = false;
+            }
+    
+            id_button_conta++;
+            limpaCamposRateio(); 
         }
 
-        id_button_conta++;
-        limpaCamposRateio();
+      
     }
 });
 // Fim função para buscar Instituição bancaria
