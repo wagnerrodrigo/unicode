@@ -12,9 +12,10 @@ class Pagamento extends Model
 
     static function selectAll()
     {
-        $query = "SELECT * FROM intranet.tab_pagamento";
+        $query = "SELECT * FROM intranet.tab_despesa where fk_status_despesa_id = ? ";
 
-        $pagamento = DB::select($query);
+        $pagamento = DB::select($query, [config('constants.PAGO')]);
+
         return $pagamento;
     }
 

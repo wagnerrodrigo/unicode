@@ -12,7 +12,7 @@
             <div class="card-body">
                 <table class='table table-striped' id="table1">
                     <thead>
-                        @if( $pagamentosAtivos == null || empty($pagamentosAtivos))
+                        @if( $pagamentos == null || empty($pagamentos))
                         <tbody>
                             <tr>
                                 <td>Nenhum Fornecedor Cadastrado</td>
@@ -21,19 +21,20 @@
                         @else
                         <tr>
                             <th>ID DO PAGAMENTO</th>
-                            <th>DESCRIÇÃO PAGAMENTO</th>
-                            <th>DATA DO PAGAMENTO</th>
+                            <th>VALOR DO PAGAMENTO</th>
                             <th>STATUS DO PAGAMENTO</th>
-                            {{-- <th>EMPRESA NO RATEIO</th> PEGAR O NOME DAS EMPRESA--}}
+                            <th>DATA DO PAGAMENTO</th>
+                            <th></th>
                             <th>AÇÕES</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($pagamentosAtivos as $pagamento)
+                        @foreach($pagamentos as $pagamento)
                         <tr>
-                            <td>{{$pagamento->id_pagamento}}</td>
-                            <td>{{$pagamento->de_pagamento}}</td>
-                            <td>{{$pagamento->dt_pagamento}}</td>
+                            <td>{{$pagamento->id_despesa}}</td>
+                            <td>{{$mascara::maskMoeda($pagamento->valor_total_despesa)}}</td>
+                            <td>{{$pagamento->fk_status_despesa_id}}</td>
+                            <td>{{date("d/m/Y", strtotime($pagamento->dt_inicio))}}</td>
                             <td></td>
                             <td>
                                 <!-- muda a rota-->

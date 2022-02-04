@@ -230,30 +230,21 @@ class Despesa extends Model
             $query;
         }
 
-
         return $query->where('intranet.tab_despesa.id_despesa', '=', "$id")->where('intranet.tab_despesa.dt_fim', '=', null)->get();
     }
 
     static function set($despesa)
     {
         DB::update("UPDATE intranet.tab_despesa
-        SET fk_tab_centro_custo_id = ?, fk_tab_empresa_id = ?, fk_tab_tipo_despesa_id = ?,
-            numero_despesa = ?, qt_parcelas_despesa = ?, serie_despesa = ?,
-            dt_emissao = ?, valor_total_despesa = ?, fk_status_despesa_id = ?,
-            fk_tab_fornecedor_id = ?, fk_tab_empregado_id = ? , dt_inicio = ?
+        SET numero_documento_despesa = ?,
+            serie_despesa = ?,
+            tipo_documento = ?,
+            dt_emissao = ? 
         WHERE id_despesa = ?", [
-            $despesa->fk_tab_centro_custo_id,
-            $despesa->fk_tab_empresa_id,
-            $despesa->fk_tab_tipo_despesa_id,
-            $despesa->numero_despesa,
-            $despesa->qt_parcelas_despesa,
+            $despesa->numero_documento_despesa,
             $despesa->serie_despesa,
+            $despesa->tipo_documento,
             $despesa->dt_emissao,
-            $despesa->valor_total_despesa,
-            $despesa->fk_status_despesa_id,
-            $despesa->fk_tab_fornecedor_id,
-            $despesa->fk_tab_empregado_id,
-            $despesa->dt_inicio,
             $despesa->id_despesa
         ]);
     }
