@@ -35,7 +35,7 @@
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>ID LANÇAMENTO</th>
+                            <th>ID DESPESA</th>
                             <th>DATA DO PAGAMENTO</th>
                             <th>DESCRIÇÃO</th>
                             <th style="padding:1px">VALOR</th>
@@ -50,7 +50,7 @@
                         @foreach ($lancamentos as $lancamento)
                         <tr>
                             <td>
-                                {{ $lancamento->id_tab_lancamento }}
+                                {{ $lancamento->fk_tab_despesa_id }}
                                 <input type="checkbox" class="inputs_selecionandos" name="radio_lancamento" value="{{ $lancamento->id_tab_lancamento }}" id="radio_lancamento_{{ $lancamento->id_tab_lancamento }}">
                             </td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
@@ -65,9 +65,9 @@
                         </tr>
 
                         <tr class="collapse" id="collapseExample-{{ $lancamento->id_tab_lancamento }}">
-                            <th></th>
                             <th>ID EXTRATO</th>
                             <th>NOME BANCO</th>
+                            <th>DESCRIÇÃO</th>
                             <th>DATA PAGAMENTO</th>
                             <th>PREÇO</th>
                             <th> <button class="btn btn-small btn-primary" id="conciliacao_{{ $lancamento->id_tab_lancamento }}">Conciliar</button></th>
@@ -127,14 +127,14 @@
                 url: `http://localhost:8000/extrato/lancamento/${id}`,
                 dataType: "json",
                 success: function(response) {
-                    if (response != []) {
+                    if (response != '') {
                         for (i = 0; i < response.length; i++) {
                             $.each(response[i], function(key, val) {
                                 $(`#extrato_${id}`).append(
                                     `<tr class="table-dark tr_generated_${id}">` +
-                                    "<td></td>" +
                                     `<td>` + val.id_extrato + `<input type="checkbox" name="ids_extratos[]" value="${val.id_extrato}"/></td>` +
                                     `<td>${val.org}</td>` +
+                                    `<td>${val.memo}</td>` +
                                     "<td>" + Intl.DateTimeFormat('pt-BR').format(new Date(val.dtposted)) + "</td>" +
                                     "<td>" + Intl.NumberFormat('pt-BR', {
                                         style: 'currency',
@@ -156,7 +156,7 @@
                             "</tr>"
                         );
                     }
-                }
+                },
             });
 
             $(`#conciliacao_${id}`).click(function() {

@@ -63,6 +63,9 @@ class DespesaController extends Controller
             return view('admin.despesas.despesa-nao-encontrada');
         } else {
             $despesa = $despesas[0];
+            $data_consertada = explode(' ', $despesa->dt_emissao);
+            $despesa->dt_emissao = $data_consertada[0];
+            
             return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo'));
         }
     }
@@ -175,8 +178,13 @@ class DespesaController extends Controller
 
     public function edit($id, Request $request)
     {
-        $despesa = Despesa::findOne($id);
-        $camposRequisicao = $request->all();
+        $despesa = new Despesa();
+
+        $despesa->id_despesa = $id;
+        $despesa->numero_documento_despesa = $request->numero_nota_documento;
+        $despesa->serie_despesa = $request->serie_documento;
+        $despesa->tipo_documento = $request->tipo_documento;
+        $despesa->dt_emissao = $request->data_emissao;
 
         Despesa::set($despesa);
 

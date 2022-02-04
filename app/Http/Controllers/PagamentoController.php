@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pagamento;
 use Illuminate\Http\Request;
+use App\Utils\Mascaras\Mascaras;
 
 class PagamentoController extends Controller
 {
@@ -14,22 +15,10 @@ class PagamentoController extends Controller
      */
     public function index()
     {
-
-
+        $mascara = new Mascaras();
         $pagamentos = Pagamento::selectAll();
-
-        $pagamentosAtivos = [];
-        $pagamentosInativos = [];
-        for ($i = 0; $i < count($pagamentos); $i++) {
-            if ($pagamentos[$i]->dt_fim === null) {
-                $pagamentosAtivos[] = $pagamentos[$i];
-            } else {
-                $pagamentosInativos[] = $pagamentos[$i];
-            };
-        }
         
-
-        return view('admin.pagamento.lista-pagamento', compact('pagamentosAtivos'));
+        return view('admin.pagamento.lista-pagamento', compact('pagamentos', 'mascara'));
     }
 
 

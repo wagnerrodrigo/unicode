@@ -2,6 +2,7 @@
 @section('title', "Despesa")
 
 @section('content')
+
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
         <div class="card">
@@ -14,19 +15,19 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 @if($despesa->fk_tab_tipo_despesa_id == $tipo::FORNECEDOR)
-                                    <div>
-                                        <strong>EMPRESA</strong>
-                                    </div>
-                                    <span>{{$despesa->de_razao_social}}</span>
+                                <div>
+                                    <strong>EMPRESA</strong>
+                                </div>
+                                <span>{{$despesa->de_razao_social}}</span>
 
                                 @elseif($despesa->fk_tab_tipo_despesa_id == $tipo::EMPREGADO)
-                                    <div>
-                                        <strong>EMPREGADO</strong>
-                                    </div>
-                                    <span>{{$despesa->nome_empregado}}</span>
+                                <div>
+                                    <strong>EMPREGADO</strong>
+                                </div>
+                                <span>{{$despesa->nome_empregado}}</span>
                                 @else
-                                    <strong>EMPREGADO/FORNECEDOR</strong>
-                                    <span></span>
+                                <strong>EMPREGADO/FORNECEDOR</strong>
+                                <span></span>
                                 @endif
                             </div>
                         </div>
@@ -134,43 +135,51 @@
                     </div>
                     <div class="modal-body">
                         <!-- mudar para produto  -->
-                        <form action="/despesas/editar/{{$despesa->id_despesa}}" method="POST" style="padding: 10px;">
+                        <form action="/despesas/{{$despesa->id_despesa}}" method="POST" style="padding: 10px;">
                             @csrf
                             <div class="d-flex mt-10" style="width: 100%">
 
                                 <div class="px-5 mb-3">
-                                    <strong>EMPRESA</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$despesa->fk_empresa_id}}" placeholder="Empresa" name="fk_tab_empresa_id" style="width: 358px" />
+                                    <strong>NUMERO DA NOTA OU DOCUMENTO</strong>
+                                    <input type="text" required onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" value="{{$despesa->numero_documento_despesa}}" class="form-control input-add" name="numero_nota_documento" style="width: 358px" />
                                 </div>
 
                                 <div class="px-5 mb-3">
                                     <div>
-                                        <strong>CENTRO DE CUSTO</strong>
+                                        <strong>SERIE</strong>
                                     </div>
-                                    <input class="form-control mt-1" type="text" value="{{$despesa->fk_tab_centro_custo_id}}" placeholder="Centro de Custo" name="fk_tab_centro_custo_id" style="width: 358px" />
+                                    <input type="text" required onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" value="{{$despesa->serie_despesa}}" class="form-control input-add" name="serie_documento" style="width: 358px" />
                                 </div>
                             </div>
 
                             <div class="d-flex">
                                 <div class="px-5 mb-3">
-
-                                    <strong>TIPO DA DESPESA</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$despesa->fk_tab_tipo_despesa_id}}" placeholder="Tipo da despesa" name="fk_tab_tipo_despesa_id" style="width: 358px" />
+                                    <strong>TIPO DE DOCUMENTO</strong>
+                                    <select class="form-control input-add" required value="{{$despesa->tipo_documento}}" name="tipo_documento" id="tipo_documento" style="width: 358px">
+                                        <option value="BOLETO">BOLETO</option>
+                                        <option value="DAE">DAE</option>
+                                        <option value="DAJE">DAJE</option>
+                                        <option value="DARF">DARF</option>
+                                        <option value="DARF PREVIDENCIARIO">DARF PREVIDENCIÁRIO</option>
+                                        <option value="DARM">DARM</option>
+                                        <option value="DASP">DASP</option>
+                                        <option value="DEPOSITO">DEPÓSITO</option>
+                                        <option value="FATURA">FATURA</option>
+                                        <option value="GPS">GPS</option>
+                                        <option value="GRERJ">GRERJ</option>
+                                        <option value="GRRF">GRRF</option>
+                                        <option value="GRU">GRU</option>
+                                        <option value="NOTA FISCAL">NOTA FISCAL</option>
+                                        <option value="OUTROS">OUTROS</option>
+                                        <option value="PIX">PIX</option>
+                                        <option value="RECIBO">RECIBO</option>
+                                        <option value="TRCT">TRCT</option>
+                                    </select>
                                 </div>
-                                <div class="px-5 mb-3">
-                                    <strong>SÉRIE</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$despesa->serie_despesa}}" placeholder="Serie despesa" name="serie_despesa" style="width: 358px" readonly />
-                                </div>
-                            </div>
-
-                            <div class="d-flex">
                                 <div class="px-5 mb-3">
                                     <strong>DATA DE EMISSÃO</strong>
-                                    <input class="form-control mt-1" type="text" value="{{date('d/m/Y', strtotime($despesa->dt_emissao))}}" placeholder="Data de emissão" name="dt_emissao" style="width: 358px" />
-                                </div>
-                                <div class="px-5 mb-3">
-                                    <strong>PARCELAS</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$despesa->qt_parcelas_despesa}}" placeholder="Parcelas" name="qt_parcelas_despesa" style="width: 358px" readonly />
+                                    <input type="date" required onblur="return validaData(this)" class="form-control input-add" value="{{$despesa->dt_emissao}}" id="dt_emissao" name="data_emissao"  style="width: 358px"/>
+                                    <span id="erro_dt_emissao"></span>
                                 </div>
                             </div>
                     </div>
@@ -189,6 +198,13 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
 <!-- fim modal -->
 
 <script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
