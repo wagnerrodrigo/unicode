@@ -239,7 +239,7 @@ class Despesa extends Model
         SET numero_documento_despesa = ?,
             serie_despesa = ?,
             tipo_documento = ?,
-            dt_emissao = ? 
+            dt_emissao = ?
         WHERE id_despesa = ?", [
             $despesa->numero_documento_despesa,
             $despesa->serie_despesa,
@@ -251,9 +251,9 @@ class Despesa extends Model
 
     static function del($dataFim, $id)
     {
-        DB::update("UPDATE intranet.tab_fornecedor
+        DB::update("UPDATE intranet.tab_despesa
         SET dt_fim = ?
-        WHERE id_fornecedor = ?", [$dataFim, $id]);
+        WHERE id_despesa = ?", [$id, $dataFim]);
     }
 
     static function setStatus($id_despesa)

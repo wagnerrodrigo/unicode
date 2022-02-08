@@ -76,6 +76,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/despesas')->group(function
     Route::get('/adicionar', [DespesaController::class, 'formDespesa'])->name('adicionar-despesa');
     Route::get('/{id}', [DespesaController::class, 'show']);
     Route::post('/{id}', [DespesaController::class, 'edit']);
+    Route::post('/delete/{id}', [DespesaController::class, 'delete']);
 });
 
 //rotas condicao pagamento

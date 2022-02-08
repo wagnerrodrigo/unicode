@@ -11,4 +11,9 @@ class RateioRepository
     {
         return Rateio::getContaBancariaRateioByLancamento($id_lancamento);
     }
+
+    function setEndDateRateio($id_despesa, $end_date)
+    {
+        return Rateio::del($id_despesa, $end_date);
+    }
 }

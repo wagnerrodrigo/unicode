@@ -11,6 +11,7 @@ use App\Utils\CondicaoPagamentoId;
 use App\Utils\TipoDespesa;
 use App\Utils\Mascaras\Mascaras;
 use App\Repository\DespesaRepository;
+use App\Repository\RateioRepository;
 
 class DespesaController extends Controller
 {
@@ -65,7 +66,7 @@ class DespesaController extends Controller
             $despesa = $despesas[0];
             $data_consertada = explode(' ', $despesa->dt_emissao);
             $despesa->dt_emissao = $data_consertada[0];
-            
+
             return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo'));
         }
     }
@@ -187,6 +188,17 @@ class DespesaController extends Controller
         $despesa->dt_emissao = $request->data_emissao;
 
         Despesa::set($despesa);
+
+        return redirect()->route('despesas');
+    }
+
+    public function delete($id){
+        $dt_fim = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+        Despesa::del($id, $dt_fim);
+
+        //adiciona data fim nos rateios da despesa
+        $rateioRepository = new RateioRepository();
+        $rateioRepository->setEndDateRateio($id, $dt_fim);
 
         return redirect()->route('despesas');
     }

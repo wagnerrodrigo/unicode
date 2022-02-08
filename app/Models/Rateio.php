@@ -68,4 +68,11 @@ class Rateio extends Model
             ->where('fk_tab_lancamento', '=', $id)
             ->get();
     }
+
+    static function del($id_despesa, $end_date)
+    {
+        DB::update("UPDATE intranet.tab_rateio_despesa
+        SET dt_fim = ?
+        WHERE fk_tab_despesa = ?", [$end_date, $id_despesa]);
+    }
 }

@@ -73,19 +73,22 @@
                         @if(count($despesas) > 0)
                         @foreach($despesas as $despesa)
                         <tr class={{$despesa->de_status_despesa != 'EM ATRASO' ? "font-color-despesa" : "font-color-despesa-vencida"}}>
-                        <td>{{$despesa->id_despesa}}</td>
-                        <td>{{$mascara::maskMoeda($despesa->valor_total_despesa)}}</td>
-                        <td>{{$despesa->qt_parcelas_despesa}}</td>
-                        <td>{{$despesa->dt_vencimento != null ? date("d/m/Y", strtotime($despesa->dt_vencimento)) : ''}}</td>
-                        <td>{{$despesa->de_status_despesa}}</td>
-                        <td>
-                            <a href="/despesas/{{$despesa->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;">
-                                <i class="bi bi-eye-fill"></i>
-                            </a>
-                            <button data-bs-toggle="modal" data-bs-target="#xlarge-view" class="btn btn-primary" style="padding: 8px 12px;">
-                                <i class="bi bi-trash-fill"></i>
-                            </button>
-                        </td>
+                            <td>{{$despesa->id_despesa}}</td>
+                            <td>{{$mascara::maskMoeda($despesa->valor_total_despesa)}}</td>
+                            <td>{{$despesa->qt_parcelas_despesa}}</td>
+                            <td>{{$despesa->dt_vencimento != null ? date("d/m/Y", strtotime($despesa->dt_vencimento)) : ''}}</td>
+                            <td>{{$despesa->de_status_despesa}}</td>
+                            <td>
+                                <a href="/despesas/{{$despesa->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;">
+                                    <i class="bi bi-eye-fill"></i>
+                                </a>
+                                <form action="/despesas/delete/{{$despesa->id_despesa}}" method="POST">
+                                    @csrf
+                                    <button type="submit" data-bs-toggle="modal" data-bs-target="#xlarge-view" class="btn btn-primary" style="padding: 8px 12px;">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                         @endforeach
                         @else
