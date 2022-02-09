@@ -11,7 +11,7 @@
                         <a href="{{route('financeiro')}}">
                             <div class="card">
                                 <div class="card-content">
-                                    <img src="https://res.cloudinary.com/pedroenrick/image/upload/v1632145576/financeiro-min_mueif7.jpg" style="width: 100%; height: 415px;" class="card-img-top img-fluid" alt="singleminded">
+                                    <img src="https://res.cloudinary.com/pedroenrick/image/upload/v1644432226/financeiro.jpg" style="width: 100%; height: 415px;" class="card-img-top img-fluid" alt="singleminded">
                                     <div class="card-body">
                                         <h5 class="card-title">Financeiro</h5>
                                         <p class="card-text">
