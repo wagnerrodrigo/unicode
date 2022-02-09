@@ -79,25 +79,50 @@
                             <td>{{$despesa->dt_vencimento != null ? date("d/m/Y", strtotime($despesa->dt_vencimento)) : ''}}</td>
                             <td>{{$despesa->de_status_despesa}}</td>
                             <td>
-                                <div style="display: flex;">
-                                    <div style="padding: 5px;">
-                                        <a href="/despesas/{{$despesa->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                    </div>
+                                <a href="/despesas/{{$despesa->id_despesa}}" class="btn btn-primary" style="padding: 8px 12px;">
+                                    <i class="bi bi-eye-fill"></i>
+                                </a>
 
-                                    <div style="padding: 5px;">
-                                        <form action="/despesas/delete/{{$despesa->id_despesa}}" method="POST">
-                                            @csrf
-                                            <button type="submit" data-bs-toggle="modal" data-bs-target="#xlarge-view" class="btn btn-primary" style="padding: 8px 12px;">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-
+                                <button data-bs-toggle="modal" data-bs-target="#delete{{$despesa->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
                             </td>
                         </tr>
+
+                        <!-- Inicio Modal Delete-->
+                        <div class="modal-danger me-1 mb-1 d-inline-block">
+                            <!--Danger theme Modal -->
+                            <div class="modal fade text-left" id="delete{{$despesa->id_despesa}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger">
+                                            <h5 class="modal-title white" id="myModalLabel120">EXCLUSÃO</h5>
+                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                <i data-feather="x"></i>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Deseja realmente excluir a Despesa: {{$despesa->id_despesa}}?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                                <i class="bx bx-x d-block d-sm-none"></i>
+                                                <span class="d-none d-sm-block">Cancelar</span>
+                                            </button>
+                                            <form action="/despesas/delete/{{$despesa->id_despesa}}" method="POST">
+                                                @csrf
+                                                <button class="btn btn-danger ml-1">
+                                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                                    <span class="d-none d-sm-block">Excluir</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fim Modal Delete-->
                         @endforeach
                         @else
                         <tr>
