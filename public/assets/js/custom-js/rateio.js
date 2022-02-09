@@ -63,20 +63,16 @@ var valorTotalDespesa = 0;
 
 var rateios = [];
 
-var qtdRateio = 0;
 //informa o valor e gera a porcentagem
 $("#valor_rateado").blur(function () {
     var valorTotalItens = $("#valorTotal").val();
     valorTotalDespesa = Number(
-        valorTotalItens
-            .replace(/\./g, '')
-            .replace(",", ".")
-            .replace("R$", "")
+        valorTotalItens.replace(/\./g, "").replace(",", ".").replace("R$", "")
     );
 
     valorRateado = $("#valor_rateado")
         .val()
-        .replace(/\./g, '')
+        .replace(/\./g, "")
         .replace(",", ".")
         .replace("R$", "");
 
@@ -97,7 +93,7 @@ $("#valor_rateado").blur(function () {
 $("#porcentagem_rateado").blur(function () {
     var valorTotalItens = $("#valorTotal").val();
     valorTotalDespesa = valorTotalItens
-        .replace(/\./g, '')
+        .replace(/\./g, "")
         .replace(",", ".")
         .replace("R$", "");
 
@@ -128,7 +124,7 @@ $("#seleciona_rateio").click(function () {
 
     valorTotalDespesa = $("#valorTotal")
         .val()
-        .replace(/\./g, '')
+        .replace(/\./g, "")
         .replace(",", ".")
         .replace("R$", "");
 
@@ -167,7 +163,7 @@ $("#seleciona_rateio").click(function () {
                         `<td>${valor_rateado}</td>` +
                         `<td>${porcentagem_valor}</td>` +
                         `<td><button onclick="removeRateio(${id_button_rateio}, ${valor_rateado
-                            .replace(/\./g, '')
+                            .replace(/\./g, "")
                             .replace(",", ".")
                             .replace(
                                 "R$",
@@ -181,12 +177,11 @@ $("#seleciona_rateio").click(function () {
                     `<div id="input-generated${id_button_rateio}"><input type="hidden" name="empresa_rateio[]" value="${rateio_empresa}"/>` +
                         `<input type="hidden" name="custo_rateio[]" value="${custo_rateio}"/>` +
                         `<input type="hidden" name="valor_rateio[]" value="${valor_rateado
-                            .replace(/\./g, '')
+                            .replace(/\./g, "")
                             .replace(",", ".")
                             .replace("R$", "")}"/>` +
                         `<input type="hidden" name="porcentagem_rateio[]" value="${porcentagem_valor}"/></div>`
                 );
-                qtdRateio = qtdRateio + 1;
                 id_button_rateio++;
                 limpaCamposRateio();
             }
@@ -197,7 +192,7 @@ $("#seleciona_rateio").click(function () {
     valorRateado = 0;
 
     //se houver rateio cadastrado, desabilita o campo de valor total e de adicionar produto
-    if (qtdRateio != 0) {
+    if (rateios != "") {
         $("#valorTotal").attr("readonly", true);
         $("#Prod").attr("disabled", true);
         $(".btn_item").attr("disabled", true);
@@ -217,11 +212,15 @@ function removeRateio(id, valorRateado, centro_custo) {
     $(`#input-generated${id}`).remove();
 
     //se não houver rateio cadastrado, habilita o campo de valor total e de adicionar produto
-    qtdRateio = qtdRateio - 1;
-    if (qtdRateio == 0) {
-        $("#valorTotal").attr("readonly", false);
-        $("#Prod").attr("disabled", false);
-        $(".btn_item").attr("disabled", false);
+    if (rateios == "") {
+        if (totalItens > 0) {
+            $("#Prod").attr("disabled", false);
+            $(".btn_item").attr("disabled", false);
+        } else {
+            $("#valorTotal").attr("readonly", false);
+            $("#Prod").attr("disabled", false);
+            $(".btn_item").attr("disabled", false);
+        }
     }
 }
 
