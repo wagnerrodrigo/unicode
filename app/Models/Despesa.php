@@ -295,4 +295,11 @@ class Despesa extends Model
             ->where('id_despesa', '=', $id)
             ->update(['fk_status_despesa_id' => config('constants.PAGO')]);
     }
+
+    static function setStatusIfDeleted($id)
+    {
+        DB::table('intranet.tab_despesa')
+            ->where('id_despesa', '=', $id)
+            ->update(['fk_status_despesa_id' => config('constants.CANCELADO')]);
+    }
 }

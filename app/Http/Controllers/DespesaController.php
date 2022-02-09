@@ -35,7 +35,6 @@ class DespesaController extends Controller
         if ($request->has('status')) {
 
             $despesas = Despesa::selectAll($results, $status_despesa, $chave_busca, $valor_busca);
-
         } else {
             $despesas = Despesa::selectAll($results = 10);
         }
@@ -121,7 +120,7 @@ class DespesaController extends Controller
         //pega o id da despesa criada anteriormente para inserir na tabela ItemDespesa
         $id_despesa = Despesa::findByTimeStamp($timestamp);
 
-       // dd($id_despesa[0]->id_despesa);
+        // dd($id_despesa[0]->id_despesa);
 
         //caso haja rateio na despesa executa
         if ($request->empresa_rateio) {
@@ -192,9 +191,13 @@ class DespesaController extends Controller
         return redirect()->route('despesas');
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $dt_fim = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
         Despesa::del($id, $dt_fim);
+
+        //modifica status para CANCELADO
+        Despesa::setStatusIfDeleted($id);
 
         //adiciona data fim nos rateios da despesa
         $rateioRepository = new RateioRepository();
