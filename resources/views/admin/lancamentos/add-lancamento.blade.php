@@ -43,7 +43,7 @@
                                 <span>{{ date('d/m/Y', strtotime($lancamento->dt_vencimento)) }}</span>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <div>
@@ -63,7 +63,7 @@
                                 <span>{{ $lancamento->de_empresa }}</span>
                             </div>
                         </div>
-    
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <div>
@@ -83,15 +83,15 @@
                         </div>
 
                     </div>
-                    
+
                     <hr>
                         <div id="acrescidos"></div>
                     <hr>
                 </div>
-                
+
                 <div class="d-flex">
                     <div class="px-5 mb-3">
-                        <button type="button" id="modalJurosMulta" data-bs-toggle="modal" data-bs-target="#xconciliacao" 
+                        <button type="button" id="modalJurosMulta" data-bs-toggle="modal" data-bs-target="#xconciliacao"
                                 class="btn btn-danger  me-1 mb-1" >
                             ADICIONAR JUROS E MULTAS
                         </button>
@@ -100,7 +100,7 @@
             </div>
             @endforeach
 
-         
+
         </div>
 
         <div class="card">
@@ -111,7 +111,7 @@
 
             <div class="d-flex" style="width: 100%;justify-content:start; align-items:center">
                 <div class="px-5 mb-3">
-                    <button class="btn btn-primary" id="adicionar_rateio" type="button" data-bs-toggle="modal" 
+                    <button class="btn btn-primary" id="adicionar_rateio" type="button" data-bs-toggle="modal"
                      data-bs-target="#xrateio">
                         ADICIONAR <i class="bi bi-plus"></i>
                     </button>
@@ -123,7 +123,7 @@
                 <form id="formRateio" action="/lancamentos/adicionar" method="post">
                     @csrf
 
-                    <input type="hidden" id="hidden_inputs_itens">                    
+                    <input type="hidden" id="hidden_inputs_itens">
 
                     <input type="hidden" name="id_despesa" id="id_despesa" value="{{$lancamento->id_despesa}}">
                     <input type="hidden" name="fk_condicao_pagamento_id" id="fk_condicao_pagamento_id" value="{{$lancamento->fk_condicao_pagamento_id}}">
@@ -131,7 +131,7 @@
                     <input type="hidden" name="valor_total_despesa" id="valor_total_despesa" value="{{ $lancamento->valor_total_despesa }}">
                     <input type="hidden" name="dt_vencimento" id="dt_vencimento" value="{{ $lancamento->dt_vencimento }}">
                     <input type="hidden" name="dt_efetivo_pagamento" id="hidden_dt_efetivo_pagamento" value="">
-                    
+
                     <input type="hidden" id="hiddenInputs">
 
                     <div class="d-flex" style="width: 100%;  margin: 15px;">
@@ -280,13 +280,13 @@
                         </div>
 
 
-       
+
                     </div>
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
                             <button class="btn btn-success me-1 mb-1" type="button" id="btnConciliacao"
                             class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <i data-feather="check-circle"></i>ADICIONAR 
+                                <i data-feather="check-circle"></i>ADICIONAR
                             </button>
                             <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal" aria-label="Close">
                                 CANCELAR

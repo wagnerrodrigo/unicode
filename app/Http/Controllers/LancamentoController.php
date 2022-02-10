@@ -133,6 +133,7 @@ class LancamentoController extends Controller
     public function show($id)
     {
         $lancamento = Lancamento::findOne($id);
+        dd($lancamento);
         return view('admin.lancamentos.detalhes-lancamento', compact('lancamento'));
     }
 

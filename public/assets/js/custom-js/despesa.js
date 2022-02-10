@@ -641,24 +641,24 @@ function getProcesso(object) {
 //     }
 // });
 
-// $("#dt_emissao").on("change", function () {
-//     var dateObj = $("#dt_emissao").val();
+$("#dt_emissao").on("change", function () {
+    var dateObj = $("#dt_emissao").val();
 
-//     var dataDividida = dateObj.split("-");
-//     var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
-//     var now = new Date();
-//     var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var dataDividida = dateObj.split("-");
+    var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
+    var now = new Date();
+    var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-//     if (data < dataAtual) {
-//         $(this).css({ color: "red" });
-//         $("#erro_dt_emissao")
-//             .html("Data de emissão menor que a data atual")
-//             .css({ color: "red", fontStyle: "italic" });
-//         $(this).focus();
-//     } else {
-//         $("#erro_dt_emissao").html("");
-//         $(this).css({ color: "black" });
-//     }
-// });
+    if (data > dataAtual) {
+        $(this).css({ color: "red" });
+        $("#erro_dt_emissao")
+            .html("Data de emissão maior que a data atual")
+            .css({ color: "red", fontStyle: "italic" });
+        $("#dt_emissao").focus();
+    } else {
+        $("#erro_dt_emissao").html("");
+        $(this).css({ color: "black" });
+    }
+});
 
 

@@ -294,7 +294,7 @@
                         </div>
                         <div class="px-5 mb-3">
                             <strong>DATA DE EMISSÃO</strong>
-                            <input type="date" onblur="return validaData(this)" class="form-control input-add"  id="dt_emissao" name="data_emissao" />
+                            <input type="date" class="form-control input-add"  id="dt_emissao" name="data_emissao" />
                             <span id="erro_dt_emissao"></span>
                         </div>
                     </div>
