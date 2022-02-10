@@ -162,11 +162,6 @@ class Despesa extends Model
             'id_empresa',
             '=',
             'intranet.tab_centro_custo.fk_empresa_id'
-        )->join(
-            'intranet.tab_condicao_pagamento',
-            'intranet.tab_condicao_pagamento.id_condicao_pagamento',
-            '=',
-            'intranet.tab_despesa.fk_condicao_pagamento_id'
         );
         if (
             $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DEPOSITO ||
@@ -179,6 +174,11 @@ class Despesa extends Model
                 'intranet.tab_empregado.id_empregado',
                 '=',
                 'intranet.tab_despesa.fk_tab_empregado_id'
+            )->join(
+                'intranet.tab_condicao_pagamento',
+                'intranet.tab_condicao_pagamento.id_condicao_pagamento',
+                '=',
+                'intranet.tab_despesa.fk_condicao_pagamento_id'
             )->join(
                 'intranet.tab_conta_bancaria',
                 'intranet.tab_conta_bancaria.id_conta_bancaria',
@@ -197,6 +197,11 @@ class Despesa extends Model
                 '=',
                 'intranet.tab_despesa.fk_tab_fornecedor_id'
             )->join(
+                'intranet.tab_condicao_pagamento',
+                'intranet.tab_condicao_pagamento.id_condicao_pagamento',
+                '=',
+                'intranet.tab_despesa.fk_condicao_pagamento_id'
+            )->join(
                 'intranet.tab_conta_bancaria',
                 'intranet.tab_conta_bancaria.id_conta_bancaria',
                 '=',
@@ -213,6 +218,11 @@ class Despesa extends Model
                 'intranet.tab_empregado.id_empregado',
                 '=',
                 'intranet.tab_despesa.fk_tab_empregado_id'
+            )->join(
+                'intranet.tab_condicao_pagamento',
+                'intranet.tab_condicao_pagamento.id_condicao_pagamento',
+                '=',
+                'intranet.tab_despesa.fk_condicao_pagamento_id'
             );
         } else if (
             $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::BOLETO ||
@@ -225,6 +235,11 @@ class Despesa extends Model
                 'intranet.tab_fornecedor.id_fornecedor',
                 '=',
                 'intranet.tab_despesa.fk_tab_fornecedor_id'
+            )->join(
+                'intranet.tab_condicao_pagamento',
+                'intranet.tab_condicao_pagamento.id_condicao_pagamento',
+                '=',
+                'intranet.tab_despesa.fk_condicao_pagamento_id'
             );
         } else if ($tipoDespesa == TipoDespesa::MIGRACAO) {
             $query;
