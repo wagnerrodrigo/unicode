@@ -74,7 +74,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <div>
-                                    <strong>CODIÇÃO DE PARGAMENTO</strong>
+                                    <strong>CONDIÇÃO DE PAGAMENTO</strong>
                                 </div>
                                 <span>{{ $lancamento->de_condicao_pagamento }}</span>
                             </div>
@@ -137,9 +137,7 @@
                                         <tr>
                                             <th>EMPRESA</th>
                                             <th>CONTA BANCÁRIA</th>
-                                            <th>RATEIO</th>
-                                            <th>%</th>
-                                            <th>EDITAR</th>
+                                            <th>AÇÕES</th>
                                         </tr>
                                     </thead>
                                     <tbody id="Tb">
@@ -169,14 +167,10 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel16">RATEIO</h4>
+                        <h4 class="modal-title" id="myModalLabel16">SELECIONE A CONTA:</h4>
                         <div>
-                            <span>Valor Total: </span>
+                            <span>VALOR TOTAL: </span>
                             <input class="input-add" id="modal_valor_total" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple; margin-right:20px" />
-
-
-                            <span>Valor Rateado: </span>
-                            <input class="input-add" id="modal_valor_rateado" name="modal_valor_rateado" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple" />
                         </div>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <i class="bi bi-x" onclick="limpaCamposRateio()" data-feather="x"></i>
@@ -195,7 +189,7 @@
                         </div>
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>INSTITUIÇÕES BANCÁRIAS</strong>
+                                <strong>CONTAS BANCÁRIAS</strong>
                                 <input class="form-control input-busca" type="text" placeholder="" name="inst_banco" autocomplete=off id="inst_banco" class="form-control" style="width: 60rem" />
                                 <div class="Resultado_inst_banco input-addBanco" value="" id="Resultado_inst_banco">
                                 </div>
@@ -204,24 +198,7 @@
                                 <!-- ### -->
                             </div>
                         </div>
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>VALOR RATEADO</strong>
-                                <input class="form-control mt-1" id="valor_rateado" type="text" onkeypress="return onlynumber();" onkeyup="formataValor(this)" placeholder="Valor do item" style="width: 358px" />
-                                <input type="hidden" id="id_valor_rateado"></input>
-                            </div>
-                            <div class="d-flex flex-row" style="width: 100%; align-items:center">
-                                <div>
-                                    <input class="form-control mt-1" id="porcentagem_rateado" type="text" min="0" max="3" onkeyup="return validateValue(this);" onkeypress="return onlynumber();" maxlength="3" style="width: 58px" />
-                                    <input type="hidden" id="porcentagem_rateado_hiddem"></input>
-                                </div>
-                                <div>
-                                    <strong>%</strong>
 
-                                </div>
-
-                            </div>
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">

@@ -139,7 +139,7 @@
                                     "<td>" + Intl.NumberFormat('pt-BR', {
                                         style: 'currency',
                                         currency: 'BRL'
-                                    }).format(val.balamt) + "</td>" +
+                                    }).format(val.trnamt) + "</td>" +
                                     "<td></td>"
                                 );
                             });

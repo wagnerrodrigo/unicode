@@ -82,7 +82,7 @@ $("#valor_rateado").blur(function () {
     valorTotalDespesa = Number(
         valorTotalItens.replace(/\./g, "").replace(",", ".").replace("R$", "")
     );
-    
+
     novoValorTotal = $("#modal_valor_total").val()
     .replace(/\./g, "")
     .replace(",", ".")
@@ -215,16 +215,16 @@ $("#addContas").click(function () {
                     `<input type="hidden"  name="valor_pago" value="${novoValorTotal}"/>` +
                     `</div>`
             );
-    
+
             if (valorTotalRateio == novoValorTotal) {
                 btnSalvar.disabled = false;
             }
-    
+
             id_button_conta++;
-            limpaCamposRateio(); 
+            limpaCamposRateio();
         }
 
-      
+
     }
 });
 // Fim função para buscar Instituição bancaria
@@ -260,7 +260,7 @@ function limpaCamposRateio() {
     $("#valor_rateado").val("");
 }
 
-function limparDescontoJurosMulta(){   
+function limparDescontoJurosMulta(){
     var valorDescontoAtual = $("#desconto").val();
     var valorModalAtual = $("#modal_valor_total").val();
     var resultadoModalValorTotal = 0;
@@ -273,9 +273,9 @@ function limparDescontoJurosMulta(){
 //adiciona valor total ao input acima do modal de rateio
 $("#adicionar_rateio").click(function () {
     var SOMA = 0;
-    var valorTotal = $("#valorTotal").val();   
-   
-    if (($("#hiddemJuros").val() != "" && $("#hiddemMulta").val() != "") && 
+    var valorTotal = $("#valorTotal").val();
+
+    if (($("#hiddemJuros").val() != "" && $("#hiddemMulta").val() != "") &&
         $("#hiddemJuros").val() != null && $("#hiddemMulta").val() != null) {
         var juros = $("#hiddemJuros").val();
         var multa = $("#hiddemMulta").val();
@@ -291,11 +291,11 @@ $("#adicionar_rateio").click(function () {
     }
    else if ($("#hiddemDesconto").val() != "" && $("#hiddemDesconto").val() != null) {
             var desconto = $("#hiddemDesconto").val();
-            SUB = (Number(valorTotal) - Number(desconto));            
+            SUB = (Number(valorTotal) - Number(desconto));
             SUB = Intl.NumberFormat("pt-BR", {
                 style: "currency",
                 currency: "BRL",
-            }).format(SUB);        
+            }).format(SUB);
             novoValorTotal = SUB
             $("#modal_valor_total").val(novoValorTotal);
     }
@@ -304,9 +304,9 @@ $("#adicionar_rateio").click(function () {
             style: "currency",
             currency: "BRL",
         }).format($("#valorTotal").val());
-    
+
         $("#modal_valor_total").val(valorTotal);
-    }    
+    }
 });
 
 // pega o valor da data do efetivo pagamento e coloca em um campo hidden
@@ -397,9 +397,9 @@ $("#btnConciliacao").click(function () {
     var juros = $("#juros").val().replace(/\./g, "").replace(",", ".");
     var multa = $("#multa").val().replace(/\./g, "").replace(",", ".");
     var desconto = $("#desconto").val().replace(/\./g, "").replace(",", ".");
-    var valorTotal = $("#valorTotal").val();   
+    var valorTotal = $("#valorTotal").val();
     var soma = Number(juros) + Number(multa);
-   
+
     if( (Number(desconto) >= Number(valorTotal) )){
         alert("Valor do Desconto é superio ao VALOR ORIGINAL DA DESPESA por favor verifique os valores digitado !");
     }
@@ -408,7 +408,7 @@ $("#btnConciliacao").click(function () {
     }
      else{
          // adiciona os valores do que e digitado no modal ADICIONAR JUROS E MULTAS
-         
+
           jurosForamatado = Intl.NumberFormat("pt-BR", {
                 style: "currency",
                 currency: "BRL",
@@ -455,7 +455,7 @@ $("#btnConciliacao").click(function () {
                 `<div class="form-group">` +
                 `<div style="padding-top: 10px;">` +
                 `</div>` +
-                `<button type="button" class="btn btn-danger btn_item" info-mouse="Remover" 
+                `<button type="button" class="btn btn-danger btn_item" info-mouse="Remover"
                             style="padding: 8px 12px;" onclick="removeDadoAcrecimos()">
                             <i class="bi bi-trash-fill">
                         </i></button>` +
@@ -477,6 +477,6 @@ $("#btnConciliacao").click(function () {
 
     }
 
-   
+
 
 });
