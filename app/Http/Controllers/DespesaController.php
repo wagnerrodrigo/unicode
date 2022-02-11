@@ -32,13 +32,14 @@ class DespesaController extends Controller
         $valor_busca = $request->input('valor_busca');
         $status_despesa = $request->input('status');
 
+        //dd($request->all());
+        //appends(['results' => $results, 'status' => $status, 'chave_busca' => $chave_busca])->
         if ($request->has('status')) {
-
             $despesas = Despesa::selectAll($results, $status_despesa, $chave_busca, $valor_busca);
         } else {
             $despesas = Despesa::selectAll($results = 10);
         }
-        return view('admin.despesas.lista-despesas', compact('despesas', 'mascara'));
+        return view('admin.despesas.lista-despesas', compact('despesas', 'mascara', 'results', 'status_despesa', 'chave_busca', 'valor_busca'));
     }
 
     public function formDespesa()

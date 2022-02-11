@@ -54,16 +54,16 @@ class Despesa extends Model
             $despesas = $query
                 ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
                 ->where("intranet.tab_despesa.$chave_busca", '=', "$valor_busca")
-                ->orderBy('de_status_despesa', 'asc')->paginate($results);
+                ->orderBy('id_despesa', 'asc')->paginate($results);
         } else if ($chave_busca && $valor_busca && !$status) {
             $despesas = $query
                 ->where("intranet.tab_despesa.$chave_busca", '=', "$valor_busca")
-                ->orderBy('de_status_despesa', 'asc')
+                ->orderBy('id_despesa', 'asc')
                 ->paginate($results);
         } else if (!$chave_busca && !$valor_busca && $status) {
             $despesas = $query
                 ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
-                ->orderBy('de_status_despesa', 'asc')
+                ->orderBy('id_despesa', 'asc')
                 ->paginate($results);
         } else if (!$chave_busca && !$valor_busca && !$status) {
 
@@ -226,9 +226,9 @@ class Despesa extends Model
             );
         } else if (
             $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::BOLETO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CHEQUE ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO
+            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::CHEQUE ||
+            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
+            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO
         ) {
             $query->join(
                 'intranet.tab_fornecedor',
