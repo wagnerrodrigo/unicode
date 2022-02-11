@@ -137,14 +137,16 @@ class LancamentoController extends Controller
     public function show($id)
     {
         $lancamento = Lancamento::findOne($id);
-        dd($lancamento);
         return view('admin.lancamentos.detalhes-lancamento', compact('lancamento'));
     }
 
     public function provisionamento($id)
     {
         $despesaRepository = new DespesaRepository();
-        $lancamentos = $despesaRepository->getExpenseById($id);
+        $despesa = $despesaRepository->findInfosDespesa($id);
+
+        $lancamentos = $despesaRepository->getExpenseById($id, $despesa[0]->fk_condicao_pagamento_id, $despesa[0]->fk_tab_tipo_despesa_id);
+        //de_condicao_pagamento
         $mascara = new Mascaras();
 
         return view('admin.lancamentos.add-lancamento', compact('lancamentos', 'mascara'));

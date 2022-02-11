@@ -11,8 +11,6 @@
                 <h1>LANÇAMENTO DESPESA:{{ $lancamento->id_despesa }}</h1>
             </div>
             <div class="card-body" style="font-size: 18px;">
-
-                {{-- INICIO DA INFORMAÇÃO DA DESPESA --}}
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="col-md-12">
@@ -81,7 +79,6 @@
                                 <span>{{ $lancamento->de_condicao_pagamento }}</span>
                             </div>
                         </div>
-
                     </div>
 
                     <hr>
@@ -99,12 +96,9 @@
                 </div>
             </div>
             @endforeach
-
-
         </div>
 
         <div class="card">
-
             <div class="card-header">
                 <h1>CONTA DE PAGAMENTO </h1>
             </div>

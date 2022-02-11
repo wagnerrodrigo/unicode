@@ -226,9 +226,9 @@ class Despesa extends Model
             );
         } else if (
             $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::BOLETO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CHEQUE ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO
+            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::CHEQUE ||
+            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
+            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO
         ) {
             $query->join(
                 'intranet.tab_fornecedor',
