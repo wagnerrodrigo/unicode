@@ -99,7 +99,7 @@ $(document).ready(function () {
                     //mostra os resultados da busca em uma div
                     $.each(response, function (key, val) {
                         $("#produto_servico").append(
-                            `<option value="${val.id_produto}">${val.de_produto}</option>`
+                            `<option value="${val.id_produto}-${val.de_produto}">${val.de_produto}</option>`
                         );
                     });
                 });
@@ -367,10 +367,13 @@ var moeda = $("#moeda").val();
 $("#Prod").click(function () {
     //  pega os valores dos campos preenchidos pelo usuario
     var class_prod = $("#classificacao_prod").val();
-    var prod_ser = $("#produto_servico").val();
+    var prod_ser = $("#produto_servico").val().split('-');
+    var value_item = prod_ser[0];
+    var desc_item = prod_ser[1];
     var valor_uni = $("#valor_item").val();
     var quanti = $("#quantidade").val();
 
+    console.log({Produto:prod_ser});
     if (class_prod == "" || prod_ser == "" || valor_uni == "" || quanti == "") {
         alert("Preencha todos os campos do produto!");
     } else {
@@ -378,7 +381,7 @@ $("#Prod").click(function () {
         $("#Tb").append(
             `<tr id="tab${id_button_item}">` +
                 `<td>${class_prod}</td>` +
-                `<td>${prod_ser}</td>` +
+                `<td>${desc_item}</td>` +
                 `<td>${valor_uni}</td>` +
                 `<td>${quanti}</td>` +
                 `<td><button type="button" class="btn btn-danger btn_item" onclick="removeItem(${id_button_item})" style="padding: 8px 12px;">` +
@@ -391,7 +394,7 @@ $("#Prod").click(function () {
         //gera o input com os dados do item para submeter no form
         $("#hidden_inputs_itens").append(
             `<div id="input_generated_itens${id_button_item}">` +
-                `<input type="hidden"  name="id_produto[]" value="${prod_ser}"/>` +
+                `<input type="hidden"  name="id_produto[]" value="${value_item}"/>` +
                 `<input type="hidden" id="val_produto${id_button_item}" name="valor_unitario[]" value="${valorFormatado}"/>` +
                 `<input type="hidden" id="quantidade${id_button_item}" name="quantidade[]" value="${quanti}"/>` +
                 `</div>`

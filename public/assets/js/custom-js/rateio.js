@@ -37,7 +37,7 @@ $("#rateio_empresa").keyup(function () {
                             $("#custo_rateio").append(
                                 `<option value="${
                                     val.id_centro_custo
-                                }" class="centro_custo_item">${
+                                }-${val.de_departamento}" class="centro_custo_item">${
                                     val.de_carteira == ""
                                         ? val.de_departamento
                                         : val.de_departamento +
@@ -118,9 +118,12 @@ var id_button_rateio = 0;
 //função para pegar os valores dos inputs e adicionar na tabela
 $("#seleciona_rateio").click(function () {
     var rateio_empresa = $("#rateio_empresa").val();
-    var custo_rateio = $("#custo_rateio").val();
+    var custo_rateio = $("#custo_rateio").val().split('-');
+    var value_centro_custo = custo_rateio[0];
+    var desc_centro_custo = custo_rateio[1];
     var valor_rateado = $("#valor_rateado").val();
     var porcentagem_valor = $("#porcentagem_rateado").val();
+    console.log(custo_rateio);
 
     valorTotalDespesa = $("#valorTotal")
         .val()
@@ -159,7 +162,7 @@ $("#seleciona_rateio").click(function () {
                 $("#table_rateio").append(
                     `<tr id="tab-generated${id_button_rateio}">` +
                         `<td>${rateio_empresa}</td>` +
-                        `<td>${custo_rateio}</td>` +
+                        `<td>${desc_centro_custo}</td>` +
                         `<td>${valor_rateado}</td>` +
                         `<td>${porcentagem_valor}</td>` +
                         `<td><button onclick="removeRateio(${id_button_rateio}, ${valor_rateado
@@ -168,14 +171,15 @@ $("#seleciona_rateio").click(function () {
                             .replace(
                                 "R$",
                                 ""
-                            )}, ${custo_rateio})" class="btn btn-danger btn-sm btn-delete-rateio">Excluir</button></td>` +
+                            )}, ${value_centro_custo})" class="btn btn-danger btn-sm btn-delete-rateio">Excluir</button></td>` +
                         "</tr>"
                 );
 
+                console.log({descricao:desc_centro_custo});
                 //gera o input com os dados do rateio para submeter no form
                 $("#hidden_inputs").append(
                     `<div id="input-generated${id_button_rateio}"><input type="hidden" name="empresa_rateio[]" value="${rateio_empresa}"/>` +
-                        `<input type="hidden" name="custo_rateio[]" value="${custo_rateio}"/>` +
+                        `<input type="hidden" name="custo_rateio[]" value="${value_centro_custo}"/>` +
                         `<input type="hidden" name="valor_rateio[]" value="${valor_rateado
                             .replace(/\./g, "")
                             .replace(",", ".")
