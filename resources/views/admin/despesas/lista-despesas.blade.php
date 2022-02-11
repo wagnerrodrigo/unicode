@@ -31,7 +31,6 @@
                                 <select class="form-select" id="inputStatus" name="status">
                                     <option selected value=""></option>
                                     <option value="6">A PAGAR</option>
-                                    <option value="3">CANCELADO</option>
                                     <option value="4">EM ATRASO</option>
                                     <option value="5">MIGRAÇÃO</option>
                                     <option value="2">PAGO</option>
@@ -135,7 +134,6 @@
                 <div>{{ $status_despesa ? $despesas->appends(['results' => $results, 'status' => $status_despesa, 'chave_busca' => $chave_busca, 'valor_busca' => $valor_busca])->links() : $despesas->links() }}</div>
             </div>
         </div>
-
     </div>
 </div>
 

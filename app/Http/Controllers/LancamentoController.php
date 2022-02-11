@@ -22,18 +22,22 @@ class LancamentoController extends Controller
         $despesaRepository = new DespesaRepository();
         $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
 
+        $filtros = null;
+
         $mascara = new Mascaras();
         if ($request->has('dt_inicio') && $request->has('dt_fim') || $request->has('status')) {
-            $dt_inicio_periodo = $request->input('dt_inicio');
-            $dt_fim_periodo = $request->input('dt_fim');
-            $status_despesa_id = $request->input('status');
+            $filtros = [
+                'dt_inicio_periodo' => $request->input('dt_inicio'),
+                'dt_fim_periodo' => $request->input('dt_fim'),
+                'status_despesa_id' => $request->input('status')
+            ];
 
-            $lancamentos = Lancamento::selectAll($dt_inicio_periodo, $dt_fim_periodo, $status_despesa_id);
+            $lancamentos = Lancamento::selectAll($filtros['dt_inicio_periodo'], $filtros['dt_fim_periodo'], $filtros['status_despesa_id']);
         } else {
             $lancamentos = Lancamento::selectAll();
         }
 
-        return view('admin.lancamentos.lista-lancamentos', compact('lancamentos', 'mascara'));
+        return view('admin.lancamentos.lista-lancamentos', compact('lancamentos', 'mascara', 'filtros'));
     }
 
     /**

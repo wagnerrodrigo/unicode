@@ -82,7 +82,7 @@
                     @endif
                 </table>
             </div>
-            <div>{{ $lancamentos->links() }}</div>
+            <div>{{ $filtros ? $lancamentos->appends(['dt_inicio' => $filtros['dt_inicio_periodo'], 'status' => $filtros['status_despesa_id'], 'dt_fim' => $filtros['dt_fim_periodo'] ])->links() : $lancamentos->links() }}</div>
         </div>
     </div>
 </div>
