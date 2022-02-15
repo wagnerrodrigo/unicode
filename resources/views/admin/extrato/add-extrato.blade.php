@@ -1,16 +1,16 @@
 @extends('layouts.templates.template')
 @section('title', 'Detalhes Extrato')
 
+{{-- [FIX] tela de para aprovação equipe financeiro --}}
 
 @section('content')
 <div id="main" style="margin-top: 5px;">
-
-    @foreach ($lancamentos as $lancamento)
+    @foreach($lancamentos as $lancamento)
     {{-- INICIO CARD CONCILICAÇÃO --}}
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>CONCILIAÇÃO DO LANCAMENTO N° :{{ $lancamento->id_tab_lancamento }}</h1>
+                <h1>CONCILIAÇÃO DO LANCAMENTO N° : {{$lancamento->id_tab_lancamento}}</h1>
             </div>
             <div class="card-body" style="font-size: 18px;">
 
@@ -21,7 +21,7 @@
                                 <div>
                                     <strong>TITULO DA DESPESA</strong>
                                 </div>
-                                <span>{{ $lancamento->de_despesa }}</span>
+                                <span> {{$lancamento->de_despesa}}</span>
                             </div>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                                 <div>
                                     <strong>VALOR TOTAL DA DESPESA</strong>
                                 </div>
-                                <span>{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}</span>
+                                <span> {{$lancamento->valor_total_despesa}}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -40,7 +40,7 @@
                                 <div>
                                     <strong>DATA DO VENCIMENTO</strong>
                                 </div>
-                                <span>{{ date('d/m/Y', strtotime($lancamento->dt_vencimento)) }}</span>
+                                <span>{{$lancamento->cnpj_empresa}}</span>
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                                 <div>
                                     <strong>EMPRESA</strong>
                                 </div>
-                                <span>{{ $lancamento->de_empresa }}</span>
+                                <span>{{$lancamento->de_empresa}}</span>
                             </div>
                         </div>
 
@@ -60,8 +60,7 @@
                                 <div>
                                     <strong>CNPJ</strong>
                                 </div>
-                                <span> {{ $mascara::mask($lancamento->cnpj_empresa, '##.###.###/####-##') }}
-                                </span>
+                                <span>{{$lancamento->cnpj_empresa}}</span>
                             </div>
                         </div>
                     </div>
@@ -69,12 +68,13 @@
                     @endforeach
 
                     <div style="padding: 10px">
-                        <h3>RATEIOS</h3>
+                        <h3>CONTA BANCARIA</h3>
                     </div>
 
                     <hr>
 
-                    @foreach ($rateios as $rateio)
+                    @foreach ($rateios as $rateio )
+
                     <div class="d-flex">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -84,10 +84,11 @@
                                     </strong>
                                 </div>
                                 <span>
-                                    {{ $mascara::maskMoeda($rateio->valor_rateio_pagamento) }}
+                                    {{$rateio->valor_rateio_pagamento}}
                                 </span>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
@@ -95,9 +96,7 @@
                                         NUMERO DA CONTA
                                     </strong>
                                 </div>
-                                <span>
-                                    {{ $rateio->nu_conta }}
-                                </span>
+                                <span> {{$rateio->nu_conta}} </span>
                             </div>
                         </div>
                     </div>
@@ -112,7 +111,7 @@
                                     </strong>
                                 </div>
                                 <span>
-                                    {{ $rateio->de_banco }}
+                                    {{$rateio->de_banco}}
                                 </span>
                             </div>
                         </div>
@@ -124,29 +123,28 @@
                                     </strong>
                                 </div>
                                 <span>
-                                    {{ $rateio->nu_agencia }}
+                                    {{$rateio->nu_agencia}}
                                 </span>
                             </div>
                         </div>
                     </div>
 
+                    @endforeach
 
                     <div class="d-flex">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
                                     <strong>
-                                        CÓDIGO OPERAÇÃO
+                                        TIPO DE DOCUMENTO
                                     </strong>
                                 </div>
-                                <span>
-                                    {{ $rateio->co_op }}
-                                </span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
                     <hr>
-                    @endforeach
+
 
                 </div>
             </div>
@@ -184,7 +182,7 @@
                                 </td>
 
                             </tr>
-                            <table class="collapse table table-borderless" id="collapseExample{{ $lancamento->id_tab_lancamento }}">
+                            <table class="collapse table table-borderless" id="collapseExample">
                                 <tr class="table-dark">
                                     <th>ID EXTRATO</th>
                                     <th>NOME BANCO</th>
@@ -229,7 +227,7 @@
     </div>
     {{-- FIM CARD CONCILICAÇÃO --}}
 
-    
+
 
 
 
@@ -247,5 +245,84 @@
     <script src="{{ asset('assets/js/custom-js/mascara-data.js') }}"></script>
     <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
     <script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<!-- <script src="{{ asset('assets/js/custom-js/extrato.js') }}"></script> -->
+
+{{-- [FIX] tela de para aprovação equipe financeiro --}}
+
+<script>
+  $(document).ready(function() {
+        function getExtrato(object) {
+            var href = object.getAttribute("href");
+            var id = href.substring(href.indexOf("-") + 1);
+            var expanded = object.getAttribute("aria-expanded");
+
+                $.ajax({
+                    type: "GET",
+                    url: `http://localhost:8000/extrato/lancamento/${id}`,
+                    dataType: "json",
+                    success: function(response) {
+                        if (response != '') {
+                            for (i = 0; i < response.length; i++) {
+                                $.each(response[i], function(key, val) {
+                                    $(`#extrato_${id}`).append(
+                                        `<tr class="table-dark tr_generated_${id}">` +
+                                        `<td>` + val.id_extrato + `<input type="checkbox" name="ids_extratos[]" value="${val.id_extrato}"/></td>` +
+                                        `<td>${val.org}</td>` +
+                                        `<td>${val.memo}</td>` +
+                                        "<td>" + Intl.DateTimeFormat('pt-BR').format(new Date(val.dtposted)) + "</td>" +
+                                        "<td>" + Intl.NumberFormat('pt-BR', {
+                                            style: 'currency',
+                                            currency: 'BRL'
+                                        }).format(val.balamt) + "</td>" +
+                                        "<td></td>"
+                                    );
+                                });
+                            }
+                        } else {
+                            $(`#extrato_${id}`).append(
+                                `<tr class="table-light tr_generated_${id}">` +
+                                `<td><span style="color: red; font-weight: bold;">Não há extrato</span></td>` +
+                                "<td></td>" +
+                                "<td></td>" +
+                                "<td></td>" +
+                                "<td></td>" +
+                                "<td></td>" +
+                                "</tr>"
+                            );
+                        }
+                    },
+                });
+
+                $(`#conciliacao_${id}`).click(function() {
+                    var id = $(this).attr('id').substring(12);
+                    var ids_extratos = [];
+                    $('input[name="ids_extratos[]"]:checked').each(function() {
+                        ids_extratos.push($(this).val());
+                    });
+                    if (ids_extratos == '') {
+                        alert("Selecione pelo menos um extrato para conciliar");
+                    } else {
+                        $.ajax({
+                            type: "POST",
+                            url: `http://localhost:8000/conciliacao/${id}`,
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                id_lancamento: id,
+                                ids_extratos: ids_extratos
+                            },
+                            dataType: "json",
+                            success: function(response) {
+                                window.location.href = "http://localhost:8000/extrato";
+                            }
+                        });
+                    }
+                });
+
+        }
+    }
+</script>
+
+
 
     @endsection
