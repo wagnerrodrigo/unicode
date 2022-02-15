@@ -80,6 +80,23 @@ class ExtratoController extends Controller
         }
     }
 
+    // [FIX] tela de para aprovação equipe financeiro
+
+    // public function showExtractDetails($id){
+    //     $lancamentoRepository = new LancamentoRepository();
+    //     $rateioRepository = new RateioRepository();
+    //     $rateios = $rateioRepository->findContaBancariaRateioByLancamento($id);
+    //     $lancamentos = $lancamentoRepository->findAccountingEntryById($id);
+
+
+    //     $extratos = Extrato::findByExtract($id);
+    //     return view('admin.extrato.add-extrato', compact('lancamentos','rateios', 'extratos'));
+    // }
+
+    // public function showInfoExtract(){
+    //     return view('admin.extrato.info-extrato');
+    // }
+
     /**
      * Show the form for editing the specified resource.
      *
