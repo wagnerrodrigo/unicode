@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Conciliacao;
 use App\Repository\LancamentoRepository;
 use App\Repository\DespesaRepository;
+use Carbon\Carbon;
 
 class ConciliacaoController extends Controller
 {
@@ -28,11 +29,14 @@ class ConciliacaoController extends Controller
     public function create(Request $request)
     {
         try {
+
+            //request => id_lancamento && ids_extratos[]
             $conciliacao = new Conciliacao();
 
             foreach ($request->ids_extratos as $id_extrato) {
                 $conciliacao->id_lancamento = $request->id_lancamento;
                 $conciliacao->id_extrato = $id_extrato;
+                $conciliacao->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 Conciliacao::store($conciliacao);
             }
 
@@ -41,6 +45,15 @@ class ConciliacaoController extends Controller
 
             $despesaRepository = new DespesaRepository();
             $despesaRepository->setStatusIfPaid($lancamento[0]->fk_tab_despesa_id);
+
+
+            //pagamento = [
+            //    'id_lancamento' => $pagamento->fk_tab_lancamento_id,
+            //    'dt_inicio' => $pagamento->dt_inicio,
+            //    'dt_fim' => $pagamento->dt_fim,
+            //   'valor' => $pagamento->valor,
+            //fk_tab_conciliacao
+            //]
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
