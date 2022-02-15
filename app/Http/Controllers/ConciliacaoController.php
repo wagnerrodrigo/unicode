@@ -29,8 +29,6 @@ class ConciliacaoController extends Controller
     public function create(Request $request)
     {
         try {
-
-            //request => id_lancamento && ids_extratos[]
             $conciliacao = new Conciliacao();
 
             foreach ($request->ids_extratos as $id_extrato) {
@@ -45,15 +43,6 @@ class ConciliacaoController extends Controller
 
             $despesaRepository = new DespesaRepository();
             $despesaRepository->setStatusIfPaid($lancamento[0]->fk_tab_despesa_id);
-
-
-            //pagamento = [
-            //    'id_lancamento' => $pagamento->fk_tab_lancamento_id,
-            //    'dt_inicio' => $pagamento->dt_inicio,
-            //    'dt_fim' => $pagamento->dt_fim,
-            //   'valor' => $pagamento->valor,
-            //fk_tab_conciliacao
-            //]
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
