@@ -262,7 +262,7 @@
 
                         <div class="px-5 mb-3" style="margin-top: 38px">
                             <strong>SERIE</strong>
-                            <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add" name="serie_documento" />
+                            <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add" name="serie_documento" maxlength="4"/>
                         </div>
                     </div>
 

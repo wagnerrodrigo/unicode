@@ -142,7 +142,7 @@ class Lancamento extends Model
             'id_status_despesa',
             '=',
             'intranet.tab_despesa.fk_status_despesa_id'
-        )->where("intranet.tab_despesa.fk_status_despesa_id", "=", $id_status)->paginate(10);
+        )->where("intranet.tab_despesa.fk_status_despesa_id", "=", $id_status)->orderBy('intranet.tab_lancamento.id_tab_lancamento', 'desc')->paginate(10);
 
         return $data;
     }
