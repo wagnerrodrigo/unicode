@@ -154,7 +154,7 @@
                                         </div>
                                         <input type="text" required
                                             onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;"
-                                            value="{{ $despesa->serie_despesa }}" class="form-control input-add"
+                                            value="{{ $despesa->serie_despesa }}"  maxlength="4" class="form-control input-add"
                                             name="serie_documento" style="width: 358px" />
                                     </div>
                                 </div>
