@@ -12,11 +12,13 @@ $(document).ready(function () {
         .done(function (response) {
             //traz os resultados do banco para uma div hidden
             $.each(response, function (key, val) {
-                $("#itens_classificacao")
-                    .append(
-                        `<div class="classificacao_produto" value="${val.id_clasificacao_contabil}">${val.de_clasificacao_contabil}</div>`
-                    )
-                    .hide();
+                if (val.id_clasificacao_contabil != 11) {
+                    $("#itens_classificacao")
+                        .append(
+                            `<div class="classificacao_produto" value="${val.id_clasificacao_contabil}">${val.de_clasificacao_contabil}</div>`
+                        )
+                        .hide();
+                }
             });
             //ao clicar aparece os campos com resultados do banco
             $("#classificacao_con").click(function () {
@@ -367,13 +369,13 @@ var moeda = $("#moeda").val();
 $("#Prod").click(function () {
     //  pega os valores dos campos preenchidos pelo usuario
     var class_prod = $("#classificacao_prod").val();
-    var prod_ser = $("#produto_servico").val().split('-');
+    var prod_ser = $("#produto_servico").val().split("-");
     var value_item = prod_ser[0];
     var desc_item = prod_ser[1];
     var valor_uni = $("#valor_item").val();
     var quanti = $("#quantidade").val();
 
-    console.log({Produto:prod_ser});
+    console.log({ Produto: prod_ser });
     if (class_prod == "" || prod_ser == "" || valor_uni == "" || quanti == "") {
         alert("Preencha todos os campos do produto!");
     } else {
@@ -390,7 +392,7 @@ $("#Prod").click(function () {
                 "</tr>"
         );
         //retira virgulas do valor unitário
-        var valorFormatado = valor_uni.replace(/\./g, '').replace(",", ".");
+        var valorFormatado = valor_uni.replace(/\./g, "").replace(",", ".");
         //gera o input com os dados do item para submeter no form
         $("#hidden_inputs_itens").append(
             `<div id="input_generated_itens${id_button_item}">` +
@@ -440,7 +442,7 @@ function removeItem(id) {
     //subtrai 1 ao total de itens
     totalItens--;
 
-    valorTotal = valorTotal - (valorRemovido * qtdItems);
+    valorTotal = valorTotal - valorRemovido * qtdItems;
 
     //verifica quantos itens existem na table e modifica o campo valorTotal para readonly caso seja difernte de 0
     if (totalItens == 0) {
@@ -663,5 +665,3 @@ $("#dt_emissao").on("change", function () {
         $(this).css({ color: "black" });
     }
 });
-
-

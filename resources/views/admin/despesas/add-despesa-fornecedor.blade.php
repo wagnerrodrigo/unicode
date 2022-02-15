@@ -241,7 +241,7 @@
                     <div class="d-flex" style="width: 100%;">
                         <div class="px-5 mb-3">
                             <strong>DATA DE VENCIMENTO</strong>
-                            <input required type="date" onblur="return validaData(this)" class="form-control input-add" id="dt_venc" name="data_vencimento" />
+                            <input required type="date" class="form-control input-add" id="dt_venc" name="data_vencimento" />
                             <!-- id do span tem que ser (erro_ + id do input data) -->
                             <span id="erro_dt_venc"></span>
                         </div>
