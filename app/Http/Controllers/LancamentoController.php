@@ -79,19 +79,15 @@ class LancamentoController extends Controller
 
 
             if ($request->valor_rateio_pagamento) {
+                $valor_rateio = trim(html_entity_decode($request->valor_rateio_pagamento), " \t\n\r\0\x0B\xC2\xA0");
 
-                for ($i = 0; $i < count($request->valor_rateio_pagamento); $i++) {
-                    $removeCifrao = trim(html_entity_decode($request->valor_rateio_pagamento[$i]), " \t\n\r\0\x0B\xC2\xA0");
-                    $removePonto = str_replace(".", "", $removeCifrao);
-                    $substituiVirgula = str_replace(",", ".", $removePonto);
+                // $removePonto = str_replace(".", "", $removeCifrao);
+                // $substituiVirgula = str_replace(",", ".", $removePonto);
+                $rateios[] = [
+                    'valor_rateio_pagamento' => $valor_rateio,
+                    'fk_tab_conta_bancaria' => $request->fk_tab_conta_bancaria,
+                ];
 
-                    $valor_rateio = $substituiVirgula;
-
-                    $rateios[] = [
-                        'valor_rateio_pagamento' => $valor_rateio,
-                        'fk_tab_conta_bancaria' => $request->fk_tab_conta_bancaria[$i],
-                    ];
-                }
                 $rateio = new Rateio();
 
                 for ($i = 0; $i < count($rateios); $i++) {
