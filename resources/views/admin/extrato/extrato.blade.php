@@ -37,11 +37,12 @@
                         <tr>
                             <th>ID DESPESA</th>
                             <th>DATA DO PAGAMENTO</th>
+                            <th>DATA DO VENCIMENTO</th>
                             <th>DESCRIÇÃO</th>
                             <th style="padding:1px">VALOR</th>
                             <th>STATUS</th>
                             <th>AÇÕES</th>
-                            <th></th>
+                        
                         </tr>
                     </thead>
 
@@ -54,6 +55,7 @@
                                 <input type="checkbox" class="inputs_selecionandos" name="radio_lancamento" value="{{ $lancamento->id_tab_lancamento }}" id="radio_lancamento_{{ $lancamento->id_tab_lancamento }}">
                             </td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}</td>
+                            <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
                             <td>{{ $lancamento->de_despesa }}</td>
                             <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}</td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
