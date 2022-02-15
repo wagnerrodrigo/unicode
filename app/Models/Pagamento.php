@@ -10,6 +10,17 @@ class Pagamento extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'id_pagamento',
+        'de_pagamento',
+        'fk_tab_lancamento_id',
+        'dt_inicio',
+        'dt_fim',
+        'fk_rateio_pagamento',
+        'fk_tab_conciliacao'
+
+    ];
+
     static function selectAll()
     {
         $query = "SELECT * FROM intranet.tab_despesa where fk_status_despesa_id = ? ";
@@ -21,9 +32,25 @@ class Pagamento extends Model
 
     static function findOne()
     {
-    
     }
 
-    
 
+    static function create($pagamento)
+    {
+        DB::insert("INSERT INTO intranet.tab_lancamento
+        (
+        fk_tab_lancamento_id,
+        dt_inicio,
+        dt_fim,
+        fk_rateio_pagamento,
+        fk_tab_conciliacao
+        )
+        VALUES(?, ?, ?, ?, ?)", [
+            $pagamento->fk_tab_lancamento_id,
+            $pagamento->dt_inicio,
+            $pagamento->dt_fim,
+            $pagamento->fk_rateio_pagamento,
+            $pagamento->fk_tab_conciliacao
+        ]);
+    }
 }
