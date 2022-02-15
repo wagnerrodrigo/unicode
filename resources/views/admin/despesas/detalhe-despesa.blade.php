@@ -113,7 +113,7 @@
                     </div>
 
                     <div class="card-footer">
-                        <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal"
+                        <button class="btn btn-success" style="padding: 8px 12px;" {{$despesa->de_status_despesa == 'MIGRAÇÃO' ? 'disabled' : ''}} data-bs-toggle="modal"
                             data-bs-target="#xlarge">Editar</button>
                         <a href="{{ route('despesas') }}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
                     </div>

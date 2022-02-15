@@ -8,7 +8,7 @@
         @foreach($lancamentos as $lancamento)
         <div class="card">
             <div class="card-header">
-                <h1>LANÇAMENTO DESPESA:{{ $lancamento->id_despesa }}</h1>
+                <h1>LANÇAMENTO DESPESA: {{ $lancamento->id_despesa }}</h1>
             </div>
             <div class="card-body" style="font-size: 18px;">
                 <div class="card-body">
@@ -47,7 +47,7 @@
                                 <div>
                                     <strong>DATA DO EFETIVO PAGAMENTO</strong>
                                 </div>
-                               <input class="form-control" id="input_efetivo_pagamento" type="date" name="data_efetivo_pagamento" id="id_Efetivo_Pg">
+                                <input class="form-control" id="input_efetivo_pagamento" type="date" name="data_efetivo_pagamento" id="id_Efetivo_Pg">
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <div>
-                                    <strong>CODIÇÃO DE PARGAMENTO</strong>
+                                    <strong>CONDIÇÃO DE PAGAMENTO</strong>
                                 </div>
                                 <span>{{ $lancamento->de_condicao_pagamento }}</span>
                             </div>
@@ -82,14 +82,13 @@
                     </div>
 
                     <hr>
-                        <div id="acrescidos"></div>
+                    <div id="acrescidos"></div>
                     <hr>
                 </div>
 
                 <div class="d-flex">
                     <div class="px-5 mb-3">
-                        <button type="button" id="modalJurosMulta" data-bs-toggle="modal" data-bs-target="#xconciliacao"
-                                class="btn btn-danger  me-1 mb-1" >
+                        <button type="button" id="modalJurosMulta" data-bs-toggle="modal" data-bs-target="#xconciliacao" class="btn btn-danger  me-1 mb-1">
                             ADICIONAR JUROS E MULTAS
                         </button>
                     </div>
@@ -105,8 +104,7 @@
 
             <div class="d-flex" style="width: 100%;justify-content:start; align-items:center">
                 <div class="px-5 mb-3">
-                    <button class="btn btn-primary" id="adicionar_rateio" type="button" data-bs-toggle="modal"
-                     data-bs-target="#xrateio">
+                    <button class="btn btn-primary" id="adicionar_rateio" type="button" data-bs-toggle="modal" data-bs-target="#xrateio">
                         ADICIONAR <i class="bi bi-plus"></i>
                     </button>
                 </div>
@@ -137,9 +135,7 @@
                                         <tr>
                                             <th>EMPRESA</th>
                                             <th>CONTA BANCÁRIA</th>
-                                            <th>RATEIO</th>
-                                            <th>%</th>
-                                            <th>EDITAR</th>
+                                            <th>AÇÕES</th>
                                         </tr>
                                     </thead>
                                     <tbody id="Tb">
@@ -150,8 +146,6 @@
                         </div>
                     </div>
             </div>
-
-
             <div class="card-footer col-sm-12 d-flex justify-content-end">
 
                 <button type="submit" class="btn btn-primary  me-1 mb-1" id="btnSalvar">SALVAR</button>
@@ -160,8 +154,6 @@
         </div>
         </form>
     </div>
-
-
     <!-- Inicio Modal Rateio-->
     <div class="me-1 mb-1 d-inline-block">
         <!--Extra Large Modal -->
@@ -169,14 +161,10 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel16">RATEIO</h4>
+                        <h4 class="modal-title" id="myModalLabel16">SELECIONE A CONTA:</h4>
                         <div>
-                            <span>Valor Total: </span>
+                            <span>VALOR TOTAL: </span>
                             <input class="input-add" id="modal_valor_total" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple; margin-right:20px" />
-
-
-                            <span>Valor Rateado: </span>
-                            <input class="input-add" id="modal_valor_rateado" name="modal_valor_rateado" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple" />
                         </div>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <i class="bi bi-x" onclick="limpaCamposRateio()" data-feather="x"></i>
@@ -195,31 +183,13 @@
                         </div>
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>INSTITUIÇÕES BANCÁRIAS</strong>
+                                <strong>CONTAS BANCÁRIAS</strong>
                                 <input class="form-control input-busca" type="text" placeholder="" name="inst_banco" autocomplete=off id="inst_banco" class="form-control" style="width: 60rem" />
                                 <div class="Resultado_inst_banco input-addBanco" value="" id="Resultado_inst_banco">
                                 </div>
                                 <!--serve somente para armazenar o id da instituição bancária selecionada-->
                                 <input type="hidden" id="id_inst_banco"></input>
                                 <!-- ### -->
-                            </div>
-                        </div>
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>VALOR RATEADO</strong>
-                                <input class="form-control mt-1" id="valor_rateado" type="text" onkeypress="return onlynumber();" onkeyup="formataValor(this)" placeholder="Valor do item" style="width: 358px" />
-                                <input type="hidden" id="id_valor_rateado"></input>
-                            </div>
-                            <div class="d-flex flex-row" style="width: 100%; align-items:center">
-                                <div>
-                                    <input class="form-control mt-1" id="porcentagem_rateado" type="text" min="0" max="3" onkeyup="return validateValue(this);" onkeypress="return onlynumber();" maxlength="3" style="width: 58px" />
-                                    <input type="hidden" id="porcentagem_rateado_hiddem"></input>
-                                </div>
-                                <div>
-                                    <strong>%</strong>
-
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -236,8 +206,6 @@
         </div>
     </div>
     <!-- Fim modal Adicionar -->
-
-
 
     <!-- Inicio Modal Conciliação-->
     <div class="me-1 mb-1 d-inline-block">
@@ -261,7 +229,7 @@
 
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
-                                <strong>VALOR DO JUROs</strong>
+                                <strong>VALOR DO JUROS</strong>
                                 <input class="form-control" id="juros" onkeyup="formataValor(this)" type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" autocomplete="off" placeholder="JUROS" style="width: 60rem" />
                             </div>
                         </div>
@@ -269,17 +237,13 @@
                         <div class="d-flex" style="width: 100%">
                             <div class="px-5 mb-3">
                                 <strong>VALOR DA MULTA</strong>
-                                <input class="form-control" id="multa" type="text"  onkeyup="formataValor(this)" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" autocomplete="off" placeholder="MULTA" style="width: 60rem" />
+                                <input class="form-control" id="multa" type="text" onkeyup="formataValor(this)" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" autocomplete="off" placeholder="MULTA" style="width: 60rem" />
                             </div>
                         </div>
-
-
-
                     </div>
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
-                            <button class="btn btn-success me-1 mb-1" type="button" id="btnConciliacao"
-                            class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <button class="btn btn-success me-1 mb-1" type="button" id="btnConciliacao" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <i data-feather="check-circle"></i>ADICIONAR
                             </button>
                             <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal" aria-label="Close">
@@ -292,8 +256,6 @@
         </div>
     </div>
     <!-- Fim modal Adicionar -->
-
-
 
     <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>

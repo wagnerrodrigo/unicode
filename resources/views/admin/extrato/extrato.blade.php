@@ -53,7 +53,7 @@
                                 {{ $lancamento->fk_tab_despesa_id }}
                                 <input type="checkbox" class="inputs_selecionandos" name="radio_lancamento" value="{{ $lancamento->id_tab_lancamento }}" id="radio_lancamento_{{ $lancamento->id_tab_lancamento }}">
                             </td>
-                            <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
+                            <td>{{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}</td>
                             <td>{{ $lancamento->de_despesa }}</td>
                             <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}</td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
@@ -139,7 +139,7 @@
                                     "<td>" + Intl.NumberFormat('pt-BR', {
                                         style: 'currency',
                                         currency: 'BRL'
-                                    }).format(val.balamt) + "</td>" +
+                                    }).format(val.trnamt) + "</td>" +
                                     "<td></td>"
                                 );
                             });

@@ -72,76 +72,6 @@ var valorRateado = 0;
 var valorTotalDespesa = 0;
 var novoValorTotal = 0;
 
-//informa o valor e gera a porcentagem
-$("#valor_rateado").blur(function () {
-    var valorTotalItens = Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-    }).format($("#valorTotal").val());
-
-    valorTotalDespesa = Number(
-        valorTotalItens.replace(/\./g, "").replace(",", ".").replace("R$", "")
-    );
-    
-    novoValorTotal = $("#modal_valor_total").val()
-    .replace(/\./g, "")
-    .replace(",", ".")
-    .replace("R$", "");
-
-
-    valorRateado = $("#valor_rateado")
-        .val()
-        .replace(/\./g, "")
-        .replace(",", ".")
-        .replace("R$", "");
-
-    valorRateado = Number(valorRateado);
-
-    if (valorTotalItens == "") {
-        alert("Adicione os itens ou o valor total da despesa");
-        $("#valor_rateado").val("");
-    }
-
-    var valorRateio = valorRateado * 100;
-    var porcentagem = valorRateio / novoValorTotal;
-
-    $("#porcentagem_rateado").val(porcentagem.toFixed(2));
-});
-
-//informa a porcentagem e gera o valor do rateio
-$("#porcentagem_rateado").blur(function () {
-    var valorTotalItens = Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-    }).format($("#valorTotal").val());
-    valorTotalDespesa = valorTotalItens
-        .replace(/\./g, "")
-        .replace(",", ".")
-        .replace("R$", "");
-
-
-    novoValorTotal = $("#modal_valor_total").val()
-    .replace(/\./g, "")
-    .replace(",", ".")
-    .replace("R$", "");
-
-    var valorPorcentagem = Number($("#porcentagem_rateado").val());
-
-    var porcentagem = novoValorTotal / 100;
-    valorRateado = valorPorcentagem * porcentagem;
-
-
-    $("#valor_rateado").val(
-        Intl.NumberFormat("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-        })
-            .format(valorRateado)
-            .toString()
-            .replace("R$", "")
-    );
-});
-
 btnSalvar.disabled = true;
 var id_button_conta = 0;
 var id_despesa = $("#id_despesa").val();
@@ -151,94 +81,73 @@ var valor_total_despesa = $("#valor_total_despesa").val();
 
 var rateios_contas = [];
 
+var testeValor = 0;
+
 // INICIO função para buscar Instituição bancaria
 $("#addContas").click(function () {
     //  pega os valores dos campos preenchidos pelo usuario
     var inst_banco = $("#inst_banco").val();
-    var porcentagem_valor = $("#porcentagem_rateado").val();
-    var valor_rateado = $("#valor_rateado").val();
     var rateio_empresa = $("#busca_empresa").val();
 
-    if (
-        inst_banco == "" ||
-        porcentagem_valor == "" ||
-        valor_rateado == "" ||
-        rateio_empresa == ""
-    ) {
-        alert("Preencha todos os campos do Rateio !");
-    } else if (
-        valorRateado > novoValorTotal ||
-        valorTotalRateio + valorRateado > novoValorTotal ||
-        valorTotalRateio > novoValorTotal
-    ) {
-        alert("Valor Rateado é maior que o valor total da despesa");
-    }
-       else {
-
-        console.log({inst_banco:inst_banco});
-        if (rateios_contas.includes(inst_banco)){
-            $("#valor_rateado").val("");
-            $("#porcentagem_rateado").val("");
-            alert("Já foi adicionado um rateio para essa Conta por favor selecione outra conta.");
+    if (inst_banco == "" || rateio_empresa == "") {
+        alert("Preencha todos os campos da conta!");
+    } else {
+        if (rateios_contas.length > 0) {
+            alert("Já foi adicionada uma conta bancária para pagamento.");
             limpaCamposRateio();
-            console.log({inst_banco:inst_banco});
-        }
-        else{
+        } else {
             rateios_contas.push(inst_banco);
-            valorTotalRateio = valorTotalRateio + valorRateado;
-            $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
+            porcentagem_valor = 100;
+            btnSalvar.disabled = false;
+
             // criar novos itens com os valores preenchidos anteriormente
+
             $("#Tb").append(
                 `<tr id="tab_conta${id_button_conta}">` +
                     `<td>${rateio_empresa}</td>` +
                     `<td>${inst_banco}</td>` +
-                    `<td>${valor_rateado}</td>` +
-                    `<td>${porcentagem_valor}</td>` +
-                    `<td><button type="button" class="btn btn-danger btn_item" onclick="removeConta(${id_button_conta}, ${valor_rateado
-                        .replace(/\./g, "")
-                        .replace(",", ".")
-                        .replace("R$", "")})" style="padding: 8px 12px;">` +
+                    `<td><button type="button" class="btn btn-danger btn_item" onclick="removeConta(${id_button_conta})" style="padding: 8px 12px;">` +
                     `<i class="bi bi-trash-fill"></i>` +
                     `</button></td>` +
                     "</tr>"
             );
             //retira virgulas do valor unitário
-            // var valorFormatado = valor_uni.replace(".", "").replace(",", ".");
+
             //gera o input com os dados do item para submeter no form
+
+            if (novoValorTotal == 0) {
+                novoValorTotal = valor_total_despesa;
+            } else {
+                novoValorTotal = novoValorTotal
+                    .replace("R$", "")
+                    .replace(/\./g, "")
+                    .replace(",", ".");
+            }
             $("#hidden_inputs_itens").append(
                 `<div id="input_generated_account${id_button_conta}">` +
-                    `<input type="hidden"  name="id_busca_empresa[]" value="${rateio_empresa}"/>` +
-                    `<input type="hidden"  name="id_inst_banco[]" value="${inst_banco}"/>` +
-                    `<input type="hidden"  name="valor_rateio_pagamento[]" value="${valor_rateado}"/>` +
-                    `<input type="hidden"  name="fk_tab_conta_bancaria[]" value="${conta_bancaria}"/>` +
-                    `<input type="hidden"  name="porcentagem_rateado[]" value="${porcentagem_valor}"/>` +
+                    `<input type="hidden"  name="id_busca_empresa" value="${rateio_empresa}"/>` +
+                    `<input type="hidden"  name="id_inst_banco" value="${inst_banco}"/>` +
+                    `<input type="hidden"  name="valor_rateio_pagamento" value="${novoValorTotal}"/>` +
+                    `<input type="hidden"  name="fk_tab_conta_bancaria" value="${conta_bancaria}"/>` +
+                    `<input type="hidden"  name="porcentagem_rateado" value="${porcentagem_valor}"/>` +
                     `<input type="hidden"  name="valor_pago" value="${novoValorTotal}"/>` +
                     `</div>`
             );
-    
-            if (valorTotalRateio == novoValorTotal) {
-                btnSalvar.disabled = false;
-            }
-    
-            id_button_conta++;
-            limpaCamposRateio(); 
+            limpaCamposRateio();
         }
-
-      
     }
 });
 // Fim função para buscar Instituição bancaria
 
 //remove a da tabela e das contas
-function removeConta(id, valorRateado) {
-    //subtrai o valor removido do valor total do rateio
-    valorTotalRateio = valorTotalRateio - valorRateado;
-    //atualiza o valor total do rateio no input
+function removeConta(id) {
+    rateios_contas.splice(id, 1);
 
     $(`#tab_conta${id}`).remove();
     $(`#input_generated_account${id}`).remove();
     $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
     btnSalvar.disabled = true;
+    btn_juros.disabled = false;
 }
 
 // remove area de juros multa e desconto
@@ -260,23 +169,26 @@ function limpaCamposRateio() {
     $("#valor_rateado").val("");
 }
 
-function limparDescontoJurosMulta(){   
+function limparDescontoJurosMulta() {
     var valorDescontoAtual = $("#desconto").val();
     var valorModalAtual = $("#modal_valor_total").val();
     var resultadoModalValorTotal = 0;
 
-    resultadoModalValorTotal = (valorModalAtual - valorDescontoAtual);
+    resultadoModalValorTotal = valorModalAtual - valorDescontoAtual;
     $("#modal_valor_total").val(resultadoModalValorTotal);
-
 }
 
 //adiciona valor total ao input acima do modal de rateio
 $("#adicionar_rateio").click(function () {
     var SOMA = 0;
-    var valorTotal = $("#valorTotal").val();   
-   
-    if (($("#hiddemJuros").val() != "" && $("#hiddemMulta").val() != "") && 
-        $("#hiddemJuros").val() != null && $("#hiddemMulta").val() != null) {
+    var valorTotal = $("#valorTotal").val();
+
+    if (
+        $("#hiddemJuros").val() != "" &&
+        $("#hiddemMulta").val() != "" &&
+        $("#hiddemJuros").val() != null &&
+        $("#hiddemMulta").val() != null
+    ) {
         var juros = $("#hiddemJuros").val();
         var multa = $("#hiddemMulta").val();
 
@@ -286,27 +198,28 @@ $("#adicionar_rateio").click(function () {
             style: "currency",
             currency: "BRL",
         }).format(SOMA);
-        novoValorTotal = SOMA
+        novoValorTotal = SOMA;
         $("#modal_valor_total").val(novoValorTotal);
-    }
-   else if ($("#hiddemDesconto").val() != "" && $("#hiddemDesconto").val() != null) {
-            var desconto = $("#hiddemDesconto").val();
-            SUB = (Number(valorTotal) - Number(desconto));            
-            SUB = Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-            }).format(SUB);        
-            novoValorTotal = SUB
-            $("#modal_valor_total").val(novoValorTotal);
-    }
-    else{
+    } else if (
+        $("#hiddemDesconto").val() != "" &&
+        $("#hiddemDesconto").val() != null
+    ) {
+        var desconto = $("#hiddemDesconto").val();
+        SUB = Number(valorTotal) - Number(desconto);
+        SUB = Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        }).format(SUB);
+        novoValorTotal = SUB;
+        $("#modal_valor_total").val(novoValorTotal);
+    } else {
         var valorTotal = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
         }).format($("#valorTotal").val());
-    
+
         $("#modal_valor_total").val(valorTotal);
-    }    
+    }
 });
 
 // pega o valor da data do efetivo pagamento e coloca em um campo hidden
@@ -318,7 +231,7 @@ $("#input_efetivo_pagamento").on("change", function () {
 $("#formRateio").on("submit", function () {
     if ($("#input_efetivo_pagamento").val() == "") {
         event.preventDefault();
-        alert("FAVOR INSERIR UM DATA DE EFETIVO PAGAMENTO");
+        alert("FAVOR INSERIR UMA DATA DE PAGAMENTO");
         $("#input_efetivo_pagamento").focus();
     }
 });
@@ -338,7 +251,6 @@ $("#inputDataInicio").on("click", function () {
             return inputDataFim;
         });
     });
-
 
     if (inputDataInicio != "" && inputDataFim != "") {
         $.ajax({
@@ -397,33 +309,34 @@ $("#btnConciliacao").click(function () {
     var juros = $("#juros").val().replace(/\./g, "").replace(",", ".");
     var multa = $("#multa").val().replace(/\./g, "").replace(",", ".");
     var desconto = $("#desconto").val().replace(/\./g, "").replace(",", ".");
-    var valorTotal = $("#valorTotal").val();   
+    var valorTotal = $("#valorTotal").val();
     var soma = Number(juros) + Number(multa);
-   
-    if( (Number(desconto) >= Number(valorTotal) )){
-        alert("Valor do Desconto é superio ao VALOR ORIGINAL DA DESPESA por favor verifique os valores digitado !");
-    }
-    else if(Number(soma) >  Number(valorTotal)){
-        alert("Valor do Juros e Multa é superio ao VALOR ORIGINAL DA DESPESA por favor verifique os valores digitados !");
-    }
-     else{
-         // adiciona os valores do que e digitado no modal ADICIONAR JUROS E MULTAS
-         
-          jurosForamatado = Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-            }).format(juros)
 
-            multaForamatado = Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-            }).format(multa)
+    if (Number(desconto) >= Number(valorTotal)) {
+        alert(
+            "Valor do Desconto é superior ao VALOR ORIGINAL DA DESPESA. Por favor, verifique os valores digitados!"
+        );
+    } else if (Number(soma) > Number(valorTotal)) {
+        alert(
+            "Valor do Juros e Multa é superior ao VALOR ORIGINAL DA DESPESA. Por favor, verifique os valores digitados!"
+        );
+    } else {
+        // adiciona os valores do que e digitado no modal ADICIONAR JUROS E MULTAS
 
-            descontoForamatado = Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-            }).format(desconto)
+        jurosForamatado = Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        }).format(juros);
 
+        multaForamatado = Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        }).format(multa);
+
+        descontoForamatado = Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        }).format(desconto);
 
         $("#acrescidos").append(
             `<div class="d-flex" id="removeJurosMulta">` +
@@ -455,7 +368,7 @@ $("#btnConciliacao").click(function () {
                 `<div class="form-group">` +
                 `<div style="padding-top: 10px;">` +
                 `</div>` +
-                `<button type="button" class="btn btn-danger btn_item" info-mouse="Remover" 
+                `<button type="button" id="btn_juros" class="btn btn-danger btn_item" info-mouse="Remover"
                             style="padding: 8px 12px;" onclick="removeDadoAcrecimos()">
                             <i class="bi bi-trash-fill">
                         </i></button>` +
@@ -474,9 +387,8 @@ $("#btnConciliacao").click(function () {
         );
 
         $("#modalJurosMulta").attr("disabled", true);
-
+        if (rateios_contas.length > 0) {
+            btn_juros.disabled = true;
+        }
     }
-
-   
-
 });
