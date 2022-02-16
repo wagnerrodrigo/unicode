@@ -5,7 +5,7 @@
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <a href="/home" style="width: 10%; padding-right: 10px" ;>
-                <img src="{{asset('img/Ace-sem-fundo.png')}}" style="width:100%;">
+                <img src="https://res.cloudinary.com/pedroenrick/image/upload/v1645041686/ACE-sem-fundo_lombmo.png" style="width:100%;">
             </a>
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
