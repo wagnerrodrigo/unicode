@@ -30,6 +30,7 @@ Route::get('forgot-password{error?}', [LoginController::class, 'forgot'])->name(
 Route::post('forgot-password', [LoginController::class, 'forgotPassword'])->name('forgot');
 
 Route::get('/login{error?}', [LoginController::class, 'index'])->name('autenticacao');
+Route::get('/', [LoginController::class, 'index'])->name('autenticacao');
 Route::post('/login', [LoginController::class, 'authentication'])->name('autenticacao');
 
 Route::middleware('autenticacaoMiddleware')->group(function () {
