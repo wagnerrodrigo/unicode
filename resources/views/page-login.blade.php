@@ -1,5 +1,5 @@
 @extends('layouts.templates.template-login')
-@section('title', 'Unicode - Login')
+@section('title', 'ACESYSTEM - LOGIN')
 @section('content')
 
 <div id="auth" style="background-color: #fff;">
