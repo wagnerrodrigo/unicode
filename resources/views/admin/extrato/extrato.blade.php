@@ -42,7 +42,7 @@
                             <th style="padding:1px">VALOR</th>
                             <th>STATUS</th>
                             <th>AÇÕES</th>
-                        
+
                         </tr>
                     </thead>
 
@@ -126,7 +126,7 @@
         if (expanded == 'true') {
             $.ajax({
                 type: "GET",
-                url: `http://localhost:8000/extrato/lancamento/${id}`,
+                url: `http://10.175.3.209:8000/extrato/lancamento/${id}`,
                 dataType: "json",
                 success: function(response) {
                     if (response != '') {
@@ -172,7 +172,7 @@
                 } else {
                     $.ajax({
                         type: "POST",
-                        url: `http://localhost:8000/conciliacao/${id}`,
+                        url: `http://10.175.3.209:8000/conciliacao/${id}`,
                         data: {
                             "_token": "{{ csrf_token() }}",
                             id_lancamento: id,
@@ -180,7 +180,7 @@
                         },
                         dataType: "json",
                         success: function(response) {
-                            window.location.href = "http://localhost:8000/extrato";
+                            window.location.href = "http://10.175.3.209:8000/extrato";
                         }
                     });
                 }

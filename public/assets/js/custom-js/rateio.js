@@ -8,7 +8,7 @@ $("#rateio_empresa").keyup(function () {
         //requisição ajax para buscar empresa
         $.ajax({
             type: "GET",
-            url: `http://localhost:8000/empresas/nome/${words}`,
+            url: `http://10.175.3.209:8000/empresas/nome/${words}`,
             dataType: "json",
         })
             //caso a requisição seja bem sucedida
@@ -29,7 +29,7 @@ $("#rateio_empresa").keyup(function () {
                     $("#results_rateio_empresa").html("");
                     $.ajax({
                         type: "GET",
-                        url: `http://localhost:8000/centroCustoEmpresa/${id_empresa_rateio}`,
+                        url: `http://10.175.3.209:8000/centroCustoEmpresa/${id_empresa_rateio}`,
                         dataType: "json",
                     }).done(function (response) {
                         //mostra os resultados da busca em uma div

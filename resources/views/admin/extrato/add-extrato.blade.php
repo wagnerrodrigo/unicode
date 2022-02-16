@@ -246,20 +246,20 @@
     <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
     <script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<!-- <script src="{{ asset('assets/js/custom-js/extrato.js') }}"></script> -->
+    <!-- <script src="{{ asset('assets/js/custom-js/extrato.js') }}"></script> -->
 
-{{-- [FIX] tela de para aprovação equipe financeiro --}}
+    {{-- [FIX] tela de para aprovação equipe financeiro --}}
 
-<script>
-  $(document).ready(function() {
-        function getExtrato(object) {
-            var href = object.getAttribute("href");
-            var id = href.substring(href.indexOf("-") + 1);
-            var expanded = object.getAttribute("aria-expanded");
+    <script>
+        $(document).ready(function() {
+            function getExtrato(object) {
+                var href = object.getAttribute("href");
+                var id = href.substring(href.indexOf("-") + 1);
+                var expanded = object.getAttribute("aria-expanded");
 
                 $.ajax({
                     type: "GET",
-                    url: `http://localhost:8000/extrato/lancamento/${id}`,
+                    url: `http://10.175.3.209:8000/extrato/lancamento/${id}`,
                     dataType: "json",
                     success: function(response) {
                         if (response != '') {
@@ -305,7 +305,7 @@
                     } else {
                         $.ajax({
                             type: "POST",
-                            url: `http://localhost:8000/conciliacao/${id}`,
+                            url: `http://10.175.3.209:8000/conciliacao/${id}`,
                             data: {
                                 "_token": "{{ csrf_token() }}",
                                 id_lancamento: id,
@@ -313,16 +313,13 @@
                             },
                             dataType: "json",
                             success: function(response) {
-                                window.location.href = "http://localhost:8000/extrato";
+                                window.location.href = "http://10.175.3.209:8000/extrato";
                             }
                         });
                     }
                 });
 
-        }
-    }
-</script>
-
-
-
+            }
+        });
+    </script>
     @endsection

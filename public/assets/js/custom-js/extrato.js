@@ -2,7 +2,7 @@ $(document).ready(function() {
     //requisição ajax para buscar empresa
     $.ajax({
             type: "GET",
-            url: `http://localhost:8000/extrato/empresa`,
+            url: `http://10.175.3.209:8000/extrato/empresa`,
             dataType: "json",
         })
         //caso a requisição seja bem sucedida

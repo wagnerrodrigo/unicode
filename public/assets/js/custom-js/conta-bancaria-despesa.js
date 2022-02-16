@@ -12,7 +12,7 @@ function adicionaContaBancaria() {
         return false;
     } else {
         $.ajax({
-            url: "http://localhost:8000/instituicoes-financeira",
+            url: "http://10.175.3.209:8000/instituicoes-financeira",
             type: "GET",
             dataType: "json",
             success: function (response) {
@@ -59,7 +59,7 @@ $(function () {
         } else {
             $("#erro_conta").html("");
             $.ajax({
-                url: "http://localhost:8000/contas-bancarias/store",
+                url: "http://10.175.3.209:8000/contas-bancarias/store",
                 type: "POST",
                 data: $(this).serialize(),
                 dataType: "json",
