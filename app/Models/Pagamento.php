@@ -37,7 +37,7 @@ class Pagamento extends Model
 
     static function create($pagamento)
     {
-        DB::insert("INSERT INTO intranet.tab_lancamento
+        DB::insert("INSERT INTO intranet.tab_pagamento
         (
         fk_tab_lancamento_id,
         dt_inicio,

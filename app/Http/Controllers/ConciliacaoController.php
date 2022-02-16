@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Conciliacao;
+use App\Models\Pagamento;
 use App\Repository\LancamentoRepository;
 use App\Repository\DespesaRepository;
+use App\Repository\PagamentoRepository;
 use Carbon\Carbon;
 
 class ConciliacaoController extends Controller
@@ -43,6 +45,18 @@ class ConciliacaoController extends Controller
 
             $despesaRepository = new DespesaRepository();
             $despesaRepository->setStatusIfPaid($lancamento[0]->fk_tab_despesa_id);
+
+            $pagamento = new Pagamento();
+            $pagamentoRepository = new PagamentoRepository();
+
+            $pagamento->fk_tab_lancamento_id = $request->id_lancamento;
+            $pagamento->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+            $pagamento->dt_fim = null;
+            $pagamento->fk_rateio_pagamento = null;
+            $pagamento->fk_tab_conciliacao = null;
+
+            $pagamentoRepository->savePayment($pagamento);
+
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
