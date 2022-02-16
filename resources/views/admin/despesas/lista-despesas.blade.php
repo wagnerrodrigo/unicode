@@ -81,7 +81,11 @@
                                 <a href="/despesas/{{$despesa->id_despesa}}" class="btn btn-primary" style="padding: 8px 12px;">
                                     <i class="bi bi-eye-fill"></i>
                                 </a>
-                                <button data-bs-toggle="modal" data-bs-target="#delete{{$despesa->id_despesa}}" class="btn btn-danger" {{$despesa->de_status_despesa == 'MIGRAÇÃO' ? 'disabled' : ''}}  style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
+                                @if($despesa->de_status_despesa == 'A PAGAR' ||$despesa->de_status_despesa == 'EM ATRASO')
+                                <button data-bs-toggle="modal" data-bs-target="#delete{{$despesa->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
+                                @else
+                                <button data-bs-toggle="modal" data-bs-target="#delete{{$despesa->id_despesa}}" class="btn btn-danger" disabled style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
+                                @endif
                             </td>
                         </tr>
 
