@@ -72,6 +72,7 @@
                             <th>DESCRIÇÃO</th>
                             <th>DATA PAGAMENTO</th>
                             <th>PREÇO</th>
+                            <th></th>
                             <th> <button class="btn btn-small btn-primary" id="conciliacao_{{ $lancamento->id_tab_lancamento }}">Conciliar</button></th>
                         </tr>
                         <tr>
@@ -142,6 +143,7 @@
                                         style: 'currency',
                                         currency: 'BRL'
                                     }).format(val.trnamt) + "</td>" +
+                                    "<td></td>" +
                                     "<td></td>"
                                 );
                             });
@@ -150,6 +152,7 @@
                         $(`#extrato_${id}`).append(
                             `<tr class="table-light tr_generated_${id}">` +
                             `<td><span style="color: red; font-weight: bold;">Não há extrato</span></td>` +
+                            "<td></td>" +
                             "<td></td>" +
                             "<td></td>" +
                             "<td></td>" +
