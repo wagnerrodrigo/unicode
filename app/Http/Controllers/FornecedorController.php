@@ -18,17 +18,18 @@ class FornecedorController extends Controller
      */
     public function index(Request $request)
     {
+        $results = $request->input('results');
 
         if ($request->has('chave_busca_fornecedor') && $request->has('valor_busca_fornecedor')) {
             $chave = $request->input('chave_busca_fornecedor');
             $valor = $request->input('valor_busca_fornecedor');
-            $fornecedores = Fornecedor::selectAll($request->results, $chave, strtoupper($valor));
+            $fornecedores = Fornecedor::selectAll($results, $chave, strtoupper($valor));
         } else {
             $fornecedores = Fornecedor::selectAll($results = 10);
         }
         $mascara = new Mascaras();
 
-        return view('admin.fornecedor.lista-fornecedor', compact('fornecedores', 'mascara'));
+        return view('admin.fornecedor.lista-fornecedor', compact('fornecedores', 'mascara', 'results'));
     }
 
     public function formFornecedores()

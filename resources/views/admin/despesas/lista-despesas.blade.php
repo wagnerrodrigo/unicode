@@ -46,7 +46,7 @@
                                     <option value="id_despesa">NÚMERO</option>
                                     <option value="dt_vencimento">VENCIMENTO</option>
                                 </select>
-                                <input type="text" class="busca_despesa" id="valor_busca" name="valor_busca">
+                                <input type="text" class="busca_despesa" disabled id="valor_busca" name="valor_busca">
                             </div>
                         </div>
                         <div>
@@ -153,10 +153,14 @@
 
 <script>
     $("#inputBusca").on("change", function() {
-        if ($(this).val() == "id_depesa") {
+        if ($(this).val() == "") {
+            $("#valor_busca").attr("disabled", true);
+        } else if ($(this).val() == "id_despesa") {
             $("#valor_busca").attr("type", "text");
+            $("#valor_busca").attr("disabled", false);
         } else if ($(this).val() == "dt_vencimento") {
             $("#valor_busca").attr("type", "date");
+            $("#valor_busca").attr("disabled", false);
         }
     });
 </script>

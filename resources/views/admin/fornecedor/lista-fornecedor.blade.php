@@ -117,7 +117,7 @@
                     </tbody>
                     @endif
                 </table>
-                {{$fornecedores->links();}}
+                {{$fornecedores->appends(['results' => $results])->links();}}
             </div>
         </div>
     </div>
