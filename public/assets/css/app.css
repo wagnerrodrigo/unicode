@@ -503,6 +503,11 @@ footer {
     width: 30rem;
 }
 
+.input-add:hover {
+    background-color: #820ad1;
+}
+
+
 .input-busca {
     width: 66rem;
 }
@@ -530,7 +535,6 @@ footer {
 .busca_despesa {
     border: 1px solid #ccc;
     border-radius: 2px;
-
 }
 
 .busca_despesa:active {
@@ -541,12 +545,12 @@ footer {
     border-color: #820ad1;
 }
 
-[info-mouse]{
+[info-mouse] {
     position: relative;
     font-weight: bold;
 }
 
-[info-mouse]:after{
+[info-mouse]:after {
     display: none;
     position: absolute;
     top: -5px;
@@ -555,10 +559,10 @@ footer {
     left: calc(100% + 2px);
     content: attr(info-mouse);
     white-space: nowrap;
-    background-color:#820ad1;
-    color:white;
+    background-color: #820ad1;
+    color: white;
 }
-[info-mouse]:hover:after{
+[info-mouse]:hover:after {
     display: block;
 }
 
@@ -581,7 +585,6 @@ footer {
     background-color: #820ad1;
     color: #fff;
 }
-
 .custon-btn {
     width: 20px;
     padding: 0;
@@ -625,6 +628,46 @@ footer {
     position: absolute;
 }
 
+.resultado-busca-empresa-lancamento {
+    width: 60rem;
+    background-color: #ccc;
+    position: absolute;
+}
+
+.resultado-busca-empresa-lancamento .item {
+    display: block;
+    width: 60rem;
+    padding: 10px;
+}
+
+.resultado-busca-empresa-lancamento .item:hover {
+    width: 60rem;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #820ad1;
+    color: #fff;
+}
+
+.Resultado_inst_banco {
+    width: 60rem;
+    background-color: #ccc;
+    position: absolute;
+}
+
+.Resultado_inst_banco .item {
+    display: block;
+    width: 60rem;
+    padding: 10px;
+}
+
+.Resultado_inst_banco .item:hover {
+    width: 60rem;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #820ad1;
+    color: #fff;
+}
+
 .resultado-busca-rateio .item-rateio {
     display: block;
     width: 60rem;
@@ -639,8 +682,7 @@ footer {
     color: #fff;
 }
 
-
-.font-color-despesa{
+.font-color-despesa {
     color: #727e8c;
 }
 
