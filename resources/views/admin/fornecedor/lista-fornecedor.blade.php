@@ -32,7 +32,7 @@
                                     <option value="de_razao_social">RAZÃO SOCIAL</option>
                                     <option value="nu_cpf_cnpj">CPF/CNPJ</option>
                                 </select>
-                                <input type="text" class="busca_despesa" id="valor_busca_fornecedor" name="valor_busca_fornecedor">
+                                <input type="text" class="busca_despesa" id="valor_busca_fornecedor" disabled name="valor_busca_fornecedor">
                             </div>
 
                             <div>
@@ -117,7 +117,7 @@
                     </tbody>
                     @endif
                 </table>
-                {{$fornecedores->links();}}
+                {{$fornecedores->appends(['results' => $results, 'chave_busca_fornecedor' => $chave, 'valor_busca_fornecedor' => $valor])->links()}}
             </div>
         </div>
     </div>
@@ -128,7 +128,16 @@
 <script src="assets/js/feather-icons/feather.min.js"></script>
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="assets/js/vendors.js"></script> -->
-
 <script src="assets/js/main.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+    $("#inputBusca").on("change", function() {
+        if ($(this).val() == "") {
+            $("#valor_busca_fornecedor").attr("disabled", true);
+        } else {
+            $("#valor_busca_fornecedor").attr("disabled", false);
+        }
+    });
+</script>
 
 @endsection
