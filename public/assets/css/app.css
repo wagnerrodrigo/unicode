@@ -566,6 +566,31 @@ footer {
     display: block;
 }
 
+
+
+[info-extrato] {
+    position: relative;
+    font-weight: bold;
+}
+
+[info-extrato]:after {
+    display: none;
+    position: absolute;
+    top: -5px;
+    padding: 5px;
+    border-radius: 3px;
+    left: calc(100% + 2px);
+    content: attr(info-extrato);
+    white-space: nowrap;
+    background-color: #820ad1;
+    color: white;
+}
+[info-extrato]:hover:after {
+    display: block;
+}
+
+
+
 .input-style {
     background-color: #ccc;
     position: absolute;

@@ -28,6 +28,9 @@
                             <button type="submit" id="btnSearch" class="btn btn-primary" style="padding: 8px 12px;">
                                 <i class="bi bi-search"></i>
                             </button>
+                            <a href="/extrato" class="btn btn-secondary" info-extrato="Limpar pesquisa" style="padding: 8px 12px;">
+                                <i class="bi bi-x-lg"></i>
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -101,6 +104,7 @@
 <script>
     // btnSearch
     $("#btnSearch").attr("disabled", true);
+    $("#inputDataFim").attr("disabled", true);
     var inputDataInicio;
     $("#inputDataInicio").on("change", function() {
         inputDataInicio = $(this).val();
@@ -108,6 +112,7 @@
             return inputDataInicio;
         })
         console.log(inputDataInicio);
+        $("#inputDataFim").attr("disabled", false);
     })
 
     var inputDataFim;
