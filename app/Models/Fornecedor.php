@@ -26,10 +26,12 @@ class Fornecedor extends Model
     {
         if ($chave_filtro && $valor_filtro) {
             $fornecedores = DB::table('intranet.tab_fornecedor')
+                ->where('tab_fornecedor.dt_fim', '=', null)
                 ->where($chave_filtro, 'like', '%' . $valor_filtro . '%')
                 ->paginate($results);
         } else {
             $fornecedores = DB::table('intranet.tab_fornecedor')
+                ->where('tab_fornecedor.dt_fim', '=', null)
                 ->orderBy('de_razao_social', 'asc')
                 ->paginate($results);
         }
