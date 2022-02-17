@@ -115,8 +115,6 @@
                 <div class="card-footer">
                     @if($despesa->de_status_despesa == 'A PAGAR' ||$despesa->de_status_despesa == 'EM ATRASO')
                     <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
-                    @else
-                    <button class="btn btn-success" style="padding: 8px 12px;" disabled data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
                     @endif
 
                     <a href="{{ route('despesas') }}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
