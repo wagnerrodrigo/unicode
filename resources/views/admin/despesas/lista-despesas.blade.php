@@ -132,7 +132,9 @@
                     </tbody>
 
                 </table>
-                <div>{{ $status_despesa ? $despesas->appends(['results' => $results, 'status' => $status_despesa, 'chave_busca' => $chave_busca, 'valor_busca' => $valor_busca])->links() : $despesas->links() }}</div>
+                <div>
+                    {{ $status_despesa ? $despesas->appends(['results' => $results, 'status' => $status_despesa, 'chave_busca' => $chave_busca, 'valor_busca' => $valor_busca])->links() : $despesas->appends(['results' => $results, 'status' => '', 'chave_busca' => $chave_busca, 'valor_busca' => $valor_busca])->links() }}
+                </div>
             </div>
         </div>
     </div>
