@@ -25,7 +25,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary" style="padding: 8px 12px;">
+                            <button type="submit" id="btnSearch" class="btn btn-primary" style="padding: 8px 12px;">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
@@ -99,6 +99,8 @@
 <!-- <script src="{{ asset('assets/js/custom-js/extrato.js') }}"></script> -->
 
 <script>
+    // btnSearch
+    $("#btnSearch").attr("disabled", true);
     var inputDataInicio;
     $("#inputDataInicio").on("change", function() {
         inputDataInicio = $(this).val();
@@ -114,6 +116,7 @@
         $("#inputDataInicio").prop("max", function() {
             return inputDataFim;
         })
+        $("#btnSearch").attr("disabled", false);
         console.log(inputDataFim);
     })
 </script>
