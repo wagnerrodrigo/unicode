@@ -99,7 +99,23 @@
 
 
 <script>
+    var inputDataInicio;
+    $("#inputDataInicio").on("change", function() {
+        inputDataInicio = $(this).val();
+        $("#inputDataFim").prop("min", function() {
+            return inputDataInicio;
+        })
+        console.log(inputDataInicio);
+    })
 
+    var inputDataFim;
+    $("#inputDataFim").on("change", function() {
+        inputDataFim = $(this).val();
+        $("#inputDataInicio").prop("max", function() {
+            return inputDataFim;
+        })
+        console.log(inputDataFim);
+    })
 </script>
 
 
