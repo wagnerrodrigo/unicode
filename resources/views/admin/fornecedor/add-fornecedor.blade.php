@@ -38,7 +38,7 @@
                                 <div class="px-5 mb-3">
                                     <div>
                                         <strong>CPF/CNPJ</strong>
-                                        <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" onkeypress='mascaraMutuario(this,cpfCnpj)' onblur="return validaCpfCnpj(this.value)" maxlength="18" onblur='clearTimeout()' name="nu_cpf_cnpj" style="width: 358px" />
+                                        <input class="form-control mt-1" type="text" placeholder="CPF/CNPJ" onkeypress='mascaraMutuario(this,cpfCnpj)' onblur="verificaCPFCNPJ(this.value)" onkeyup="return validaCpfCnpj(this.value);" maxlength="18" onblur='clearTimeout()' id="nu_cpf_cnpj" name="nu_cpf_cnpj" style="width: 358px" />
                                         <span id="invalid_cpf_cnpj"></span>
                                     </div>
                                 </div>
@@ -342,6 +342,31 @@
         $("#uf").val("");
         $("#numero").val("");
         $("#complemento").val("");
+    }
+
+    function verificaCPFCNPJ(valor) {
+        var documento = valor.replace(/\D/g, '');
+        $.ajax({
+                url: `/fornecedores/cnpj_cpf/${documento}`,
+                type: "GET",
+                dataType: "json",
+            })
+            .done(function(response) {
+                console.log(response);
+                if (response != "") {
+                    $("#nu_cpf_cnpj").focus();
+                    invalid_cpf_cnpj.innerHTML = "CPF/CNPJ já cadastrado!";
+                    invalid_cpf_cnpj.style.display = 'block';
+                    invalid_cpf_cnpj.style.color = 'red';
+                    btn_cadastra_fornecedor.disabled = true;
+                } else {
+                    invalid_cpf_cnpj.innerHTML = "";
+                    btn_cadastra_fornecedor.disabled = false;
+                }
+            })
+            .fail(function(response) {
+                console.log(response);
+            });
     }
 </script>
 

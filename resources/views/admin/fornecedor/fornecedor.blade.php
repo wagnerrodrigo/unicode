@@ -150,7 +150,7 @@
         if (retorno == '1') {
             alert('Fornecedor editado com sucesso!');
             window.location.href = "{{route('fornecedores')}}";
-        }else if(retorno == '0'){
+        } else if (retorno == '0') {
             alert('Erro ao editar fornecedor!');
             window.location.href = "{{route('fornecedores')}}";
         }

@@ -18,10 +18,11 @@ class ExtratoController extends Controller
     public function index(Request $request)
     {
         $lancamentoRepository = new LancamentoRepository();
+        $mascara = new Mascaras();
         if ($request->has('dt_inicio') && $request->has('dt_fim')) {
             $dt_lancamento = $request->input('dt_inicio');
             $dt_vencimento = $request->input('dt_fim');
-            $mascara = new Mascaras();
+
 
             if (empty($dt_lancamento) && empty($dt_vencimento)) {
                 $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(config('constants.PROVISIONADO'));
@@ -31,7 +32,6 @@ class ExtratoController extends Controller
                 return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
             }
         } else {
-            $mascara = new Mascaras();
             $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(config('constants.PROVISIONADO'));
             return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
         }
