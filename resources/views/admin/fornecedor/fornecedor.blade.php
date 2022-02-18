@@ -1,7 +1,6 @@
 @extends('layouts.templates.template')
 @section('title', "Fornecedor")
 
-
 @section('content')
 
 <div id="main" style="margin-top: 5px;">
@@ -122,6 +121,8 @@
             </div>
         </div>
     </div>
+
+    <input type="hidden" id="retorno" value="{{$retorno['success']}}">
     <!-- fim modal -->
 
     <script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
@@ -143,7 +144,18 @@
                 erro.innerHTML = '';
             }
         }
+
+        var retorno = document.getElementById("retorno").value;
+
+        if (retorno == '1') {
+            alert('Fornecedor editado com sucesso!');
+            window.location.href = "{{route('fornecedores')}}";
+        } else if (retorno == '0') {
+            alert('Erro ao editar fornecedor!');
+            window.location.href = "{{route('fornecedores')}}";
+        }
     </script>
+
 
 
     @endsection
