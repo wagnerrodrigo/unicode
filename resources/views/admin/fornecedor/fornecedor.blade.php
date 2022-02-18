@@ -90,7 +90,7 @@
 
                                 <div class="px-5 mb-3">
                                     <div>
-                                        <strong for="raz_social">Nome Fantasia Social</strong>
+                                        <strong for="raz_social">Nome Fantasia </strong>
                                     </div>
                                     <input class="form-control mt-1" type="text" value="{{$fornecedor->de_nome_fantasia}}" placeholder="Nome Fantasia" name="de_nome_fantasia" style="width: 358px" />
                                 </div>
