@@ -157,7 +157,8 @@
                             <div class="d-flex">
                                 <div class="px-5 mb-3">
                                     <strong>TIPO DE DOCUMENTO</strong>
-                                    <select class="form-control input-add" required value="{{ $despesa->tipo_documento }}" name="tipo_documento" id="tipo_documento" style="width: 358px">
+                                    <select class="form-control input-add" required name="tipo_documento" id="tipo_documento" style="width: 358px">
+                                        <option selected value="{{ $despesa->tipo_documento }}">{{ $despesa->tipo_documento }}</option>
                                         <option value="BOLETO">BOLETO</option>
                                         <option value="DAE">DAE</option>
                                         <option value="DAJE">DAJE</option>
@@ -249,5 +250,24 @@
         }
     });
 </script>
+
+<script>
+    var valor = document.getElementById("tipo_documento").value;
+    window.onload = removeOption(valor);
+
+    function removeOption(value) {
+        var select = document.getElementById("tipo_documento");
+
+        var i = select.options.length;
+        while (i--) {
+            if (select.options[i].value == value) {
+                if (document.getElementById('tipo_documento').options[i].getAttribute('selected') == null) {
+                    select.remove(i);
+                }
+            }
+        }
+    }
+</script>
+
 
 @endsection
