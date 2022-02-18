@@ -586,6 +586,30 @@ footer {
 
 
 
+
+[info-data] {
+    position: relative;
+    font-weight: bold;
+}
+
+[info-data]:after {
+    display: none;
+    position: absolute;
+    top: -32px;
+    padding: 5px;
+    border-radius: 3px;
+    left: calc(100% + (-15px));
+    content: attr(info-data);
+    white-space: nowrap;
+    background-color: #820ad1;
+    color: white;
+}
+[info-data]:hover:after {
+    display: block;
+}
+
+
+
 .input-style {
     background-color: #ccc;
     position: absolute;

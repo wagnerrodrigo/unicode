@@ -14,13 +14,13 @@
                     <div class="d-flex">
                         <div class="col-md-3">
                             <div class="input-group mb-3" style="width: 250px">
-                                <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
+                                <label class="input-group-text" info-data="Data inicio do Pagamento" for="inputDataInicio">DATA INICIO</label>
                                 <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="input-group mb-3" style="width: 250px">
-                                <label class="input-group-text" for="inputDataFim">DATA FIM</label>
+                            <div class="input-group mb-3" style="width: 240px">
+                                <label class="input-group-text" info-data="Data fim do Pagamento" for="inputDataFim">DATA FIM</label>
                                 <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
                             </div>
                         </div>
@@ -28,9 +28,6 @@
                             <button type="submit" id="btnSearch" class="btn btn-primary" style="padding: 8px 12px;">
                                 <i class="bi bi-search"></i>
                             </button>
-                            <a href="/extrato" class="btn btn-secondary" info-extrato="Limpar pesquisa" style="padding: 8px 12px;">
-                                <i class="bi bi-x-lg"></i>
-                            </a>
                         </div>
                     </div>
                 </form>
@@ -102,7 +99,6 @@
 <!-- <script src="{{ asset('assets/js/custom-js/extrato.js') }}"></script> -->
 
 <script>
-    $("#btnSearch").attr("disabled", true);
     $("#inputDataFim").attr("disabled", true);
     var inputDataInicio;
     $("#inputDataInicio").on("change", function() {
@@ -112,17 +108,20 @@
         })
         console.log(inputDataInicio);
         $("#inputDataFim").attr("disabled", false);
+        $("#inputDataFim").prop("required",true);
     })
-
     var inputDataFim;
-    $("#inputDataFim").on("change", function() {
-        inputDataFim = $(this).val();
-        $("#inputDataInicio").prop("max", function() {
-            return inputDataFim;
-        })
-        $("#btnSearch").attr("disabled", false);
-        console.log(inputDataFim);
-    })
+            $("#inputDataFim").on("change", function() {
+                inputDataFim = $(this).val();
+                $("#inputDataInicio").prop("max", function() {
+                    return inputDataFim;
+                })
+                // $("#btnSearch").attr("disabled", false);
+                console.log(inputDataFim);
+                console.log( $("#inputDataInicio").val() );
+                $("#inputDataInicio").prop("required",true);
+            })
+
 </script>
 
 <script>
