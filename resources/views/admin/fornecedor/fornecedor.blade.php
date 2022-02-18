@@ -26,7 +26,10 @@
                                 <div>
                                     <strong>CPF/CNPJ</strong>
                                 </div>
-                                <span>{{$fornecedor->nu_cpf_cnpj}}</span>
+                                <span>{{strlen($fornecedor->nu_cpf_cnpj) == 14
+                                ? $mascara::mask($fornecedor->nu_cpf_cnpj, '##.###.###/####-##')
+                                : $mascara::mask($fornecedor->nu_cpf_cnpj, '###.###.###-##')}}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -129,13 +132,13 @@
 
     <script src="assets/js/main.js"></script>
     <script>
-        function verificaInput(obj){
+        function verificaInput(obj) {
             var erro = document.getElementById("erro_insc_estadual");
-            if(obj.value == ''){
+            if (obj.value == '') {
                 obj.style.borderColor = 'red';
                 erro.innerHTML = 'Insira a inscrição estadual';
                 erro.style.color = 'red';
-            }else{
+            } else {
                 obj.style.borderColor = 'green';
                 erro.innerHTML = '';
             }

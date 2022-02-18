@@ -118,8 +118,9 @@ class FornecedorController extends Controller
     public function show($id)
     {
         $fornecedor = Fornecedor::findOne($id);
+        $mascara = new Mascaras();
 
-        return view('admin.fornecedor.fornecedor', compact('fornecedor'));
+        return view('admin.fornecedor.fornecedor', compact('fornecedor', 'mascara'));
     }
 
     public function showCnpjCpf($nu_cpf_cnpj)
