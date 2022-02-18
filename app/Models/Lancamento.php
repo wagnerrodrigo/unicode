@@ -201,6 +201,7 @@ class Lancamento extends Model
         $query = DB::table('intranet.tab_lancamento')
             ->join('intranet.tab_despesa', 'intranet.tab_despesa.id_despesa', '=', 'intranet.tab_lancamento.fk_tab_despesa_id')
             ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
+            ->where('intranet.status_despesa.id_status_despesa', '=', config('constants.PROVISIONADO'))
             ->where('intranet.tab_lancamento.dt_vencimento', '>=', $dt_lancamento)
             ->where('intranet.tab_lancamento.dt_vencimento', '<=', $dt_vencimento)
             ->paginate(10);

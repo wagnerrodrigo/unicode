@@ -23,7 +23,6 @@ class ExtratoController extends Controller
             $dt_lancamento = $request->input('dt_inicio');
             $dt_vencimento = $request->input('dt_fim');
 
-
             if (empty($dt_lancamento) && empty($dt_vencimento)) {
                 $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(config('constants.PROVISIONADO'));
                 return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
