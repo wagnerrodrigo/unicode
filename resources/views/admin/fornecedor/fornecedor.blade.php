@@ -96,7 +96,8 @@
                             <div class="d-flex">
                                 <div class="px-5 mb-3">
                                     <strong>Inscrição Estadual</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->inscricao_estadual}}" placeholder="Incrição estadual" name="inscricao_estadual" style="width: 358px" />
+                                    <input class="form-control mt-1" required type="text" value="{{$fornecedor->inscricao_estadual}}" id="insc_estadual" onblur="verificaInput(this)" placeholder="Incrição estadual" name="inscricao_estadual" style="width: 358px" />
+                                    <span id="erro_insc_estadual"></span>
                                 </div>
                                 <div class="px-5 mb-3">
                                     <strong>CPF/CNPJ</strong>
@@ -127,6 +128,19 @@
     <script src="assets/js/vendors.js"></script>
 
     <script src="assets/js/main.js"></script>
+    <script>
+        function verificaInput(obj){
+            var erro = document.getElementById("erro_insc_estadual");
+            if(obj.value == ''){
+                obj.style.borderColor = 'red';
+                erro.innerHTML = 'Insira a inscrição estadual';
+                erro.style.color = 'red';
+            }else{
+                obj.style.borderColor = 'green';
+                erro.innerHTML = '';
+            }
+        }
+    </script>
 
 
     @endsection
