@@ -117,10 +117,13 @@ class FornecedorController extends Controller
      */
     public function show($id)
     {
+
         $fornecedor = Fornecedor::findOne($id);
         $mascara = new Mascaras();
 
-        return view('admin.fornecedor.fornecedor', compact('fornecedor', 'mascara'));
+        $retorno = ["success" => null];
+
+        return view('admin.fornecedor.fornecedor', compact('fornecedor', 'mascara', 'retorno'));
     }
 
     public function showCnpjCpf($nu_cpf_cnpj)
@@ -137,18 +140,26 @@ class FornecedorController extends Controller
      */
     public function edit($id, Request $request)
     {
-        $fornecedor = Fornecedor::findOne($id);
-        $camposRequisicao = $request->all();
+        try {
+            $fornecedor = Fornecedor::findOne($id);
+            $camposRequisicao = $request->all();
 
-        foreach ($camposRequisicao as $key => $value) {
-            if ($key != '_token') {
-                $fornecedor->$key = strtoupper($value);
+            foreach ($camposRequisicao as $key => $value) {
+                if ($key != '_token') {
+                    $fornecedor->$key = strtoupper($value);
+                }
             }
+
+            Fornecedor::set($fornecedor);
+            $mascara = new Mascaras();
+
+            $retorno = ['success' => true, 'msg' => 'Fornecedor alterado com sucesso!'];
+
+            return view('admin.fornecedor.fornecedor', compact('fornecedor', 'retorno', 'mascara'));
+        } catch (\Exception $e) {
+            $retorno = ['success' => false, 'msg' => 'Erro ao alterar fornecedor!'];
+            return view('admin.fornecedor.fornecedor', compact('fornecedor', 'retorno', 'mascara'));
         }
-
-        Fornecedor::set($fornecedor);
-
-        return redirect()->route('fornecedores');
     }
 
     /**
