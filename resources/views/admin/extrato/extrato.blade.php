@@ -102,7 +102,6 @@
 <!-- <script src="{{ asset('assets/js/custom-js/extrato.js') }}"></script> -->
 
 <script>
-    // btnSearch
     $("#btnSearch").attr("disabled", true);
     $("#inputDataFim").attr("disabled", true);
     var inputDataInicio;
