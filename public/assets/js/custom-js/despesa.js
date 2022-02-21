@@ -114,6 +114,7 @@ $(document).ready(function () {
     // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO PRODUTO E O PRODUTO
 });
 
+var centro_de_custo_selecionado ="";
 //função para buscar empresa
 $("#busca_empresa").keyup(
     delay(function () {
@@ -161,6 +162,13 @@ $("#busca_empresa").keyup(
                                     }</option>`
                                 );
                             });
+                            centro_de_custo_selecionado = $("#empresa").val();
+                            console.log(centro_de_custo_selecionado);
+                            $("#empresa").on('change',function(){
+                              centro_de_custo_selecionado =  $("#empresa").val();
+                              console.log(centro_de_custo_selecionado);
+                            });
+
                         });
                     });
                 })
@@ -648,6 +656,8 @@ function getProcesso(object) {
 
 $("#dt_emissao").on("change", function () {
     var dateObj = $("#dt_emissao").val();
+
+    console.log(rateios);
 
     var dataDividida = dateObj.split("-");
     var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);

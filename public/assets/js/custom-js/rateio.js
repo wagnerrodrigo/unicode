@@ -153,7 +153,10 @@ $("#seleciona_rateio").click(function () {
                 $("#valor_rateado").val("");
                 $("#porcentagem_rateado").val("");
                 alert("Já foi adicionado um rateio para esse centro de custo.");
-            } else {
+            } else if(custo_rateio[0] == centro_de_custo_selecionado){
+                alert("Este centro de custo ja foi adicionado como centro de custo padrão para essa despesa.");
+            }
+            else {
                 rateios.push(custo_rateio);
                 valorTotalRateio = valorTotalRateio + valorRateado;
                 $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
