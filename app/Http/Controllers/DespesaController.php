@@ -28,18 +28,16 @@ class DespesaController extends Controller
         $mascara = new Mascaras();
         //quantidade de resultados por pagina
         $results = $request->input('results');
-        $chave_busca = $request->input('chave_busca');
-        $valor_busca = $request->input('valor_busca');
+        $dt_inicio = $request->input('dt_inicio');
+        $dt_fim = $request->input('dt_fim');
         $status_despesa = $request->input('status');
 
-        //dd($request->all());
-        //appends(['results' => $results, 'status' => $status, 'chave_busca' => $chave_busca])->
         if ($request->has('status')) {
-            $despesas = Despesa::selectAll($results, $status_despesa, $chave_busca, $valor_busca);
+            $despesas = Despesa::selectAll($results, $status_despesa, $dt_inicio, $dt_fim);
         } else {
             $despesas = Despesa::selectAll($results = 10);
         }
-        return view('admin.despesas.lista-despesas', compact('despesas', 'mascara', 'results', 'status_despesa', 'chave_busca', 'valor_busca'));
+        return view('admin.despesas.lista-despesas', compact('despesas', 'mascara', 'results', 'status_despesa', 'dt_inicio', 'dt_fim'));
     }
 
     public function formDespesa()
