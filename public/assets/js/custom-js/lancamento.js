@@ -91,10 +91,20 @@ $("#addContas").click(function () {
     var rateio_empresa = $("#busca_empresa").val();
 
     if (inst_banco == "" || rateio_empresa == "") {
-        alert("Preencha todos os campos da conta!");
+        swal({
+            title: "Atenção",
+            text: "Preencha todos os campos da conta!",
+            icon: "warning",
+            button: "Ok",
+        });
     } else {
         if (rateios_contas.length > 0) {
-            alert("Já foi adicionada uma conta bancária para pagamento.");
+            swal({
+                title: "Atenção",
+                text: "Já foi adicionada uma conta bancária para pagamento.",
+                icon: "warning",
+                button: "Ok",
+            });
             limpaCamposRateio();
         } else {
             rateios_contas.push(inst_banco);
@@ -232,7 +242,12 @@ $("#input_efetivo_pagamento").on("change", function () {
 $("#formRateio").on("submit", function () {
     if ($("#input_efetivo_pagamento").val() == "") {
         event.preventDefault();
-        alert("FAVOR INSERIR UMA DATA DE PAGAMENTO");
+        swal({
+            title: "Atenção",
+            text: "Preencha o campo data efetivo pagamento",
+            icon: "warning",
+            button: "Ok",
+        });
         $("#input_efetivo_pagamento").focus();
     }
 });
@@ -314,13 +329,19 @@ $("#btnConciliacao").click(function () {
     var soma = Number(juros) + Number(multa);
 
     if (Number(desconto) >= Number(valorTotal)) {
-        alert(
-            "Valor do Desconto é superior ao VALOR ORIGINAL DA DESPESA. Por favor, verifique os valores digitados!"
-        );
+        swal({
+            title: "Atenção",
+            text: "Valor do Desconto é superior ao VALOR ORIGINAL DA DESPESA. Por favor, verifique os valores digitados!",
+            icon: "warning",
+            button: "Ok",
+        });
     } else if (Number(soma) > Number(valorTotal)) {
-        alert(
-            "Valor do Juros e Multa é superior ao VALOR ORIGINAL DA DESPESA. Por favor, verifique os valores digitados!"
-        );
+        swal({
+            title: "Atenção",
+            text: "Valor do Juros e Multa é superior ao VALOR ORIGINAL DA DESPESA. Por favor, verifique os valores digitados!",
+            icon: "warning",
+            button: "Ok",
+        });
     } else {
         // adiciona os valores do que e digitado no modal ADICIONAR JUROS E MULTAS
 

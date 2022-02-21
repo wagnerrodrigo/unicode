@@ -79,7 +79,12 @@ $("#valor_rateado").blur(function () {
     valorRateado = Number(valorRateado);
 
     if (valorTotalItens == "") {
-        alert("Adicione os itens ou o valor total da despesa");
+        swal({
+            title: "Atenção",
+            text: "Adicione os itens ou o valor total da despesa",
+            icon: "warning",
+            button: "Ok",
+        });
         $("#valor_rateado").val("");
     }
 

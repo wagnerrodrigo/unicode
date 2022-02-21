@@ -377,7 +377,12 @@ $("#Prod").click(function () {
 
     console.log({ Produto: prod_ser });
     if (class_prod == "" || prod_ser == "" || valor_uni == "" || quanti == "") {
-        alert("Preencha todos os campos do produto!");
+        swal({
+            title: "Atenção",
+            text: "Preencha todos os campos do produto!",
+            icon: "warning",
+            button: "Ok",
+        });
     } else {
         // criar novos itens com os valores preenchidos anteriormente
         $("#Tb").append(
