@@ -96,6 +96,7 @@
 <script src="{{ asset('assets/js/vendors.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- <script src="{{ asset('assets/js/custom-js/extrato.js') }}"></script> -->
 
 <script>
@@ -189,9 +190,19 @@
                 valorDespesa = Number($(`#valorDespesa${id}`).val());
 
                 if (ids_extratos == '') {
-                    alert("Selecione pelo menos um extrato para conciliar");
+                    swal({
+                        title: "Atenção",
+                        text: "Você não selecionou nenhum extrato",
+                        icon: "warning",
+                        button: "Ok",
+                    });
                 }else if(valorDespesa + valorExtrato != 0){
-                    alert("O valor da despesa é diferente do valor do(s) extrato(s)");
+                    swal({
+                        title: "Atenção",
+                        text: "O valor da despesa é diferente do valor do(s) extrato(s)",
+                        icon: "warning",
+                        button: "Ok",
+                    });
                 } else {
                     $.ajax({
                         type: "POST",
@@ -204,7 +215,12 @@
                         },
                         dataType: "json",
                         success: function(response) {
-                            alert("Conciliado com sucesso");
+                            swal({
+                                title: "Sucesso",
+                                text: "Conciliação realizada com sucesso",
+                                icon: "success",
+                                button: "OK",
+                            });
                             window.location.href = "http://10.175.3.209:8000/extrato";
                         }
                     });
