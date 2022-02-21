@@ -213,10 +213,9 @@
                                 title: "Sucesso",
                                 text: "Conciliação realizada com sucesso",
                                 icon: "success",
-                            });
-                            setTimeout(() => {
+                            }).then(function() {
                                 window.location.href = "/extrato";
-                            }, 5000);
+                            });
                         },
                         fail: function(response) {
                             swal({
