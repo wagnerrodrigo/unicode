@@ -26,6 +26,7 @@ $("#busca_empresa").keyup(
                     });
                     //seleciona a empresa desejada
                     $(".item").click(function () {
+                        $("#inst_banco").val("");
                         $("#busca_empresa").val($(this).text());
                         $("#empresa").html("");
                         var id_empresa = $(this).attr("value");
