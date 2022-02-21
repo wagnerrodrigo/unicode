@@ -8,7 +8,12 @@ function adicionaContaBancaria() {
     $("#tipo_da_despesa").val(tipo_despesa);
 
     if (titular == "") {
-        alert("Selecione um fornecedor ou um empregado!");
+        swal({
+            title: "Atenção",
+            text: "Selecione um fornecedor ou um empregado!",
+            icon: "warning",
+            button: "Ok",
+        });
         return false;
     } else {
         $.ajax({
@@ -23,7 +28,12 @@ function adicionaContaBancaria() {
                 });
             },
             error: function () {
-                alert("Erro ao carregar instituições financeiras");
+                swal({
+                    title: "Erro",
+                    text: "Erro ao buscar instituições financeiras!",
+                    icon: "error",
+                    button: "Ok",
+                });
             },
         });
     }

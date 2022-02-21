@@ -1,5 +1,5 @@
 function onlynumber(event) {
-    if ( isNaN( String.fromCharCode(event.keyCode) )) return false;
+    if (isNaN(String.fromCharCode(event.keyCode))) return false;
 }
 
 function validateValue(obj) {
@@ -9,7 +9,12 @@ function validateValue(obj) {
         parseInt(obj.value) < initial_value ||
         parseInt(obj.value) > allowed_value
     ) {
-        alert("valor permitido entre 0 e 100");
+        swal({
+            title: "Atenção",
+            text: "O valor deve ser entre 0 e 100",
+            icon: "warning",
+            button: "Ok",
+        });
         obj.value = allowed_value;
         return false;
     }

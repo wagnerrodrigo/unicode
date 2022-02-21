@@ -38,15 +38,16 @@
                                 </select>
                             </div>
                         </div>
-                        <div>
-                            <div class="input-group mb-3" style="width: 350px">
-                                <label class="input-group-text" for="inputStatus">FILTRO</label>
-                                <select class="form-select" id="inputBusca" name="chave_busca">
-                                    <option selected value=""></option>
-                                    <option value="id_despesa">NÚMERO</option>
-                                    <option value="dt_vencimento">VENCIMENTO</option>
-                                </select>
-                                <input type="text" class="busca_despesa" disabled id="valor_busca" name="valor_busca">
+                        <div class="col-md-2">
+                            <div class="input-group mb-3" style="width: 250px">
+                                <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
+                                <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group mb-3" style="width: 250px">
+                                <label class="input-group-text" for="inputDataFim">DATA FIM</label>
+                                <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
                             </div>
                         </div>
                         <div>
@@ -131,7 +132,7 @@
 
                 </table>
                 <div>
-                    {{ $status_despesa ? $despesas->appends(['results' => $results, 'status' => $status_despesa, 'chave_busca' => $chave_busca, 'valor_busca' => $valor_busca])->links() : $despesas->appends(['results' => $results, 'status' => '', 'chave_busca' => $chave_busca, 'valor_busca' => $valor_busca])->links() }}
+                    {{ $status_despesa ? $despesas->appends(['results' => $results, 'status' => $status_despesa, 'dt_inicio' => $dt_inicio, 'dt_fim' => $dt_fim])->links() : $despesas->appends(['results' => $results, 'status' => '', 'dt_inicio' => $dt_inicio, 'dt_fim' => $dt_fim])->links() }}
                 </div>
             </div>
         </div>

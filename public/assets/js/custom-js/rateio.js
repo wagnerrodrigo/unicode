@@ -35,9 +35,9 @@ $("#rateio_empresa").keyup(function () {
                         //mostra os resultados da busca em uma div
                         $.each(response, function (key, val) {
                             $("#custo_rateio").append(
-                                `<option value="${
-                                    val.id_centro_custo
-                                }-${val.de_departamento}" class="centro_custo_item">${
+                                `<option value="${val.id_centro_custo}-${
+                                    val.de_departamento
+                                }" class="centro_custo_item">${
                                     val.de_carteira == ""
                                         ? val.de_departamento
                                         : val.de_departamento +
@@ -79,7 +79,12 @@ $("#valor_rateado").blur(function () {
     valorRateado = Number(valorRateado);
 
     if (valorTotalItens == "") {
-        alert("Adicione os itens ou o valor total da despesa");
+        swal({
+            title: "Atenção",
+            text: "Adicione os itens ou o valor total da despesa",
+            icon: "warning",
+            button: "Ok",
+        });
         $("#valor_rateado").val("");
     }
 
@@ -107,7 +112,7 @@ $("#porcentagem_rateado").blur(function () {
             style: "currency",
             currency: "BRL",
         })
-            .format(valorRateado)
+            .format(valorRateado.toFixed(2))
             .toString()
             .replace("R$", "")
     );
@@ -118,7 +123,7 @@ var id_button_rateio = 0;
 //função para pegar os valores dos inputs e adicionar na tabela
 $("#seleciona_rateio").click(function () {
     var rateio_empresa = $("#rateio_empresa").val();
-    var custo_rateio = $("#custo_rateio").val().split('-');
+    var custo_rateio = $("#custo_rateio").val().split("-");
     var value_centro_custo = custo_rateio[0];
     var desc_centro_custo = custo_rateio[1];
     var valor_rateado = $("#valor_rateado").val();
@@ -138,25 +143,45 @@ $("#seleciona_rateio").click(function () {
         porcentagem_valor != ""
     ) {
         if (
-            valorRateado > valorTotalDespesa ||
-            valorTotalRateio + valorRateado > valorTotalDespesa ||
+            valorRateado.toFixed(2) > valorTotalDespesa ||
+            valorTotalRateio + valorRateado.toFixed(2) > valorTotalDespesa ||
             valorTotalRateio > valorTotalDespesa
         ) {
-            alert("Valor maior que o valor total da despesa");
+            swal({
+                title: "Atenção",
+                text: "Valor maior que o valor total da despesa",
+                icon: "warning",
+                button: "Ok",
+            });
             $("#valor_rateado").val("");
         } else if (valorRateado == 0) {
             $("#valor_rateado").val("");
             $("#porcentagem_rateado").val("");
-            alert("O valor rateado não pode ser 0");
+            swal({
+                title: "Atenção",
+                text: "O valor rateado não pode ser 0",
+                icon: "warning",
+                button: "Ok",
+            });
         } else {
             if (rateios.includes(custo_rateio)) {
                 $("#valor_rateado").val("");
                 $("#porcentagem_rateado").val("");
-                alert("Já foi adicionado um rateio para esse centro de custo.");
+                swal({
+                    title: "Atenção",
+                    text: "Já foi adicionado um rateio para esse centro de custo.",
+                    icon: "warning",
+                    button: "Ok",
+                });
             } else if(custo_rateio[0] == centro_de_custo_selecionado){
-                alert("Este centro de custo ja foi adicionado como centro de custo padrão para essa despesa.");
+                swal({
+                    title: "Atenção",
+                    text: "Este centro de custo ja foi adicionado como centro de custo padrão para essa despesa.",
+                    icon: "warning",
+                    button: "Ok",
+                });
             }
-            else {
+             else {
                 rateios.push(custo_rateio);
                 valorTotalRateio = valorTotalRateio + valorRateado;
                 $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
@@ -178,7 +203,7 @@ $("#seleciona_rateio").click(function () {
                         "</tr>"
                 );
 
-                console.log({descricao:desc_centro_custo});
+                console.log({ descricao: desc_centro_custo });
                 //gera o input com os dados do rateio para submeter no form
                 $("#hidden_inputs").append(
                     `<div id="input-generated${id_button_rateio}"><input type="hidden" name="empresa_rateio[]" value="${rateio_empresa}"/>` +
@@ -194,7 +219,12 @@ $("#seleciona_rateio").click(function () {
             }
         }
     } else {
-        alert("Preencha todos os campos!");
+        swal({
+            title: "Atenção",
+            text: "Preencha todos os campos",
+            icon: "warning",
+            button: "Ok",
+        });
     }
     valorRateado = 0;
 

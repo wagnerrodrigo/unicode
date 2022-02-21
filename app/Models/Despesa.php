@@ -39,7 +39,7 @@ class Despesa extends Model
     ];
 
     //Ao passar parametros, se atentar a ordem que é passado na query
-    static function selectAll($results, $status = null, $chave_busca = null, $valor_busca = null)
+    static function selectAll($results, $status = null, $dt_inicio = null, $dt_fim = null)
     {
         $query = DB::table('intranet.tab_despesa')
             ->join(
@@ -50,22 +50,24 @@ class Despesa extends Model
             )
             ->where('intranet.tab_despesa.dt_fim', '=', null);
 
-        if ($chave_busca && $valor_busca && $status) {
+        if ($dt_inicio && $dt_fim && $status) {
             $despesas = $query
                 ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
-                ->where("intranet.tab_despesa.$chave_busca", '=', "$valor_busca")
+                ->where("intranet.tab_despesa.dt_vencimento", '>=', "$dt_inicio")
+                ->where("intranet.tab_despesa.dt_vencimento", '<=', "$dt_fim")
                 ->orderBy('id_despesa', 'asc')->paginate($results);
-        } else if ($chave_busca && $valor_busca && !$status) {
+        } else if ($dt_inicio && $dt_fim && !$status) {
             $despesas = $query
-                ->where("intranet.tab_despesa.$chave_busca", '=', "$valor_busca")
+                ->where("intranet.tab_despesa.dt_vencimento", '>=', "$dt_inicio")
+                ->where("intranet.tab_despesa.dt_vencimento", '<=', "$dt_fim")
                 ->orderBy('id_despesa', 'asc')
                 ->paginate($results);
-        } else if (!$chave_busca && !$valor_busca && $status) {
+        } else if (!$dt_inicio && !$dt_fim && $status) {
             $despesas = $query
                 ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
                 ->orderBy('id_despesa', 'asc')
                 ->paginate($results);
-        } else if (!$chave_busca && !$valor_busca && !$status) {
+        } else if (!$dt_inicio && !$dt_fim && !$status) {
 
             $despesas = $query
                 ->orderBy('de_status_despesa', 'asc')

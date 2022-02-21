@@ -148,10 +148,20 @@
         var retorno = document.getElementById("retorno").value;
 
         if (retorno == '1') {
-            alert('Fornecedor editado com sucesso!');
+            swal({
+                title: "Sucesso",
+                text: "Fornecedor editado com sucesso!",
+                icon: "success",
+                button: "OK",
+            });
             window.location.href = "{{route('fornecedores')}}";
         } else if (retorno == '0') {
-            alert('Erro ao editar fornecedor!');
+            swal({
+                title: "Erro",
+                text: "Erro ao editar fornecedor!",
+                icon: "error",
+                button: "OK",
+            });
             window.location.href = "{{route('fornecedores')}}";
         }
     </script>
