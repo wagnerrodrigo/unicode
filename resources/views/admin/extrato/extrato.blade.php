@@ -70,7 +70,6 @@
                             <th>DESCRIÇÃO</th>
                             <th>DATA PAGAMENTO</th>
                             <th>PREÇO</th>
-                            <th></th>
                             <th> <button class="btn btn-small btn-primary" id="conciliacao_{{ $lancamento->id_tab_lancamento }}">Conciliar</button></th>
                         </tr>
                         <tr>
@@ -134,7 +133,7 @@
         if (expanded == 'true') {
             $.ajax({
                 type: "GET",
-                url: `http://10.175.3.209:8000/extrato/lancamento/${id}`,
+                url: `http://localhost:8000/extrato/lancamento/${id}`,
                 dataType: "json",
                 success: function(response) {
                     if (response != '') {
@@ -150,7 +149,6 @@
                                         style: 'currency',
                                         currency: 'BRL'
                                     }).format(val.trnamt) + `<input type="hidden" id="valorExtratoId${val.id_extrato}" value="${val.trnamt}"/></td>` +
-                                    "<td></td>" +
                                     "<td></td>"
                                 );
                             });
@@ -159,7 +157,6 @@
                         $(`#extrato_${id}`).append(
                             `<tr class="table-light tr_generated_${id}">` +
                             `<td><span style="color: red; font-weight: bold;">Não há extrato</span></td>` +
-                            "<td></td>" +
                             "<td></td>" +
                             "<td></td>" +
                             "<td></td>" +
