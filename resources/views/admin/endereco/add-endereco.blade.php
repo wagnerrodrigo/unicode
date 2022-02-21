@@ -228,14 +228,24 @@
                             else {
                                 //CEP pesquisado não foi encontrado.
                                 limpa_formulário_cep();
-                                alert("CEP não encontrado.");
+                                swal({
+                                    title: "Atenção",
+                                    text: "CEP não encontrado.",
+                                    icon: "warning",
+                                    button: "Ok",
+                                });
                             }
                         }
                     });
                 } else {
                     //cep é inválido.
                     limpa_formulário_cep();
-                    alert("Formato de CEP inválido.");
+                    swal({
+                        title: "Atenção",
+                        text: "Formato de CEP inválido.",
+                        icon: "erro",
+                        button: "Ok",
+                    });
                 }
             } //end if.
             else {
