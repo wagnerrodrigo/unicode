@@ -259,7 +259,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: `http://10.175.3.209:8000/extrato/lancamento/${id}`,
+                    url: `http://localhost:8000/extrato/lancamento/${id}`,
                     dataType: "json",
                     success: function(response) {
                         if (response != '') {
@@ -300,23 +300,26 @@
                     $('input[name="ids_extratos[]"]:checked').each(function() {
                         ids_extratos.push($(this).val());
                     });
-                    if (ids_extratos == '') {
-                        alert("Selecione pelo menos um extrato para conciliar");
-                    } else {
-                        $.ajax({
-                            type: "POST",
-                            url: `http://10.175.3.209:8000/conciliacao/${id}`,
-                            data: {
-                                "_token": "{{ csrf_token() }}",
-                                id_lancamento: id,
-                                ids_extratos: ids_extratos
-                            },
-                            dataType: "json",
-                            success: function(response) {
-                                window.location.href = "http://10.175.3.209:8000/extrato";
-                            }
-                        });
-                    }
+
+                    console.log(ids_extratos, id);
+
+                    // if (ids_extratos == '') {
+                    //     alert("Selecione pelo menos um extrato para conciliar");
+                    // } else {
+                    //     $.ajax({
+                    //         type: "POST",
+                    //         url: `http://10.175.3.209:8000/conciliacao/${id}`,
+                    //         data: {
+                    //             "_token": "{{ csrf_token() }}",
+                    //             id_lancamento: id,
+                    //             ids_extratos: ids_extratos
+                    //         },
+                    //         dataType: "json",
+                    //         success: function(response) {
+                    //             window.location.href = "http://10.175.3.209:8000/extrato";
+                    //         }
+                    //     });
+                    // }
                 });
             }
         });

@@ -57,7 +57,7 @@
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}</td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
                             <td>{{ $lancamento->de_despesa }}</td>
-                            <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}</td>
+                            <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}<input type="hidden" id="valorDespesa{{$lancamento->id_tab_lancamento}}" value="{{$lancamento->valor_total_despesa}}"/></td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
 
                             <td id="btn_abrir_extratos">
@@ -108,23 +108,25 @@
         })
         console.log(inputDataInicio);
         $("#inputDataFim").attr("disabled", false);
-        $("#inputDataFim").prop("required",true);
+        $("#inputDataFim").prop("required", true);
     })
     var inputDataFim;
-            $("#inputDataFim").on("change", function() {
-                inputDataFim = $(this).val();
-                $("#inputDataInicio").prop("max", function() {
-                    return inputDataFim;
-                })
-                // $("#btnSearch").attr("disabled", false);
-                console.log(inputDataFim);
-                console.log( $("#inputDataInicio").val() );
-                $("#inputDataInicio").prop("required",true);
-            })
-
+    $("#inputDataFim").on("change", function() {
+        inputDataFim = $(this).val();
+        $("#inputDataInicio").prop("max", function() {
+            return inputDataFim;
+        })
+        // $("#btnSearch").attr("disabled", false);
+        console.log(inputDataFim);
+        console.log($("#inputDataInicio").val());
+        $("#inputDataInicio").prop("required", true);
+    })
 </script>
 
 <script>
+    var valorExtrato = 0;
+    var valorDespesa = 0;
+
     function getExtrato(object) {
         var href = object.getAttribute("href");
         var id = href.substring(href.indexOf("-") + 1);
@@ -148,7 +150,7 @@
                                     "<td>" + Intl.NumberFormat('pt-BR', {
                                         style: 'currency',
                                         currency: 'BRL'
-                                    }).format(val.trnamt) + "</td>" +
+                                    }).format(val.trnamt) + `<input type="hidden" id="valorExtratoId${val.id_extrato}" value="${val.trnamt}"/></td>` +
                                     "<td></td>" +
                                     "<td></td>"
                                 );
@@ -173,15 +175,28 @@
             $(`#conciliacao_${id}`).click(function() {
                 var id = $(this).attr('id').substring(12);
                 var ids_extratos = [];
+                valorExtrato = 0;
+                valorDespesa = 0;
                 $('input[name="ids_extratos[]"]:checked').each(function() {
-                    ids_extratos.push($(this).val());
+                    if (Number($(`#valorExtratoId${$(this).val()}`).val()) > 0) {
+                        alert("Você selecionou um extrato de entrada");
+                    } else {
+                        ids_extratos.push($(this).val());
+                        valorExtrato = valorExtrato + Number($(`#valorExtratoId${$(this).val()}`).val());
+                    }
                 });
+
+                valorDespesa = Number($(`#valorDespesa${id}`).val());
+
                 if (ids_extratos == '') {
                     alert("Selecione pelo menos um extrato para conciliar");
+                }else if(valorDespesa + valorExtrato != 0){
+                    alert("O valor da despesa é diferente do valor do(s) extrato(s)");
                 } else {
                     $.ajax({
                         type: "POST",
                         url: `http://10.175.3.209:8000/conciliacao/${id}`,
+
                         data: {
                             "_token": "{{ csrf_token() }}",
                             id_lancamento: id,
@@ -189,6 +204,7 @@
                         },
                         dataType: "json",
                         success: function(response) {
+                            alert("Conciliado com sucesso");
                             window.location.href = "http://10.175.3.209:8000/extrato";
                         }
                     });
