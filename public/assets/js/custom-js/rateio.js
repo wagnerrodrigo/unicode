@@ -107,7 +107,7 @@ $("#porcentagem_rateado").blur(function () {
             style: "currency",
             currency: "BRL",
         })
-            .format(valorRateado)
+            .format(valorRateado.toFixed(2))
             .toString()
             .replace("R$", "")
     );
@@ -138,8 +138,8 @@ $("#seleciona_rateio").click(function () {
         porcentagem_valor != ""
     ) {
         if (
-            valorRateado > valorTotalDespesa ||
-            valorTotalRateio + valorRateado > valorTotalDespesa ||
+            valorRateado.toFixed(2) > valorTotalDespesa ||
+            valorTotalRateio + valorRateado.toFixed(2) > valorTotalDespesa ||
             valorTotalRateio > valorTotalDespesa
         ) {
             alert("Valor maior que o valor total da despesa");
