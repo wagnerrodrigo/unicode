@@ -55,7 +55,7 @@
                             </td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}</td>
                             <td>{{ $lancamento->de_despesa }}</td>
-                            <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->id_tab_lancamento}}" value="{{$lancamento->valor_pago}}"/></td>
+                            <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->id_tab_lancamento}}" value="{{$lancamento->valor_pago}}" /></td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
 
                             <td id="btn_abrir_extratos">
@@ -191,7 +191,7 @@
                         icon: "warning",
                         button: "Ok",
                     });
-                }else if(valorDespesa + valorExtrato != 0){
+                } else if (valorDespesa + valorExtrato != 0) {
                     swal({
                         title: "Atenção",
                         text: "O valor da despesa é diferente do valor do(s) extrato(s)",
@@ -214,9 +214,18 @@
                                 title: "Sucesso",
                                 text: "Conciliação realizada com sucesso",
                                 icon: "success",
-                                button: "OK",
                             });
-                            window.location.href = "http://10.175.3.209:8000/extrato";
+                            setTimeout(() => {
+                                window.location.href = "http://10.175.3.209:8000/extrato";
+                            }, 5000);
+                        },
+                        fail: function(response) {
+                            swal({
+                                title: "Atenção",
+                                text: "Erro ao realizar a conciliação",
+                                icon: "warning",
+                                button: "Ok",
+                            });
                         }
                     });
                 }
