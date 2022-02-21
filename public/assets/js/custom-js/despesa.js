@@ -6,7 +6,7 @@ $(document).ready(function () {
     //fazer requisição ajax para buscar classificação contabil
     $.ajax({
         type: "GET",
-        url: `http://10.175.3.209:8000/classificacao-contabil`,
+        url: `/classificacao-contabil`,
         dataType: "json",
     })
         .done(function (response) {
@@ -48,7 +48,7 @@ $(document).ready(function () {
                 //faz a requisição ajax para buscar tipo de classificação
                 $.ajax({
                     type: "GET",
-                    url: `http://10.175.3.209:8000/classificacao-contabil/${id_classificacao}`,
+                    url: `/classificacao-contabil/${id_classificacao}`,
                     dataType: "json",
                 }).done(function (response) {
                     //mostra os resultados da busca em uma div
@@ -68,7 +68,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "GET",
-        url: `http://10.175.3.209:8000/produto/show/classificacao`,
+        url: `/produto/show/classificacao`,
         dataType: "json",
     })
         .done(function (response) {
@@ -95,7 +95,7 @@ $(document).ready(function () {
                 //faz a requisição ajax para buscar tipo de classificação
                 $.ajax({
                     type: "GET",
-                    url: `http://10.175.3.209:8000/produto/classificacao/${id_classificacao}`,
+                    url: `/produto/classificacao/${id_classificacao}`,
                     dataType: "json",
                 }).done(function (response) {
                     //mostra os resultados da busca em uma div
@@ -122,7 +122,7 @@ $("#busca_empresa").keyup(
             //requisição ajax para buscar empresa
             $.ajax({
                 type: "GET",
-                url: `http://10.175.3.209:8000/empresas/nome/${words}`,
+                url: `/empresas/nome/${words}`,
                 dataType: "json",
             })
                 //caso a requisição seja bem sucedida
@@ -144,7 +144,7 @@ $("#busca_empresa").keyup(
                         $("#results_empresa").html("");
                         $.ajax({
                             type: "GET",
-                            url: `http://10.175.3.209:8000/centroCustoEmpresa/${id_empresa}`,
+                            url: `/centroCustoEmpresa/${id_empresa}`,
                             dataType: "json",
                         }).done(function (response) {
                             //mostra os resultados da busca em uma div
@@ -459,7 +459,7 @@ function removeItem(id) {
 //Buscar condição de pagamento no banco de dados com requisição via AJAX
 $.ajax({
     type: "GET",
-    url: `http://10.175.3.209:8000/condicao_pagamento`,
+    url: `/condicao_pagamento`,
     dataType: "json",
 })
     .done(function (response) {
@@ -499,7 +499,7 @@ $.ajax({
                         "</select>"
                 );
                 var endpoint;
-                var url = "http://10.175.3.209:8000/contas-bancarias/";
+                var url = "/contas-bancarias/";
 
                 tipoDespesa = $("input[name=tipo_despesa]:checked").val();
 
@@ -546,7 +546,7 @@ $.ajax({
 
                 $.ajax({
                     type: "GET",
-                    url: `http://10.175.3.209:8000/pix/fornecedor/${idFornecedor}`,
+                    url: `/pix/fornecedor/${idFornecedor}`,
                     dataType: "json",
                 }).done(function (response) {
                     $.each(response, function (key, val) {

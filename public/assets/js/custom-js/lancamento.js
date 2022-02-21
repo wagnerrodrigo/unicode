@@ -12,7 +12,7 @@ $("#busca_empresa").keyup(
             //requisição ajax para buscar empresa
             $.ajax({
                 type: "GET",
-                url: `http://10.175.3.209:8000/empresas/nome/${words}`,
+                url: `/empresas/nome/${words}`,
                 dataType: "json",
             })
                 //caso a requisição seja bem sucedida

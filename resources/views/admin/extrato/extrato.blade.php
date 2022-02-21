@@ -133,7 +133,7 @@
         if (expanded == 'true') {
             $.ajax({
                 type: "GET",
-                url: `http://localhost:8000/extrato/lancamento/${id}`,
+                url: `/extrato/lancamento/${id}`,
                 dataType: "json",
                 success: function(response) {
                     if (response != '') {
@@ -201,7 +201,7 @@
                 } else {
                     $.ajax({
                         type: "POST",
-                        url: `http://10.175.3.209:8000/conciliacao/${id}`,
+                        url: `/conciliacao/${id}`,
 
                         data: {
                             "_token": "{{ csrf_token() }}",
@@ -216,7 +216,7 @@
                                 icon: "success",
                             });
                             setTimeout(() => {
-                                window.location.href = "http://10.175.3.209:8000/extrato";
+                                window.location.href = "/extrato";
                             }, 5000);
                         },
                         fail: function(response) {
