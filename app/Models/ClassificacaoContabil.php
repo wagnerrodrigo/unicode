@@ -13,7 +13,7 @@ class ClassificacaoContabil extends Model
 
     static function selectAll()
     {
-        $query = "SELECT * FROM intranet.tab_clasificacao_contabil;";
+        $query = "SELECT * FROM intranet.tab_clasificacao_contabil order by de_clasificacao_contabil asc;";
         $classificacaoContabil = DB::select($query);
 
         return $classificacaoContabil;

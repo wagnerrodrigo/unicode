@@ -22,8 +22,8 @@ class CentroCusto extends Model
     {
         $centroCustos = DB::select("SELECT * FROM intranet.tab_centro_custo
         inner join intranet.tab_departamento on fk_tab_departamento = id_departamento
-        inner join intranet.tab_carteira on fk_tab_carteira_id = id_carteira 
-        WHERE fk_empresa_id = ?", [$id]);
+        inner join intranet.tab_carteira on fk_tab_carteira_id = id_carteira
+        WHERE fk_empresa_id = ? order by de_departamento asc", [$id]);
 
         return $centroCustos;
     }
