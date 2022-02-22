@@ -71,8 +71,6 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
-
-        dd($request->all());
         //formata valor total da despesa para o banco
         $request->valor_total = str_replace("R$", "", $request->valor_total);
         $request->valor_total = trim(html_entity_decode($request->valor_total), " \t\n\r\0\x0B\xC2\xA0");
@@ -126,12 +124,29 @@ class DespesaController extends Controller
         //caso haja rateio na despesa executa
         if ($request->empresa_rateio) {
             $rateios = [];
+
+            $soma_porcentagem_rateio = 0;
+            $soma_valor_rateio = 0;
             //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
             for ($i = 0; $i < count($request->empresa_rateio); $i++) {
                 $rateios[] = [
                     'centro_custo_rateio' => $request->custo_rateio[$i],
                     'valor_rateio' => trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0"),
                     'porcentagem_rateio' => $request->porcentagem_rateio[$i],
+                ];
+                //soma os valores do rateio
+                $soma_porcentagem_rateio += $request->porcentagem_rateio[$i];
+                $soma_valor_rateio += trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0");
+            }
+            //verifica se a soma das porcentagens é igual a 100 caso não seja retorna o restante para o centro de custo inicial
+            if($soma_porcentagem_rateio != 100){
+                $resto_porcentagem = 100 - $soma_porcentagem_rateio;
+                $valor_restante = $request->valor_total - $soma_valor_rateio;
+
+                $rateios[] = [
+                    'centro_custo_rateio' => $request->centro_custo_empresa,
+                    'valor_rateio' => $valor_restante,
+                    'porcentagem_rateio' => $resto_porcentagem,
                 ];
             }
             //instancia um objeto do model Rateio
@@ -171,7 +186,7 @@ class DespesaController extends Controller
                 $itemDespesa->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 $itemDespesa->dt_fim = null;
                 $itemDespesa->valor_total_item_despesa = $itensDespesa[$i]['valor_unitario_item_despesa'] * $itensDespesa[$i]['quantidade'];
-                ItemDespesa::create($itemDespesa);
+                //ItemDespesa::create($itemDespesa);
             }
         }
         return redirect()->route('despesas');
