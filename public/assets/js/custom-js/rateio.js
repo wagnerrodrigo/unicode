@@ -128,7 +128,6 @@ $("#seleciona_rateio").click(function () {
     var desc_centro_custo = custo_rateio[1];
     var valor_rateado = $("#valor_rateado").val();
     var porcentagem_valor = $("#porcentagem_rateado").val();
-    console.log(custo_rateio);
 
     valorTotalDespesa = $("#valorTotal")
         .val()
@@ -143,9 +142,10 @@ $("#seleciona_rateio").click(function () {
         porcentagem_valor != ""
     ) {
         if (
-            valorRateado.toFixed(2) > valorTotalDespesa ||
-            valorTotalRateio + valorRateado.toFixed(2) > valorTotalDespesa ||
-            valorTotalRateio > valorTotalDespesa
+            Number(valorRateado.toFixed(2)) > Number(valorTotalDespesa) ||
+            valorTotalRateio + Number(valorRateado.toFixed(2)) >
+                Number(valorTotalDespesa) ||
+            valorTotalRateio > Number(valorTotalDespesa)
         ) {
             swal({
                 title: "Atenção",
@@ -164,7 +164,16 @@ $("#seleciona_rateio").click(function () {
                 button: "Ok",
             });
         } else {
-            if (rateios.includes(custo_rateio)) {
+            if (value_centro_custo == centro_de_custo_selecionado) {
+                $("#valor_rateado").val("");
+                $("#porcentagem_rateado").val("");
+                swal({
+                    title: "Atenção",
+                    text: "Este centro de custo ja foi adicionado como centro de custo padrão para essa despesa.",
+                    icon: "warning",
+                    button: "Ok",
+                });
+            } else if (rateios.includes(value_centro_custo)) {
                 $("#valor_rateado").val("");
                 $("#porcentagem_rateado").val("");
                 swal({
@@ -173,16 +182,8 @@ $("#seleciona_rateio").click(function () {
                     icon: "warning",
                     button: "Ok",
                 });
-            } else if(custo_rateio[0] == centro_de_custo_selecionado){
-                swal({
-                    title: "Atenção",
-                    text: "Este centro de custo ja foi adicionado como centro de custo padrão para essa despesa.",
-                    icon: "warning",
-                    button: "Ok",
-                });
-            }
-             else {
-                rateios.push(custo_rateio);
+            } else {
+                rateios.push(value_centro_custo);
                 valorTotalRateio = valorTotalRateio + valorRateado;
                 $("#modal_valor_rateado").val(valorTotalRateio.toFixed(2));
 
@@ -202,8 +203,6 @@ $("#seleciona_rateio").click(function () {
                             )}, ${value_centro_custo})" class="btn btn-danger btn-sm btn-delete-rateio">Excluir</button></td>` +
                         "</tr>"
                 );
-
-                console.log({ descricao: desc_centro_custo });
                 //gera o input com os dados do rateio para submeter no form
                 $("#hidden_inputs").append(
                     `<div id="input-generated${id_button_rateio}"><input type="hidden" name="empresa_rateio[]" value="${rateio_empresa}"/>` +

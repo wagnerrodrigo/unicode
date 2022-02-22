@@ -71,6 +71,8 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
+
+        dd($request->all());
         //formata valor total da despesa para o banco
         $request->valor_total = str_replace("R$", "", $request->valor_total);
         $request->valor_total = trim(html_entity_decode($request->valor_total), " \t\n\r\0\x0B\xC2\xA0");

@@ -163,10 +163,9 @@ $("#busca_empresa").keyup(
                                 );
                             });
                             centro_de_custo_selecionado = $("#empresa").val();
-                            console.log(centro_de_custo_selecionado);
+
                             $("#empresa").on('change',function(){
                               centro_de_custo_selecionado =  $("#empresa").val();
-                              console.log(centro_de_custo_selecionado);
                             });
 
                         });
@@ -383,7 +382,6 @@ $("#Prod").click(function () {
     var valor_uni = $("#valor_item").val();
     var quanti = $("#quantidade").val();
 
-    console.log({ Produto: prod_ser });
     if (class_prod == "" || prod_ser == "" || valor_uni == "" || quanti == "") {
         swal({
             title: "Atenção",
@@ -431,7 +429,6 @@ $("#Prod").click(function () {
         Number(quanti);
 
         valorTotal = valorTotal + valorFormatado * quanti;
-        console.log({ valotTotalItens: valorTotal });
         $("#valorTotal").attr("readonly", true);
 
         //verificar campo vazio!
@@ -661,8 +658,6 @@ function getProcesso(object) {
 
 $("#dt_emissao").on("change", function () {
     var dateObj = $("#dt_emissao").val();
-
-    console.log(rateios);
 
     var dataDividida = dateObj.split("-");
     var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
