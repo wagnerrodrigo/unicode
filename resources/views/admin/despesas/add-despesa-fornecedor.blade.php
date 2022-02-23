@@ -122,11 +122,12 @@
                                     </div>
 
                                     <div class="inserirValor" style="padding:15px">
-                                        <input class="form-control mt-1" id="valor_item" onkeyup="formataValor(this)" type="text" onkeypress="return onlynumber();" type="text" class="dinheiro" autocomplete="off" placeholder="Valor" style="width: 180px" />
+                                        <input class="form-control mt-1" id="valor_item" onkeyup="formataValor(this)" max="3" type="text" onblur="contaCaracteres(this)" type="text" class="dinheiro" autocomplete="off" placeholder="Valor" style="width: 180px" />
+                                        <span id="erro_valor_item"></span>
                                     </div>
 
                                     <div class="inserirDesc" style="padding:15px">
-                                        <input class="form-control mt-1" id="quantidade" type="text" onkeyup="return onlynumber();" autocomplete="off" placeholder="Quantidade" style="width: 180px" />
+                                        <input class="form-control mt-1" id="quantidade" type="text" onkeyup="return onlynumber();" onblur="validaqtdItem(this)" autocomplete="off" placeholder="Quantidade" style="width: 180px" />
                                     </div>
                                     <div style="padding:15px">
                                         <button class="btn btn-primary" type="button" id="Prod" style="width: 2.5rem; padding: 6.5px; margin-top: 3px">
@@ -170,8 +171,6 @@
                             <strong>MOEDA</strong>
                             <select readonly class="form-control input-add" name="moeda" id="moeda">
                                 <option selected value="REAL">BRL</option>
-                                <option value="DOLAR">USD</option>
-                                <option value="EURO">EUR</option>
                             </select>
                         </div>
                     </div>
@@ -503,5 +502,37 @@
 <script src="{{ asset('assets/js/custom-js/rateio.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/conta-bancaria-despesa.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/valida-data-atual.js') }}"></script>
+
+<script>
+    function contaCaracteres(obj) {
+        var erro = document.getElementById("erro_valor_item");
+        var valor = obj.value.replace(/[^0-9]/g, '');
+
+        if (obj.value != '') {
+            if (obj.value.length < 3 || valor <= 0) {
+                erro.innerHTML = 'Valor inválido';
+                erro.style.color = 'red';
+                obj.focus();
+            } else {
+                erro.innerHTML = '';
+            }
+        }else{
+            erro.innerHTML = '';
+        }
+    }
+
+    function validaqtdItem(obj) {
+        if(obj.value != ''){
+            if(obj.value <= 0){
+                swal({
+                    title: "Atenção",
+                    text: "A quantidade deve ser maior que zero",
+                    icon: "warning",
+                    button: "Ok",
+                });
+            }
+        }
+    }
+</script>
 
 @endsection

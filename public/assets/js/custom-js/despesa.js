@@ -379,10 +379,17 @@ $("#Prod").click(function () {
     var valor_uni = $("#valor_item").val();
     var quanti = $("#quantidade").val();
 
-    if (class_prod_value == "" || prod_ser == "" || valor_uni == "" || quanti == "") {
+    if (class_prod_value == "" || prod_ser == "" || valor_uni == "" ||  quanti == "") {
         swal({
             title: "Atenção",
             text: "Preencha todos os campos do produto!",
+            icon: "warning",
+            button: "Ok",
+        });
+    } else if(valor_uni <= 0|| quanti == 0){
+        swal({
+            title: "Atenção",
+            text: "Valores precisam ser maiores do que ZERO!",
             icon: "warning",
             button: "Ok",
         });
