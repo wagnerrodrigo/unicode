@@ -164,7 +164,8 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>VALOR</strong>
-                            <input required type="text" placeholder="Informe o numero" onkeyup="formataValor(this)" id="valorTotal" class="form-control input-add" name="valor_total" />
+                            <input required type="text" placeholder="Informe o numero" onkeyup="formataValor(this)" onblur="validaValor(this)"id="valorTotal" class="form-control input-add" name="valor_total" />
+                            <span id="erro_valor_despesa"></span>
                         </div>
 
                         <div class="px-5 mb-3">
@@ -521,16 +522,36 @@
         }
     }
 
-    function validaqtdItem(obj) {
-        if(obj.value != ''){
-            if(obj.value <= 0){
-                swal({
-                    title: "Atenção",
-                    text: "A quantidade deve ser maior que zero",
-                    icon: "warning",
-                    button: "Ok",
-                });
+    function validaValor(obj) {
+        var erro = document.getElementById("erro_valor_despesa");
+        var valor = obj.value.replace(/[^0-9]/g, '');
+
+        if (obj.value != '') {
+            if (obj.value.length < 3 || valor <= 0) {
+                erro.innerHTML = 'Valor inválido';
+                erro.style.color = 'red';
+                obj.focus();
+            } else {
+                erro.innerHTML = '';
             }
+        }else{
+            erro.innerHTML = '';
+        }
+    }
+
+    function validaqtdItem(obj) {
+       var valor = obj.value.replace(/[^0-9]/g, '');
+
+        if (obj.value != '') {
+            if (obj.value.length < 3 || valor <= 0) {
+                erro.innerHTML = 'Valor inválido';
+                erro.style.color = 'red';
+                obj.focus();
+            } else {
+                erro.innerHTML = '';
+            }
+        }else{
+            erro.innerHTML = '';
         }
     }
 </script>
