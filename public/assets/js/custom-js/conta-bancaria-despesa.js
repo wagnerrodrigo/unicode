@@ -74,14 +74,24 @@ $(function () {
                 data: $(this).serialize(),
                 dataType: "json",
                 success: function (data) {
-                    alert(data.message.toString());
+                    swal({
+                        title: "Sucesso",
+                        text: "Conta bancária cadastrada com sucesso!",
+                        icon: "success",
+                        button: "Ok",
+                    });
                     $("#inst_financeiras").val("");
                     $("#nu_agencia").val("");
                     $("#nu_conta").val("");
                     $("#co_operacao").val("");
                 },
                 error: function (data) {
-                    alert(data.message.toString());
+                    swal({
+                        title: "Erro",
+                        text: "Erro ao cadastrar conta bancária!",
+                        icon: "error",
+                        button: "Ok",
+                    })
                 },
             });
             $("#condicao_pagamento").val("");
