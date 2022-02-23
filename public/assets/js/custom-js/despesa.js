@@ -15,7 +15,7 @@ $(document).ready(function () {
                 if (val.id_clasificacao_contabil != 11) {
                     $("#itens_classificacao")
                         .append(
-                            `<div class="classificacao_produto" value="${val.id_clasificacao_contabil}">${val.de_clasificacao_contabil}</div>`
+                            `<div class="classificacao_despesa" value="${val.id_clasificacao_contabil}">${val.de_clasificacao_contabil}</div>`
                         )
                         .hide();
                 }
@@ -24,8 +24,9 @@ $(document).ready(function () {
             $("#classificacao_con").click(function () {
                 $("#itens_classificacao").show();
             });
+
             //ao clicar em um item da lista, o campo recebe o valor do item
-            $(".classificacao_produto").click(function () {
+            $(".classificacao_despesa").click(function () {
                 $("#classificacao_con").val($(this).text());
                 $("#itens_classificacao").hide();
 
@@ -76,26 +77,19 @@ $(document).ready(function () {
             $.each(response, function (key, val) {
                 $("#classificacao_tipo_produto")
                     .append(
-                        `<div class="classificacao" value="${val.id_tipo_produto}">${val.de_tipo_produto}</div>`
+                        `<option class="classificacao" value="${val.id_tipo_produto}-${val.de_tipo_produto}">${val.de_tipo_produto}</option>`
                     )
-                    .hide();
             });
-            //ao clicar aparece os campos com resultados do banco
-            $("#classificacao_prod").click(function () {
-                $("#classificacao_tipo_produto").show();
-            });
+            //Inicio de itens
             //ao clicar em um item da lista, o campo recebe o valor do item
-            $(".classificacao").click(function () {
-                $("#classificacao_prod").val($(this).text());
-                $("#classificacao_tipo_produto").hide();
-
-                var id_classificacao = $(this).attr("value");
+            $("#classificacao_tipo_produto").on("change", function () {
+                var id_classificacao = $("#classificacao_tipo_produto").val().split("-");
                 //a cada nova requisição, limpa o option do select
                 $("#produto_servico").html("");
                 //faz a requisição ajax para buscar tipo de classificação
                 $.ajax({
                     type: "GET",
-                    url: `/produto/classificacao/${id_classificacao}`,
+                    url: `/produto/classificacao/${id_classificacao[0]}`,
                     dataType: "json",
                 }).done(function (response) {
                     //mostra os resultados da busca em uma div
@@ -110,11 +104,11 @@ $(document).ready(function () {
         .fail(function () {
             console.log("erro na requisição Ajax");
         });
-
+         //Fim de itens
     // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO PRODUTO E O PRODUTO
 });
 
-var centro_de_custo_selecionado ="";
+var centro_de_custo_selecionado = "";
 //função para buscar empresa
 $("#busca_empresa").keyup(
     delay(function () {
@@ -164,10 +158,10 @@ $("#busca_empresa").keyup(
                             });
                             centro_de_custo_selecionado = $("#empresa").val();
 
-                            $("#empresa").on('change',function(){
-                              centro_de_custo_selecionado =  $("#empresa").val();
+                            $("#empresa").on("change", function () {
+                                centro_de_custo_selecionado =
+                                    $("#empresa").val();
                             });
-
                         });
                     });
                 })
@@ -373,16 +367,19 @@ var valorRemovido = 0;
 
 var moeda = $("#moeda").val();
 
+//click do botão de itens
 $("#Prod").click(function () {
     //  pega os valores dos campos preenchidos pelo usuario
-    var class_prod = $("#classificacao_prod").val();
+    var class_prod = $("#classificacao_tipo_produto").val().split("-");
+    var class_prod_value = class_prod[0];
+    var desc_class = class_prod[1];
     var prod_ser = $("#produto_servico").val().split("-");
     var value_item = prod_ser[0];
     var desc_item = prod_ser[1];
     var valor_uni = $("#valor_item").val();
     var quanti = $("#quantidade").val();
 
-    if (class_prod == "" || prod_ser == "" || valor_uni == "" || quanti == "") {
+    if (class_prod_value == "" || prod_ser == "" || valor_uni == "" || quanti == "") {
         swal({
             title: "Atenção",
             text: "Preencha todos os campos do produto!",
@@ -393,7 +390,7 @@ $("#Prod").click(function () {
         // criar novos itens com os valores preenchidos anteriormente
         $("#Tb").append(
             `<tr id="tab${id_button_item}">` +
-                `<td>${class_prod}</td>` +
+                `<td>${desc_class}</td>` +
                 `<td>${desc_item}</td>` +
                 `<td>${valor_uni}</td>` +
                 `<td>${quanti}</td>` +
@@ -418,7 +415,7 @@ $("#Prod").click(function () {
         totalItens++;
 
         // limpar campos do item
-        $("#classificacao_prod").val("");
+        $("#classificacao_tipo_produto").val("");
         $("#produto_servico").val("");
         $("#valor_item").val("");
         $("#quantidade").val("");
@@ -444,6 +441,8 @@ $("#Prod").click(function () {
         }
     }
 });
+
+//fim click botão itens
 
 //remove o rateio da tabela e do form e subtrai valor do total
 function removeItem(id) {

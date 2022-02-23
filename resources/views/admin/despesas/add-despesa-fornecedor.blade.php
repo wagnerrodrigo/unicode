@@ -112,8 +112,9 @@
                             <div class="table-responsive">
                                 <div class="d-flex flex-row" style="padding:10px; align-items:center; border: 1px solid #ccc">
                                     <div class="inserirProd_Ser" style="padding:15px">
-                                        <input class="form-control mt-1" type="text" autocomplete="off" id="classificacao_prod" placeholder="Produto ou Servico" style="width: 188px" />
-                                        <div id="classificacao_tipo_produto" class="input-style"></div>
+                                        <select class="form-control mt-1" id="classificacao_tipo_produto">
+                                            <option selected value=""></option>
+                                        </select>
                                     </div>
 
                                     <div class="inserirQuant" style="padding:15px">
@@ -262,7 +263,7 @@
 
                         <div class="px-5 mb-3" style="margin-top: 38px">
                             <strong>SERIE</strong>
-                            <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add" name="serie_documento" maxlength="4"/>
+                            <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add" name="serie_documento" maxlength="4" />
                         </div>
                     </div>
 
@@ -294,7 +295,7 @@
                         </div>
                         <div class="px-5 mb-3">
                             <strong>DATA DE EMISSÃO</strong>
-                            <input type="date" class="form-control input-add"  id="dt_emissao" name="data_emissao" />
+                            <input type="date" class="form-control input-add" id="dt_emissao" name="data_emissao" />
                             <span id="erro_dt_emissao"></span>
                         </div>
                     </div>

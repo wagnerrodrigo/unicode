@@ -186,7 +186,7 @@ class DespesaController extends Controller
                 $itemDespesa->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 $itemDespesa->dt_fim = null;
                 $itemDespesa->valor_total_item_despesa = $itensDespesa[$i]['valor_unitario_item_despesa'] * $itensDespesa[$i]['quantidade'];
-                //ItemDespesa::create($itemDespesa);
+                ItemDespesa::create($itemDespesa);
             }
         }
         return redirect()->route('despesas');

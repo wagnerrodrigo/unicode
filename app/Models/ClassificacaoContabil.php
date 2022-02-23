@@ -28,7 +28,7 @@ class ClassificacaoContabil extends Model
         de_plano_contas
         FROM intranet.tab_plano_contas
         inner join intranet.de_plano_contas on de_plano_contas.id_de_plano_contas = tab_plano_contas.fk_tab_de_plano_contas
-        where fk_tab_clasificacao_contabil_id = ?";
+        where fk_tab_clasificacao_contabil_id = ? order by de_plano_contas asc;";
         $classificacaoContabil = DB::select($query, [$id]);
 
         return $classificacaoContabil;
