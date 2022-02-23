@@ -38,20 +38,20 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
                                 <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputDataFim">DATA FIM</label>
                                 <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
                             </div>
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-primary" style="padding: 8px 12px;">
+                            <button type="submit" id="btn_busca_filtro" class="btn btn-primary" style="padding: 8px 12px;">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
@@ -151,15 +151,44 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
 <script>
-    $("#inputBusca").on("change", function() {
-        if ($(this).val() == "") {
-            $("#valor_busca").attr("disabled", true);
-        } else if ($(this).val() == "id_despesa") {
-            $("#valor_busca").attr("type", "text");
-            $("#valor_busca").attr("disabled", false);
-        } else if ($(this).val() == "dt_vencimento") {
-            $("#valor_busca").attr("type", "date");
-            $("#valor_busca").attr("disabled", false);
+    var inputDataInicio = '';
+    $("#inputDataInicio").on("change", function() {
+        inputDataInicio = $(this).val();
+        $("#inputDataFim").prop("min", function() {
+            return inputDataInicio;
+        })
+        console.log(inputDataInicio);
+    })
+
+    var inputDataFim = '';
+    $("#inputDataFim").on("change", function() {
+        inputDataFim = $(this).val();
+        $("#inputDataInicio").prop("max", function() {
+            return inputDataFim;
+        })
+        console.log(inputDataFim);
+    })
+
+
+    $("#btn_busca_filtro").click(function() {
+        if (inputDataInicio != '' && inputDataFim == '') {
+            console.log("Data Inicio preenchida");
+            event.preventDefault();
+            swal({
+                title: "Atenção",
+                text: "Preencha o campo Data Fim!",
+                icon: "warning",
+                button: "Ok",
+            });
+        } else if (inputDataInicio == '' && inputDataFim != '') {
+            console.log("Data Fim preenchida");
+            event.preventDefault();
+            swal({
+                title: "Atenção",
+                text: "Preencha o campo Data Início!",
+                icon: "warning",
+                button: "Ok",
+            });
         }
     });
 </script>
