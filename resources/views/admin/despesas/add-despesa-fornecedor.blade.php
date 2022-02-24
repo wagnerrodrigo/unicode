@@ -486,6 +486,67 @@
 </div>
 <!-- Fim modal Adicionar -->
 
+
+
+<!-- Inicio Modal Adicionar PIX-->
+<div class="me-1 mb-1 d-inline-block">
+    <!--Extra Large Modal -->
+    <div class="modal fade text-left w-100" id="modal_pix" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel16">PIX</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x" data-feather="x"></i>
+                    </button>
+                </div>
+                <form name="form_conta_pix">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="d-flex flex-column" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>TITULAR</strong>
+                                <input class="form-control input-busca" name="titular_conta_pix" type="text" id="titular_conta_pix" readonly style="width: 60rem" />
+                                <input name="id_titular_pix" type="hidden" id="id_titular_pix" />
+                                <input name="tipo_do_titular" type="hidden" id="tipo_do_titular" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>TIPO</strong>
+                                <select id="select_tipo_pix" name="select_tipo_pix" class="form-control input-busca" style="width: 8rem">
+                                </select>
+                                <span id="erro_select_tipo_pix"></span>
+                            </div>
+
+                            <div class="px-5 mb-3">
+                                <strong>PIX</strong>
+                                <input type="text" class="form-control" id="input_pix" name="input_pix" autocomplete="off" style="width: 46rem;">
+                                <span id="erro_input_pix"></span>
+                                <span id="invalid_cpf_cnpj"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success me-1 mb-1">
+                                <i data-feather="check-circle"></i>ADICIONAR
+                            </button>
+                            <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal" aria-label="Close">
+                                CANCELAR
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fim modal Adicionar PIX -->
+
+
 <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
 <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 
@@ -501,8 +562,10 @@
 <script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/rateio.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/valida-cpf-cnpj.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/valida-email.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/conta-bancaria-despesa.js') }}"></script>
-<script src="{{ asset('assets/js/custom-js/valida-data-atual.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/conta-pix.js') }}"></script>
 
 <script>
     function contaCaracteres(obj) {

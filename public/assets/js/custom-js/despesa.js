@@ -559,18 +559,44 @@ $.ajax({
                         "<option value='' class='pix_fornecedor_resultado'></option>" +
                         "</select>"
                 );
+                    if(tipoDespesa == "fornecedor"){
+                        $.ajax({
+                            type: "GET",
+                            url: `/pix/fornecedor/${idFornecedor}`,
+                            dataType: "json",
+                        }).done(function (response) {
+                            $.each(response, function (key, val) {
+                                $("#pix_fornecedor").append(
+                                    `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
+                                );
+                            });
+                        });
+                    }
+                    else{
+                        // [REGRA DE NEGOCIO]-> não exite uma definição para o pix do empregado
+                        // ajax de busca do pix do empregado
+                        $.ajax({
+                            type: "GET",
+                            url: `/pix/empregado/${idEmpregado}`,
+                            dataType: "json",
+                        }).done(function (response) {
+                            $.each(response, function (key, val) {
+                                $("#pix_fornecedor").append(
+                                    `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
+                                );
+                            });
+                        });
+                    }
 
-                $.ajax({
-                    type: "GET",
-                    url: `/pix/fornecedor/${idFornecedor}`,
-                    dataType: "json",
-                }).done(function (response) {
-                    $.each(response, function (key, val) {
-                        $("#pix_fornecedor").append(
-                            `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
-                        );
-                    });
-                });
+                //botão do modal de conta pix
+                $("#modal_conta").append(
+                    `<strong class="remove_btn_modal">ADICIONAR PIX</strong>` +
+                        `<div class="remove_btn_modal">
+                        <button type="button" onclick="adicionaPix()" id="btn_modal_conta" class="btn btn-primary remove_btn_modal" data-bs-toggle="modal" data-bs-target="#modal_pix" style="padding: 8px 12px;">
+                        <i class="bi bi-plus"></i>
+                        </button>
+                    </div>`
+                );
             } else {
                 limpaCamposContaBancariaPix();
             }
@@ -591,6 +617,12 @@ function limpaCamposContaBancariaPix() {
     $("#numero_pix").attr("value", "");
     $("#numero_conta_bancaria").attr("value", "");
 }
+
+// nao esta funcionado o limpaCamposContaPix
+function limpaCamposContaPix() {
+ $("#option_Pix").remove();
+}
+
 
 function limpaCamposDespesaJuridica() {
     $(".remove_processo").remove();

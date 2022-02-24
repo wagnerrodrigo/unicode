@@ -173,8 +173,12 @@ Route::middleware('autenticacaoMiddleware')->prefix('/contas-bancarias')->group(
     Route::get('/fornecedor/{id}', [ContaBancariaController::class, 'showByFornecedor']);
 });
 
-Route::middleware('autenticacaoMiddleware')->get('/pix/fornecedor/{id}', [PixController::class, 'showByFornecedor'])->name('pix');
-
+Route::middleware('autenticacaoMiddleware')->prefix('/pix')->group(function(){
+    Route::get('/fornecedor/{id}', [PixController::class, 'showByFornecedor'])->name('pix');
+    Route::get('/empregado/{id}', [PixController::class, 'showByEmpregado'])->name('pix-empregado');
+    Route::get('/tipo-pix', [PixController::class, 'showBydescriptionPix']);
+    Route::post('/store',[PixController::class, 'storeWithJSON']);
+});
 //rotas Instituições Bancárias
 Route::middleware('autenticacaoMiddleware')->prefix('/instituicoes-financeira')->group(function () {
     Route::get('/', [InstituicaoFinanceiraController::class, 'index'])->name('instituicoes-financeira');
