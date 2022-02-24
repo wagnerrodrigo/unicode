@@ -522,7 +522,7 @@
 
                             <div class="px-5 mb-3">
                                 <strong>PIX</strong>
-                                <input type="text" class="form-control" id="input_pix" name="input_pix" autocomplete="off" style="width: 46rem;">
+                                <input type="text" class="form-control" id="input_pix" name="input_pix" maxlength="14" autocomplete="off" style="width: 46rem;">
                                 <span id="erro_input_pix"></span>
                                 <span id="invalid_cpf_cnpj"></span>
                             </div>
@@ -562,6 +562,7 @@
 <script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/rateio.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/mascara-cnpj-cpf.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/valida-cpf-cnpj.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/valida-email.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/conta-bancaria-despesa.js') }}"></script>

@@ -1,4 +1,11 @@
-function adicionaPix(){
+const keyPix = {
+    cpfCnpj: 1,
+    email: 2,
+    telefone: 3,
+    aleatoria: 4,
+};
+
+function adicionaPix() {
     var titular = $("#input_razao_social").val();
     var id_titular_pix = $("#fk_empregado_fornecedor").val();
     var tipo_do_titular = $("input[name=tipo_despesa]:checked").val();
@@ -16,19 +23,18 @@ function adicionaPix(){
             button: "Ok",
         });
         return false;
-    }
-    else{
+    } else {
         limpaCamposContaPix();
         $.ajax({
             url: "/pix/tipo-pix",
             type: "GET",
             dataType: "json",
-            success:function (response){
-                $.each(response, function(key, val){
+            success: function (response) {
+                $.each(response, function (key, val) {
                     $("#select_tipo_pix").append(
                         `<option id="option_Pix" value="${val.id_tipo_pix}" > ${val.de_tipo_pix} </option>`
-                        );
-                    });
+                    );
+                });
             },
             error: function () {
                 swal({
@@ -42,57 +48,18 @@ function adicionaPix(){
     }
 }
 
-
-$(function(){
-
-    $("#select_tipo_pix").on('change',function(){
-
-         if($("#select_tipo_pix").val() == 1){
-             // validad o tamanho do cpf
-           $("#input_pix").attr('maxlenght',14);
-           $("#input_pix").val('');
-
-        }
-        else if($("#select_tipo_pix").val() == 2){
-            // validad o tamanho do EMAIL
-           $("#input_pix").attr('maxlenght',150);
-           $("#input_pix").val('');
-
-        }
-        else if($("#select_tipo_pix").val() == 3){
-          // validad o tamanho do Telefone
-           $("#input_pix").attr('maxlenght',11);
-           $("#input_pix").val('');
-        }
-         else if ($("#select_tipo_pix").val() == 4) {
-            // validad o tamanho da CHAVE ALEATÓRIA
-        $("#input_pix").attr('','maxlenght',32);
-        $("#input_pix").val('');
-        }
-    })
-
-    if($("#select_tipo_pix").val() == 1){
-        if($("#input_pix").val().trim() == ""){
-            $("#input_pix").focus();
-            $("#erro_input_pix")
-                .html("Por favor insira um pix valido !")
-                .css({ color: "red", fontStyle: "italic"});
-                return false;
-        }
-    }
-
-
+$(function () {
     // submit do modal de pix
-    $('form[name="form_conta_pix"]').submit(function (e){
+    $('form[name="form_conta_pix"]').submit(function (e) {
         e.preventDefault();
 
         // INCIO DO AJAX
         $.ajax({
-            url:"/pix/store",
+            url: "/pix/store",
             type: "POST",
             data: $(this).serialize(),
             dataType: "json",
-            success: function(data){
+            success: function (data) {
                 swal({
                     title: "Sucesso",
                     text: "Pix cadastrada com sucesso!",
@@ -109,10 +76,44 @@ $(function(){
                     text: "Erro ao cadastrar",
                     icon: "error",
                     button: "Ok",
-                })
+                });
             },
         });
         // FIM  DO AJAX
-
-    })
+    });
 });
+
+var tipoPix = keyPix.cpfCnpj;
+
+$("#select_tipo_pix").on("change", function () {
+    if ($("#select_tipo_pix").val() == keyPix.cpfCnpj) {
+        // validad o tamanho do cpf
+        $("#input_pix").attr("maxlength", 14);
+        $("#input_pix").val("");
+        tipoPix = keyPix.cpfCnpj
+    } else if ($("#select_tipo_pix").val() == keyPix.email) {
+        // validad o tamanho do EMAIL
+        $("#input_pix").attr("maxlength", 150);
+        $("#input_pix").val("");
+        tipoPix = keyPix.email
+    } else if ($("#select_tipo_pix").val() == keyPix.telefone) {
+        // validad o tamanho do Telefone
+        $("#input_pix").attr("maxlength", 11);
+        $("#input_pix").val("");
+        tipoPix = keyPix.telefone
+    } else if ($("#select_tipo_pix").val() == keyPix.aleatoria) {
+        // validad o tamanho da CHAVE ALEATÓRIA
+        $("#input_pix").attr("maxlength", 32);
+        $("#input_pix").val("");
+        tipoPix = keyPix.aleatoria
+    }
+});
+
+$("#input_pix").on("keyup", function () {
+    if (tipoPix == keyPix.cpfCnpj) {
+        //var cpf = $("#input_pix").val();
+        //var resultado = mascaraMutuario(cpf,cpfCnpj);
+        //console.log(resultado);
+    }
+});
+
