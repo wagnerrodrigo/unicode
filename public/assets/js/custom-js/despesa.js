@@ -94,9 +94,7 @@ $(document).ready(function () {
                     dataType: "json",
                 }).done(function (response) {
                     //mostra os resultados da busca em uma div
-                    $("#produto_servico").append(
-                        ` <option selected></option>`
-                    );
+                    $("#produto_servico").append(` <option selected></option>`);
                     $.each(response, function (key, val) {
                         $("#produto_servico").append(
                             `<option value="${val.id_produto}-${val.de_produto}">${val.de_produto}</option>`
@@ -575,13 +573,30 @@ $.ajax({
                         type: "GET",
                         url: `/pix/fornecedor/${idFornecedor}`,
                         dataType: "json",
-                    }).done(function (response) {
-                        $.each(response, function (key, val) {
-                            $("#pix_fornecedor").append(
-                                `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
-                            );
+                    })
+                        .done(function (response) {
+                            if (response.length == 0) {
+                                $("#pix_fornecedor").empty();
+                                $("#pix_fornecedor").append(
+                                    `<option selected class="" value="">Nenhum pix cadastrado </option>`
+                                );
+                            } else {
+                                $("#pix_fornecedor").empty();
+                                $.each(response, function (key, val) {
+                                    $("#pix_fornecedor").append(
+                                        `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
+                                    );
+                                });
+                            }
+                        })
+                        .fail(function (response) {
+                            swal({
+                                title: "Atenção",
+                                text: "Não foi possível buscar os PIX",
+                                icon: "warning",
+                                button: "OK",
+                            });
                         });
-                    });
                 } else {
                     // [REGRA DE NEGOCIO]-> não exite uma definição para o pix do empregado
                     // ajax de busca do pix do empregado
@@ -589,13 +604,30 @@ $.ajax({
                         type: "GET",
                         url: `/pix/empregado/${idEmpregado}`,
                         dataType: "json",
-                    }).done(function (response) {
-                        $.each(response, function (key, val) {
-                            $("#pix_fornecedor").append(
-                                `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
-                            );
+                    })
+                        .done(function (response) {
+                            if (response.length == 0) {
+                                $("#pix_fornecedor").empty();
+                                $("#pix_fornecedor").append(
+                                    `<option selected class="" value="">Nenhum pix cadastrado </option>`
+                                );
+                            } else {
+                                $("#pix_fornecedor").empty();
+                                $.each(response, function (key, val) {
+                                    $("#pix_fornecedor").append(
+                                        `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
+                                    );
+                                });
+                            }
+                        })
+                        .fail(function (response) {
+                            swal({
+                                title: "Atenção",
+                                text: "Não foi possível buscar os PIX",
+                                icon: "warning",
+                                button: "OK",
+                            });
                         });
-                    });
                 }
 
                 //botão do modal de conta pix
