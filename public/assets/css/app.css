@@ -609,6 +609,49 @@ footer {
 }
 
 
+[info-geral] {
+    position: relative;
+    font-weight: bold;
+}
+
+[info-geral]:after {
+    display: none;
+    position: absolute;
+    top: -12px;
+    padding: 5px;
+    border-radius: 3px;
+    left: calc(15% + 1px);
+    content: attr(info-geral);
+    white-space: nowrap;
+    background-color: #820ad1;
+    color: white;
+}
+[info-geral]:hover:after {
+    display: block;
+}
+
+
+[info-categoria] {
+    position: relative;
+    font-weight: bold;
+}
+
+[info-categoria]:after {
+    display: none;
+    position: absolute;
+    top: -12px;
+    padding: 5px;
+    border-radius: 3px;
+    left: 35%;
+    content: attr(info-categoria);
+    white-space: nowrap;
+    background-color: #820ad1;
+    color: white;
+}
+[info-categoria]:hover:after {
+    display: block;
+}
+
 
 .input-style {
     background-color: #ccc;

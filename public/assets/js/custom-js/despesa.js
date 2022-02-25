@@ -94,6 +94,9 @@ $(document).ready(function () {
                     dataType: "json",
                 }).done(function (response) {
                     //mostra os resultados da busca em uma div
+                    $("#produto_servico").append(
+                        ` <option selected></option>`
+                    );
                     $.each(response, function (key, val) {
                         $("#produto_servico").append(
                             `<option value="${val.id_produto}-${val.de_produto}">${val.de_produto}</option>`
