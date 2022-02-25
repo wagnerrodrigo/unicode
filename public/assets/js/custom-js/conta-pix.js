@@ -5,8 +5,6 @@ const keyPix = {
     aleatoria: 4,
 };
 
-var tipoPix = keyPix.cpfCnpj;
-
 function adicionaPix() {
     var titular = $("#input_razao_social").val();
     var id_titular_pix = $("#fk_empregado_fornecedor").val();
@@ -26,7 +24,7 @@ function adicionaPix() {
         });
         return false;
     } else {
-        limpaCamposContaPix();
+        $("#select_tipo_pix").empty();
         $.ajax({
             url: "/pix/tipo-pix",
             type: "GET",
@@ -98,7 +96,6 @@ $("#select_tipo_pix").on("change", function () {
         $("#input_pix").attr("onkeypress", "");
         $("#input_pix").attr("onblur", "validaCampo(this, keyPix.email)");
         $("#input_pix").val("");
-        tipoPix = keyPix.email;
     } else if ($("#select_tipo_pix").val() == keyPix.telefone) {
         // validad o tamanho do Telefone
         $("#input_pix").attr("maxlength", 15);
@@ -111,7 +108,6 @@ $("#select_tipo_pix").on("change", function () {
         $("#input_pix").attr("onkeypress", "");
         $("#input_pix").attr("onblur", "");
         $("#input_pix").val("");
-        tipoPix = keyPix.aleatoria;
     }
 });
 
