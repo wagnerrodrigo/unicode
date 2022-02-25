@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pix;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Utils\TipoPix;
 
 class PixController extends Controller
 {
@@ -40,9 +41,12 @@ class PixController extends Controller
 
         $pix->fk_tab_tipo_pix_id = $request->select_tipo_pix;
 
-        if($request->select_tipo_pix == '1'){
+        if($request->select_tipo_pix == TipoPix::CPF_CNPJ){
             $cpf_cnpj = str_replace(['.', '-', '/'], '', $request->input_pix);
             $pix->de_pix = $cpf_cnpj;
+        }else if($request->select_tipo_pix == TipoPix::TELEFONE){
+            $telefone = str_replace(['(', ')', '-', ' '], '', $request->input_pix);
+            $pix->de_pix = $telefone;
         }else{
             $pix->de_pix = $request->input_pix;
         }
