@@ -620,7 +620,7 @@ footer {
     top: -12px;
     padding: 5px;
     border-radius: 3px;
-    left: calc(15% + 1px);
+    left: calc(30% + 1px);
     content: attr(info-geral);
     white-space: nowrap;
     background-color: #820ad1;
@@ -642,7 +642,7 @@ footer {
     top: -12px;
     padding: 5px;
     border-radius: 3px;
-    left: 35%;
+    left: 15%;
     content: attr(info-categoria);
     white-space: nowrap;
     background-color: #820ad1;

@@ -111,13 +111,13 @@
                         <div class="px-5 mb-3">
                             <div class="table-responsive">
                                 <div class="d-flex flex-row" style="padding:17px; align-items:center; border: 1px solid #ccc">
-                                    <div class="inserirProd_Ser" info-geral="Produto ou Serviço" style="padding:15px">
+                                    <div class="inserirProd_Ser" info-geral="Categoria" style="padding:15px">
                                         <select class="form-control mt-1" id="classificacao_tipo_produto">
                                             <option selected value=""></option>
                                         </select>
                                     </div>
 
-                                    <div class="inserirQuant" info-categoria="Categoria"  style="padding:15px">
+                                    <div class="inserirQuant" info-categoria="Produto ou Serviço"  style="padding:15px">
                                         <select class="form-control input-add mt-1" id="produto_servico" placeholder="Produto ou Servico" style="width: 190px"></select>
                                     </div>
 
