@@ -153,9 +153,10 @@ function validaCampo(obj, tipo) {
         }
         if (tipo == keyPix.telefone) {
             var phone = obj.value.replace(/\D/g, "");
-            var regex = new RegExp(
-                "^\\(((1[1-9])|([2-9][0-9]))\\)((3[0-9]{3}-[0-9]{4})|(9[0-9]{3}-[0-9]{5}))$"
-            );
+
+            var regex = /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/;
+
+
             if (!regex.test(phone)) {
                 swal({
                     title: "Atenção",
