@@ -5,6 +5,8 @@ const keyPix = {
     aleatoria: 4,
 };
 
+var tipoPix = keyPix.cpfCnpj;
+
 function adicionaPix() {
     var titular = $("#input_razao_social").val();
     var id_titular_pix = $("#fk_empregado_fornecedor").val();
@@ -83,34 +85,84 @@ $(function () {
     });
 });
 
-var tipoPix = keyPix.cpfCnpj;
-
 $("#select_tipo_pix").on("change", function () {
     if ($("#select_tipo_pix").val() == keyPix.cpfCnpj) {
         // validad o tamanho do cpf
         $("#input_pix").attr("maxlength", 18);
         $("#input_pix").attr("onkeypress", "mascaraMutuario(this,cpfCnpj)");
         $("#input_pix").val("");
-        tipoPix = keyPix.cpfCnpj;
+        $("#input_pix").attr("onblur", "validaCampo(this, keyPix.cpfCnpj)");
     } else if ($("#select_tipo_pix").val() == keyPix.email) {
         // validad o tamanho do EMAIL
         $("#input_pix").attr("maxlength", 150);
         $("#input_pix").attr("onkeypress", "");
+        $("#input_pix").attr("onblur", "validaCampo(this, keyPix.email)");
         $("#input_pix").val("");
         tipoPix = keyPix.email;
     } else if ($("#select_tipo_pix").val() == keyPix.telefone) {
         // validad o tamanho do Telefone
         $("#input_pix").attr("maxlength", 15);
         $("#input_pix").attr("onkeypress", "mask(this, mphone)");
+        $("#input_pix").attr("onblur", "validaCampo(this, keyPix.telefone)");
         $("#input_pix").val("");
-        tipoPix = keyPix.telefone;
     } else if ($("#select_tipo_pix").val() == keyPix.aleatoria) {
         // validad o tamanho da CHAVE ALEATÓRIA
         $("#input_pix").attr("maxlength", 32);
         $("#input_pix").attr("onkeypress", "");
+        $("#input_pix").attr("onblur", "");
         $("#input_pix").val("");
         tipoPix = keyPix.aleatoria;
     }
 });
 
+function validaCampo(obj, tipo) {
+    if (obj.value.trim() == "") {
+        swal({
+            title: "Atenção",
+            text: "Preencha o campo PIX!",
+            icon: "warning",
+            button: "Ok",
+        });
+    } else {
+        if (tipo == keyPix.cpfCnpj) {
+            var cpf_cnpj = obj.value;
 
+            var regex =
+                /^([0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}|[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}\-?[0-9]{2})$/;
+            if (!regex.test(cpf_cnpj)) {
+                swal({
+                    title: "Atenção",
+                    text: "CPF/CNPJ inválido!",
+                    icon: "warning",
+                    button: "Ok",
+                });
+            }
+        }
+        if (tipo == keyPix.email) {
+            // verifica se existe o @ no input
+            email = obj.value;
+            var regex = /\S+@\S+\.\S+/;
+
+            if (!regex.test(email)) {
+                swal({
+                    title: "Atenção",
+                    text: "Email inválido!",
+                    button: "Ok",
+                });
+            }
+        }
+        if (tipo == keyPix.telefone) {
+            var phone = obj.value.replace(/\D/g, "");
+            var regex = new RegExp(
+                "^\\(((1[1-9])|([2-9][0-9]))\\)((3[0-9]{3}-[0-9]{4})|(9[0-9]{3}-[0-9]{5}))$"
+            );
+            if (!regex.test(phone)) {
+                swal({
+                    title: "Atenção",
+                    text: "Telefone inválido!",
+                    button: "Ok",
+                });
+            }
+        }
+    }
+}

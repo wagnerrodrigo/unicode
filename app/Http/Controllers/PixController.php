@@ -35,19 +35,21 @@ class PixController extends Controller
     // cria um novo pix do fornecedor ou empregado
     public function storeWithJSON(Request $request)
     {
-
-
         $pix = new Pix();
 
         $pix->fk_tab_tipo_pix_id = $request->select_tipo_pix;
-
+        //verifica se o pix é do tipo cnpj ou cpf e retira caracteres especiais
         if($request->select_tipo_pix == TipoPix::CPF_CNPJ){
             $cpf_cnpj = str_replace(['.', '-', '/'], '', $request->input_pix);
             $pix->de_pix = $cpf_cnpj;
-        }else if($request->select_tipo_pix == TipoPix::TELEFONE){
+        }
+        //verifica se tipo do pix é telefone e retira caracteres especiais
+        else if($request->select_tipo_pix == TipoPix::TELEFONE){
             $telefone = str_replace(['(', ')', '-', ' '], '', $request->input_pix);
             $pix->de_pix = $telefone;
-        }else{
+        }
+        //se tipo pix for outro, apenas atribui o valor do input
+        else{
             $pix->de_pix = $request->input_pix;
         }
 

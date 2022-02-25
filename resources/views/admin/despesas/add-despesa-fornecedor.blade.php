@@ -522,7 +522,7 @@
 
                             <div class="px-5 mb-3">
                                 <strong>PIX</strong>
-                                <input type="text" class="form-control" id="input_pix" name="input_pix" maxlength="18" onkeypress="mascaraMutuario(this,cpfCnpj)" autocomplete="off" style="width: 46rem;">
+                                <input type="text" class="form-control" onblur="validaCampo(this, keyPix.cpfCnpj)" id="input_pix" name="input_pix" maxlength="18" onkeypress="mascaraMutuario(this,cpfCnpj)" autocomplete="off" style="width: 46rem;">
                                 <span id="erro_pix"></span>
                             </div>
                         </div>
