@@ -88,32 +88,29 @@ var tipoPix = keyPix.cpfCnpj;
 $("#select_tipo_pix").on("change", function () {
     if ($("#select_tipo_pix").val() == keyPix.cpfCnpj) {
         // validad o tamanho do cpf
-        $("#input_pix").attr("maxlength", 14);
+        $("#input_pix").attr("maxlength", 18);
+        $("#input_pix").attr("onkeypress", "mascaraMutuario(this,cpfCnpj)");
         $("#input_pix").val("");
-        tipoPix = keyPix.cpfCnpj
+        tipoPix = keyPix.cpfCnpj;
     } else if ($("#select_tipo_pix").val() == keyPix.email) {
         // validad o tamanho do EMAIL
         $("#input_pix").attr("maxlength", 150);
+        $("#input_pix").attr("onkeypress", "");
         $("#input_pix").val("");
-        tipoPix = keyPix.email
+        tipoPix = keyPix.email;
     } else if ($("#select_tipo_pix").val() == keyPix.telefone) {
         // validad o tamanho do Telefone
-        $("#input_pix").attr("maxlength", 11);
+        $("#input_pix").attr("maxlength", 15);
+        $("#input_pix").attr("onkeypress", "mask(this, mphone)");
         $("#input_pix").val("");
-        tipoPix = keyPix.telefone
+        tipoPix = keyPix.telefone;
     } else if ($("#select_tipo_pix").val() == keyPix.aleatoria) {
         // validad o tamanho da CHAVE ALEATÓRIA
         $("#input_pix").attr("maxlength", 32);
+        $("#input_pix").attr("onkeypress", "");
         $("#input_pix").val("");
-        tipoPix = keyPix.aleatoria
+        tipoPix = keyPix.aleatoria;
     }
 });
 
-$("#input_pix").on("keyup", function () {
-    if (tipoPix == keyPix.cpfCnpj) {
-        //var cpf = $("#input_pix").val();
-        //var resultado = mascaraMutuario(cpf,cpfCnpj);
-        //console.log(resultado);
-    }
-});
 

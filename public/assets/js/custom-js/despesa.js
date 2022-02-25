@@ -75,15 +75,16 @@ $(document).ready(function () {
         .done(function (response) {
             //traz os resultados do banco para uma div hidden
             $.each(response, function (key, val) {
-                $("#classificacao_tipo_produto")
-                    .append(
-                        `<option class="classificacao" value="${val.id_tipo_produto}-${val.de_tipo_produto}">${val.de_tipo_produto}</option>`
-                    )
+                $("#classificacao_tipo_produto").append(
+                    `<option class="classificacao" value="${val.id_tipo_produto}-${val.de_tipo_produto}">${val.de_tipo_produto}</option>`
+                );
             });
             //Inicio de itens
             //ao clicar em um item da lista, o campo recebe o valor do item
             $("#classificacao_tipo_produto").on("change", function () {
-                var id_classificacao = $("#classificacao_tipo_produto").val().split("-");
+                var id_classificacao = $("#classificacao_tipo_produto")
+                    .val()
+                    .split("-");
                 //a cada nova requisição, limpa o option do select
                 $("#produto_servico").html("");
                 //faz a requisição ajax para buscar tipo de classificação
@@ -104,7 +105,7 @@ $(document).ready(function () {
         .fail(function () {
             console.log("erro na requisição Ajax");
         });
-         //Fim de itens
+    //Fim de itens
     // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO PRODUTO E O PRODUTO
 });
 
@@ -379,14 +380,19 @@ $("#Prod").click(function () {
     var valor_uni = $("#valor_item").val();
     var quanti = $("#quantidade").val();
 
-    if (class_prod_value == "" || prod_ser == "" || valor_uni == "" ||  quanti == "") {
+    if (
+        class_prod_value == "" ||
+        prod_ser == "" ||
+        valor_uni == "" ||
+        quanti == ""
+    ) {
         swal({
             title: "Atenção",
             text: "Preencha todos os campos do produto!",
             icon: "warning",
             button: "Ok",
         });
-    } else if(valor_uni <= 0|| quanti == 0){
+    } else if (valor_uni <= 0 || quanti == 0) {
         swal({
             title: "Atenção",
             text: "Valores precisam ser maiores do que ZERO!",
@@ -559,34 +565,35 @@ $.ajax({
                         "<option value='' class='pix_fornecedor_resultado'></option>" +
                         "</select>"
                 );
-                    if(tipoDespesa == "fornecedor"){
-                        $.ajax({
-                            type: "GET",
-                            url: `/pix/fornecedor/${idFornecedor}`,
-                            dataType: "json",
-                        }).done(function (response) {
-                            $.each(response, function (key, val) {
-                                $("#pix_fornecedor").append(
-                                    `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
-                                );
-                            });
+                tipoDespesa = $("input[name=tipo_despesa]:checked").val();
+
+                if (tipoDespesa == "fornecedor") {
+                    $.ajax({
+                        type: "GET",
+                        url: `/pix/fornecedor/${idFornecedor}`,
+                        dataType: "json",
+                    }).done(function (response) {
+                        $.each(response, function (key, val) {
+                            $("#pix_fornecedor").append(
+                                `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
+                            );
                         });
-                    }
-                    else{
-                        // [REGRA DE NEGOCIO]-> não exite uma definição para o pix do empregado
-                        // ajax de busca do pix do empregado
-                        $.ajax({
-                            type: "GET",
-                            url: `/pix/empregado/${idEmpregado}`,
-                            dataType: "json",
-                        }).done(function (response) {
-                            $.each(response, function (key, val) {
-                                $("#pix_fornecedor").append(
-                                    `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
-                                );
-                            });
+                    });
+                } else {
+                    // [REGRA DE NEGOCIO]-> não exite uma definição para o pix do empregado
+                    // ajax de busca do pix do empregado
+                    $.ajax({
+                        type: "GET",
+                        url: `/pix/empregado/${idEmpregado}`,
+                        dataType: "json",
+                    }).done(function (response) {
+                        $.each(response, function (key, val) {
+                            $("#pix_fornecedor").append(
+                                `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
+                            );
                         });
-                    }
+                    });
+                }
 
                 //botão do modal de conta pix
                 $("#modal_conta").append(
@@ -620,9 +627,8 @@ function limpaCamposContaBancariaPix() {
 
 // nao esta funcionado o limpaCamposContaPix
 function limpaCamposContaPix() {
- $("#option_Pix").remove();
+    $("#option_Pix").remove();
 }
-
 
 function limpaCamposDespesaJuridica() {
     $(".remove_processo").remove();

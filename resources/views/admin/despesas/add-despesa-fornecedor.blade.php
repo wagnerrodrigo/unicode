@@ -122,7 +122,7 @@
                                     </div>
 
                                     <div class="inserirValor" style="padding:15px">
-                                        <input class="form-control mt-1" id="valor_item" onkeyup="formataValor(this)" max="3" type="text" onblur="contaCaracteres(this)" type="text" class="dinheiro" autocomplete="off" placeholder="Valor" style="width: 180px" />
+                                        <input class="form-control mt-1" id="valor_item" onkeyup="formataValor(this)" max="3" type="text" onblur="verificaValor(this)" type="text" class="dinheiro" autocomplete="off" placeholder="Valor" style="width: 180px" />
                                         <span id="erro_valor_item"></span>
                                     </div>
 
@@ -522,9 +522,8 @@
 
                             <div class="px-5 mb-3">
                                 <strong>PIX</strong>
-                                <input type="text" class="form-control" id="input_pix" name="input_pix" maxlength="14" autocomplete="off" style="width: 46rem;">
-                                <span id="erro_input_pix"></span>
-                                <span id="invalid_cpf_cnpj"></span>
+                                <input type="text" class="form-control" id="input_pix" name="input_pix" maxlength="18" onkeypress="mascaraMutuario(this,cpfCnpj)" autocomplete="off" style="width: 46rem;">
+                                <span id="erro_pix"></span>
                             </div>
                         </div>
 
@@ -562,14 +561,15 @@
 <script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/rateio.js') }}"></script>
-<script src="{{ asset('assets/js/custom-js/mascara-cnpj-cpf.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/valida-cpf-cnpj.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/mascara-cnpj-cpf.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/mascara-telefone.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/valida-email.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/conta-bancaria-despesa.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/conta-pix.js') }}"></script>
 
 <script>
-    function contaCaracteres(obj) {
+    function verificaValor(obj) {
         var erro = document.getElementById("erro_valor_item");
         var valor = obj.value.replace(/[^0-9]/g, '');
 

@@ -34,10 +34,18 @@ class PixController extends Controller
     // cria um novo pix do fornecedor ou empregado
     public function storeWithJSON(Request $request)
     {
+
+
         $pix = new Pix();
 
-        $pix->de_pix = $request->input_pix;
         $pix->fk_tab_tipo_pix_id = $request->select_tipo_pix;
+
+        if($request->select_tipo_pix == '1'){
+            $cpf_cnpj = str_replace(['.', '-', '/'], '', $request->input_pix);
+            $pix->de_pix = $cpf_cnpj;
+        }else{
+            $pix->de_pix = $request->input_pix;
+        }
 
         if ($request->tipo_do_titular == 'fornecedor') {
             $pix->fk_tab_empregado_id = null;

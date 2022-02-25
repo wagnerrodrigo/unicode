@@ -20,7 +20,7 @@ function validaCpfCnpj(val) {
             invalid_cpf_cnpj.innerHTML = 'CPF inválido';
             invalid_cpf_cnpj.style.display = 'block';
             invalid_cpf_cnpj.style.color = 'red';
-            btn_cadastra_fornecedor.disabled = true;
+            btn_cadastra_fornecedor.disabled = true;Z
 
             return false;
         }
