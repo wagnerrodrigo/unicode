@@ -53,6 +53,9 @@ $(document).ready(function () {
                     dataType: "json",
                 }).done(function (response) {
                     //mostra os resultados da busca em uma div
+                    $("#tipo_classificacao").append(
+                        `<option value=""></option>`
+                    );
                     $.each(response, function (key, val) {
                         $("#tipo_classificacao").append(
                             `<option value="${val.id_plano_contas}">${val.de_plano_contas}</option>`
@@ -144,6 +147,9 @@ $("#busca_empresa").keyup(
                             url: `/centroCustoEmpresa/${id_empresa}`,
                             dataType: "json",
                         }).done(function (response) {
+                            $("#empresa").append(
+                                `<option selected value="" class="centro_custo_item"></option>`
+                            );
                             //mostra os resultados da busca em uma div
                             $.each(response, function (key, val) {
                                 $("#empresa").append(
