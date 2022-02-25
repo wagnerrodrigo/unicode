@@ -10,7 +10,7 @@ class Lancamento extends Model
 {
     use HasFactory;
 
-    static function selectAll($dt_inicio = null, $dt_fim = null, $status_despesa_id = null)
+    static function selectAll($results = 10, $dt_inicio = null, $dt_fim = null, $status_despesa_id = null)
     {
         $query = DB::table('intranet.tab_despesa')
             ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id');
@@ -29,7 +29,7 @@ class Lancamento extends Model
         } else {
             $lancamentos = $query->where('intranet.tab_despesa.fk_status_despesa_id', '=', 6)
                 ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)->orderBy('intranet.status_despesa.de_status_despesa', 'asc')
-                ->paginate(10);
+                ->paginate($results);
         }
         return $lancamentos;
     }

@@ -11,6 +11,16 @@
             <div class="card-body">
                 <form action="" method="GET">
                     <div class="d-flex">
+                        <div class="col-md-2">
+                            <div class="input-group mb-3" style="width: 170px">
+                                <label class="input-group-text" for="inputStatus">RESULTADOS</label>
+                                <select class="form-select" id="inputStatus" name="results">
+                                    <option selected value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-md-3">
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
@@ -26,7 +36,7 @@
 
 
                         <div class="col-md-3">
-                            <div class="input-group mb-3" style="width: 250px">
+                            <div class="input-group mb-3" style="width: 240px">
                                 <label class="input-group-text" for="inputStatus">STATUS</label>
                                 <select class="form-select" id="inputStatus" name="status">
                                     <option value="" selected></option>
@@ -35,7 +45,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-1">
                             <button type="submit" class="btn btn-primary" style="padding: 8px 12px;">
                                 <i class="bi bi-search"></i>
                             </button>
@@ -82,12 +92,12 @@
                     @endif
                 </table>
             </div>
-            <div>{{ $filtros ? $lancamentos->appends(['dt_inicio' => $filtros['dt_inicio_periodo'], 'status' => $filtros['status_despesa_id'], 'dt_fim' => $filtros['dt_fim_periodo'] ])->links() : $lancamentos->links() }}</div>
+            <div>{{ $filtros ? $lancamentos->appends([ 'results'=> $filtros['resultado_por_pagina'], 'dt_inicio' => $filtros['dt_inicio_periodo'], 'status' => $filtros['status_despesa_id'], 'dt_fim' => $filtros['dt_fim_periodo'] ])->links() : $lancamentos->links() }}</div>
         </div>
     </div>
 </div>
 
-<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
+
 
 <script src="assets/js/feather-icons/feather.min.js"></script>
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>

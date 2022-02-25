@@ -23,16 +23,17 @@ class LancamentoController extends Controller
         $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
 
         $filtros = null;
-
+        // dd($request->results);
         $mascara = new Mascaras();
-        if ($request->has('dt_inicio') && $request->has('dt_fim') || $request->has('status')) {
+        if ($request->has('results') || $request->has('dt_inicio') && $request->has('dt_fim') || $request->has('status')) {
             $filtros = [
+                'resultado_por_pagina'=> $request->input('results'),
                 'dt_inicio_periodo' => $request->input('dt_inicio'),
                 'dt_fim_periodo' => $request->input('dt_fim'),
                 'status_despesa_id' => $request->input('status')
             ];
 
-            $lancamentos = Lancamento::selectAll($filtros['dt_inicio_periodo'], $filtros['dt_fim_periodo'], $filtros['status_despesa_id']);
+            $lancamentos = Lancamento::selectAll($filtros['resultado_por_pagina'], $filtros['dt_inicio_periodo'], $filtros['dt_fim_periodo'], $filtros['status_despesa_id']);
         } else {
             $lancamentos = Lancamento::selectAll();
         }
