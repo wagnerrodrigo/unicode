@@ -154,58 +154,7 @@
         </div>
         </form>
     </div>
-    <!-- Inicio Modal Rateio-->
-    <div class="me-1 mb-1 d-inline-block">
-        <!--Extra Large Modal -->
-        <div class="modal fade text-left w-100" id="xrateio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel16">SELECIONE A CONTA:</h4>
-                        <div>
-                            <span>VALOR TOTAL: </span>
-                            <input class="input-add" id="modal_valor_total" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple; margin-right:20px" />
-                        </div>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <i class="bi bi-x" onclick="limpaCamposRateio()" data-feather="x"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>EMPRESA</strong>
-                                <input class="form-control input-busca" type="text" id="busca_empresa" autocomplete="off" placeholder="Digite o nome da empresa" style="width: 60rem" />
-                                <div id="results_empresa" class="resultado-busca-empresa-lancamento"></div>
-                                <!--serve somente para armazenar o id da empresa selecionada-->
-                                <input type="hidden" id="id_busca_empresa"></input>
-                                <!-- ### -->
-                            </div>
-                        </div>
-                        <div class="d-flex" style="width: 100%">
-                            <div class="px-5 mb-3">
-                                <strong>CONTAS BANCÁRIAS</strong>
-                                <input class="form-control input-busca" type="text" placeholder="" name="inst_banco" autocomplete=off id="inst_banco" class="form-control" style="width: 60rem" />
-                                <div class="Resultado_inst_banco input-addBanco" value="" id="Resultado_inst_banco">
-                                </div>
-                                <!--serve somente para armazenar o id da instituição bancária selecionada-->
-                                <input type="hidden" id="id_inst_banco"></input>
-                                <!-- ### -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button class="btn btn-success me-1 mb-1" type="button" id="addContas">
-                                <i data-feather="check-circle"></i>ADICIONAR
-                            </button>
-                            <button type="button" class="close btn btn-secondary me-1 mb-1" onclick="limpaCamposRateio()" data-bs-dismiss="modal" aria-label="Close">CANCELAR</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Fim modal Adicionar -->
+
 
     <!-- Inicio Modal Conciliação-->
     <div class="me-1 mb-1 d-inline-block">
@@ -249,6 +198,59 @@
                             <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal" aria-label="Close">
                                 CANCELAR
                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fim modal Adicionar -->
+
+    <!-- Inicio Modal Rateio-->
+    <div class="me-1 mb-1 d-inline-block">
+        <!--Extra Large Modal -->
+        <div class="modal fade text-left w-100" id="xrateio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel16">SELECIONE A CONTA:</h4>
+                        <div>
+                            <span>VALOR TOTAL: </span>
+                            <input class="input-add" id="modal_valor_total" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple; margin-right:20px" />
+                        </div>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="bi bi-x" onclick="limpaCamposRateio()" data-feather="x"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="height:20rem">
+                        <div class="d-flex" style="width: 100%">
+                            <div class="px-5 mb-3">
+                                <strong>EMPRESA</strong>
+                                <input class="form-control input-busca" type="text" id="busca_empresa" autocomplete="off" placeholder="Digite o nome da empresa" style="width: 60rem" />
+                                <div id="results_empresa" class="resultado-busca-empresa-lancamento"></div>
+                                <!--serve somente para armazenar o id da empresa selecionada-->
+                                <input type="hidden" id="id_busca_empresa"></input>
+                                <!-- ### -->
+                            </div>
+                        </div>
+                        <div class="d-flex" style="width: 100%" >
+                            <div class="px-5 mb-3">
+                                <strong>CONTAS BANCÁRIAS</strong>
+                                <input class="form-control input-busca" type="text" placeholder="" name="inst_banco" autocomplete=off id="inst_banco" class="form-control" style="width: 60rem" />
+                                <div class="Resultado_inst_banco input-addBanco" value="" id="Resultado_inst_banco">
+                                </div>
+                                <!--serve somente para armazenar o id da instituição bancária selecionada-->
+                                <input type="hidden" id="id_inst_banco"></input>
+                                <!-- ### -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button class="btn btn-success me-1 mb-1" type="button" id="addContas">
+                                <i data-feather="check-circle"></i>ADICIONAR
+                            </button>
+                            <button type="button" class="close btn btn-secondary me-1 mb-1" onclick="limpaCamposRateio()" data-bs-dismiss="modal" aria-label="Close">CANCELAR</button>
                         </div>
                     </div>
                 </div>
