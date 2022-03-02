@@ -91,4 +91,16 @@ class Endereco extends Model
         $endereco = $data[0];
         return $endereco;
     }
+
+    static function findByProvider($provider_id)
+    {
+        $addresses = DB::select("SELECT *
+        FROM intranet.tab_endereco AS endereco
+        JOIN intranet.tab_cidade AS cidade ON endereco.fk_tab_cidade_id = cidade.id_cidade
+        JOIN intranet.tab_uf AS uf ON endereco.fk_tab_uf_id = uf.id_uf
+        JOIN intranet.tab_fornecedor AS fornecedor ON endereco.fk_tab_fornecedor_id = fornecedor.id_fornecedor
+        WHERE fornecedor.id_fornecedor = $provider_id");
+
+        return $addresses;
+    }
 }

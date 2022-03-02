@@ -50,11 +50,7 @@
                                 <span>{{$fornecedor->de_nome_fantasia}}</span>
                             </div>
                         </div>
-
-
                     </div>
-
-
                 </div>
                 <div class="card-footer">
                     <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
@@ -64,66 +60,116 @@
         </div>
     </div>
 
-    <!-- Inicio Modal Adicionar-->
-    <div class="me-1 mb-1 d-inline-block">
-        <!--Extra Large Modal -->
-        <div class="modal fade text-left w-100" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel16">Editar Fornecedor</h4>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <i class="bi bi-x" data-feather="x"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- mudar para produto  -->
-                        <form action="/fornecedores/editar/{{$fornecedor->id_fornecedor}}" method="POST" style="padding: 10px;">
-                            @csrf
-                            <div class="d-flex mt-10" style="width: 100%">
+    <!--- Endereços -->
 
-                                <div class="px-5 mb-3">
-                                    <strong>Razão Social</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->de_razao_social}}" placeholder="Razão Social" name="de_razao_social" style="width: 358px" />
-                                </div>
+    <div class="main-content container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h1>ENDEREÇOS</h1>
+            </div>
+            <div class="card-body" style="font-size: 18px;">
+                <div class="card-body">
+                    <table class='table table-striped' id="table1">
+                        @if($adresses == null)
+                        <tr>
+                            <td>Não existem endereços cadastrados</td>
+                        </tr>
+                        @else
+                        <thead>
+                            <tr>
+                                <th>LOGRADOURO</th>
+                                <th>BAIRRO</th>
+                                <th>CIDADE/ESTADO</th>
+                                <th>CEP</th>
+                                <th>AÇÕES</th>
+                            </tr>
+                        </thead>
 
-                                <div class="px-5 mb-3">
-                                    <div>
-                                        <strong for="raz_social">Nome Fantasia </strong>
-                                    </div>
-                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->de_nome_fantasia}}" placeholder="Nome Fantasia" name="de_nome_fantasia" style="width: 358px" />
-                                </div>
-                            </div>
-
-                            <div class="d-flex">
-                                <div class="px-5 mb-3">
-                                    <strong>Inscrição Estadual</strong>
-                                    <input class="form-control mt-1" required type="text" value="{{$fornecedor->inscricao_estadual}}" id="insc_estadual" onblur="verificaInput(this)" placeholder="Incrição estadual" name="inscricao_estadual" style="width: 358px" />
-                                    <span id="erro_insc_estadual"></span>
-                                </div>
-                                <div class="px-5 mb-3">
-                                    <strong>CPF/CNPJ</strong>
-                                    <input class="form-control mt-1" type="text" value="{{$fornecedor->nu_cpf_cnpj}}" placeholder="CPF/CNPJ" name="nu_cpf_cnpj" style="width: 358px" readonly />
-                                </div>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary me-1 mb-1">
-                                <i data-feather="check-circle"></i>Salvar
-                            </button>
-                            <!-- mudar para produto -->
-                            <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
-                        </div>
-                        </form>
+                        <tbody>
+                            @foreach($adresses as $adress)
+                            <tr>
+                                <td>{{strtoupper($adress->logradouro)}} - {{$adress->numero}}</td>
+                                <td>{{strtoupper($adress->bairro)}}</td>
+                                <td>{{strtoupper($adress->no_cidade)}} - {{strtoupper($adress->sg_uf)}}</td>
+                                <td>{{$mascara::mask($adress->cep, '#####-###')}}</td>
+                                <td>
+                                    <a href="" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-eye-fill"></i></a>
+                                    <button data-bs-toggle="modal" data-bs-target="#delete" class="btn btn-danger" style="padding: 8px 12px;">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        @endif
+                    </table>
+                    <div class="card-footer">
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <input type="hidden" id="retorno" value="{{$retorno['success']}}">
-    <!-- fim modal -->
+        <!-- Inicio Modal Adicionar-->
+        <div class="me-1 mb-1 d-inline-block">
+            <!--Extra Large Modal -->
+            <div class="modal fade text-left w-100" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel16">Editar Fornecedor</h4>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="bi bi-x" data-feather="x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- mudar para produto  -->
+                            <form action="/fornecedores/editar/{{$fornecedor->id_fornecedor}}" method="POST" style="padding: 10px;">
+                                @csrf
+                                <div class="d-flex mt-10" style="width: 100%">
+
+                                    <div class="px-5 mb-3">
+                                        <strong>Razão Social</strong>
+                                        <input class="form-control mt-1" type="text" value="{{$fornecedor->de_razao_social}}" placeholder="Razão Social" name="de_razao_social" style="width: 358px" />
+                                    </div>
+
+                                    <div class="px-5 mb-3">
+                                        <div>
+                                            <strong for="raz_social">Nome Fantasia </strong>
+                                        </div>
+                                        <input class="form-control mt-1" type="text" value="{{$fornecedor->de_nome_fantasia}}" placeholder="Nome Fantasia" name="de_nome_fantasia" style="width: 358px" />
+                                    </div>
+                                </div>
+
+                                <div class="d-flex">
+                                    <div class="px-5 mb-3">
+                                        <strong>Inscrição Estadual</strong>
+                                        <input class="form-control mt-1" required type="text" value="{{$fornecedor->inscricao_estadual}}" id="insc_estadual" onblur="verificaInput(this)" placeholder="Incrição estadual" name="inscricao_estadual" style="width: 358px" />
+                                        <span id="erro_insc_estadual"></span>
+                                    </div>
+                                    <div class="px-5 mb-3">
+                                        <strong>CPF/CNPJ</strong>
+                                        <input class="form-control mt-1" type="text" value="{{$fornecedor->nu_cpf_cnpj}}" placeholder="CPF/CNPJ" name="nu_cpf_cnpj" style="width: 358px" readonly />
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary me-1 mb-1">
+                                    <i data-feather="check-circle"></i>Salvar
+                                </button>
+                                <!-- mudar para produto -->
+                                <a href="{{route('fornecedores')}}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" id="retorno" value="{{$retorno['success']}}">
+        <!-- fim modal -->
+    </div>
 
     <script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
 

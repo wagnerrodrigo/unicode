@@ -121,9 +121,12 @@ class FornecedorController extends Controller
         $fornecedor = Fornecedor::findOne($id);
         $mascara = new Mascaras();
 
+        $repository = new EnderecoRepository();
+        $adresses = $repository->findAdressByProvider($id);
+
         $retorno = ["success" => null];
 
-        return view('admin.fornecedor.fornecedor', compact('fornecedor', 'mascara', 'retorno'));
+        return view('admin.fornecedor.fornecedor', compact('fornecedor', 'mascara', 'retorno', 'adresses'));
     }
 
     public function showCnpjCpf($nu_cpf_cnpj)

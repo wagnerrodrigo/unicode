@@ -48,4 +48,11 @@ class EnderecoRepository
             Endereco::create($endereco);
         }
     }
+
+    function findAdressByProvider($id_provider)
+    {
+        $adresses = Endereco::findByProvider($id_provider);
+        return $adresses;
+
+    }
 }
