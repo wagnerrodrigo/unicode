@@ -103,4 +103,9 @@ class Endereco extends Model
 
         return $addresses;
     }
+
+    static function edit($endereco)
+    {
+        DB::update("UPDATE intranet.tab_endereco");
+    }
 }

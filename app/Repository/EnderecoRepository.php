@@ -12,6 +12,7 @@ class EnderecoRepository
 {
     function createEndereco($id_fornecedor, $enderecos)
     {
+        dd($enderecos, $id_fornecedor);
         //separa os enderecos em um array
         for ($i = 0; $i < count($enderecos); $i++) {
             $uf_id = UF::findIdByUF($enderecos[$i]['uf']);

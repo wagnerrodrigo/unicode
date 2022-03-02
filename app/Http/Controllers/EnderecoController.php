@@ -59,4 +59,10 @@ class EnderecoController extends Controller
 
     public function store(){
     }
+
+    public function update($id){
+
+    }
+
+
 }
