@@ -66,7 +66,9 @@
         <div class="card">
             <div class="card-header">
                 <h1>ENDEREÇOS</h1>
-                <button class="btn btn-primary" style="width: 2.5rem; padding: 6.5px; margin-top: 3px" data-bs-toggle="modal" data-bs-target="#xlarge_adress"><i class="bi bi-plus"></i></button>
+                <div style="padding: 8.5px 0 0 22.5px; margin-top: 3px">
+                    <button class="btn btn-primary" style="width: 2.5rem; padding: 6.5px; margin-top: 3px" data-bs-toggle="modal" data-bs-target="#xlarge_adress"><i class="bi bi-plus"></i></button>
+                </div>
             </div>
             <div class="card-body" style="font-size: 18px;">
                 <div class="card-body">
@@ -95,7 +97,7 @@
                                 <td>{{$mascara::mask($adress->cep, '#####-###')}}</td>
                                 <td>
                                     <a href="" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-pen-fill"></i></a>
-                                    <button data-bs-toggle="modal" data-bs-target="#delete" class="btn btn-danger" style="padding: 8px 12px;">
+                                    <button id="endereco_{{$adress->id_endereco}}" onclick="deleteAdress(this.id)" class="btn btn-danger" style="padding: 8px 12px;">
                                         <i class="bi bi-trash-fill"></i>
                                     </button>
                                 </td>
@@ -195,8 +197,8 @@
                             </div>
                             <!--Fim formulario para envio de cep para api -->
 
-                            <form action="#" method="POST" style="padding: 10px;">
-
+                            <form action="/enderecos" id="formEndereco" method="POST" style="padding: 10px;">
+                                @csrf
                                 <div class="d-flex" style="width: 100%">
                                     <div class="px-5 mb-3">
                                         <strong>LOGRADOURO</strong>
@@ -233,6 +235,7 @@
 
                                     <div>
                                         <input type="hidden" id="retorno_cep" name="retornoCep" />
+                                        <input type="hidden" id="id_provider" name="fornecedor" value="{{$fornecedor->id_fornecedor}}" />
                                     </div>
                                 </div>
 
@@ -253,186 +256,230 @@
         <!-- Fim modal Adicionar -->
         <!-- fim modal endereços -->
     </div>
+</div>
 
-    <script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
-
-    <script src="assets/js/feather-icons/feather.min.js"></script>
-    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="assets/js/vendors.js"></script>
-
-    <script src="assets/js/main.js"></script>
-    <script>
-        function verificaInput(obj) {
-            var erro = document.getElementById("erro_insc_estadual");
-            if (obj.value == '') {
-                obj.style.borderColor = 'red';
-                erro.innerHTML = 'Insira a inscrição estadual';
-                erro.style.color = 'red';
-            } else {
-                obj.style.borderColor = 'green';
-                erro.innerHTML = '';
-            }
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+    function verificaInput(obj) {
+        var erro = document.getElementById("erro_insc_estadual");
+        if (obj.value == '') {
+            obj.style.borderColor = 'red';
+            erro.innerHTML = 'Insira a inscrição estadual';
+            erro.style.color = 'red';
+        } else {
+            obj.style.borderColor = 'green';
+            erro.innerHTML = '';
         }
+    }
 
-        var retorno = document.getElementById("retorno").value;
+    var retorno = document.getElementById("retorno").value;
 
-        if (retorno == '1') {
-            swal({
-                title: "Sucesso",
-                text: "Fornecedor editado com sucesso!",
-                icon: "success",
-                button: "OK",
-            });
-            window.location.href = "{{route('fornecedores')}}";
-        } else if (retorno == '0') {
-            swal({
-                title: "Erro",
-                text: "Erro ao editar fornecedor!",
-                icon: "error",
-                button: "OK",
-            });
-            window.location.href = "{{route('fornecedores')}}";
-        }
-    </script>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/js/custom-js/mascara-cnpj-cpf.js') }}"></script>
-    <script src="{{ asset('assets/js/custom-js/valida-cpf-cnpj.js') }}"></script>
-
-    <script>
-        $(document).ready(function() {
-            var cepRetornado = "";
-            var logradouro = "";
-            var numero = null;
-            var complemento = "";
-            var bairro = "";
-            var localidade = "";
-            var uf = "";
-
-            $("#button_endereco").click(function() {
-                // Limpa valores do formulário de cep.
-                $("#cep").val("");
-                $("#retorno_cep").val("");
-                $("#logradouro").val("");
-                $("#bairro").val("");
-                $("#localidade").val("");
-                $("#uf").val("");
-            });
-
-            //Quando o campo cep perde o foco.
-            $("#cep").blur(function() {
-
-                //Nova variável "cep" somente com dígitos.
-                var cep = $(this).val().replace(/\D/g, '');
-
-                //Verifica se campo cep possui valor informado.
-                if (cep != "") {
-
-                    //Expressão regular para validar o CEP.
-                    var validacep = /^[0-9]{8}$/;
-
-                    //Valida o formato do CEP.
-                    if (validacep.test(cep)) {
-
-                        //Preenche os campos com "..." enquanto consulta webservice.
-                        $("#retorno_cep").val("...");
-                        $("#logradouro").val("...");
-                        $("#numero").val("...");
-                        $("#complemento").val("...");
-                        $("#bairro").val("...");
-                        $("#localidade").val("...");
-                        $("#uf").val("...");
-
-                        //Consulta o webservice viacep.com.br/
-
-                        $.ajax({
-                            url: '/cep',
-                            type: 'POST',
-                            data: {
-                                cep: cep,
-                                _token: $('input[name=_token]').val()
-                            },
-                            success: function(data) {
-                                if (!("erro" in data)) {
-
-                                    var dados = JSON.parse(data.scalar);
-
-                                    cepRetornado = $("#retorno_cep").val(dados.cep);
-                                    logradouro = $("#logradouro").val(dados.logradouro);
-                                    complemento = $("#complemento").val(dados.complemento);
-                                    numero = $("#numero").val('');
-                                    bairro = $("#bairro").val(dados.bairro);
-                                    localidade = $("#localidade").val(dados.localidade);
-                                    uf = $("#uf").val(dados.uf);
-
-
-                                    //TRANSFORMA OS CAMPOS EM READONLY
-                                    $("#localidade").prop('readonly', true);
-                                    $("#uf").prop('readonly', true);
-                                } //end if.
-                                else {
-                                    //CEP pesquisado não foi encontrado.
-                                    limpa_formulário_cep();
-                                    alert("CEP não encontrado.");
-                                }
-                            }
-                        });
-                    } else {
-                        //cep é inválido.
-                        limpa_formulário_cep();
-                        alert("Formato de CEP inválido.");
-                    }
-                } //end if.
-                else {
-                    //cep sem valor, limpa formulário.
-                    limpa_formulário_cep();
-                }
-            });
-            //comecei daqui o endereco dinamico
-
-            $("#btn_modal").click(function() {
-                if (
-                    cepRetornado == "" ||
-                    logradouro == "" ||
-                    bairro == "" ||
-                    localidade == "" ||
-                    uf == ""
-                ) {
-                    alert("Preencha todos os campos!");
-                } else {
-                    numero = $("#numero").val();
-
-                    $("#logradouro").attr('name', 'logradouro[]').attr('value', logradouro.val().toUpperCase());
-                    $("#bairro").attr('name', 'bairro[]').attr('value', bairro.val().toUpperCase());
-                    $("#localidade").attr('name', 'localidade[]').attr('value', localidade.val().toUpperCase());
-                    $("#uf").attr('name', 'uf[]').attr('value', uf.val().toUpperCase());
-                    $("#numero").attr('name', 'numero[]').attr('value', numero.toUpperCase());
-                    $("#complemento").attr('name', 'complemento[]').attr('value', complemento.val().toUpperCase());
-                    $("#cep").attr('name', 'cep[]').attr('value', cepRetornado.val().toUpperCase());
-
-                    document.getElementById("myForm").submit();
-                }
-            });
-
+    if (retorno == '1') {
+        swal({
+            title: "Sucesso",
+            text: "Fornecedor editado com sucesso!",
+            icon: "success",
+            button: "OK",
         });
+        window.location.href = "{{route('fornecedores')}}";
+    } else if (retorno == '0') {
+        swal({
+            title: "Erro",
+            text: "Erro ao editar fornecedor!",
+            icon: "error",
+            button: "OK",
+        });
+        window.location.href = "{{route('fornecedores')}}";
+    }
+</script>
 
-        function removeEndereco(id) {
-            $("#gerado_" + id).remove();
-            $("#" + id).remove();
-        }
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="{{ asset('assets/js/custom-js/mascara-cnpj-cpf.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/valida-cpf-cnpj.js') }}"></script>
 
-        function limpaCampos() {
+<script>
+    $(document).ready(function() {
+        var cepRetornado = "";
+        var logradouro = "";
+        var numero = null;
+        var complemento = "";
+        var bairro = "";
+        var localidade = "";
+        var uf = "";
+
+        $("#button_endereco").click(function() {
+            // Limpa valores do formulário de cep.
             $("#cep").val("");
             $("#retorno_cep").val("");
             $("#logradouro").val("");
             $("#bairro").val("");
             $("#localidade").val("");
             $("#uf").val("");
-            $("#numero").val("");
-            $("#complemento").val("");
-        }
-    </script>
+        });
+
+        //Quando o campo cep perde o foco.
+        $("#cep").blur(function() {
+
+            //Nova variável "cep" somente com dígitos.
+            var cep = $(this).val().replace(/\D/g, '');
+
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
+
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
+
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    $("#retorno_cep").val("...");
+                    $("#logradouro").val("...");
+                    $("#numero").val("...");
+                    $("#complemento").val("...");
+                    $("#bairro").val("...");
+                    $("#localidade").val("...");
+                    $("#uf").val("...");
+
+                    //Consulta o webservice viacep.com.br/
+
+                    $.ajax({
+                        url: '/cep',
+                        type: 'POST',
+                        data: {
+                            cep: cep,
+                            _token: $('input[name=_token]').val()
+                        },
+                        success: function(data) {
+                            if (!("erro" in data)) {
+
+                                var dados = JSON.parse(data.scalar);
+
+                                cepRetornado = $("#retorno_cep").val(dados.cep);
+                                logradouro = $("#logradouro").val(dados.logradouro);
+                                complemento = $("#complemento").val(dados.complemento);
+                                numero = $("#numero").val('');
+                                bairro = $("#bairro").val(dados.bairro);
+                                localidade = $("#localidade").val(dados.localidade);
+                                uf = $("#uf").val(dados.uf);
+
+
+                                //TRANSFORMA OS CAMPOS EM READONLY
+                                $("#localidade").prop('readonly', true);
+                                $("#uf").prop('readonly', true);
+                            } //end if.
+                            else {
+                                //CEP pesquisado não foi encontrado.
+                                limpa_formulário_cep();
+                                alert("CEP não encontrado.");
+                            }
+                        }
+                    });
+                } else {
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+        });
+        //comecei daqui o endereco dinamico
+
+        $("#btn_modal").click(function() {
+            if (
+                cepRetornado == "" ||
+                logradouro == "" ||
+                bairro == "" ||
+                localidade == "" ||
+                uf == ""
+            ) {
+                alert("Preencha todos os campos!");
+            } else {
+                numero = $("#numero").val();
+
+                $("#logradouro").attr('name', 'logradouro[]').attr('value', logradouro.val());
+                $("#bairro").attr('name', 'bairro[]').attr('value', bairro.val());
+                $("#localidade").attr('name', 'localidade[]').attr('value', localidade.val());
+                $("#uf").attr('name', 'uf[]').attr('value', uf.val());
+                $("#numero").attr('name', 'numero[]').attr('value', numero);
+                $("#complemento").attr('name', 'complemento[]').attr('value', complemento.val());
+                $("#cep").attr('name', 'cep[]').attr('value', cepRetornado);
+
+                document.getElementById("formEndereco").submit();
+            }
+        });
+
+    });
+
+    function removeEndereco(id) {
+        $("#gerado_" + id).remove();
+        $("#" + id).remove();
+    }
+
+    function limpaCampos() {
+        $("#cep").val("");
+        $("#retorno_cep").val("");
+        $("#logradouro").val("");
+        $("#bairro").val("");
+        $("#localidade").val("");
+        $("#uf").val("");
+        $("#numero").val("");
+        $("#complemento").val("");
+    }
+</script>
+
+<script>
+    function deleteAdress(obj) {
+        let id = obj.replace('endereco_', '');
+
+        console.log(id);
+        Swal.fire({
+            title: 'Atenção?',
+            text: "Deseja Realmente Excluir este Endereço?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/enderecos/delete/' + id,
+                    type: 'post',
+                    data: {
+                        _token: $('input[name=_token]').val()
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Deletado!',
+                            text: 'Sucesso',
+                            confirmButtonText: 'Sim'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        })
+                        if (!("erro" in data)) {
+                            $("#gerado_" + id).remove();
+                            $("#" + id).remove();
+                        } else {
+                            Swal.fire({
+                                title: 'Erro!',
+                                text: 'Erro ao deletar',
+                                confirmButtonText: 'Sim'
+                            })
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>
 
 
 
-    @endsection
+@endsection

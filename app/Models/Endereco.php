@@ -99,7 +99,7 @@ class Endereco extends Model
         JOIN intranet.tab_cidade AS cidade ON endereco.fk_tab_cidade_id = cidade.id_cidade
         JOIN intranet.tab_uf AS uf ON endereco.fk_tab_uf_id = uf.id_uf
         JOIN intranet.tab_fornecedor AS fornecedor ON endereco.fk_tab_fornecedor_id = fornecedor.id_fornecedor
-        WHERE fornecedor.id_fornecedor = $provider_id");
+        WHERE fornecedor.id_fornecedor = $provider_id AND endereco.dt_fim IS NULL");
 
         return $addresses;
     }
@@ -107,5 +107,15 @@ class Endereco extends Model
     static function edit($endereco)
     {
         DB::update("UPDATE intranet.tab_endereco");
+    }
+
+    static function setEndDate($id, $date)
+    {
+        DB::update("UPDATE intranet.tab_endereco
+        SET dt_fim = ?
+        WHERE id_endereco = ? ", [
+            $date,
+            $id
+        ]);
     }
 }

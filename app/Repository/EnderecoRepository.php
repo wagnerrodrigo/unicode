@@ -12,7 +12,6 @@ class EnderecoRepository
 {
     function createEndereco($id_fornecedor, $enderecos)
     {
-        dd($enderecos, $id_fornecedor);
         //separa os enderecos em um array
         for ($i = 0; $i < count($enderecos); $i++) {
             $uf_id = UF::findIdByUF($enderecos[$i]['uf']);
@@ -27,8 +26,9 @@ class EnderecoRepository
                 "fk_tab_cidade_id" => $cidade_id,
                 "fk_tab_uf_id" => $uf_id,
             ];
-
         }
+
+        //dd($enderecos);
         //salva os enderecos
         $endereco = new Endereco();
 
@@ -55,5 +55,9 @@ class EnderecoRepository
         $adresses = Endereco::findByProvider($id_provider);
         return $adresses;
 
+    }
+
+    function deleteAdress($id_adress, $date){
+        Endereco::setEndDate($id_adress, $date);
     }
 }
