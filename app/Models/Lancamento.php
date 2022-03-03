@@ -174,7 +174,7 @@ class Lancamento extends Model
             valor_pago,
             dt_fim
         )
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
             $lancamento->id_despesa,
             $lancamento->dt_lancamento,
             $lancamento->dt_vencimento,
