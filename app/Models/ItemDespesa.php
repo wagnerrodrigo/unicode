@@ -27,7 +27,6 @@ class ItemDespesa extends Model
         (
         fk_tab_despesa_id,
         fk_tab_produto_id,
-        fk_tab_servico_id,
         de_item_despesa,
         valor_unitario_item_despesa,
         quantidade,
@@ -35,11 +34,10 @@ class ItemDespesa extends Model
         dt_fim,
         valor_total_item_despesa
         )
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?);
         ", [
             $itemDespesa->fk_tab_despesa_id,
             $itemDespesa->fk_tab_produto_id,
-            $itemDespesa->fk_tab_servico_id,
             $itemDespesa->de_item_despesa,
             $itemDespesa->valor_unitario_item_despesa,
             $itemDespesa->quantidade,
