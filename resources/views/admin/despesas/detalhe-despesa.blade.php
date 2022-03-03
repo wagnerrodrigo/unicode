@@ -2,6 +2,7 @@
 @section('title', 'Despesa')
 
 @section('content')
+
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
         <div class="card">
