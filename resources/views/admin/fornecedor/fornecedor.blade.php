@@ -435,8 +435,6 @@
 <script>
     function deleteAdress(obj) {
         let id = obj.replace('endereco_', '');
-
-        console.log(id);
         Swal.fire({
             title: 'Atenção!',
             text: "Deseja Realmente Excluir este Endereço?",
@@ -444,7 +442,7 @@
             showCancelButton: true,
             confirmButtonColor: '#820AD1',
             cancelButtonColor: '#D1611F',
-            confirmButtonText: 'Sim',
+            confirmButtonText: 'Confirmar',
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
@@ -455,23 +453,23 @@
                         _token: $('input[name=_token]').val()
                     },
                     success: function(data) {
-                        Swal.fire({
-                            title: 'Deletado!',
-                            text: 'Sucesso',
-                            confirmButtonText: 'Sim'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        })
-                        if (!("erro" in data)) {
-                            $("#gerado_" + id).remove();
-                            $("#" + id).remove();
+                        if (!("error" in data)) {
+                            Swal.fire({
+                                title: 'Sucesso!',
+                                text: 'Deletado',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            })
                         } else {
                             Swal.fire({
                                 title: 'Erro!',
                                 text: 'Erro ao deletar',
-                                confirmButtonText: 'Sim'
+                                icon: 'error',
+                                confirmButtonText: 'OK'
                             })
                         }
                     }
