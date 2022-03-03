@@ -71,9 +71,9 @@ class EnderecoController extends Controller
         $adresses = [
             [
                 "cep" => $request->retornoCep,
-                "logradouro" => strtoupper($request->logradouro[0]),
+                "logradouro" => mb_convert_case($request->logradouro[0], MB_CASE_UPPER, $encoding),
                 "numero" => $request->numero[0],
-                "complemento" => strtoupper($request->complemento[0]),
+                "complemento" => mb_convert_case($request->complemento[0], MB_CASE_UPPER, $encoding),
                 "bairro" => mb_convert_case($request->bairro[0], MB_CASE_UPPER, $encoding),
                 "localidade" => mb_convert_case($request->localidade[0], MB_CASE_UPPER, $encoding),
                 "uf" => strtoupper($request->uf[0])
