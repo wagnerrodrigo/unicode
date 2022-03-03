@@ -104,9 +104,16 @@ class Endereco extends Model
         return $addresses;
     }
 
-    static function edit($endereco)
+    static function edit($id, $endereco)
     {
-        DB::update("UPDATE intranet.tab_endereco");
+        DB::update("UPDATE intranet.tab_endereco
+        SET numero = ?,
+        complemento = ?
+        WHERE id_endereco = ?", [
+            $endereco->numero,
+            $endereco->complemento,
+            $id
+        ]);
     }
 
     static function setEndDate($id, $date)

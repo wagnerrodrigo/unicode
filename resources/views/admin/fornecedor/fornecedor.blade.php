@@ -3,6 +3,28 @@
 
 @section('content')
 
+@if (\Session::has('success'))
+<script>
+    swal({
+        title: "Sucesso!",
+        text: "{{ \Session::get('success') }}",
+        icon: "success",
+        button: "Ok",
+    });
+</script>
+@endif
+
+@if (\Session::has('error'))
+<script>
+    swal({
+        title: "Erro!",
+        text: "Não foi possível alterar o endereço!",
+        icon: "error",
+        button: "Ok",
+    });
+</script>
+@endif
+
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
         <div class="card">
@@ -96,12 +118,84 @@
                                 <td>{{strtoupper($adress->no_cidade)}} - {{strtoupper($adress->sg_uf)}}</td>
                                 <td>{{$mascara::mask($adress->cep, '#####-###')}}</td>
                                 <td>
-                                    <a href="" class="btn btn-primary" style="padding: 8px 12px;"><i class="bi bi-pen-fill"></i></a>
+                                    <button data-bs-toggle="modal" data-bs-target="#xlarge_adress_{{$adress->id_endereco}}" class="btn btn-primary" style="padding: 8px 12px; margin-right:3px;">
+                                        <i class="bi bi-pen-fill"></i>
+                                    </button>
                                     <button id="endereco_{{$adress->id_endereco}}" onclick="deleteAdress(this.id)" class="btn btn-danger" style="padding: 8px 12px;">
                                         <i class="bi bi-trash-fill"></i>
                                     </button>
                                 </td>
                             </tr>
+                            <!-- Inicio Modal Editar Endereços -->
+                            <div class="me-1 mb-1 d-inline-block">
+                                <div class="modal fade text-left w-100" id="xlarge_adress_{{$adress->id_endereco}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel16">EDITAR ENDEREÇO</h4>
+                                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                    <i class="bi bi-x" data-feather="x"></i>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/enderecos/edit/{{$adress->id_endereco}}" name="editFormEndereco_{{$adress->id_endereco}}" method="POST" style="padding: 10px;">
+                                                    @csrf
+                                                    <div class="d-flex" style="width: 100%">
+                                                        <div class="px-5 mb-3">
+                                                            <strong>CEP</strong>
+                                                            <input class="form-control mt-1" type="text" readonly placeholder="Cep" name="cep" value="{{$adress->cep}}" style="width: 358px" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex" style="width: 100%">
+                                                        <div class="px-5 mb-3">
+                                                            <strong>LOGRADOURO</strong>
+                                                            <input class="form-control mt-1" type="text" readonly placeholder="Logradouro" name="logradouro" value="{{$adress->logradouro}}" style="width: 358px" />
+                                                        </div>
+                                                        <div class="px-5 mb-3">
+                                                            <strong>NÚMERO</strong>
+                                                            <input class="form-control mt-1" type="text" placeholder="Número" name="numero" value="{{$adress->numero}}" style="width: 358px" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex" style="width: 100%">
+                                                        <div class="px-5 mb-3">
+                                                            <strong>COMPLEMENTO(OPCIONAL)</strong>
+                                                            <input class="form-control mt-1" type="text" placeholder="Complemento" name="complemento" value="{{$adress->complemento}}" style="width: 358px" />
+                                                        </div>
+
+                                                        <div class="px-5 mb-3">
+                                                            <strong>BAIRRO</strong>
+                                                            <input class="form-control mt-1" type="text" placeholder="Bairro" readonly name="bairro" value="{{$adress->bairro}}" style="width: 358px" />
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="d-flex" style="width: 100%">
+                                                        <div class="px-5 mb-3">
+                                                            <strong>CIDADE</strong>
+                                                            <input class="form-control mt-1" type="text" placeholder="Cidade" readonly name="cidade" value="{{$adress->no_cidade}}" style="width: 358px" />
+                                                        </div>
+                                                        <div class="px-5 mb-3">
+                                                            <strong>ESTADO</strong>
+                                                            <input class="form-control mt-1" type="text" placeholder="Estado" readonly name="estado" value="{{$adress->sg_uf}}" style="width: 358px" />
+                                                        </div>
+                                                    </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="col-sm-12 d-flex justify-content-end">
+                                                    <button type="submit" class="btn btn-success me-1 mb-1">
+                                                        <i data-feather="check-circle"></i>EDITAR
+                                                    </button>
+                                                    <a href="/fornecedores/{{$fornecedor->id_fornecedor}}" class="btn btn-secondary me-1 mb-1">CANCELAR</a>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- fim modal editar endereços -->
                             @endforeach
                         </tbody>
                         @endif
@@ -253,8 +347,7 @@
                 </div>
             </div>
         </div>
-        <!-- Fim modal Adicionar -->
-        <!-- fim modal endereços -->
+        <!-- fim modal adicionar endereços -->
     </div>
 </div>
 

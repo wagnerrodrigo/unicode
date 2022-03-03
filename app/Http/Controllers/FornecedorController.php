@@ -121,8 +121,8 @@ class FornecedorController extends Controller
         $fornecedor = Fornecedor::findOne($id);
         $mascara = new Mascaras();
 
-        $repository = new EnderecoRepository();
-        $adresses = $repository->findAdressByProvider($id);
+        $AdressRepository = new EnderecoRepository();
+        $adresses = $AdressRepository->findAdressByProvider($id);
 
         $retorno = ["success" => null];
 
@@ -154,14 +154,13 @@ class FornecedorController extends Controller
             }
 
             Fornecedor::set($fornecedor);
-            $mascara = new Mascaras();
 
-            $retorno = ['success' => true, 'msg' => 'Fornecedor alterado com sucesso!'];
-
-            return view('admin.fornecedor.fornecedor', compact('fornecedor', 'retorno', 'mascara'));
+            return redirect()->back()->with('success', 'Fornecedor alterado com sucesso!');
         } catch (\Exception $e) {
-            $retorno = ['success' => false, 'msg' => 'Erro ao alterar fornecedor!'];
-            return view('admin.fornecedor.fornecedor', compact('fornecedor', 'retorno', 'mascara'));
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors($e->getMessage());
         }
     }
 

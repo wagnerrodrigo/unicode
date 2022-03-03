@@ -92,8 +92,23 @@ class EnderecoController extends Controller
         return redirect("/fornecedores/{$request->fornecedor}");
     }
 
-    public function update($id)
+    public function update($id, Request $request)
     {
+        try {
+            $adress = new Endereco();
+
+            $adress->numero = $request->numero;
+            $adress->complemento = $request->complemento;
+
+            Endereco::edit($id, $adress);
+
+            return redirect()->back()->with('success', 'Endereço alterado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors($e->getMessage());
+        }
     }
 
     public function delete($id)

@@ -191,7 +191,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/instituicoes-financeira')-
 Route::middleware('autenticacaoMiddleware')->prefix('/enderecos')->group(function () {
     Route::post('/', [EnderecoController::class, 'store']);
     Route::post('/delete/{id}', [EnderecoController::class, 'delete']);
-    Route::post('/edit/{id}', [EnderecoController::class, 'edit']);
+    Route::post('/edit/{id}', [EnderecoController::class, 'update']);
     Route::get('/', [EnderecoController::class, 'index']);
     Route::get('/empresas', [EnderecoController::class, 'selectEmpresa']);
     Route::get('/adicionar', [EnderecoController::class, 'formEndereco']);
