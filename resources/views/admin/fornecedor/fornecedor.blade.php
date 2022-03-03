@@ -438,13 +438,14 @@
 
         console.log(id);
         Swal.fire({
-            title: 'Atenção?',
+            title: 'Atenção!',
             text: "Deseja Realmente Excluir este Endereço?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sim'
+            confirmButtonColor: '#820AD1',
+            cancelButtonColor: '#D1611F',
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
