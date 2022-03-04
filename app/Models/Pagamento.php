@@ -23,15 +23,81 @@ class Pagamento extends Model
 
     static function selectAll()
     {
-        $query = "SELECT * FROM intranet.tab_despesa where fk_status_despesa_id = ? ";
-
-        $pagamento = DB::select($query, [config('constants.PAGO')]);
-
+        $pagamento = DB::table('intranet.tab_pagamento')
+            ->join(
+                'intranet.tab_lancamento',
+                'tab_lancamento.id_tab_lancamento',
+                '=',
+                'tab_pagamento.fk_tab_lancamento_id'
+            )
+            ->join(
+                'intranet.tab_despesa',
+                'tab_lancamento.fk_tab_despesa_id',
+                '=',
+                'tab_despesa.id_despesa'
+            )->join(
+                'intranet.status_despesa',
+                'tab_despesa.fk_status_despesa_id',
+                '=',
+                'status_despesa.id_status_despesa'
+            )->get();
         return $pagamento;
     }
 
-    static function findOne()
+    static function findOne($id)
     {
+        return DB::table('intranet.tab_pagamento')
+            ->join(
+                'intranet.tab_lancamento',
+                'tab_lancamento.id_tab_lancamento',
+                '=',
+                'tab_pagamento.fk_tab_lancamento_id'
+            )->join(
+                'intranet.tab_despesa',
+                'tab_lancamento.fk_tab_despesa_id',
+                '=',
+                'tab_despesa.id_despesa'
+            )->join(
+                'intranet.status_despesa',
+                'tab_despesa.fk_status_despesa_id',
+                '=',
+                'status_despesa.id_status_despesa'
+            )->join(
+                'intranet.tab_fornecedor',
+                'tab_despesa.fk_tab_fornecedor_id',
+                '=',
+                'tab_fornecedor.id_fornecedor'
+            )->join(
+                'intranet.tab_centro_custo',
+                'tab_despesa.fk_tab_centro_custo_id',
+                '=',
+                'tab_centro_custo.id_centro_custo'
+            )->join(
+                "intranet.tab_empresa",
+                "tab_centro_custo.fk_empresa_id",
+                "=",
+                "tab_empresa.id_empresa"
+            )->join(
+                'intranet.tab_departamento',
+                'tab_departamento.id_departamento',
+                '=',
+                'tab_centro_custo.fk_tab_departamento'
+            )->join(
+                "intranet.tab_rateio_pagamento",
+                "tab_rateio_pagamento.fk_tab_lancamento",
+                "=",
+                "id_tab_lancamento"
+            )->join(
+                "intranet.tab_conta_bancaria",
+                "tab_rateio_pagamento.fk_tab_conta_bancaria",
+                "=",
+                "tab_conta_bancaria.id_conta_bancaria"
+            )->join(
+                "intranet.tab_inst_banco",
+                "tab_inst_banco.id",
+                "=",
+                "tab_conta_bancaria.fk_tab_inst_banco_id"
+            )->where("intranet.tab_pagamento.id_pagamento", "=", $id)->get();
     }
 
 

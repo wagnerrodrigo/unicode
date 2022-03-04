@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pagamento;
 use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
+use App\Repository\RateioRepository;
 
 class PagamentoController extends Controller
 {
@@ -17,12 +18,27 @@ class PagamentoController extends Controller
     {
         $mascara = new Mascaras();
         $pagamentos = Pagamento::selectAll();
-        
+
         return view('admin.pagamento.lista-pagamento', compact('pagamentos', 'mascara'));
     }
 
 
-    
+    public function show($id){
+
+        $mascara = new Mascaras();
+        $pagamento = Pagamento::findOne($id);
+
+        $rateioRepository = new RateioRepository();
+        $rateios = $rateioRepository->findByLancamento($pagamento[0]->fk_tab_lancamento);
+
+        //dd($rateios);
+
+
+        return view('admin.pagamento.despesa-paga', compact('pagamento', 'mascara'));
+    }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -51,7 +67,7 @@ class PagamentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     /**
      * Show the form for editing the specified resource.
      *
