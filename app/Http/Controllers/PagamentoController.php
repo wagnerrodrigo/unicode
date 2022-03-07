@@ -6,6 +6,7 @@ use App\Models\Pagamento;
 use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
 use App\Repository\RateioRepository;
+use App\Repository\DespesaRepository;
 
 class PagamentoController extends Controller
 {
@@ -26,15 +27,26 @@ class PagamentoController extends Controller
     public function show($id){
 
         $mascara = new Mascaras();
+        //pega o pagamento
         $pagamento = Pagamento::findOne($id);
 
+        foreach ($pagamento as $pagamento) {}
+
+        //busca o tipo de despesa
+        $despesaRepository = new DespesaRepository();
+        $tipoDaDespesa = $despesaRepository->findInfosDespesa($pagamento->fk_tab_despesa_id);
+
+        foreach ($tipoDaDespesa as $tipoDaDespesa) {}
+
+        $pagamentos = Pagamento::getInfosPagamento($id, $tipoDaDespesa->fk_tab_tipo_despesa_id);
+
+        foreach ($pagamentos as $pagamento){}
+
+        //pega os rateios
         $rateioRepository = new RateioRepository();
-        $rateios = $rateioRepository->findByLancamento($pagamento[0]->fk_tab_lancamento);
+        $rateios = $rateioRepository->findRateioDespesa($pagamento->id_despesa);
 
-        //dd($rateios);
-
-
-        return view('admin.pagamento.despesa-paga', compact('pagamento', 'mascara'));
+        return view('admin.pagamento.despesa-paga', compact('pagamento', 'mascara', 'rateios'));
     }
 
 

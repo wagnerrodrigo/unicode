@@ -21,4 +21,8 @@ class RateioRepository
     {
         return Rateio::getRateioLancamento($id);
     }
+
+    function findRateioDespesa($id){
+        return Rateio::getRateioDespesa($id);
+    }
 }

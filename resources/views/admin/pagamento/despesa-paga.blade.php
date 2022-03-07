@@ -1,5 +1,5 @@
 @extends('layouts.templates.template')
-@section('title', 'Despesa')
+@section('title', 'Detalhes do Pagamento')
 
 @section('content')
 
@@ -7,7 +7,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>DETALHES DO PAGAMENTO DA DESPESA N°{{$pagamento[0]->id_despesa}}</h1>
+                <h1>DETALHES DO PAGAMENTO DA DESPESA N°{{$pagamento->id_despesa}}</h1>
             </div>
             <div class="card-body" style="font-size: 18px;">
                 <div class="card-body">
@@ -18,9 +18,9 @@
                                     <strong>EMPRESA</strong>
                                 </div>
                                 <div>
-                                    <span>{{$pagamento[0]->de_empresa}}</span>
+                                    <span>{{$pagamento->de_empresa}}</span>
                                 </div>
-                                <span>{{$pagamento[0]->regiao_empresa}}</span>
+                                <span>{{$pagamento->regiao_empresa}}</span>
                             </div>
                         </div>
 
@@ -29,7 +29,7 @@
                                 <div>
                                     <strong>CENTRO DE CUSTO</strong>
                                 </div>
-                                <span>{{$pagamento[0]->de_departamento}}</span>
+                                <span>{{$pagamento->de_departamento}}</span>
                             </div>
                         </div>
                     </div>
@@ -41,7 +41,11 @@
                                 <div>
                                     <strong>EMPREGADO/FORNECEDOR</strong>
                                 </div>
-                                <span>{{$pagamento[0]->de_razao_social}}</span>
+                                @if($pagamento->fk_tab_tipo_despesa_id == 2)
+                                <span>{{$pagamento->de_razao_social}}</span>
+                                @else
+                                <span>{{$pagamento->nome_empregado}}</span>
+                                @endif
                             </div>
                         </div>
 
@@ -51,9 +55,9 @@
                                     <strong>CPF/CNPJ</strong>
                                 </div>
                                 <span>
-                                    {{strlen($pagamento[0]->nu_cpf_cnpj) == 14
-                                ? $mascara::mask($pagamento[0]->nu_cpf_cnpj, '##.###.###/####-##')
-                                : $mascara::mask($pagamento[0]->nu_cpf_cnpj, '###.###.###-##')}}</span>
+                                    {{strlen($pagamento->nu_cpf_cnpj) == 14
+                                ? $mascara::mask($pagamento->nu_cpf_cnpj, '##.###.###/####-##')
+                                : $mascara::mask($pagamento->nu_cpf_cnpj, '###.###.###-##')}}</span>
                             </div>
                         </div>
                     </div>
@@ -65,7 +69,7 @@
                                 <div>
                                     <strong>CONTA DE PAGAMENTO</strong>
                                 </div>
-                                <span>Agência: {{$pagamento[0]->nu_agencia}} Conta: {{$pagamento[0]->nu_conta}} Co-op: {{$pagamento[0]->co_op}}</span>
+                                <span>Agência: {{$pagamento->nu_agencia}} Conta: {{$pagamento->nu_conta}} Co-op: {{$pagamento->co_op}}</span>
                             </div>
                         </div>
 
@@ -74,7 +78,7 @@
                                 <div>
                                     <strong>INSTITUIÇÃO BANCÁRIA</strong>
                                 </div>
-                                <span>{{$pagamento[0]->de_banco}}</span>
+                                <span>{{$pagamento->de_banco}}</span>
                             </div>
                         </div>
                     </div>
@@ -85,7 +89,7 @@
                                 <div>
                                     <strong>VALOR ORIGINAL DA DESPESA</strong>
                                 </div>
-                                <span>{{$mascara::maskMoeda($pagamento[0]->valor_total_despesa)}}</span>
+                                <span>{{$mascara::maskMoeda($pagamento->valor_total_despesa)}}</span>
                             </div>
                         </div>
 
@@ -94,7 +98,7 @@
                                 <div>
                                     <strong>DESCONTO</strong>
                                 </div>
-                                <span>{{$pagamento[0]->desconto == null ? 'R$ 0,00' : $mascara::maskMoeda($pagamento[0]->desconto)}}</span>
+                                <span>{{$pagamento->desconto == null ? 'R$ 0,00' : $mascara::maskMoeda($pagamento->desconto)}}</span>
                             </div>
                         </div>
                     </div>
@@ -105,7 +109,7 @@
                                 <div>
                                     <strong>JÚROS</strong>
                                 </div>
-                                <span>{{$pagamento[0]->juros == null ? 'R$ 0,00' : $mascara::maskMoeda($pagamento[0]->juros)}}</span>
+                                <span>{{$pagamento->juros == null ? 'R$ 0,00' : $mascara::maskMoeda($pagamento->juros)}}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -113,7 +117,7 @@
                                 <div>
                                     <strong>MULTA</strong>
                                 </div>
-                                <span>{{$pagamento[0]->multa == null ? 'R$ 0,00' : $mascara::maskMoeda($pagamento[0]->multa)}}</span>
+                                <span>{{$pagamento->multa == null ? 'R$ 0,00' : $mascara::maskMoeda($pagamento->multa)}}</span>
                             </div>
                         </div>
                     </div>
@@ -124,7 +128,7 @@
                                 <div>
                                     <strong>VALOR PAGO</strong>
                                 </div>
-                                <span>{{$mascara::maskMoeda($pagamento[0]->valor_pago)}}</span>
+                                <span>{{$mascara::maskMoeda($pagamento->valor_pago)}}</span>
                             </div>
                         </div>
 
@@ -133,27 +137,7 @@
                                 <div>
                                     <strong>PARCELAS</strong>
                                 </div>
-                                <span>{{$pagamento[0]->qt_parcelas_despesa}}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div>
-                                    <strong>VALOR TOTAL</strong>
-                                </div>
-                                <span></span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div>
-                                    <strong>VALOR TOTAL</strong>
-                                </div>
-                                <span></span>
+                                <span>{{$pagamento->qt_parcelas_despesa}}</span>
                             </div>
                         </div>
                     </div>
@@ -166,6 +150,7 @@
                 <h1>RATEIOS</h1>
             </div>
             <div class="card-body" style="font-size: 18px;">
+                @foreach ($rateios as $rateio)
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="col-md-6">
@@ -174,9 +159,9 @@
                                     <strong>EMPRESA</strong>
                                 </div>
                                 <div>
-                                    <span>{{$pagamento[0]->de_empresa}}</span>
+                                    <span>{{$rateio->de_empresa}}</span>
                                 </div>
-                                <span>{{$pagamento[0]->regiao_empresa}}</span>
+                                <span>{{$rateio->regiao_empresa}}</span>
                             </div>
                         </div>
 
@@ -185,15 +170,37 @@
                                 <div>
                                     <strong>CENTRO DE CUSTO</strong>
                                 </div>
-                                <span>{{$pagamento[0]->de_departamento}}</span>
+                                <span>{{$rateio->de_departamento}}</span>
                             </div>
                         </div>
                     </div>
-                    <hr>
+
+                    <div class="d-flex">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>VALOR RATEADO</strong>
+                                </div>
+                                <div>
+                                    <span>{{$mascara::maskMoeda($rateio->valor_rateio_despesa)}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>PORCENTAGEM DO RATEIO</strong>
+                                </div>
+                                <span>{{$rateio->porcentagem_rateio_despesa}}%</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <hr>
+                @endforeach
 
                 <div class="card-footer">
-                    <a href="{{ route('despesas') }}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
                 </div>
             </div>
         </div>

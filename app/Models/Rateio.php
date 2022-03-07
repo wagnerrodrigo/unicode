@@ -80,4 +80,32 @@ class Rateio extends Model
         SET dt_fim = ?
         WHERE fk_tab_despesa = ?", [$end_date, $id_despesa]);
     }
+
+    static function getRateioDespesa($id)
+    {
+        return DB::table('intranet.tab_rateio_despesa')
+            ->join(
+                "intranet.tab_centro_custo",
+                "tab_rateio_despesa.fk_tab_centro_custo_id",
+                "=",
+                "tab_centro_custo.id_centro_custo"
+            )->join(
+                "intranet.tab_departamento",
+                "intranet.tab_departamento.id_departamento",
+                "=",
+                "intranet.tab_centro_custo.fk_tab_departamento"
+            )->join(
+                "intranet.tab_empresa",
+                "intranet.tab_empresa.id_empresa",
+                "=",
+                "intranet.tab_centro_custo.fk_empresa_id"
+            )->where("fk_tab_despesa", "=", $id)->get();
+    }
 }
+
+
+/* select * from intranet.tab_rateio_despesa as rateio
+inner join intranet.intranet.tab_centro_custo tcc on tcc.id_centro_custo  = rateio.fk_tab_centro_custo_id
+inner join intranet.tab_departamento td on td.id_departamento = tcc.fk_tab_departamento
+inner join intranet.intranet.tab_empresa te on te.id_empresa = tcc.fk_empresa_id
+where rateio.fk_tab_despesa = 18206 */
