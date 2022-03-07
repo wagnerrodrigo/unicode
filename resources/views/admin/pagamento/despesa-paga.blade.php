@@ -141,6 +141,26 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="d-flex">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>DATA VENCIMENTO</strong>
+                                </div>
+                                <span>{{date('d/m/Y', strtotime($pagamento->dt_vencimento))}}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>DATA DO EFETIVO PAGAMENTO</strong>
+                                </div>
+                                <span>{{date('d/m/Y', strtotime($pagamento->dt_efetivo_pagamento))}}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
