@@ -213,7 +213,7 @@ class Despesa extends Model
             $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::BOLETO ||
             $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CHEQUE ||
             $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO||
+            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO ||
             $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::PIX
         ) {
             $query->leftJoin(
@@ -231,9 +231,9 @@ class Despesa extends Model
             $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::BOLETO ||
             $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::CHEQUE ||
             $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
-            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO||
+            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO ||
             $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::PIX
-            ) {
+        ) {
             $query->join(
                 'intranet.tab_fornecedor',
                 'intranet.tab_fornecedor.id_fornecedor',
@@ -268,11 +268,11 @@ class Despesa extends Model
         ]);
     }
 
-    static function del($dataFim, $id)
+    static function del($id, $dataFim)
     {
-        DB::update("UPDATE intranet.tab_despesa
-        SET dt_fim = ?
-        WHERE id_despesa = ?", [$id, $dataFim]);
+        DB::table('intranet.tab_despesa')
+            ->where('id_despesa', '=', $id)
+            ->update(['fk_status_despesa_id' => config('constants.CANCELADO'), 'dt_fim' => $dataFim]);
     }
 
     static function setStatus($id_despesa)
@@ -313,12 +313,5 @@ class Despesa extends Model
         DB::table('intranet.tab_despesa')
             ->where('id_despesa', '=', $id)
             ->update(['fk_status_despesa_id' => config('constants.PAGO')]);
-    }
-
-    static function setStatusIfDeleted($id)
-    {
-        DB::table('intranet.tab_despesa')
-            ->where('id_despesa', '=', $id)
-            ->update(['fk_status_despesa_id' => config('constants.CANCELADO')]);
     }
 }

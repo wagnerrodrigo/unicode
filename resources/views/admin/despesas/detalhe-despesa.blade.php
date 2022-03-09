@@ -1,6 +1,5 @@
 @extends('layouts.templates.template')
 @section('title', 'Despesa')
-
 @section('content')
 
 <div id="main" style="margin-top: 5px;">
