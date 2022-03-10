@@ -437,6 +437,7 @@ $("#Prod").click(function () {
         // limpar campos do item
         $("#classificacao_tipo_produto").val("");
         $("#produto_servico").val("");
+        $("#produto_servico").empty();
         $("#valor_item").val("");
         $("#quantidade").val("");
 
