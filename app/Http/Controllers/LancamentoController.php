@@ -21,6 +21,7 @@ class LancamentoController extends Controller
     public function index(Request $request)
     {
         try {
+            //muda status da despesa caso a data de vencimento seja inferior a data atual
             $despesaRepository = new DespesaRepository();
             $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
 

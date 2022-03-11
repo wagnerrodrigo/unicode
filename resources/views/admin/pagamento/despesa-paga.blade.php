@@ -161,6 +161,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="d-flex">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>TIPO PAGAMENTO</strong>
+                                </div>
+                                <span>{{$pagamento->de_condicao_pagamento}}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -236,6 +246,4 @@
 <script src="assets/js/main.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-
-
 @endsection

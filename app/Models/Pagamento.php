@@ -22,9 +22,10 @@ class Pagamento extends Model
 
     ];
 
-    static function selectAll()
+    static function selectAll($pages = null, $dtInicio = null, $dtFim = null)
     {
-        $pagamento = DB::table('intranet.tab_pagamento')
+
+        $query = DB::table('intranet.tab_pagamento')
             ->join(
                 'intranet.tab_lancamento',
                 'tab_lancamento.id_tab_lancamento',
@@ -41,8 +42,20 @@ class Pagamento extends Model
                 'tab_despesa.fk_status_despesa_id',
                 '=',
                 'status_despesa.id_status_despesa'
-            )->get();
-        return $pagamento;
+            );
+
+        if (!$dtInicio && !$dtFim && $pages) {
+            return $query
+                ->where('intranet.status_despesa.id_status_despesa', '=', config('constants.PAGO'))
+                ->paginate($pages);
+        } else if ($dtInicio && $dtFim && $pages) {
+            return $query
+                ->where('intranet.status_despesa.id_status_despesa', '=', config('constants.PAGO'))
+                ->whereRaw("intranet.tab_lancamento.dt_efetivo_pagamento >= ? and intranet.tab_lancamento.dt_efetivo_pagamento <= ?", [$dtInicio, $dtFim])
+                ->paginate($pages);
+        } else {
+            return $query->paginate($pages);
+        }
     }
 
     static function findOne($id)
@@ -106,6 +119,11 @@ class Pagamento extends Model
                 "tab_inst_banco.id",
                 "=",
                 "tab_conta_bancaria.fk_tab_inst_banco_id"
+            )->join(
+                "intranet.tab_condicao_pagamento",
+                "tab_condicao_pagamento.id_condicao_pagamento",
+                "=",
+                "tab_despesa.fk_condicao_pagamento_id"
             );
 
         if ($tipoDespesa == TipoDespesa::FORNECEDOR) {
