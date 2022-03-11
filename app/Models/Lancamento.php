@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Utils\StatusDespesa;
 
 class Lancamento extends Model
 {
@@ -199,7 +200,7 @@ class Lancamento extends Model
         $query = DB::table('intranet.tab_lancamento')
             ->join('intranet.tab_despesa', 'intranet.tab_despesa.id_despesa', '=', 'intranet.tab_lancamento.fk_tab_despesa_id')
             ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
-            ->where('intranet.status_despesa.id_status_despesa', '=', config('constants.PROVISIONADO'))
+            ->where('intranet.status_despesa.id_status_despesa', '=', StatusDespesa::PROVISIONADO)
             ->where('intranet.tab_lancamento.dt_efetivo_pagamento', '>=', $dt_lancamento)
             ->where('intranet.tab_lancamento.dt_efetivo_pagamento', '<=', $dt_vencimento)
             ->paginate(10);
