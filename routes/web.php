@@ -201,6 +201,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/enderecos')->group(functio
 
 // rotas de pagamentos
 Route::middleware('autenticacaoMiddleware')->get('/pagamentos', [PagamentoController::class, 'index'])->name('pagamentos');
+Route::middleware('autenticacaoMiddleware')->get('/pagamentos/{id}', [PagamentoController::class, 'show'])->name('pagamentos');
 
 Route::middleware('autenticacaoMiddleware')->prefix('/cep')->group(function () {
     Route::post('/', [ApiViaCepController::class, 'buscaCep']);

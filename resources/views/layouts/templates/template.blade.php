@@ -19,6 +19,27 @@
 <body>
     @include('../layouts/__partials/header')
     <main>
+        @if (\Session::has('success'))
+        <script>
+            swal({
+                title: "Sucesso!",
+                text: "{{ \Session::get('success') }}",
+                icon: "success",
+                button: "Ok",
+            });
+        </script>
+        @endif
+
+        @if (\Session::has('error'))
+        <script>
+            swal({
+                title: "Erro!",
+                text: "{{ \Session::get('error') }}",
+                icon: "error",
+                button: "Ok",
+            });
+        </script>
+        @endif
         @yield('content')
     </main>
 </body>

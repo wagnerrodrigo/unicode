@@ -3,28 +3,6 @@
 
 @section('content')
 
-@if (\Session::has('success'))
-<script>
-    swal({
-        title: "Sucesso!",
-        text: "{{ \Session::get('success') }}",
-        icon: "success",
-        button: "Ok",
-    });
-</script>
-@endif
-
-@if (\Session::has('error'))
-<script>
-    swal({
-        title: "Erro!",
-        text: "Não foi possível alterar o endereço!",
-        icon: "error",
-        button: "Ok",
-    });
-</script>
-@endif
-
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
         <div class="card">

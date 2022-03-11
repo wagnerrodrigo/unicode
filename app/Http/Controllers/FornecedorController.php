@@ -8,6 +8,7 @@ use App\Models\Endereco;
 use App\Repository\EnderecoRepository;
 use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
+use App\CustomError\CustomErrorMessage;
 
 class FornecedorController extends Controller
 {
@@ -18,22 +19,27 @@ class FornecedorController extends Controller
      */
     public function index(Request $request)
     {
-        $results = $request->input('results');
-        $chave = $request->input('chave_busca_fornecedor');
-        $valor = $request->input('valor_busca_fornecedor');
+        try {
+            $results = $request->input('results');
+            $chave = $request->input('chave_busca_fornecedor');
+            $valor = $request->input('valor_busca_fornecedor');
 
-        if ($request->has('chave_busca_fornecedor') && $request->has('valor_busca_fornecedor')) {
-            $fornecedores = Fornecedor::selectAll($results, $chave, strtoupper($valor));
-        } else {
-            if ($results == null) {
-                $fornecedores = Fornecedor::selectAll($results = 10);
+            if ($request->has('chave_busca_fornecedor') && $request->has('valor_busca_fornecedor')) {
+                $fornecedores = Fornecedor::selectAll($results, $chave, strtoupper($valor));
             } else {
-                $fornecedores = Fornecedor::selectAll($results);
+                if ($results == null) {
+                    $fornecedores = Fornecedor::selectAll($results = 10);
+                } else {
+                    $fornecedores = Fornecedor::selectAll($results);
+                }
             }
-        }
-        $mascara = new Mascaras();
+            $mascara = new Mascaras();
 
-        return view('admin.fornecedor.lista-fornecedor', compact('fornecedores', 'mascara', 'results', 'chave', 'valor'));
+            return view('admin.fornecedor.lista-fornecedor', compact('fornecedores', 'mascara', 'results', 'chave', 'valor'));
+        } catch (\Exception $e) {
+            $error = CustomErrorMessage::ERROR_LIST_FORNECEDOR;
+            return view('error', compact('error'));
+        }
     }
 
     public function formFornecedores()
@@ -49,44 +55,47 @@ class FornecedorController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            $fornecedor = new Fornecedor();
+            $cpf_cnpj_corrigido = str_replace(['.', '-', '/'], '', $request->input('nu_cpf_cnpj'));
 
-        $fornecedor = new Fornecedor();
-        $cpf_cnpj_corrigido = str_replace(['.', '-', '/'], '', $request->input('nu_cpf_cnpj'));
+            //transforma todo o request em UpperCase
 
-        //transforma todo o request em UpperCase
+            $fornecedor->de_razao_social = strtoupper($request->de_razao_social);
+            $fornecedor->de_nome_fantasia = strtoupper($request->de_nome_fantasia);
+            $fornecedor->nu_cpf_cnpj = $cpf_cnpj_corrigido;
+            $fornecedor->inscricao_estadual = $request->inscricao_estadual;
+            $fornecedor->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+            //cria o fornecedor
+            Fornecedor::create($fornecedor);
 
-        $fornecedor->de_razao_social = strtoupper($request->de_razao_social);
-        $fornecedor->de_nome_fantasia = strtoupper($request->de_nome_fantasia);
-        $fornecedor->nu_cpf_cnpj = $cpf_cnpj_corrigido;
-        $fornecedor->inscricao_estadual = $request->inscricao_estadual;
-        $fornecedor->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-        //cria o fornecedor
-        Fornecedor::create($fornecedor);
+            //busca o id do fornecedor inserido
 
-        //busca o id do fornecedor inserido
+            $timestamp = $fornecedor->dt_inicio;
+            $fornecedor_id = Fornecedor::findByTimeStamp($timestamp);
 
-        $timestamp = $fornecedor->dt_inicio;
-        $fornecedor_id = Fornecedor::findByTimeStamp($timestamp);
+            for ($i = 0; $i < count($request->cep); $i++) {
+                $enderecos[] = [
+                    "cep" => $request->cep[$i],
+                    "logradouro" => $request->logradouro[$i],
+                    "numero" => $request->numero[$i],
+                    "complemento" => $request->complemento[$i],
+                    "bairro" => $request->bairro[$i],
+                    "localidade" => $request->localidade[$i],
+                    "uf" => $request->uf[$i],
+                ];
+            }
 
+            //salva o endereco
+            $repository = new EnderecoRepository();
+            $repository->createEndereco($fornecedor_id, $enderecos);
 
-
-        for ($i = 0; $i < count($request->cep); $i++) {
-            $enderecos[] = [
-                "cep" => $request->cep[$i],
-                "logradouro" => $request->logradouro[$i],
-                "numero" => $request->numero[$i],
-                "complemento" => $request->complemento[$i],
-                "bairro" => $request->bairro[$i],
-                "localidade" => $request->localidade[$i],
-                "uf" => $request->uf[$i],
-            ];
+            return redirect()->back()->with('success', 'Fornecedor Cadastrado com Sucesso!!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível cadastrar o fornecedor');
         }
-
-        //salva o endereco
-        $repository = new EnderecoRepository();
-        $repository->createEndereco($fornecedor_id, $enderecos);
-
-        return redirect()->route('fornecedores');
     }
 
 
@@ -117,16 +126,20 @@ class FornecedorController extends Controller
      */
     public function show($id)
     {
+        try {
+            $fornecedor = Fornecedor::findOne($id);
+            $mascara = new Mascaras();
 
-        $fornecedor = Fornecedor::findOne($id);
-        $mascara = new Mascaras();
+            $AdressRepository = new EnderecoRepository();
+            $adresses = $AdressRepository->findAdressByProvider($id);
 
-        $AdressRepository = new EnderecoRepository();
-        $adresses = $AdressRepository->findAdressByProvider($id);
+            $retorno = ["success" => null];
 
-        $retorno = ["success" => null];
-
-        return view('admin.fornecedor.fornecedor', compact('fornecedor', 'mascara', 'retorno', 'adresses'));
+            return view('admin.fornecedor.fornecedor', compact('fornecedor', 'mascara', 'retorno', 'adresses'));
+        } catch (\Exception $e) {
+            $error = CustomErrorMessage::ERROR_FORNECEDOR;
+            return view('error', compact('error'));
+        }
     }
 
     public function showCnpjCpf($nu_cpf_cnpj)
@@ -172,11 +185,17 @@ class FornecedorController extends Controller
      */
     public function destroy($id)
     {
-        $fornecedor = Fornecedor::findOne($id);
-        $dataFim = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+        try {
+            $fornecedor = Fornecedor::findOne($id);
+            $dataFim = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
 
-        Fornecedor::del($dataFim, $fornecedor->id_fornecedor);
+            Fornecedor::del($dataFim, $fornecedor->id_fornecedor);
 
-        return redirect()->route('fornecedores');
+            return redirect()->back()->with('success', 'Fornecedor Removido com Sucesso!!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível Remover o fornecedor');
+        }
     }
 }

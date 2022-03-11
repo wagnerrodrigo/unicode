@@ -12,6 +12,7 @@ use App\Utils\TipoDespesa;
 use App\Utils\Mascaras\Mascaras;
 use App\Repository\DespesaRepository;
 use App\Repository\RateioRepository;
+use App\CustomError\CustomErrorMessage;
 
 class DespesaController extends Controller
 {
@@ -22,22 +23,27 @@ class DespesaController extends Controller
      */
     public function index(Request $request)
     {
-        $despesaRepository = new DespesaRepository();
-        $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
+        try {
+            $despesaRepository = new DespesaRepository();
+            $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
 
-        $mascara = new Mascaras();
-        //quantidade de resultados por pagina
-        $results = $request->input('results');
-        $dt_inicio = $request->input('dt_inicio');
-        $dt_fim = $request->input('dt_fim');
-        $status_despesa = $request->input('status');
+            $mascara = new Mascaras();
+            //quantidade de resultados por pagina
+            $results = $request->input('results');
+            $dt_inicio = $request->input('dt_inicio');
+            $dt_fim = $request->input('dt_fim');
+            $status_despesa = $request->input('status');
 
-        if ($request->has('status')) {
-            $despesas = Despesa::selectAll($results, $status_despesa, $dt_inicio, $dt_fim);
-        } else {
-            $despesas = Despesa::selectAll($results = 10);
+            if ($request->has('status')) {
+                $despesas = Despesa::selectAll($results, $status_despesa, $dt_inicio, $dt_fim);
+            } else {
+                $despesas = Despesa::selectAll($results = 10);
+            }
+            return view('admin.despesas.lista-despesas', compact('despesas', 'mascara', 'results', 'status_despesa', 'dt_inicio', 'dt_fim'));
+        } catch (\Exception $e) {
+            $error = CustomErrorMessage::ERROR_LIST_DESPESA;
+            return view('error', compact('error'));
         }
-        return view('admin.despesas.lista-despesas', compact('despesas', 'mascara', 'results', 'status_despesa', 'dt_inicio', 'dt_fim'));
     }
 
     public function formDespesa()
@@ -47,178 +53,194 @@ class DespesaController extends Controller
 
     public function show($id)
     {
-        $despesaRepository = new DespesaRepository();
-        $infosDespesa = $despesaRepository->findInfosDespesa($id);
+        try {
+            $despesaRepository = new DespesaRepository();
+            $infosDespesa = $despesaRepository->findInfosDespesa($id);
 
-        $tipo = TipoDespesa::class;
+            $tipo = TipoDespesa::class;
 
-        $condicao_pagamento = $infosDespesa[0]->fk_condicao_pagamento_id;
-        $tipo_despesa = $infosDespesa[0]->fk_tab_tipo_despesa_id;
+            $condicao_pagamento = $infosDespesa[0]->fk_condicao_pagamento_id;
+            $tipo_despesa = $infosDespesa[0]->fk_tab_tipo_despesa_id;
 
-        $despesas = Despesa::findOne($id, $condicao_pagamento, $tipo_despesa);
+            $despesas = Despesa::findOne($id, $condicao_pagamento, $tipo_despesa);
 
-        $mascara = new Mascaras();
-        if ($despesas == null || empty($despesas)) {
-            return view('admin.despesas.despesa-nao-encontrada');
-        } else {
-            $despesa = $despesas[0];
-            $data_consertada = explode(' ', $despesa->dt_emissao);
-            $despesa->dt_emissao = $data_consertada[0];
+            $mascara = new Mascaras();
+            if ($despesas == null || empty($despesas)) {
+                return view('admin.despesas.despesa-nao-encontrada');
+            } else {
+                $despesa = $despesas[0];
+                $data_consertada = explode(' ', $despesa->dt_emissao);
+                $despesa->dt_emissao = $data_consertada[0];
 
-            return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo'));
+                return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo'));
+            }
+        } catch (\Exception $e) {
+            $error = CustomErrorMessage::ERROR_DESPESA;
+            return view('error', compact('error'));
         }
     }
 
     public function store(Request $request)
     {
-        //formata valor total da despesa para o banco
-        $request->valor_total = str_replace("R$", "", $request->valor_total);
-        $request->valor_total = trim(html_entity_decode($request->valor_total), " \t\n\r\0\x0B\xC2\xA0");
-        $request->valor_total = str_replace(".", "", $request->valor_total);
-        $request->valor_total = str_replace(",", ".", $request->valor_total);
-        //remove um caracter especial do campo valor total -> bug gerado pelo R$
-        $condicaoPagamentoId = new CondicaoPagamentoId();
+        try {
+            //formata valor total da despesa para o banco
+            $request->valor_total = str_replace("R$", "", $request->valor_total);
+            $request->valor_total = trim(html_entity_decode($request->valor_total), " \t\n\r\0\x0B\xC2\xA0");
+            $request->valor_total = str_replace(".", "", $request->valor_total);
+            $request->valor_total = str_replace(",", ".", $request->valor_total);
+            //remove um caracter especial do campo valor total -> bug gerado pelo R$
+            $condicaoPagamentoId = new CondicaoPagamentoId();
 
-        //instancia model Despesa
-        $despesa = new Despesa();
-        //faz a verificação do campo tipo da despesa e seta o valor no model
-        $despesa->fk_centro_de_custo = $request->centro_custo_empresa;
-        if ($request->tipo_despesa == 'empregado') {
-            $despesa->fk_tipo_despesa = 1;
-            $despesa->fk_tab_fornecedor_id = null;
-            $despesa->fk_tab_empregado_id = $request->fk_empregado_fornecedor;
-        } else {
-            $despesa->fk_tipo_despesa = 2;
-            $despesa->fk_tab_fornecedor_id = $request->fk_empregado_fornecedor;
-            $despesa->fk_tab_empregado_id = null;
+            //instancia model Despesa
+            $despesa = new Despesa();
+            //faz a verificação do campo tipo da despesa e seta o valor no model
+            $despesa->fk_centro_de_custo = $request->centro_custo_empresa;
+            if ($request->tipo_despesa == 'empregado') {
+                $despesa->fk_tipo_despesa = 1;
+                $despesa->fk_tab_fornecedor_id = null;
+                $despesa->fk_tab_empregado_id = $request->fk_empregado_fornecedor;
+            } else {
+                $despesa->fk_tipo_despesa = 2;
+                $despesa->fk_tab_fornecedor_id = $request->fk_empregado_fornecedor;
+                $despesa->fk_tab_empregado_id = null;
+            }
+
+            $despesa->fk_plano_contas = $request->tipo_classificacao;
+            $despesa->numero_documento_despesa = $request->numero_nota_documento;
+            $despesa->qt_parcelas_despesa = $request->parcelas;
+            $despesa->serie_despesa = $request->serie_documento;
+            $despesa->dt_emissao = $request->data_emissao;
+            $despesa->valor_total_despesa = $request->valor_total;
+            $despesa->fk_status_despesa_id = config('constants.A_PAGAR');
+            $despesa->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+            $despesa->de_despesa = mb_convert_case($request->titulo_despesa, MB_CASE_UPPER, 'UTF-8');
+            $despesa->dt_vencimento = $request->data_vencimento;
+            $despesa->moeda = $request->moeda;
+            $despesa->dt_provisionamento = $request->data_provisionamento;
+            $despesa->fk_condicao_pagamento_id = $condicaoPagamentoId->getId($request->tipo_pagamento);
+            $despesa->tipo_documento = $request->tipo_documento;
+            $despesa->fk_conta_bancaria = $request->numero_conta_bancaria;
+            $despesa->fk_tab_pix = $request->numero_pix;
+            $despesa->numero_processo = $request->numero_processo;
+            $despesa->dt_fim = null;
+
+            Despesa::create($despesa);
+
+            //armazena timeStamp da data de criação da despesa
+            $timestamp = $despesa->dt_inicio;
+            //pega o id da despesa criada anteriormente para inserir na tabela ItemDespesa
+            $id_despesa = Despesa::findByTimeStamp($timestamp);
+
+            //caso haja rateio na despesa executa
+            if ($request->empresa_rateio) {
+                $rateios = [];
+
+                $soma_porcentagem_rateio = 0;
+                $soma_valor_rateio = 0;
+                //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
+                for ($i = 0; $i < count($request->empresa_rateio); $i++) {
+                    $rateios[] = [
+                        'centro_custo_rateio' => $request->custo_rateio[$i],
+                        'valor_rateio' => trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0"),
+                        'porcentagem_rateio' => $request->porcentagem_rateio[$i],
+                    ];
+                    //soma os valores do rateio
+                    $soma_porcentagem_rateio += $request->porcentagem_rateio[$i];
+                    $soma_valor_rateio += trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0");
+                }
+                //verifica se a soma das porcentagens é igual a 100 caso não seja retorna o restante para o centro de custo inicial
+                if ($soma_porcentagem_rateio != 100) {
+                    $resto_porcentagem = 100 - $soma_porcentagem_rateio;
+                    $valor_restante = $request->valor_total - $soma_valor_rateio;
+
+                    $rateios[] = [
+                        'centro_custo_rateio' => $request->centro_custo_empresa,
+                        'valor_rateio' => $valor_restante,
+                        'porcentagem_rateio' => $resto_porcentagem,
+                    ];
+                }
+                //instancia um objeto do model Rateio
+                $rateio = new Rateio();
+                //percorre o novo array e chama o metodo de inserção no banco para cada indice do array de rateios
+                for ($i = 0; $i < count($rateios); $i++) {
+                    $rateio->fk_tab_centro_custo_id = $rateios[$i]['centro_custo_rateio'];
+                    $rateio->valor_rateio_despesa = $rateios[$i]['valor_rateio'];
+                    $rateio->porcentagem_rateio_despesa = $rateios[$i]['porcentagem_rateio'];
+                    $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                    $rateio->dt_fim = null;
+                    $rateio->fk_tab_despesa = $id_despesa[0]->id_despesa;
+                    Rateio::create($rateio);
+                }
+            }
+            //caso haja produto na despesa executa
+            if ($request->id_produto) {
+                $itensDespesa = [];
+                //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
+                for ($i = 0; $i < count($request->id_produto); $i++) {
+                    $itensDespesa[] = [
+                        'fk_tab_produto_id' => $request->id_produto[$i],
+                        'valor_unitario_item_despesa' => $request->valor_unitario[$i],
+                        'quantidade' => $request->quantidade[$i],
+                    ];
+                }
+                //instancia um objeto do model Rateio
+                $itemDespesa = new ItemDespesa();
+                //percorre o novo array e chama o metodo de inserção no banco para cada indice do array de rateios
+                for ($i = 0; $i < count($itensDespesa); $i++) {
+                    $itemDespesa->fk_tab_despesa_id = $id_despesa[0]->id_despesa;
+                    $itemDespesa->fk_tab_produto_id = $itensDespesa[$i]['fk_tab_produto_id'];
+                    $itemDespesa->valor_unitario_item_despesa = $itensDespesa[$i]['valor_unitario_item_despesa'];
+                    $itemDespesa->quantidade = $itensDespesa[$i]['quantidade'];
+                    $itemDespesa->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                    $itemDespesa->dt_fim = null;
+                    $itemDespesa->valor_total_item_despesa = $itensDespesa[$i]['valor_unitario_item_despesa'] * $itensDespesa[$i]['quantidade'];
+                    ItemDespesa::create($itemDespesa);
+                }
+            }
+            return redirect()->route('despesas')->with('success', 'Despesa Cadastrada!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível cadastrar a Despesa' . $e->getMessage());
         }
-
-        $despesa->fk_plano_contas = $request->tipo_classificacao;
-        $despesa->numero_documento_despesa = $request->numero_nota_documento;
-        $despesa->qt_parcelas_despesa = $request->parcelas;
-        $despesa->serie_despesa = $request->serie_documento;
-        $despesa->dt_emissao = $request->data_emissao;
-        $despesa->valor_total_despesa = $request->valor_total;
-        $despesa->fk_status_despesa_id = config('constants.A_PAGAR');
-        $despesa->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-        $despesa->de_despesa = strtoupper($request->titulo_despesa);
-        $despesa->dt_vencimento = $request->data_vencimento;
-        $despesa->moeda = $request->moeda;
-        $despesa->dt_provisionamento = $request->data_provisionamento;
-        $despesa->fk_condicao_pagamento_id = $condicaoPagamentoId->getId($request->tipo_pagamento);
-        $despesa->tipo_documento = $request->tipo_documento;
-        $despesa->fk_conta_bancaria = $request->numero_conta_bancaria;
-        $despesa->fk_tab_pix = $request->numero_pix;
-        $despesa->numero_processo = $request->numero_processo;
-        $despesa->dt_fim = null;
-
-        Despesa::create($despesa);
-
-        //armazena timeStamp da data de criação da despesa
-        $timestamp = $despesa->dt_inicio;
-        //pega o id da despesa criada anteriormente para inserir na tabela ItemDespesa
-        $id_despesa = Despesa::findByTimeStamp($timestamp);
-
-        // dd($id_despesa[0]->id_despesa);
-
-        //caso haja rateio na despesa executa
-        if ($request->empresa_rateio) {
-            $rateios = [];
-
-            $soma_porcentagem_rateio = 0;
-            $soma_valor_rateio = 0;
-            //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
-            for ($i = 0; $i < count($request->empresa_rateio); $i++) {
-                $rateios[] = [
-                    'centro_custo_rateio' => $request->custo_rateio[$i],
-                    'valor_rateio' => trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0"),
-                    'porcentagem_rateio' => $request->porcentagem_rateio[$i],
-                ];
-                //soma os valores do rateio
-                $soma_porcentagem_rateio += $request->porcentagem_rateio[$i];
-                $soma_valor_rateio += trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0");
-            }
-            //verifica se a soma das porcentagens é igual a 100 caso não seja retorna o restante para o centro de custo inicial
-            if($soma_porcentagem_rateio != 100){
-                $resto_porcentagem = 100 - $soma_porcentagem_rateio;
-                $valor_restante = $request->valor_total - $soma_valor_rateio;
-
-                $rateios[] = [
-                    'centro_custo_rateio' => $request->centro_custo_empresa,
-                    'valor_rateio' => $valor_restante,
-                    'porcentagem_rateio' => $resto_porcentagem,
-                ];
-            }
-            //instancia um objeto do model Rateio
-            $rateio = new Rateio();
-            //percorre o novo array e chama o metodo de inserção no banco para cada indice do array de rateios
-            for ($i = 0; $i < count($rateios); $i++) {
-                $rateio->fk_tab_centro_custo_id = $rateios[$i]['centro_custo_rateio'];
-                $rateio->valor_rateio_despesa = $rateios[$i]['valor_rateio'];
-                $rateio->porcentagem_rateio_despesa = $rateios[$i]['porcentagem_rateio'];
-                $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                $rateio->dt_fim = null;
-                $rateio->fk_tab_despesa = $id_despesa[0]->id_despesa;
-                Rateio::create($rateio);
-            }
-        }
-
-
-        //caso haja produto na despesa executa
-        if ($request->id_produto) {
-            $itensDespesa = [];
-            //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
-            for ($i = 0; $i < count($request->id_produto); $i++) {
-                $itensDespesa[] = [
-                    'fk_tab_produto_id' => $request->id_produto[$i],
-                    'valor_unitario_item_despesa' => $request->valor_unitario[$i],
-                    'quantidade' => $request->quantidade[$i],
-                ];
-            }
-            //instancia um objeto do model Rateio
-            $itemDespesa = new ItemDespesa();
-            //percorre o novo array e chama o metodo de inserção no banco para cada indice do array de rateios
-            for ($i = 0; $i < count($itensDespesa); $i++) {
-                $itemDespesa->fk_tab_despesa_id = $id_despesa[0]->id_despesa;
-                $itemDespesa->fk_tab_produto_id = $itensDespesa[$i]['fk_tab_produto_id'];
-                $itemDespesa->valor_unitario_item_despesa = $itensDespesa[$i]['valor_unitario_item_despesa'];
-                $itemDespesa->quantidade = $itensDespesa[$i]['quantidade'];
-                $itemDespesa->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                $itemDespesa->dt_fim = null;
-                $itemDespesa->valor_total_item_despesa = $itensDespesa[$i]['valor_unitario_item_despesa'] * $itensDespesa[$i]['quantidade'];
-                ItemDespesa::create($itemDespesa);
-            }
-        }
-        return redirect()->route('despesas');
     }
 
     public function edit($id, Request $request)
     {
-        $despesa = new Despesa();
+        try {
+            $despesa = new Despesa();
 
-        $despesa->id_despesa = $id;
-        $despesa->numero_documento_despesa = $request->numero_nota_documento;
-        $despesa->serie_despesa = $request->serie_documento;
-        $despesa->tipo_documento = $request->tipo_documento;
-        $despesa->dt_emissao = $request->data_emissao;
+            $despesa->id_despesa = $id;
+            $despesa->numero_documento_despesa = $request->numero_nota_documento;
+            $despesa->serie_despesa = $request->serie_documento;
+            $despesa->tipo_documento = $request->tipo_documento;
+            $despesa->dt_emissao = $request->data_emissao;
 
-        Despesa::set($despesa);
+            Despesa::set($despesa);
 
-        return redirect()->route('despesas');
+            return redirect()->back()->with('success', 'Despesa Editada!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível editar a Despesa' . $e->getMessage());
+        }
     }
 
     public function delete($id)
     {
-        $dt_fim = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-        Despesa::del($id, $dt_fim);
+        try {
+            $dt_fim = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+            Despesa::del($id, $dt_fim);
 
-        //modifica status para CANCELADO
-        Despesa::setStatusIfDeleted($id);
+            //adiciona data fim nos rateios da despesa
+            $rateioRepository = new RateioRepository();
+            $rateioRepository->setEndDateRateio($id, $dt_fim);
 
-        //adiciona data fim nos rateios da despesa
-        $rateioRepository = new RateioRepository();
-        $rateioRepository->setEndDateRateio($id, $dt_fim);
-
-        return redirect()->route('despesas');
+            return redirect()->back()->with('success', 'Despesa Excluída!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível excluir a Despesa!');
+        }
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Pagamento;
 use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
+use App\Repository\RateioRepository;
+use App\Repository\DespesaRepository;
 
 class PagamentoController extends Controller
 {
@@ -17,12 +19,38 @@ class PagamentoController extends Controller
     {
         $mascara = new Mascaras();
         $pagamentos = Pagamento::selectAll();
-        
+
         return view('admin.pagamento.lista-pagamento', compact('pagamentos', 'mascara'));
     }
 
 
-    
+    public function show($id){
+
+        $mascara = new Mascaras();
+        //pega o pagamento
+        $pagamento = Pagamento::findOne($id);
+
+        foreach ($pagamento as $pagamento) {}
+
+        //busca o tipo de despesa
+        $despesaRepository = new DespesaRepository();
+        $tipoDaDespesa = $despesaRepository->findInfosDespesa($pagamento->fk_tab_despesa_id);
+
+        foreach ($tipoDaDespesa as $tipoDaDespesa) {}
+
+        $pagamentos = Pagamento::getInfosPagamento($id, $tipoDaDespesa->fk_tab_tipo_despesa_id);
+
+        foreach ($pagamentos as $pagamento){}
+
+        //pega os rateios
+        $rateioRepository = new RateioRepository();
+        $rateios = $rateioRepository->findRateioDespesa($pagamento->id_despesa);
+
+        return view('admin.pagamento.despesa-paga', compact('pagamento', 'mascara', 'rateios'));
+    }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -51,7 +79,7 @@ class PagamentoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     /**
      * Show the form for editing the specified resource.
      *

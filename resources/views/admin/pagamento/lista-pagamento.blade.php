@@ -7,7 +7,7 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>Detalhe do Pagamento</h1>
+                <h1>Despesas pagas</h1>
             </div>
             <div class="card-body">
                 <table class='table table-striped' id="table1">
@@ -20,9 +20,10 @@
                         </tbody>
                         @else
                         <tr>
-                            <th>ID DO PAGAMENTO</th>
-                            <th>VALOR DO PAGAMENTO</th>
-                            <th>STATUS DO PAGAMENTO</th>
+                            <th>NÚMERO DA DESPESA</th>
+                            <th>VALOR DA DEPESA</th>
+                            <th>VALOR PAGO</th>
+                            <th>STATUS</th>
                             <th>DATA DO PAGAMENTO</th>
                             <th></th>
                             <th>AÇÕES</th>
@@ -33,13 +34,14 @@
                         <tr>
                             <td>{{$pagamento->id_despesa}}</td>
                             <td>{{$mascara::maskMoeda($pagamento->valor_total_despesa)}}</td>
-                            <td>{{$pagamento->fk_status_despesa_id}}</td>
-                            <td>{{date("d/m/Y", strtotime($pagamento->dt_inicio))}}</td>
+                            <td>{{$mascara::maskMoeda($pagamento->valor_pago)}}</td>
+                            <td>{{$pagamento->de_status_despesa}}</td>
+                            <td>{{date("d/m/Y", strtotime($pagamento->dt_efetivo_pagamento))}}</td>
                             <td></td>
                             <td>
                                 <!-- muda a rota-->
-                                <a href="/pagament" class="btn btn-primary" style="padding: 8px 12px;">
-                                    <i class="bi bi-cash-coin"></i>
+                                <a href="/pagamentos/{{$pagamento->id_pagamento}}" class="btn btn-primary" style="padding: 8px 12px;">
+                                    <i class="bi bi-eye-fill"></i>
                                 </a>
                             </td>
                         </tr>

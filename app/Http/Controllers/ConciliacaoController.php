@@ -57,7 +57,6 @@ class ConciliacaoController extends Controller
 
             $pagamentoRepository->savePayment($pagamento);
 
-
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             return response()->json(['success' => false]);

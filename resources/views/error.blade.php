@@ -1,13 +1,13 @@
 @extends('layouts.templates.template')
-@section('title', 'Erro! Despesa não encotrada!')
+@section('title', 'Erro!!')
 
 @section('content')
 <div id="center" style="margin-top: 5px;">
     <div style="padding: 30px;">
-        <a class="btn btn-primary" href="{{route('despesas')}}">VOLTAR</a>
+        <a class="btn btn-primary" href="{{url()->previous()}}">VOLTAR</a>
     </div>
     <div class="d-flex justify-content-center">
-        <h1 class="align-items-center">ERRO! DESPESA NÃO ENCONTRADA</h1>
+        <h1 class="align-items-center">ERRO: {{$error}}</h1>
     </div>
 </div>
 

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
 use Carbon\Carbon;
 use App\Repository\DespesaRepository;
+use App\CustomError\CustomErrorMessage;
 
 class LancamentoController extends Controller
 {
@@ -19,25 +20,29 @@ class LancamentoController extends Controller
      */
     public function index(Request $request)
     {
-        $despesaRepository = new DespesaRepository();
-        $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
+        try {
+            $despesaRepository = new DespesaRepository();
+            $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
 
-        $filtros = null;
-        // dd($request->results);
-        $mascara = new Mascaras();
-        if ($request->has('results') || $request->has('dt_inicio') && $request->has('dt_fim') || $request->has('status')) {
-            $filtros = [
-                'resultado_por_pagina'=> $request->input('results'),
-                'dt_inicio_periodo' => $request->input('dt_inicio'),
-                'dt_fim_periodo' => $request->input('dt_fim'),
-                'status_despesa_id' => $request->input('status')
-            ];
+            $filtros = null;
+            // dd($request->results);
+            $mascara = new Mascaras();
+            if ($request->has('results') || $request->has('dt_inicio') && $request->has('dt_fim') || $request->has('status')) {
+                $filtros = [
+                    'resultado_por_pagina' => $request->input('results'),
+                    'dt_inicio_periodo' => $request->input('dt_inicio'),
+                    'dt_fim_periodo' => $request->input('dt_fim'),
+                    'status_despesa_id' => $request->input('status')
+                ];
 
-            $lancamentos = Lancamento::selectAll($filtros['resultado_por_pagina'], $filtros['dt_inicio_periodo'], $filtros['dt_fim_periodo'], $filtros['status_despesa_id']);
-        } else {
-            $lancamentos = Lancamento::selectAll();
+                $lancamentos = Lancamento::selectAll($filtros['resultado_por_pagina'], $filtros['dt_inicio_periodo'], $filtros['dt_fim_periodo'], $filtros['status_despesa_id']);
+            } else {
+                $lancamentos = Lancamento::selectAll();
+            }
+        } catch (\Exception $e) {
+            $error = CustomErrorMessage::ERROR_LIST_LANCAMENTO;
+            return view('error', compact('error'));
         }
-
         return view('admin.lancamentos.lista-lancamentos', compact('lancamentos', 'mascara', 'filtros'));
     }
 
@@ -55,74 +60,80 @@ class LancamentoController extends Controller
      */
     public function store(Request $request)
     {
-        $despesaRepository = new DespesaRepository();
-        $fk_condicao_pagamento = $despesaRepository->findPaymentCondition($request->id_despesa);
+        try {
+            $despesaRepository = new DespesaRepository();
+            $fk_condicao_pagamento = $despesaRepository->findPaymentCondition($request->id_despesa);
 
-        if (!empty($request->valor_rateio_pagamento)) {
+            if (!empty($request->valor_rateio_pagamento)) {
 
-            $lancamento = new Lancamento();
+                $lancamento = new Lancamento();
 
-            $lancamento->id_despesa = $request->id_despesa;
-            $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
-            $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-            $lancamento->dt_lancamento = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-            $lancamento->dt_vencimento = $request->dt_vencimento;
-            $lancamento->dt_efetivo_pagamento = $request->dt_efetivo_pagamento;
-            $lancamento->juros = $request->juros;
-            $lancamento->multa = $request->multa;
-            $lancamento->desconto = $request->desconto;
-            $lancamento->valor_pago = trim(html_entity_decode($request->valor_pago), " \t\n\r\0\x0B\xC2\xA0");
-            $lancamento->dt_fim = null;
-            Lancamento::create($lancamento);
+                $lancamento->id_despesa = $request->id_despesa;
+                $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
+                $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                $lancamento->dt_lancamento = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                $lancamento->dt_vencimento = $request->dt_vencimento;
+                $lancamento->dt_efetivo_pagamento = $request->dt_efetivo_pagamento;
+                $lancamento->juros = $request->juros;
+                $lancamento->multa = $request->multa;
+                $lancamento->desconto = $request->desconto;
+                $lancamento->valor_pago = trim(html_entity_decode($request->valor_pago), " \t\n\r\0\x0B\xC2\xA0");
+                $lancamento->dt_fim = null;
+                Lancamento::create($lancamento);
 
-            $timeStamp = $lancamento->dt_inicio;
-            $idLancamento = Lancamento::findIdByTimeStamp($timeStamp);
+                $timeStamp = $lancamento->dt_inicio;
+                $idLancamento = Lancamento::findIdByTimeStamp($timeStamp);
 
 
-            if ($request->valor_rateio_pagamento) {
-                $valor_rateio = trim(html_entity_decode($request->valor_rateio_pagamento), " \t\n\r\0\x0B\xC2\xA0");
+                if ($request->valor_rateio_pagamento) {
+                    $valor_rateio = trim(html_entity_decode($request->valor_rateio_pagamento), " \t\n\r\0\x0B\xC2\xA0");
 
-                // $removePonto = str_replace(".", "", $removeCifrao);
-                // $substituiVirgula = str_replace(",", ".", $removePonto);
-                $rateios[] = [
-                    'valor_rateio_pagamento' => $valor_rateio,
-                    'fk_tab_conta_bancaria' => $request->fk_tab_conta_bancaria,
-                ];
+                    // $removePonto = str_replace(".", "", $removeCifrao);
+                    // $substituiVirgula = str_replace(",", ".", $removePonto);
+                    $rateios[] = [
+                        'valor_rateio_pagamento' => $valor_rateio,
+                        'fk_tab_conta_bancaria' => $request->fk_tab_conta_bancaria,
+                    ];
 
-                $rateio = new Rateio();
+                    $rateio = new Rateio();
 
-                for ($i = 0; $i < count($rateios); $i++) {
-                    $rateio->valor_rateio_pagamento = $rateios[$i]['valor_rateio_pagamento'];
-                    $rateio->fk_tab_conta_bancaria = $rateios[$i]['fk_tab_conta_bancaria'];
-                    $rateio->fk_tab_lancamento = $idLancamento[0]->id_tab_lancamento;
-                    $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                    $rateio->dt_fim = null;
-                    Rateio::createRateioLancamento($rateio);
+                    for ($i = 0; $i < count($rateios); $i++) {
+                        $rateio->valor_rateio_pagamento = $rateios[$i]['valor_rateio_pagamento'];
+                        $rateio->fk_tab_conta_bancaria = $rateios[$i]['fk_tab_conta_bancaria'];
+                        $rateio->fk_tab_lancamento = $idLancamento[0]->id_tab_lancamento;
+                        $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                        $rateio->dt_fim = null;
+                        Rateio::createRateioLancamento($rateio);
+                    }
                 }
+            } else {
+                // INICIO requeste somente lancamento
+                $lancamento = new Lancamento();
+
+                $lancamento->id_despesa = $request->id_despesa;
+                $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
+                $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                $lancamento->dt_vencimento = $request->dt_vencimento;
+                $lancamento->dt_efetivo_pagamento = $request->dt_efetivo_pagamento;
+                $lancamento->juros = $request->juros;
+                $lancamento->multa = $request->multa;
+                $lancamento->desconto = $request->desconto;
+                $lancamento->valor_pago = trim(html_entity_decode($request->valor_pago), " \t\n\r\0\x0B\xC2\xA0");
+                $lancamento->dt_fim = null;
+                Lancamento::create($lancamento);
+                // FIM requeste somente lancamento
             }
-        } else {
-            // INICIO requeste somente lancamento
-            $lancamento = new Lancamento();
 
-            $lancamento->id_despesa = $request->id_despesa;
-            $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
-            $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-            $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-            $lancamento->dt_vencimento = $request->dt_vencimento;
-            $lancamento->dt_efetivo_pagamento = $request->dt_efetivo_pagamento;
-            $lancamento->juros = $request->juros;
-            $lancamento->multa = $request->multa;
-            $lancamento->desconto = $request->desconto;
-            $lancamento->valor_pago = trim(html_entity_decode($request->valor_pago), " \t\n\r\0\x0B\xC2\xA0");
-            $lancamento->dt_fim = null;
-            Lancamento::create($lancamento);
-            // FIM requeste somente lancamento
+            $despesa = new Despesa();
+            $despesa::setStatus($request->id_despesa);
+
+            return redirect()->route('lancamentos')->with('success', 'Lançamento Cadastrado!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível realizar o Lançamento' . $e->getMessage());
         }
-
-        $despesa = new Despesa();
-        $despesa::setStatus($request->id_despesa);
-
-        return  redirect()->route('lancamentos');
     }
 
     /**
@@ -133,8 +144,13 @@ class LancamentoController extends Controller
      */
     public function show($id)
     {
-        $lancamento = Lancamento::findOne($id);
-        return view('admin.lancamentos.detalhes-lancamento', compact('lancamento'));
+        try {
+            $lancamento = Lancamento::findOne($id);
+            return view('admin.lancamentos.detalhes-lancamento', compact('lancamento'));
+        } catch (\Exception $e) {
+            $error = CustomErrorMessage::ERROR_LANCAMENTO;
+            return view('error', compact('error'));
+        }
     }
 
     public function provisionamento($id)

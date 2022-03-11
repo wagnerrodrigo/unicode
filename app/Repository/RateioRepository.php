@@ -16,4 +16,13 @@ class RateioRepository
     {
         return Rateio::del($id_despesa, $end_date);
     }
+
+    function findByLancamento($id)
+    {
+        return Rateio::getRateioLancamento($id);
+    }
+
+    function findRateioDespesa($id){
+        return Rateio::getRateioDespesa($id);
+    }
 }
