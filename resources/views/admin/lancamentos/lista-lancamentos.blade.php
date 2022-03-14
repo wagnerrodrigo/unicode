@@ -9,7 +9,7 @@
                 <h1>LANÇAMENTOS</h1>
             </div>
             <div class="card-body">
-                <form action="" method="GET">
+                <form action="" method="GET" name="form_busca_lancamento">
                     <div class="d-flex">
                         <div class="col-md-2">
                             <div class="input-group mb-3" style="width: 170px">
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                         <div class="col-md-1">
-                            <button type="submit" class="btn btn-primary" style="padding: 8px 12px;">
+                            <button type="submit" class="btn btn-primary" id="busca_lancamento" style="padding: 8px 12px;">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
@@ -97,16 +97,9 @@
     </div>
 </div>
 
-
-
 <script src="assets/js/feather-icons/feather.min.js"></script>
-<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-<script src="assets/js/vendors.js"></script>
-<script src="assets/js/main.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="{{ asset('assets/js/custom-js/lancamento.js') }}"></script>
-
-
 
 <script>
     var inputDataInicio;
@@ -126,6 +119,28 @@
         })
         console.log(inputDataFim);
     })
+
+    $("#busca_lancamento").click(function() {
+        if (inputDataInicio != '' && inputDataFim == '') {
+            console.log("Data Inicio preenchida");
+            event.preventDefault();
+            swal({
+                title: "Atenção",
+                text: "Preencha o campo Data Fim!",
+                icon: "warning",
+                button: "Ok",
+            });
+        } else if (inputDataInicio == '' && inputDataFim != '') {
+            console.log("Data Fim preenchida");
+            event.preventDefault();
+            swal({
+                title: "Atenção",
+                text: "Preencha o campo Data Início!",
+                icon: "warning",
+                button: "Ok",
+            });
+        }
+    });
 </script>
 
 

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Utils\TipoDespesa;
+use App\Utils\StatusDespesa;
 
 class Pagamento extends Model
 {
@@ -46,11 +47,11 @@ class Pagamento extends Model
 
         if (!$dtInicio && !$dtFim && $pages) {
             return $query
-                ->where('intranet.status_despesa.id_status_despesa', '=', config('constants.PAGO'))
+                ->where('intranet.status_despesa.id_status_despesa', '=', StatusDespesa::PAGO)
                 ->paginate($pages);
         } else if ($dtInicio && $dtFim && $pages) {
             return $query
-                ->where('intranet.status_despesa.id_status_despesa', '=', config('constants.PAGO'))
+                ->where('intranet.status_despesa.id_status_despesa', '=', StatusDespesa::PAGO)
                 ->whereRaw("intranet.tab_lancamento.dt_efetivo_pagamento >= ? and intranet.tab_lancamento.dt_efetivo_pagamento <= ?", [$dtInicio, $dtFim])
                 ->paginate($pages);
         } else {

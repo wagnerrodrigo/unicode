@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Utils\TipoDespesa;
 use App\Utils\CondicaoPagamentoId;
+use App\Utils\StatusDespesa;
 
 class Despesa extends Model
 {
@@ -272,7 +273,7 @@ class Despesa extends Model
     {
         DB::table('intranet.tab_despesa')
             ->where('id_despesa', '=', $id)
-            ->update(['fk_status_despesa_id' => config('constants.CANCELADO'), 'dt_fim' => $dataFim]);
+            ->update(['fk_status_despesa_id' => StatusDespesa::CANCELADO, 'dt_fim' => $dataFim]);
     }
 
     static function setStatus($id_despesa)
@@ -298,20 +299,20 @@ class Despesa extends Model
     static function findByDueDate($date)
     {
         return DB::table('intranet.tab_despesa')
-            ->where('fk_status_despesa_id', '=', config('constants.A_PAGAR'))->where('dt_vencimento', '<', $date)->get();
+            ->where('fk_status_despesa_id', '=', StatusDespesa::A_PAGAR)->where('dt_vencimento', '<', $date)->get();
     }
 
     static function setStatusIfDefeaded($id)
     {
         DB::table('intranet.tab_despesa')
             ->where('id_despesa', '=', $id)
-            ->update(['fk_status_despesa_id' => config('constants.EM_ATRASO')]);
+            ->update(['fk_status_despesa_id' => StatusDespesa::EM_ATRASO]);
     }
 
     static function setStatusIfPaid($id)
     {
         DB::table('intranet.tab_despesa')
             ->where('id_despesa', '=', $id)
-            ->update(['fk_status_despesa_id' => config('constants.PAGO')]);
+            ->update(['fk_status_despesa_id' => StatusDespesa::PAGO]);
     }
 }

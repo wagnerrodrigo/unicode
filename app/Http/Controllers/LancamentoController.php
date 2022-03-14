@@ -40,11 +40,11 @@ class LancamentoController extends Controller
             } else {
                 $lancamentos = Lancamento::selectAll();
             }
+            return view('admin.lancamentos.lista-lancamentos', compact('lancamentos', 'mascara', 'filtros'));
         } catch (\Exception $e) {
             $error = CustomErrorMessage::ERROR_LIST_LANCAMENTO;
             return view('error', compact('error'));
         }
-        return view('admin.lancamentos.lista-lancamentos', compact('lancamentos', 'mascara', 'filtros'));
     }
 
     /**

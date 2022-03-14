@@ -13,6 +13,7 @@ use App\Utils\Mascaras\Mascaras;
 use App\Repository\DespesaRepository;
 use App\Repository\RateioRepository;
 use App\CustomError\CustomErrorMessage;
+use App\Utils\StatusDespesa;
 
 class DespesaController extends Controller
 {
@@ -111,7 +112,7 @@ class DespesaController extends Controller
             $despesa->serie_despesa = $request->serie_documento;
             $despesa->dt_emissao = $request->data_emissao;
             $despesa->valor_total_despesa = $request->valor_total;
-            $despesa->fk_status_despesa_id = config('constants.A_PAGAR');
+            $despesa->fk_status_despesa_id = StatusDespesa::A_PAGAR;
             $despesa->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
             $despesa->de_despesa = mb_convert_case($request->titulo_despesa, MB_CASE_UPPER, 'UTF-8');
             $despesa->dt_vencimento = $request->data_vencimento;

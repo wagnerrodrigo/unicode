@@ -139,14 +139,6 @@
     </div>
 </div>
 
-<!-- <script src="assets/js/feather-icons/feather.min.js"></script> -->
-<!-- <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script> -->
-
-<!-- <script src="assets/vendors/simple-datatables/simple-datatables.js"></script> -->
-<!-- <script src="assets/js/vendors.js"></script> -->
-
-<script src="assets/js/main.js"></script>
-
 <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
@@ -175,8 +167,8 @@
             console.log("Data Inicio preenchida");
             event.preventDefault();
             swal({
-                title: "Atenção",
-                text: "Preencha o campo Data Fim!",
+                title: "ATENÇÃO",
+                text: "Preencha o campo DATA FIM!",
                 icon: "warning",
                 button: "Ok",
             });
@@ -184,8 +176,8 @@
             console.log("Data Fim preenchida");
             event.preventDefault();
             swal({
-                title: "Atenção",
-                text: "Preencha o campo Data Início!",
+                title: "ATENÇÃO",
+                text: "Preencha o campo DATA INICIO!",
                 icon: "warning",
                 button: "Ok",
             });

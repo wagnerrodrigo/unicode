@@ -7,6 +7,7 @@ use App\Repository\LancamentoRepository;
 use App\Repository\RateioRepository;
 use App\Utils\Mascaras\Mascaras;
 use Illuminate\Http\Request;
+use App\Utils\StatusDespesa;
 
 class ExtratoController extends Controller
 {
@@ -24,14 +25,14 @@ class ExtratoController extends Controller
             $dt_vencimento = $request->input('dt_fim');
 
             if (empty($dt_lancamento) && empty($dt_vencimento)) {
-                $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(config('constants.PROVISIONADO'));
+                $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
                 return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
             } else {
                 $lancamentos = $this->showPeriodDate($dt_lancamento, $dt_vencimento);
                 return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
             }
         } else {
-            $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(config('constants.PROVISIONADO'));
+            $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
             return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
         }
     }
