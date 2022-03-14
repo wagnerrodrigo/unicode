@@ -167,8 +167,8 @@
             console.log("Data Inicio preenchida");
             event.preventDefault();
             swal({
-                title: "Atenção",
-                text: "Preencha o campo Data Fim!",
+                title: "ATENÇÃO",
+                text: "Preencha o campo DATA FIM!",
                 icon: "warning",
                 button: "Ok",
             });
@@ -176,8 +176,8 @@
             console.log("Data Fim preenchida");
             event.preventDefault();
             swal({
-                title: "Atenção",
-                text: "Preencha o campo Data Início!",
+                title: "ATENÇÃO",
+                text: "Preencha o campo DATA INICIO!",
                 icon: "warning",
                 button: "Ok",
             });
