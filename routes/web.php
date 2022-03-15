@@ -22,6 +22,7 @@ use App\Http\Controllers\EmpregadoController;
 use App\Http\Controllers\CondicaoPagamentoController;
 use App\Http\Controllers\ExtratoController;
 use App\Http\Controllers\PagamentoController;
+use App\Http\Controllers\ComprasController;
 use App\Http\Controllers\PixController;
 use Illuminate\Support\Facades\Route;
 
@@ -206,4 +207,8 @@ Route::middleware('autenticacaoMiddleware')->get('/pagamentos/{id}', [PagamentoC
 Route::middleware('autenticacaoMiddleware')->prefix('/cep')->group(function () {
     Route::post('/', [ApiViaCepController::class, 'buscaCep']);
     Route::get('/', [FornecedorController::class, 'testeCep']);
+});
+
+Route::middleware('autenticacaoMiddleware')->prefix('/compras')->group(function () {
+    Route::get('/', [ComprasController::class, 'index'])->name('compras');
 });

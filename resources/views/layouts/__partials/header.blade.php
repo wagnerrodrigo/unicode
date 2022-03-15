@@ -20,6 +20,15 @@
                         <li><a class="dropdown-item" href="{{route('lancamentos')}}">LANÇAMENTOS</a></li>
                     </ul>
                 </li>
+
+                <li class="nav-item dropdown space-item-navbar" style="padding: 10px;">
+                    <a class="nav-link dropdown-toggle" href="/#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        COMPRAS
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="compras">
+                        <li><a class="dropdown-item" href="{{route('compras')}}">COMPRAS</a></li>
+                    </ul>
+                </li>
             </ul>
             <!-- Left links -->
         </div>
