@@ -22,6 +22,7 @@ use App\Http\Controllers\EmpregadoController;
 use App\Http\Controllers\CondicaoPagamentoController;
 use App\Http\Controllers\ExtratoController;
 use App\Http\Controllers\PagamentoController;
+use App\Http\Controllers\ComprasController;
 use App\Http\Controllers\PixController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,8 @@ Route::post('forgot-password', [LoginController::class, 'forgotPassword'])->name
 Route::get('/login{error?}', [LoginController::class, 'index'])->name('autenticacao');
 Route::get('/', [LoginController::class, 'index'])->name('autenticacao');
 Route::post('/login', [LoginController::class, 'authentication'])->name('autenticacao');
+
+Route::get('/api/despesas',[DespesaController::class, 'api']);
 
 Route::middleware('autenticacaoMiddleware')->group(function () {
     Route::get('/home', [PainelController::class, 'index'])->name('painel');
@@ -206,4 +209,8 @@ Route::middleware('autenticacaoMiddleware')->get('/pagamentos/{id}', [PagamentoC
 Route::middleware('autenticacaoMiddleware')->prefix('/cep')->group(function () {
     Route::post('/', [ApiViaCepController::class, 'buscaCep']);
     Route::get('/', [FornecedorController::class, 'testeCep']);
+});
+
+Route::middleware('autenticacaoMiddleware')->prefix('/compras')->group(function () {
+    Route::get('/', [ComprasController::class, 'index'])->name('compras');
 });
