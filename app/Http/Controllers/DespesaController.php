@@ -47,6 +47,30 @@ class DespesaController extends Controller
         }
     }
 
+    public function api(Request $request){
+        try {
+            $despesaRepository = new DespesaRepository();
+            $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
+
+            $mascara = new Mascaras();
+            //quantidade de resultados por pagina
+            $results = $request->input('results');
+            $dt_inicio = $request->input('dt_inicio');
+            $dt_fim = $request->input('dt_fim');
+            $status_despesa = $request->input('status');
+
+            if ($request->has('status')) {
+                $despesas = Despesa::selectAll($results, $status_despesa, $dt_inicio, $dt_fim);
+            } else {
+                $despesas = Despesa::selectAll($results = 10);
+            }
+            return response()->json($despesas);
+        } catch (\Exception $e) {
+            $error = CustomErrorMessage::ERROR_LIST_DESPESA;
+            return view('error', compact('error'));
+        }
+    }
+
     public function formDespesa()
     {
         return view('admin.despesas.add-despesa-fornecedor');
