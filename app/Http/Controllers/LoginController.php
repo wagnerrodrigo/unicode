@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Error;
-
-use App\Models\User;
 use App\Models\ProcedureLogin;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
-{   //retorna view login
+{ //retorna view login
     public function index(Request $request)
     {
         if (session('login') !== null && session('login') != '') {
             return redirect()->route('painel');
         } else {
-
             $error = '';
 
             if ($request->get('error') == 1) {
@@ -65,11 +61,11 @@ class LoginController extends Controller
         $login = strtolower($request->get('login'));
         $email = strtolower($request->get('email'));
 
-        //Iniciar model User
-        $user = new ProcedureLogin($login, $email);
+        //Iniciar model procedureLogin
+        $procedureLogin = new ProcedureLogin($login, $email);
 
-        if (isset($user->login)) {
-            if ($user->login === $login && $user->email === $email) {
+        if (isset($procedureLogin->login)) {
+            if ($procedureLogin->login === $login && $procedureLogin->email === $email) {
                 return "informações válidas";
             }
         } else {
@@ -100,19 +96,14 @@ class LoginController extends Controller
         $login = $request->get('login');
         $password = $request->get('password');
 
-        $user = new ProcedureLogin($login, $password);
+        $procedureLogin = new ProcedureLogin($login, $password);
 
-        if (!empty($user->procedureResult)) {
+        if (!empty($procedureLogin->procedureResult)) {
 
-            $credentials = explode(',', $user->procedureResult[0]->check_login_v2);
+            $credentials = explode(',', $procedureLogin->procedureResult[0]->check_login_v2);
             $credentials[0] = str_replace("(", "", $credentials[0]);
             $credentials[0] = str_replace('"', "", $credentials[0]);
             $credentials[3] = str_replace(")", "", $credentials[3]);
-
-            // foreach ($procedure as $proc) {
-            //     $this->procedureResult = $proc;
-            // }
-
             //transforma em array associativo
             $result = [
                 'name' => $credentials[0],
