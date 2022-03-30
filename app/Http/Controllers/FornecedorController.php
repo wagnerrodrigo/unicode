@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Fornecedor;
-use App\Models\Endereco;
-use App\Repository\EnderecoRepository;
+use App\Repository\AdressRepository;
 use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
 use App\CustomError\CustomErrorMessage;
@@ -75,7 +74,7 @@ class FornecedorController extends Controller
             $fornecedor_id = Fornecedor::findByTimeStamp($timestamp);
 
             for ($i = 0; $i < count($request->cep); $i++) {
-                $enderecos[] = [
+                $adresses[] = [
                     "cep" => $request->cep[$i],
                     "logradouro" => $request->logradouro[$i],
                     "numero" => $request->numero[$i],
@@ -87,8 +86,8 @@ class FornecedorController extends Controller
             }
 
             //salva o endereco
-            $repository = new EnderecoRepository();
-            $repository->createEndereco($fornecedor_id, $enderecos);
+            $adressRepository = new AdressRepository();
+            $adressRepository->createAdress($fornecedor_id, $adresses);
 
             return redirect()->back()->with('success', 'Fornecedor Cadastrado com Sucesso!!');
         } catch (\Exception $e) {
@@ -130,7 +129,7 @@ class FornecedorController extends Controller
             $fornecedor = Fornecedor::findOne($id);
             $mascara = new Mascaras();
 
-            $AdressRepository = new EnderecoRepository();
+            $AdressRepository = new AdressRepository();
             $adresses = $AdressRepository->findAdressByProvider($id);
 
             $retorno = ["success" => null];
@@ -183,13 +182,10 @@ class FornecedorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id){
         try {
-            $fornecedor = Fornecedor::findOne($id);
             $dataFim = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-
-            Fornecedor::del($dataFim, $fornecedor->id_fornecedor);
+            Fornecedor::del($dataFim, $id);
 
             return redirect()->back()->with('success', 'Fornecedor Removido com Sucesso!!');
         } catch (\Exception $e) {
