@@ -8,9 +8,9 @@ use App\Models\Cidade;
 use Carbon\Carbon;
 
 
-class EnderecoRepository
+class AdressRepository
 {
-    function createEndereco($id_fornecedor, $enderecos)
+    function createAdress($id_fornecedor, $enderecos)
     {
         //separa os enderecos em um array
         for ($i = 0; $i < count($enderecos); $i++) {
