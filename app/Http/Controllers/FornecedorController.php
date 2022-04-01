@@ -8,6 +8,7 @@ use App\Repository\AdressRepository;
 use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
 use App\CustomError\CustomErrorMessage;
+use GuzzleHttp\Client;
 
 class FornecedorController extends Controller
 {
@@ -199,5 +200,18 @@ class FornecedorController extends Controller
                 ->back()
                 ->with('error', 'Não foi possível Remover o fornecedor');
         }
+    }
+
+    public function webScraping($cnpj)
+    {
+        $client = new Client([
+            'base_uri' => 'https://publica.cnpj.ws/cnpj/',
+            'timeout'  => 2.0,
+        ]);
+        $response = $client->request('GET',$cnpj);
+        $body = $response->getBody();
+
+        echo $body;
+
     }
 }

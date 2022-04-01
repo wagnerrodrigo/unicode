@@ -209,6 +209,7 @@ Route::middleware('autenticacaoMiddleware')->get('/pagamentos/{id}', [PagamentoC
 Route::middleware('autenticacaoMiddleware')->prefix('/cep')->group(function () {
     Route::post('/', [ApiViaCepController::class, 'buscaCep']);
     Route::get('/', [FornecedorController::class, 'testeCep']);
+    Route::get('/pesquisaCNPJ/{cnpj}',[FornecedorController::class, 'webScraping'])->name(('webScraping'));
 });
 
 Route::middleware('autenticacaoMiddleware')->prefix('/compras')->group(function () {
