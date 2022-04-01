@@ -496,21 +496,14 @@ $.ajax({
         //traz os resultados do banco para uma div hidden
         $.each(response, function (key, val) {
             if (val.id_condicao_pagamento != 9) {
-                $("#itens_tipo_pagamento")
+                $("#condicao_pagamento")
                     .append(
-                        `<div class="item_condicao_pagamento" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</div>`
+                        `<option class="item_condicao_pagamento" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</option>`
                     )
-                    .hide();
             }
         });
 
-        $("#condicao_pagamento").click(function () {
-            $("#itens_tipo_pagamento").show();
-        });
-
         $(".item_condicao_pagamento").click(function () {
-            $("#condicao_pagamento").val($(this).text());
-            $("#itens_tipo_pagamento").hide();
 
             var id_tipo_pagamento = $(this).attr("value");
             //tipos de pagamento  3 = Depósito; 6 = DOC; 7 = TED; 8 == Tranferência;

@@ -224,8 +224,9 @@
 
                         <div class="px-5 mb-3">
                             <strong>TIPO DE PAGAMENTO</strong>
-                            <input required class="form-control input-add teste" name="tipo_pagamento" id="condicao_pagamento" readonly style="cursor: pointer;"></input>
-                            <div id="itens_tipo_pagamento" class="input-style" style="cursor: pointer;"></div>
+                            <select required class="form-control input-add teste" name="tipo_pagamento" id="condicao_pagamento">
+                                <option id="itens_tipo_pagamento" class="input-style" value="" style="cursor: pointer;"></option>
+                            </select>
                         </div>
                     </div>
 

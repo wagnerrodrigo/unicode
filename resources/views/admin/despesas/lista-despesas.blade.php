@@ -64,6 +64,7 @@
                             <th>NÚMERO</th>
                             <th>VALOR</th>
                             <th>PARCELAS</th>
+                            <th>DATA DE CADASTRO</th>
                             <th>VENCIMENTO</th>
                             <th>STATUS</th>
                             <th>AÇÃO</th>
@@ -76,6 +77,7 @@
                             <td>{{$despesa->id_despesa}}</td>
                             <td>{{$mascara::maskMoeda($despesa->valor_total_despesa)}}</td>
                             <td>{{$despesa->qt_parcelas_despesa}}</td>
+                            <td>{{$despesa->dt_inicio != null ? date("d/m/Y", strtotime($despesa->dt_inicio)) : ''}}</td>
                             <td>{{$despesa->dt_vencimento != null ? date("d/m/Y", strtotime($despesa->dt_vencimento)) : ''}}</td>
                             <td>{{$despesa->de_status_despesa}}</td>
                             <td>

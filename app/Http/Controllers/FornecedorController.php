@@ -127,14 +127,19 @@ class FornecedorController extends Controller
     {
         try {
             $fornecedor = Fornecedor::findOne($id);
-            $mascara = new Mascaras();
+            if (!$fornecedor->dt_fim) {
+                $mascara = new Mascaras();
 
-            $AdressRepository = new AdressRepository();
-            $adresses = $AdressRepository->findAdressByProvider($id);
+                $AdressRepository = new AdressRepository();
+                $adresses = $AdressRepository->findAdressByProvider($id);
 
-            $retorno = ["success" => null];
+                $retorno = ["success" => null];
 
-            return view('admin.fornecedor.fornecedor', compact('fornecedor', 'mascara', 'retorno', 'adresses'));
+                return view('admin.fornecedor.fornecedor', compact('fornecedor', 'mascara', 'retorno', 'adresses'));
+            } else {
+                $error = CustomErrorMessage::ERROR_FORNECEDOR;
+                return view('error', compact('error'));
+            }
         } catch (\Exception $e) {
             $error = CustomErrorMessage::ERROR_FORNECEDOR;
             return view('error', compact('error'));
@@ -182,7 +187,8 @@ class FornecedorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id){
+    public function destroy($id)
+    {
         try {
             $dataFim = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
             Fornecedor::del($dataFim, $id);
