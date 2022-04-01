@@ -12,7 +12,7 @@
             <div class="card-body d-flex flex-column">
                 <div class="justify-content-center" id="list-despesa" style="padding: 10px;">
                     <div class="d-flex mt-10" style="width: 100%">
-                        <form action="/despesas" method="POST">
+                        <form action="/despesas" method="POST" id="form_despesa">
                             @csrf
                             <div id="hidden_inputs"></div>
                             <div id="hidden_inputs_itens"></div>
@@ -224,9 +224,8 @@
 
                         <div class="px-5 mb-3">
                             <strong>TIPO DE PAGAMENTO</strong>
-                            <select required class="form-control input-add teste" name="tipo_pagamento" id="condicao_pagamento">
-                                <option id="itens_tipo_pagamento" class="input-style" value="" style="cursor: pointer;"></option>
-                            </select>
+                            <input required class="form-control input-add teste" name="tipo_pagamento" id="condicao_pagamento" readonly style="cursor: pointer;"></input>
+                            <div id="itens_tipo_pagamento" class="input-style" style="cursor: pointer;"></div>
                         </div>
                     </div>
 
