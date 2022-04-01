@@ -107,7 +107,7 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
-        try {
+        //try {
             //formata valor total da despesa para o banco
             $request->valor_total = str_replace("R$", "", $request->valor_total);
             $request->valor_total = trim(html_entity_decode($request->valor_total), " \t\n\r\0\x0B\xC2\xA0");
@@ -142,7 +142,7 @@ class DespesaController extends Controller
             $despesa->dt_vencimento = $request->data_vencimento;
             $despesa->moeda = $request->moeda;
             $despesa->dt_provisionamento = $request->data_provisionamento;
-            $despesa->fk_condicao_pagamento_id = $condicaoPagamentoId->getId($request->tipo_pagamento);
+            $despesa->fk_condicao_pagamento_id = $request->tipo_pagamento;
             $despesa->tipo_documento = $request->tipo_documento;
             $despesa->fk_conta_bancaria = $request->numero_conta_bancaria;
             $despesa->fk_tab_pix = $request->numero_pix;
@@ -223,11 +223,11 @@ class DespesaController extends Controller
                 }
             }
             return redirect()->route('despesas')->with('success', 'Despesa Cadastrada!');
-        } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', 'Não foi possível cadastrar a Despesa' . $e->getMessage());
-        }
+        // } catch (\Exception $e) {
+        //     return redirect()
+        //         ->back()
+        //         ->with('error', 'Não foi possível cadastrar a Despesa' . $e->getMessage());
+        // }
     }
 
     public function edit($id, Request $request)
