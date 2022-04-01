@@ -496,14 +496,21 @@ $.ajax({
         //traz os resultados do banco para uma div hidden
         $.each(response, function (key, val) {
             if (val.id_condicao_pagamento != 9) {
-                $("#condicao_pagamento")
+                $("#itens_tipo_pagamento")
                     .append(
-                        `<option class="item_condicao_pagamento" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</option>`
+                        `<div class="item_condicao_pagamento" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</div>`
                     )
+                    .hide();
             }
         });
 
+        $("#condicao_pagamento").click(function () {
+            $("#itens_tipo_pagamento").show();
+        });
+
         $(".item_condicao_pagamento").click(function () {
+            $("#condicao_pagamento").val($(this).text());
+            $("#itens_tipo_pagamento").hide();
 
             var id_tipo_pagamento = $(this).attr("value");
             //tipos de pagamento  3 = Depósito; 6 = DOC; 7 = TED; 8 == Tranferência;
@@ -665,6 +672,18 @@ function limpaCamposContaPix() {
     $("#option_Pix").remove();
 }
 
+$("#form_despesa").submit(function (event) {
+    if ($("#condicao_pagamento").val() == "") {
+        swal({
+            title: "Atenção",
+            text: "Selecione a condição de pagamento",
+            icon: "warning",
+            button: "OK",
+        });
+        event.preventDefault();
+    }
+});
+
 function limpaCamposDespesaJuridica() {
     $(".remove_processo").remove();
     $("input[name=numero_processo]").attr("value", "");
@@ -694,46 +713,6 @@ function getContaBancaria(object) {
 function getProcesso(object) {
     $("input[name=numero_processo]").attr("value", object.value);
 }
-
-// $("#dt_prov").on("focusout", function () {
-//     var dateObj = $("#dt_prov").val();
-
-//     var dataDividida = dateObj.split("-");
-//     var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
-//     var now = new Date();
-//     var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-//     if (data < dataAtual) {
-//         $(this).css({ color: "red" });
-//         $("#erro_dt_prov")
-//             .html("Data de provisionamento menor que a data atual")
-//             .css({ color: "red", fontStyle: "italic" });
-//         $(this).focus();
-//     } else {
-//         $("#erro_dt_prov").html("");
-//         $(this).css({ color: "black" });
-//     }
-// });
-
-// $("#dt_venc").on("change", function () {
-//     var dateObj = $("#dt_venc").val();
-
-//     var dataDividida = dateObj.split("-");
-//     var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
-//     var now = new Date();
-//     var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-//     if (data < dataAtual) {
-//         $(this).css({ color: "red" });
-//         $("#erro_dt_venc")
-//             .html("Data de vencimento menor que a data atual")
-//             .css({ color: "red", fontStyle: "italic" });
-//         $(this).focus();
-//     } else {
-//         $("#erro_dt_venc").html("");
-//         $(this).css({ color: "black" });
-//     }
-// });
 
 $("#dt_emissao").on("change", function () {
     var dateObj = $("#dt_emissao").val();
