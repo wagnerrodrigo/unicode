@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Models\Despesa;
-
+use App\Models\ItemDespesa;
 
 class DespesaRepository
 {
@@ -13,7 +13,7 @@ class DespesaRepository
         return Despesa::findPaymentConditionById($id);
     }
 
-    //métodos busca condicao de pagamento e tipo de despesa
+    //método busca condicao de pagamento e tipo de despesa
     function findInfosDespesa($id)
     {
         return Despesa::findInfosDespesaById($id);
@@ -35,5 +35,19 @@ class DespesaRepository
     function getExpenseById($id, $condicao_pagamento, $tipo_despesa)
     {
         return Despesa::findOne($id, $condicao_pagamento, $tipo_despesa);
+    }
+
+    function getItems($id)
+    {
+        return ItemDespesa::getAllExpenseItems($id);
+    }
+
+    function setItemEndDate($id, $data)
+    {
+        ItemDespesa::setItemEndDate($id, $data);
+    }
+
+    function deleteExpense($id, $endDate){
+        Despesa::del($id, $endDate);
     }
 }

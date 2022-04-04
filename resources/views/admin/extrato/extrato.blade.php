@@ -59,8 +59,12 @@
                             <td>{{ $lancamento->de_status_despesa }}</td>
 
                             <td id="btn_abrir_extratos">
-                                <button type="button" id="abrir_extratos_{{ $lancamento->id_tab_lancamento }}" disabled class="accordion-button custon-btn custon-btn-accordion" onclick="getExtrato(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{ $lancamento->id_tab_lancamento }}" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 25px">
-                                </button>
+                                <div class="d-flex justify-content-space-between">
+                                    <button type="button" id="abrir_extratos_{{ $lancamento->id_tab_lancamento }}" disabled class="accordion-button custon-btn custon-btn-accordion" onclick="getExtrato(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{ $lancamento->id_tab_lancamento }}" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 25px">
+                                    </button>
+                                    <button id="{{ $lancamento->id_tab_lancamento }}" onclick="deleteLancamento(this.id)" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
+                                </div>
+
                             </td>
                         </tr>
 
@@ -251,7 +255,45 @@
             }
         })
     })
+
+    function deleteLancamento(id){
+        swal({
+            title: "Atenção",
+            text: `Você tem certeza que deseja excluir o lançamento ${id}?`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "POST",
+                    url: `/lancamentos/delete/${id}`,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        id_lancamento: id,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        swal({
+                            title: "Sucesso",
+                            text: "Lançamento excluído com sucesso",
+                            icon: "success",
+                        }).then(function() {
+                            window.location.href = "/extrato";
+                        });
+                    },
+                    fail: function(response) {
+                        swal({
+                            title: "Atenção",
+                            text: "Erro ao excluir o lançamento",
+                            icon: "warning",
+                            button: "Ok",
+                        });
+                    }
+                });
+            }
+        });
+    }
 </script>
 
 @endsection
-

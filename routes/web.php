@@ -114,10 +114,8 @@ Route::middleware('autenticacaoMiddleware')->prefix('/centroCustoEmpresa')->grou
 });
 
 //rotas Lançamentos
-Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
 Route::middleware('autenticacaoMiddleware')->prefix('/lancamentos')->group(function () {
-
-
+    Route::get('/lancamentos', [LancamentoController::class, 'index'])->name('lancamentos');
     Route::get('/paginate', [LancamentoController::class, 'paginate']);
     Route::get('/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
     Route::get('/provisionamento/{id}', [LancamentoController::class, 'provisionamento'])->name('lancamento-provisionamento');
@@ -132,6 +130,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/lancamentos')->group(funct
     Route::get('/filtro-empresaContas/{id}', [LancamentoController::class, 'showCompanyAccountInformation']);
     Route::get('/filtro-status/{id_status}', [LancamentoController::class, 'showStatus']);
     Route::get('/pesquisa/atributos', [LancamentoController::class, 'showBydateAndstatus']);
+    Route::post('/delete/{id}', [LancamentoController::class, 'destroy']);
 });
 
 

@@ -46,4 +46,17 @@ class ItemDespesa extends Model
             $itemDespesa->valor_total_item_despesa
         ]);
     }
+
+    static function getAllExpenseItems($id)
+    {
+        return DB::select("SELECT * FROM intranet.tab_item_despesa
+        WHERE fk_tab_despesa_id = " . $id);
+    }
+
+    static function setItemEndDate($id, $data)
+    {
+        DB::update("UPDATE intranet.tab_item_despesa
+        SET dt_fim = '" . $data . "'
+        WHERE id_item_despesa = " . $id);
+    }
 }

@@ -206,4 +206,10 @@ class Lancamento extends Model
             ->paginate(10);
         return $query;
     }
+
+    static function deleteLancamento($id, $timestamp)
+    {
+        DB::table('intranet.tab_lancamento')->where('id_tab_lancamento', '=', $id)
+            ->update(['dt_fim' => $timestamp]);
+    }
 }

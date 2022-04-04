@@ -85,8 +85,37 @@
                                 <a href="lancamentos/provisionamento/{{$lancamento->id_despesa}}" class="btn btn-success" style="padding: 8px 12px;">
                                     <i class="bi bi-eye-fill"></i>
                                 </a>
+                                <button data-bs-toggle="modal" data-bs-target="#delete{{$lancamento->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
                             </td>
                         </tr>
+                        <div class="modal fade text-left" id="delete{{$lancamento->id_despesa}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger">
+                                            <h5 class="modal-title white" id="myModalLabel120">EXCLUSÃO</h5>
+                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                <i data-feather="x"></i>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Deseja realmente excluir a Despesa: {{$lancamento->id_despesa}}?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                                <i class="bx bx-x d-block d-sm-none"></i>
+                                                <span class="d-none d-sm-block">Cancelar</span>
+                                            </button>
+                                            <form action="/despesas/delete/{{$lancamento->id_despesa}}" method="POST">
+                                                @csrf
+                                                <button class="btn btn-danger ml-1">
+                                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                                    <span class="d-none d-sm-block">Excluir</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                     </tbody>
                     @endif
