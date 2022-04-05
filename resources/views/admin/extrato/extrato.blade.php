@@ -123,6 +123,7 @@
         $("#inputDataInicio").prop("required", true);
     })
 </script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     var valorExtrato = 0;
@@ -256,15 +257,18 @@
         })
     })
 
-    function deleteLancamento(id){
-        swal({
-            title: "Atenção",
-            text: `Você tem certeza que deseja excluir o lançamento ${id}?`,
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
+    function deleteLancamento(id) {
+        Swal.fire({
+            title: 'Atenção!',
+            text: `Deseja Realmente Excluir o Lançamento ${id}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#820AD1',
+            cancelButtonColor: '#D1611F',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
                     url: `/lancamentos/delete/${id}`,
@@ -272,23 +276,73 @@
                         "_token": "{{ csrf_token() }}",
                         id_lancamento: id,
                     },
-                    dataType: "json",
-                    success: function(response) {
-                        swal({
-                            title: "Sucesso",
-                            text: "Lançamento excluído com sucesso",
-                            icon: "success",
-                        }).then(function() {
-                            window.location.href = "/extrato";
-                        });
+                    success: function(data) {
+                        if (data) {
+                            Swal.fire({
+                                title: 'Sucesso!',
+                                text: 'Deletado',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            })
+                        } else {
+                            Swal.fire({
+                                title: 'Erro!',
+                                text: 'Erro ao deletar',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            })
+                        }
                     },
-                    fail: function(response) {
-                        swal({
-                            title: "Atenção",
-                            text: "Erro ao excluir o lançamento",
-                            icon: "warning",
-                            button: "Ok",
-                        });
+                });
+            }
+        });
+    }
+
+
+
+    function deleteAdress(obj) {
+        let id = obj.replace('endereco_', '');
+        Swal.fire({
+            title: 'Atenção!',
+            text: "Deseja Realmente Excluir este Endereço?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#820AD1',
+            cancelButtonColor: '#D1611F',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/enderecos/delete/' + id,
+                    type: 'post',
+                    data: {
+                        _token: $('input[name=_token]').val()
+                    },
+                    success: function(data) {
+                        if (!("error" in data)) {
+                            Swal.fire({
+                                title: 'Sucesso!',
+                                text: 'Deletado',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            })
+                        } else {
+                            Swal.fire({
+                                title: 'Erro!',
+                                text: 'Erro ao deletar',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            })
+                        }
                     }
                 });
             }
