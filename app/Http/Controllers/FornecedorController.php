@@ -206,7 +206,7 @@ class FornecedorController extends Controller
     {
         $client = new Client([
             'base_uri' => 'https://publica.cnpj.ws/cnpj/',
-            'timeout'  => 2.0,
+            'timeout'  => 5.0,
         ]);
         $response = $client->request('GET',$cnpj);
         $body = $response->getBody();

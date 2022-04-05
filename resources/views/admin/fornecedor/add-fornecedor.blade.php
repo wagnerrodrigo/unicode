@@ -16,16 +16,25 @@
                     <div class="justify-content-center " id="list-despesa">
                         <form action="{{route('fornecedores')}}" method="POST" style="padding: 10px;">
                             @csrf
+                            <div class="d-flex">
+                                <div class="px-5 mb-3">
+                                    <div>
+                                        <strong>PESQUISA CNPJ RECEITA FEDERAL</strong>
+                                        <input class="form-control mt-1" id="pesqCNPJ" type="text" placeholder="Pesquisa CNPJ"
+                                        name="pesqCNPJ" style="width: 150px"/>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="d-flex mt-10" style="width: 100%">
                                 <div id="enderecos_gerados"></div>
 
                                 <div class="px-5 mb-3">
                                     <strong>NOME FANTASIA</strong>
-                                    <input class="form-control mt-1" type="text" placeholder="Nome" name="de_nome_fantasia" style="width: 358px" />
+                                    <input class="form-control mt-1" type="text" placeholder="Nome" name="de_nome_fantasia" id="de_nome_fantasia" style="width: 358px" />
                                 </div>
                                 <div class="px-5 mb-3">
                                     <strong>RAZÃO SOCIAL</strong>
-                                    <input class="form-control mt-1" type="text" placeholder="Razão Social" name="de_razao_social" style="width: 358px" />
+                                    <input class="form-control mt-1" type="text" placeholder="Razão Social" name="de_razao_social" id="de_razao_social" style="width: 358px" />
                                 </div>
                             </div>
 
@@ -326,7 +335,44 @@
             }
         });
 
+        $("#pesqCNPJ").blur(function(){
+                // CNPJ vai receber somente numeros
+                var cnpj = $(this).val().replace(/\D/g, '');
+                console.log("estou funcionado ");
+
+                if (cnpj != ""){
+                 getCnpj(cnpj);
+                }
+            });
     });
+
+    function getCnpj(cnpj){
+        $.ajax({
+            url:`/cep/pesquisaCNPJ/${cnpj}`,
+            type: 'GET',
+            dataType: "json",
+            success: function(data){
+                inputCnpj = $("#nu_cpf_cnpj").val(data.estabelecimento.cnpj);
+                inputRazao_social = $("#de_razao_social").val(data.razao_social);
+                inputNome_fantasia = $("#de_nome_fantasia").val(data.estabelecimento.nome_fantasia);
+                swal({
+                    title:"CNPJ Encontrado",
+                    text: "Por favor verifique os campos Nome Fantasia e Inscrição Estadual",
+                    icon: "success",
+                    button: "OK",
+                })
+            },
+            error: function () {
+                swal({
+                    title: "Erro",
+                    text: "Erro ao buscar o CNPJ da receita federal",
+                    icon: "error",
+                    button: "Ok",
+                });
+            },
+        });
+    }
+
 
     function removeEndereco(id) {
         $("#gerado_" + id).remove();
