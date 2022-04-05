@@ -257,8 +257,10 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <h3>INFORMAÇÕES DA NOTA</h3>
-                            <strong>NUMERO DA NOTA OU DOCUMENTO</strong>
-                            <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add" name="numero_nota_documento" />
+                            <strong>NUMERO DA NOTA</strong>
+                            <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add mb-3" name="numero_nota_documento" />
+                            <strong >NUMERO DO DOCUMENTO</strong>
+                            <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add" name="numero_documento" />
                         </div>
 
                         <div class="px-5 mb-3" style="margin-top: 38px">
