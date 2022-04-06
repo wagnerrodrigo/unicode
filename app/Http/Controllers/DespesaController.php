@@ -107,6 +107,8 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
+        //adicionar numero_documento no banco e no model
+        //$despesa->numero_documento = $request->numero_documento
         try {
             //formata valor total da despesa para o banco
             $request->valor_total = str_replace("R$", "", $request->valor_total);

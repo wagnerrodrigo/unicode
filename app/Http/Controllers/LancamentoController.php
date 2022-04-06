@@ -10,6 +10,7 @@ use App\Utils\Mascaras\Mascaras;
 use Carbon\Carbon;
 use App\Repository\DespesaRepository;
 use App\CustomError\CustomErrorMessage;
+use App\Repository\RateioRepository;
 
 class LancamentoController extends Controller
 {
@@ -230,7 +231,6 @@ class LancamentoController extends Controller
             $dataInicio = $request->dataInicio;
             $dataFim = $request->dataFim;
             $status = $request->status;
-            dd($dataInicio, $dataFim, $status);
 
             $filtro = explode("\r\n", $campos);
             foreach ($filtro as $f) {
@@ -264,7 +264,14 @@ class LancamentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            Lancamento::updatePaymentDate($id, $request->payment_date);
+            return redirect()->back()->with('success', 'Data de pagamento atualizada com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível atualizar a data de pagamento' . $e->getMessage());
+        }
     }
 
     /**
@@ -275,6 +282,36 @@ class LancamentoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $accountingEntrys = Lancamento::findOne($id);
+            foreach ($accountingEntrys as $accountingEntry) {
+            }
+
+            $expenseId = $accountingEntry->fk_tab_despesa_id;
+            $expenseRepository = new DespesaRepository();
+
+            $timeStamp = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+
+            //deleta despesa
+            $expenseRepository->deleteExpense($expenseId, $timeStamp);
+
+            //seta data fim aos itens da despesa
+            $items = $expenseRepository->getItems($expenseId);
+            if ($items) {
+                for ($i = 0; $i < count($items); $i++) {
+                    $expenseRepository->setItemEndDate($items[$i]->id_item_despesa, $timeStamp);
+                }
+            }
+            //seta data fim ao rateio
+            $rateioRepository = new RateioRepository();
+            $rateioRepository->setEndDateRateio($expenseId, $timeStamp);
+
+            Lancamento::deleteLancamento($id, $timeStamp);
+            return redirect()->back()->with('success', 'Lançamento Excluído!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível excluir o Lançamento' . $e->getMessage());
+        }
     }
 }
