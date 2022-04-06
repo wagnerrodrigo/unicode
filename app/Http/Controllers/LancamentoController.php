@@ -264,7 +264,14 @@ class LancamentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            Lancamento::updatePaymentDate($id, $request->payment_date);
+            return redirect()->back()->with('success', 'Data de pagamento atualizada com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível atualizar a data de pagamento' . $e->getMessage());
+        }
     }
 
     /**

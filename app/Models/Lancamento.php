@@ -212,4 +212,10 @@ class Lancamento extends Model
         DB::table('intranet.tab_lancamento')->where('id_tab_lancamento', '=', $id)
             ->update(['dt_fim' => $timestamp]);
     }
+
+    static function updatePaymentDate($id, $date)
+    {
+        DB::table('intranet.tab_lancamento')->where('id_tab_lancamento', '=', $id)
+            ->update(['dt_efetivo_pagamento' => $date]);
+    }
 }

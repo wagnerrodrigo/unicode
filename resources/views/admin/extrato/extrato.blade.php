@@ -53,7 +53,7 @@
                                 {{ $lancamento->fk_tab_despesa_id }}
                                 <input type="checkbox" class="inputs_selecionandos" name="radio_lancamento" value="{{ $lancamento->id_tab_lancamento }}" id="radio_lancamento_{{ $lancamento->id_tab_lancamento }}">
                             </td>
-                            <td>{{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}</td>
+                            <td id="data_efetivo_pagamento_{{ $lancamento->id_tab_lancamento }}">{{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}</td>
                             <td>{{ $lancamento->de_despesa }}</td>
                             <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->id_tab_lancamento}}" value="{{$lancamento->valor_pago}}" /></td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
@@ -62,7 +62,8 @@
                                 <div class="d-flex justify-content-space-between">
                                     <button type="button" id="abrir_extratos_{{ $lancamento->id_tab_lancamento }}" disabled class="accordion-button custon-btn custon-btn-accordion" onclick="getExtrato(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{ $lancamento->id_tab_lancamento }}" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 25px">
                                     </button>
-                                    <button id="{{ $lancamento->id_tab_lancamento }}" onclick="deleteLancamento(this.id)" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
+                                    <button id="{{ $lancamento->id_tab_lancamento }}" onclick="editLancamento(this.id)" class="btn btn-warning ms-5" style="padding: 8px 12px;"><i class="bi bi-pencil-fill"></i></button>
+                                    <button id="{{ $lancamento->id_tab_lancamento }}" onclick="deleteLancamento(this.id)" class="btn btn-danger ms-2" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
                                 </div>
 
                             </td>
@@ -97,6 +98,7 @@
 <script src="{{ asset('assets/js/vendors.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- <script src="{{ asset('assets/js/custom-js/extrato.js') }}"></script> -->
 
 <script>
@@ -123,7 +125,8 @@
         $("#inputDataInicio").prop("required", true);
     })
 </script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 
 <script>
     var valorExtrato = 0;
@@ -302,51 +305,34 @@
         });
     }
 
+    function editLancamento(id) {
+        var dt_pagamento = $(`#data_efetivo_pagamento_${id}`).text();
+        var dt_pagamento_formatada = FormataStringData(dt_pagamento);
 
-
-    function deleteAdress(obj) {
-        let id = obj.replace('endereco_', '');
         Swal.fire({
-            title: 'Atenção!',
-            text: "Deseja Realmente Excluir este Endereço?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#820AD1',
-            cancelButtonColor: '#D1611F',
-            confirmButtonText: 'Confirmar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: '/enderecos/delete/' + id,
-                    type: 'post',
-                    data: {
-                        _token: $('input[name=_token]').val()
-                    },
-                    success: function(data) {
-                        if (!("error" in data)) {
-                            Swal.fire({
-                                title: 'Sucesso!',
-                                text: 'Deletado',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    location.reload();
-                                }
-                            })
-                        } else {
-                            Swal.fire({
-                                title: 'Erro!',
-                                text: 'Erro ao deletar',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            })
-                        }
-                    }
-                });
-            }
-        });
+            title: '<h3>EDITAR DATA DE PAGAMENTO</h3>',
+            html: ', ' +
+                `<form action="/lancamentos/edit/${id}" method="post">` +
+                '<div class="input-group mx-auto" style="width: 250px">' +
+                `<input type="date" class="form-control" name="payment_date" value="${dt_pagamento_formatada}">` +
+                `<input type="hidden" name="_token" value="{{ csrf_token() }}">` +
+                '</div>' +
+                `<button type="submit" class="btn btn-primary mt-5">Salvar</button>` +
+                `</form>`,
+            showCloseButton: true,
+            showCancelButton: false,
+            showConfirmButton: false,
+            focusConfirm: false,
+        })
+    }
+
+    function FormataStringData(data) {
+        var dia = data.split("/")[0];
+        var mes = data.split("/")[1];
+        var ano = data.split("/")[2];
+
+        return ano + '-' + ("0" + mes).slice(-2) + '-' + ("0" + dia).slice(-2);
+        // Utilizo o .slice(-2) para garantir o formato com 2 digitos.
     }
 </script>
 
