@@ -13,7 +13,7 @@ class DespesaRepository
         return Despesa::findPaymentConditionById($id);
     }
 
-    //método busca condicao de pagamento e tipo de despesa
+    //método busca condicao de pagamento, tipo de despesa e id do centro de custo
     function findInfosDespesa($id)
     {
         return Despesa::findInfosDespesaById($id);
