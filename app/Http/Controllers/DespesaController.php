@@ -13,6 +13,7 @@ use App\Utils\Mascaras\Mascaras;
 use App\Repository\DespesaRepository;
 use App\Repository\RateioRepository;
 use App\CustomError\CustomErrorMessage;
+use App\Repository\ItemDespesaRepository;
 use App\Utils\StatusDespesa;
 
 class DespesaController extends Controller
@@ -123,14 +124,14 @@ class DespesaController extends Controller
 
             //instancia model Despesa
             $despesa = new Despesa();
-            //faz a verificação do campo tipo da despesa e seta o valor no model
             $despesa->fk_centro_de_custo = $request->centro_custo_empresa;
+            //faz a verificação do campo tipo da despesa e seta o valor no model
             if ($request->tipo_despesa == 'empregado') {
-                $despesa->fk_tipo_despesa = 1;
+                $despesa->fk_tipo_despesa = TipoDespesa::EMPREGADO;
                 $despesa->fk_tab_fornecedor_id = null;
                 $despesa->fk_tab_empregado_id = $request->fk_empregado_fornecedor;
             } else {
-                $despesa->fk_tipo_despesa = 2;
+                $despesa->fk_tipo_despesa = TipoDespesa::FORNECEDOR;
                 $despesa->fk_tab_fornecedor_id = $request->fk_empregado_fornecedor;
                 $despesa->fk_tab_empregado_id = null;
             }
@@ -213,19 +214,9 @@ class DespesaController extends Controller
                         'quantidade' => $request->quantidade[$i],
                     ];
                 }
-                //instancia um objeto do model Rateio
-                $itemDespesa = new ItemDespesa();
-                //percorre o novo array e chama o metodo de inserção no banco para cada indice do array de rateios
-                for ($i = 0; $i < count($itensDespesa); $i++) {
-                    $itemDespesa->fk_tab_despesa_id = $id_despesa[0]->id_despesa;
-                    $itemDespesa->fk_tab_produto_id = $itensDespesa[$i]['fk_tab_produto_id'];
-                    $itemDespesa->valor_unitario_item_despesa = $itensDespesa[$i]['valor_unitario_item_despesa'];
-                    $itemDespesa->quantidade = $itensDespesa[$i]['quantidade'];
-                    $itemDespesa->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                    $itemDespesa->dt_fim = null;
-                    $itemDespesa->valor_total_item_despesa = $itensDespesa[$i]['valor_unitario_item_despesa'] * $itensDespesa[$i]['quantidade'];
-                    ItemDespesa::create($itemDespesa);
-                }
+                //chama o repository de itens e salva no banco
+                $itemDespesaRepository = new ItemDespesaRepository();
+                $itemDespesaRepository->create($itensDespesa, $id_despesa[0]->id_despesa);
             }
             return redirect()->route('despesas')->with('success', 'Despesa Cadastrada!');
         } catch (\Exception $e) {
@@ -281,7 +272,7 @@ class DespesaController extends Controller
             $ExpenseIds = $request->ids;
 
             foreach ($ExpenseIds as $id) {
-               Despesa::setProvisionDate($id, $provisionDate);
+                Despesa::setProvisionDate($id, $provisionDate);
             }
 
             return redirect()->back()->with('success', 'Data de provisionamento editada!');
