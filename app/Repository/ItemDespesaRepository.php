@@ -10,7 +10,6 @@ class ItemDespesaRepository
 {
     function create(array $items, string $despesa_id)
     {
-        dd($items, $despesa_id);
         $itemDespesa = new ItemDespesa();
         //percorre o novo array e chama o metodo de inserção no banco para cada indice do array de rateios
         for ($i = 0; $i < count($items); $i++) {

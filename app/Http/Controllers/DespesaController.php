@@ -214,10 +214,10 @@ class DespesaController extends Controller
                         'quantidade' => $request->quantidade[$i],
                     ];
                 }
+                //chama o repository de itens e salva no banco
+                $itemDespesaRepository = new ItemDespesaRepository();
+                $itemDespesaRepository->create($itensDespesa, $id_despesa[0]->id_despesa);
             }
-            //chama o repository de itens e salva no banco
-            $itemDespesaRepository = new ItemDespesaRepository();
-            $itemDespesaRepository->create($itensDespesa, $id_despesa[0]->id_despesa);
             return redirect()->route('despesas')->with('success', 'Despesa Cadastrada!');
         } catch (\Exception $e) {
             return redirect()
