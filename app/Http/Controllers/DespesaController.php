@@ -189,18 +189,9 @@ class DespesaController extends Controller
                         'porcentagem_rateio' => $resto_porcentagem,
                     ];
                 }
-                //instancia um objeto do model Rateio
-                $rateio = new Rateio();
-                //percorre o novo array e chama o metodo de inserção no banco para cada indice do array de rateios
-                for ($i = 0; $i < count($rateios); $i++) {
-                    $rateio->fk_tab_centro_custo_id = $rateios[$i]['centro_custo_rateio'];
-                    $rateio->valor_rateio_despesa = $rateios[$i]['valor_rateio'];
-                    $rateio->porcentagem_rateio_despesa = $rateios[$i]['porcentagem_rateio'];
-                    $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                    $rateio->dt_fim = null;
-                    $rateio->fk_tab_despesa = $id_despesa[0]->id_despesa;
-                    Rateio::create($rateio);
-                }
+                //chama a função do repository de rateios que salva no banco
+               $rateioRepository = new RateioRepository();
+               $rateioRepository->create($rateios, $id_despesa[0]->id_despesa);
             }
             //caso haja produto na despesa executa
             if ($request->id_produto) {
@@ -213,7 +204,7 @@ class DespesaController extends Controller
                         'quantidade' => $request->quantidade[$i],
                     ];
                 }
-                //chama o repository de itens e salva no banco
+                //chama a função do repository de itens que salva no banco
                 $itemDespesaRepository = new ItemDespesaRepository();
                 $itemDespesaRepository->create($itensDespesa, $id_despesa[0]->id_despesa);
             }
