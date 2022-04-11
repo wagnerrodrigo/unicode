@@ -38,6 +38,7 @@ class RateioRepository
             $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
             $rateio->dt_fim = null;
             $rateio->fk_tab_despesa = $idDespesa;
+
             Rateio::create($rateio);
         }
     }

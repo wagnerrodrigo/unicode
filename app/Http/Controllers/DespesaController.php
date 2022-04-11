@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Despesa;
-use App\Models\ItemDespesa;
-use App\Models\Rateio;
 use Illuminate\Http\Request;
 use App\Utils\CondicaoPagamentoId;
 use App\Utils\TipoDespesa;
@@ -14,6 +12,7 @@ use App\Repository\DespesaRepository;
 use App\Repository\RateioRepository;
 use App\CustomError\CustomErrorMessage;
 use App\Repository\ItemDespesaRepository;
+use App\Utils\FormataValor;
 use App\Utils\StatusDespesa;
 
 class DespesaController extends Controller
@@ -114,12 +113,7 @@ class DespesaController extends Controller
         //adicionar numero_documento no banco e no model
         //$despesa->numero_documento = $request->numero_documento
         try {
-            //formata valor total da despesa para o banco
-            $request->valor_total = str_replace("R$", "", $request->valor_total);
-            $request->valor_total = trim(html_entity_decode($request->valor_total), " \t\n\r\0\x0B\xC2\xA0");
-            $request->valor_total = str_replace(".", "", $request->valor_total);
-            $request->valor_total = str_replace(",", ".", $request->valor_total);
-            //remove um caracter especial do campo valor total -> bug gerado pelo R$
+
             $condicaoPagamentoId = new CondicaoPagamentoId();
 
             //instancia model Despesa
@@ -141,7 +135,7 @@ class DespesaController extends Controller
             $despesa->qt_parcelas_despesa = $request->parcelas;
             $despesa->serie_despesa = $request->serie_documento;
             $despesa->dt_emissao = $request->data_emissao;
-            $despesa->valor_total_despesa = $request->valor_total;
+            $despesa->valor_total_despesa = FormataValor::Real($request->valor_total);
             $despesa->fk_status_despesa_id = StatusDespesa::A_PAGAR;
             $despesa->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
             $despesa->de_despesa = mb_convert_case($request->titulo_despesa, MB_CASE_UPPER, 'UTF-8');
@@ -181,7 +175,7 @@ class DespesaController extends Controller
                 //verifica se a soma das porcentagens é igual a 100 caso não seja retorna o restante para o centro de custo inicial
                 if ($soma_porcentagem_rateio != 100) {
                     $resto_porcentagem = 100 - $soma_porcentagem_rateio;
-                    $valor_restante = $request->valor_total - $soma_valor_rateio;
+                    $valor_restante = FormataValor::Real($request->valor_total) - $soma_valor_rateio;
 
                     $rateios[] = [
                         'centro_custo_rateio' => $request->centro_custo_empresa,
@@ -190,8 +184,8 @@ class DespesaController extends Controller
                     ];
                 }
                 //chama a função do repository de rateios que salva no banco
-               $rateioRepository = new RateioRepository();
-               $rateioRepository->create($rateios, $id_despesa[0]->id_despesa);
+                $rateioRepository = new RateioRepository();
+                $rateioRepository->create($rateios, $id_despesa[0]->id_despesa);
             }
             //caso haja produto na despesa executa
             if ($request->id_produto) {
