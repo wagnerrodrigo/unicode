@@ -149,7 +149,6 @@ class DespesaController extends Controller
             $despesa->moeda = $request->moeda;
             $despesa->dt_provisionamento = $request->data_provisionamento;
             $despesa->fk_condicao_pagamento_id = $condicaoPagamentoId->getId($request->tipo_pagamento);
-            $despesa->tipo_documento = $request->tipo_documento;
             $despesa->fk_conta_bancaria = $request->numero_conta_bancaria;
             $despesa->fk_tab_pix = $request->numero_pix;
             $despesa->numero_processo = $request->numero_processo;
