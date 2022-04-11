@@ -139,46 +139,7 @@
                         <!-- mudar para produto  -->
                         <form action="/despesas/{{ $despesa->id_despesa }}" method="POST" style="padding: 10px;">
                             @csrf
-                            <div class="d-flex mt-10" style="width: 100%">
 
-                                <div class="px-5 mb-3">
-                                    <strong>NUMERO DA NOTA OU DOCUMENTO</strong>
-                                    <input type="text" required onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" value="{{ $despesa->numero_documento_despesa }}" class="form-control input-add" name="numero_nota_documento" style="width: 358px" />
-                                </div>
-
-                                <div class="px-5 mb-3">
-                                    <div>
-                                        <strong>SERIE</strong>
-                                    </div>
-                                    <input type="text" required onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" value="{{ $despesa->serie_despesa }}" maxlength="4" class="form-control input-add" name="serie_documento" style="width: 358px" />
-                                </div>
-                            </div>
-
-                            <div class="d-flex">
-                                <div class="px-5 mb-3">
-                                    <strong>TIPO DE DOCUMENTO</strong>
-                                    <select class="form-control input-add" required name="tipo_documento" id="tipo_documento" style="width: 358px">
-                                        <option selected value="{{ $despesa->tipo_documento }}">{{ $despesa->tipo_documento }}</option>
-                                        <option value="BOLETO">BOLETO</option>
-                                        <option value="DAE">DAE</option>
-                                        <option value="DAJE">DAJE</option>
-                                        <option value="DARF">DARF</option>
-                                        <option value="DARF PREVIDENCIARIO">DARF PREVIDENCIÁRIO</option>
-                                        <option value="DARM">DARM</option>
-                                        <option value="DASP">DASP</option>
-                                        <option value="DEPOSITO">DEPÓSITO</option>
-                                        <option value="FATURA">FATURA</option>
-                                        <option value="GPS">GPS</option>
-                                        <option value="GRERJ">GRERJ</option>
-                                        <option value="GRRF">GRRF</option>
-                                        <option value="GRU">GRU</option>
-                                        <option value="NOTA FISCAL">NOTA FISCAL</option>
-                                        <option value="OUTROS">OUTROS</option>
-                                        <option value="PIX">PIX</option>
-                                        <option value="RECIBO">RECIBO</option>
-                                        <option value="TRCT">TRCT</option>
-                                    </select>
-                                </div>
                                 <div class="px-5 mb-3">
                                     <strong>DATA DE EMISSÃO</strong>
                                     <input type="date" required class="form-control input-add" value="{{ $despesa->dt_emissao }}" id="dt_emissao" name="data_emissao" style="width: 358px" />
