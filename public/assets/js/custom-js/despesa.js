@@ -733,3 +733,28 @@ $("#dt_emissao").on("change", function () {
         $(this).css({ color: "black" });
     }
 });
+var id_item_Doc = 0;
+$("#btnAddDoc").click(function() {
+    if(id_item_Doc < 3){
+        $("#inputDadosDoc").append(
+            `<div class="d-flex" style="width: 100%" id="${id_item_Doc}"> `+
+                `<div class="px-5 mb-3">` +
+                    `<strong>BOLETO</strong>` +
+                    `<input type="text" class="form-control input-add" name="nuBoleto" />` +
+                ` </div>` +
+                `<div class="px-5 mb-3">` +
+                    `<strong>FATURA</strong>` +
+                    `<input type="text" class="form-control input-add" name="nuFatura" />` +
+                `</div>`+
+            `</div>`
+        );
+    }else{
+        swal({
+            title: "Numero maximo de documento",
+            text: "Não é premitido adicionar mais itens",
+            icon: "warning",
+            button: "OK"
+        })
+    }
+    id_item_Doc++;
+})

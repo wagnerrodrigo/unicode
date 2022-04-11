@@ -269,32 +269,21 @@
                         </div>
                     </div>
 
-                    <div class="d-flex" style="width: 100%">
+                    <div class="d-flex flex-row" style="width: 100%; align-items:center;">
                         <div class="px-5 mb-3">
-                            <strong>TIPO DE DOCUMENTO</strong>
-                            <select class="form-control input-add" name="tipo_documento" id="tipo_documento">
-                                <option selected value=""></option>
-                                <option value="BOLETO">BOLETO</option>
-                                <option value="DAE">DAE</option>
-                                <option value="DAJE">DAJE</option>
-                                <option value="DARF">DARF</option>
-                                <option value="DARF PREVIDENCIARIO">DARF PREVIDENCIÁRIO</option>
-                                <option value="DARM">DARM</option>
-                                <option value="DASP">DASP</option>
-                                <option value="DEPOSITO">DEPÓSITO</option>
-                                <option value="FATURA">FATURA</option>
-                                <option value="GPS">GPS</option>
-                                <option value="GRERJ">GRERJ</option>
-                                <option value="GRRF">GRRF</option>
-                                <option value="GRU">GRU</option>
-                                <option value="NOTA FISCAL">NOTA FISCAL</option>
-                                <option value="OUTROS">OUTROS</option>
-                                <option value="PIX">PIX</option>
-                                <option value="RECIBO">RECIBO</option>
-                                <option value="TRCT">TRCT</option>
-                            </select>
-                            <!-- <input type="text" class="form-control input-add" name="tipo_documento" /> -->
+                            <strong>TIPO DE DOCUMENTO asdfasd</strong>
+                            <input required type="text" id="buscaDocumento" value="" class="form-control input-add" style="width: 443px"/>
+                            <div id="resultsDocumentos" class="resultadoDocumento"></div>
+                            <!--serve somente para armazenar o id do Documento selecionada-->
+                            <input type="hidden" id="id_busca_Documento"/>
+                            <!-- ### -->
                         </div>
+                        <div>
+                            <button class="btn btn-primary" id="btnAddDoc" type="button" style="padding: 8px 12px;">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+
                         <div class="px-5 mb-3">
                             <strong>DATA DE EMISSÃO</strong>
                             <input type="date" class="form-control input-add" id="dt_emissao" name="data_emissao" />
@@ -302,6 +291,9 @@
                         </div>
                     </div>
 
+                    <div class="d-flex flex-column" style="width:100%" id="inputDadosDoc">
+
+                    </div>
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-success me-1 mb-1">

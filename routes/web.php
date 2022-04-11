@@ -24,6 +24,8 @@ use App\Http\Controllers\ExtratoController;
 use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\ComprasController;
 use App\Http\Controllers\PixController;
+use App\Http\Controllers\ClassificacaoDocumentoController;
+use App\Models\ClassificacaoDocumento;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -85,6 +87,9 @@ Route::middleware('autenticacaoMiddleware')->prefix('/despesas')->group(function
     Route::post('/edit/provision-date', [DespesaController::class, 'setProvisionDate']);
 });
 
+Route::middleware('autenticacaoMiddleware')->prefix('/classificacaoDocumento')->group(function (){
+    Route::get('/doc', [ClassificacaoDocumentoController::class, 'showDocuments']);
+});
 //rotas condicao pagamento
 Route::middleware('autenticacaoMiddleware')->prefix('/condicao_pagamento')->group(function () {
     Route::get('/', [CondicaoPagamentoController::class, 'index'])->name('condicao-pagamento');
