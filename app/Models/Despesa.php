@@ -82,6 +82,7 @@ class Despesa extends Model
         DB::insert("INSERT INTO intranet.tab_despesa
         (fk_tab_centro_custo_id,
         fk_tab_tipo_despesa_id,
+        fk_empresa_id,
         fk_plano_contas,
         qt_parcelas_despesa,
         serie_despesa,
@@ -100,11 +101,12 @@ class Despesa extends Model
         numero_processo,
         fk_tab_pix,
         fk_conta_bancaria)
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         ", [
 
             $despesa->fk_centro_de_custo,
             $despesa->fk_tipo_despesa,
+            $despesa->fk_empresa_id,
             $despesa->fk_plano_contas,
             $despesa->qt_parcelas_despesa,
             $despesa->serie_despesa,

@@ -119,6 +119,7 @@ class DespesaController extends Controller
             //instancia model Despesa
             $despesa = new Despesa();
             $despesa->fk_centro_de_custo = $request->centro_custo_empresa;
+            $despesa->fk_empresa_id = $request->empresa_id;
             //faz a verificação do campo tipo da despesa e seta o valor no model
             if ($request->tipo_despesa == 'empregado') {
                 $despesa->fk_tipo_despesa = TipoDespesa::EMPREGADO;
