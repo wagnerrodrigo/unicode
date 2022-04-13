@@ -112,6 +112,7 @@ class DespesaController extends Controller
     {
         //adicionar numero_documento no banco e no model
         //$despesa->numero_documento = $request->numero_documento
+        dd($request->all());
         try {
 
             $condicaoPagamentoId = new CondicaoPagamentoId();
