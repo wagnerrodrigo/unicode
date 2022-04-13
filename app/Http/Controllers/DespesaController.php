@@ -109,6 +109,7 @@ class DespesaController extends Controller
     {
         //adicionar numero_documento no banco e no model
         //$despesa->numero_documento = $request->numero_documento
+        dd($request->all());
         try {
             //formata valor total da despesa para o banco
             $request->valor_total = str_replace("R$", "", $request->valor_total);

@@ -16,6 +16,7 @@
                             @csrf
                             <div id="hidden_inputs"></div>
                             <div id="hidden_inputs_itens"></div>
+                            <div id="hidden_inputs_tipo_documento"></div>
                             <input type="hidden" name="numero_processo" value="">
                             <input type="hidden" name="numero_pix" value="">
                             <input type="hidden" name="numero_conta_bancaria" value="">
@@ -271,12 +272,10 @@
 
                     <div class="d-flex flex-row" style="width: 100%; align-items:center;">
                         <div class="px-5 mb-3">
-                            <strong>TIPO DE DOCUMENTO asdfasd</strong>
-                            <input required type="text" id="buscaDocumento" value="" class="form-control input-add" style="width: 443px"/>
-                            <div id="resultsDocumentos" class="resultadoDocumento"></div>
-                            <!--serve somente para armazenar o id do Documento selecionada-->
-                            <input type="hidden" id="id_busca_Documento"/>
-                            <!-- ### -->
+                            <strong>TIPO DE DOCUMENTO </strong>
+                            <select required type="text" id="buscaDocumento" value="" class="form-control input-add" style="width: 443px;">
+                                <option id="resultsDocumentos" class="resultadoDocumento"></option>
+                            </select>
                         </div>
                         <div>
                             <button class="btn btn-primary" id="btnAddDoc" type="button" style="padding: 8px 12px;">

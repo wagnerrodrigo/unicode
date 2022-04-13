@@ -1,6 +1,7 @@
 var idFornecedor;
 var idEmpregado;
 var tipoDespesa;
+const respostaDocumento = [];
 $(document).ready(function () {
     idFornecedor = 0;
     //fazer requisição ajax para buscar classificação contabil
@@ -111,6 +112,15 @@ $(document).ready(function () {
         });
     //Fim de itens
     // FIM FAZ A REQUISIÇÃO DA CLASSIFICAÇAO DO TIPO DO PRODUTO E O PRODUTO
+
+    // ajax de busca de tipo de documento na area de informação de nota
+    $.ajax({
+        type: "GET",
+        url: `/classificacaoDocumento/doc`,
+        dataType: "json",
+    }).done(function (response) {
+        respostaDocumento.push(...response);
+    });
 });
 
 var centro_de_custo_selecionado = "";
@@ -734,27 +744,61 @@ $("#dt_emissao").on("change", function () {
     }
 });
 var id_item_Doc = 0;
-$("#btnAddDoc").click(function() {
-    if(id_item_Doc < 3){
+
+
+$("#buscaDocumento").click(function () {
+    if (!$("#buscaDocumento").val() != ""){
+        $.each(respostaDocumento, function (key, val) {
+            console.log(respostaDocumento);
+            $("#buscaDocumento").append(
+                `<option class="itemDocumento" value="${val.id_tipo_documento}">${val.de_tipo_documento}</option>`
+            );
+        });
+    }
+});
+
+$("#btnAddDoc").click(function () {
+    $("#buscaDocumento").text();
+    // var descricao_documento = $("#buscaDocumento").val();
+    var descricao_documento = $("#buscaDocumento option:selected").text();
+    var id_documento = $("#buscaDocumento option:selected").val();
+    if (id_item_Doc < 3 && id_documento != 14 ) {
         $("#inputDadosDoc").append(
-            `<div class="d-flex" style="width: 100%" id="${id_item_Doc}"> `+
+            `<div class="d-flex" style="width: 100%" id="${id_documento}" > ` +
                 `<div class="px-5 mb-3">` +
-                    `<strong>BOLETO</strong>` +
-                    `<input type="text" class="form-control input-add" name="nuBoleto" />` +
-                ` </div>` +
-                `<div class="px-5 mb-3">` +
-                    `<strong>FATURA</strong>` +
-                    `<input type="text" class="form-control input-add" name="nuFatura" />` +
-                `</div>`+
+                    `<strong>${descricao_documento}</strong>` +
+                    `<input type="text" name="numero_documento[]" id="${id_item_Doc}" class="form-control input-add" />` +
+                `</div>` +
             `</div>`
         );
-    }else{
+        console.log(id_documento);
+    } else if( id_item_Doc < 3 && id_documento == 14){
+        $("#inputDadosDoc").append(
+            `<div class="d-flex" style="width: 100%" id="${id_documento}" > ` +
+                `<div class="px-5 mb-3">` +
+                    `<strong>${descricao_documento}</strong>` +
+                    `<input type="text" name="numero_documento[]" id="${id_item_Doc}" class="form-control input-add" />` +
+                `</div>` +
+                  `<div class="px-5 mb-3">` +
+                    `<strong>Serie</strong>` +
+                    `<input type="text" name="numero_documento[]" id="${id_item_Doc}" class="form-control input-add" />` +
+                `</div>` +
+            `</div>`
+        );
+    }
+    else {
         swal({
             title: "Numero maximo de documento",
             text: "Não é premitido adicionar mais itens",
             icon: "warning",
-            button: "OK"
-        })
+            button: "OK",
+        });
     }
+    $("#hidden_inputs_tipo_documento").append(
+        `<div>` +
+        `<input type="hidden" value="${id_documento}" name="id_numero_documento[]" />` +
+        `<input type="hidden" name="numero_documento[]" valeu="${descricao_documento}" />`+
+        `</div>`
+    )
     id_item_Doc++;
-})
+});
