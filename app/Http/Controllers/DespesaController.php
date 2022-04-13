@@ -14,6 +14,7 @@ use App\Repository\DespesaRepository;
 use App\Repository\RateioRepository;
 use App\Repository\ItemDespesaRepository;
 use App\CustomError\CustomErrorMessage;
+use App\Repository\DocumentoRepository;
 
 class DespesaController extends Controller
 {
@@ -79,7 +80,6 @@ class DespesaController extends Controller
 
     public function show($id)
     {
-
         try {
             $despesaRepository = new DespesaRepository();
             $infosDespesa = $despesaRepository->findInfosDespesa($id);
@@ -111,11 +111,7 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
-        //adicionar numero_documento no banco e no model
-        //$despesa->numero_documento = $request->numero_documento
-        //dd($request->all());
         try {
-
             $condicaoPagamentoId = new CondicaoPagamentoId();
 
             //instancia model Despesa
@@ -205,6 +201,21 @@ class DespesaController extends Controller
                 $itemDespesaRepository = new ItemDespesaRepository();
                 $itemDespesaRepository->create($itensDespesa, $id_despesa[0]->id_despesa);
             }
+
+            if ($request->id_numero_documento) {
+                $documentosDespesa = [];
+                //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
+                for ($i = 0; $i < count($request->id_numero_documento); $i++) {
+                    $documentosDespesa[] = [
+                        'fk_tipo_documento' => $request->id_numero_documento[$i],
+                        'de_documento' => $request->numero_documento[$i],
+                    ];
+                }
+                //chama a função do repository de documentos que salva no banco
+                $documentoRepository = new DocumentoRepository();
+                $documentoRepository->create($documentosDespesa, $id_despesa[0]->id_despesa);
+            }
+
             return redirect()->route('despesas')->with('success', 'Despesa Cadastrada!');
         } catch (\Exception $e) {
             return redirect()

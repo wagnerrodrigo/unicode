@@ -745,9 +745,8 @@ $("#dt_emissao").on("change", function () {
 });
 var id_item_Doc = 0;
 
-
 $("#buscaDocumento").click(function () {
-    if (!$("#buscaDocumento").val() != ""){
+    if (!$("#buscaDocumento").val() != "") {
         $.each(respostaDocumento, function (key, val) {
             console.log(respostaDocumento);
             $("#buscaDocumento").append(
@@ -762,43 +761,50 @@ $("#btnAddDoc").click(function () {
     // var descricao_documento = $("#buscaDocumento").val();
     var descricao_documento = $("#buscaDocumento option:selected").text();
     var id_documento = $("#buscaDocumento option:selected").val();
-    if (id_item_Doc < 3 && id_documento != 14 ) {
+    $(`#id_numero_documento${id_item_Doc + 1}`).attr("value", id_documento);
+    if (id_item_Doc < 3 && id_documento != 14) {
         $("#inputDadosDoc").append(
             `<div class="d-flex" style="width: 100%" id="${id_documento}" > ` +
                 `<div class="px-5 mb-3">` +
-                    `<strong>${descricao_documento}</strong>` +
-                    `<input type="text" name="numero_documento[]" id="${id_item_Doc}" class="form-control input-add" />` +
+                `<strong>${descricao_documento}</strong>` +
+                `<input type="text" id="numero_${id_item_Doc}" class="form-control input-add" />` +
                 `</div>` +
-            `</div>`
+                `</div>`
         );
-        console.log(id_documento);
-    } else if( id_item_Doc < 3 && id_documento == 14){
+    } else if (id_item_Doc < 3 && id_documento == 14) {
         $("#inputDadosDoc").append(
             `<div class="d-flex" style="width: 100%" id="${id_documento}" > ` +
                 `<div class="px-5 mb-3">` +
-                    `<strong>${descricao_documento}</strong>` +
-                    `<input type="text" name="numero_documento[]" id="${id_item_Doc}" class="form-control input-add" />` +
+                `<strong>${descricao_documento}</strong>` +
+                `<input type="text" id="numero_${
+                    id_item_Doc + 1
+                }" class="form-control input-add" />` +
                 `</div>` +
-                  `<div class="px-5 mb-3">` +
-                    `<strong>Serie</strong>` +
-                    `<input type="text" name="numero_documento[]" id="${id_item_Doc}" class="form-control input-add" />` +
+                `<div class="px-5 mb-3">` +
+                `<strong>Serie</strong>` +
+                `<input type="text" id="id_documento_${id_item_Doc}" class="form-control input-add" />` +
                 `</div>` +
-            `</div>`
+                `</div>`
         );
-    }
-    else {
+    } else {
         swal({
             title: "Numero maximo de documento",
-            text: "Não é premitido adicionar mais itens",
+            text: "Não é permitido adicionar mais itens",
             icon: "warning",
             button: "OK",
         });
     }
-    $("#hidden_inputs_tipo_documento").append(
-        `<div>` +
-        `<input type="hidden" value="${id_documento}" name="id_numero_documento[]" />` +
-        `<input type="hidden" name="numero_documento[]" valeu="${descricao_documento}" />`+
-        `</div>`
-    )
     id_item_Doc++;
+
+    $(`#numero_0`).on("blur", function () {
+        $(`#numero_documento1`).attr("value", $("#numero_0").val());
+    });
+
+    $(`#numero_1`).on("blur", function () {
+        $(`#numero_documento2`).attr("value", $("#numero_1").val());
+    });
+
+    $(`#numero_2`).on("blur", function () {
+        $(`#numero_documento3`).attr("value", $("#numero_2").val());
+    });
 });

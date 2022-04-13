@@ -18,10 +18,17 @@
                             <div id="hidden_inputs_itens"></div>
                             <div id="hidden_inputs_tipo_documento"></div>
                             <input type="hidden" name="numero_processo" value="">
-                            <input type="hidden" name="id_empresa_selecionada" id="id_busca_empresa"/>
+                            <input type="hidden" name="id_empresa_selecionada" id="id_busca_empresa" />
                             <input type="hidden" name="numero_pix" value="">
                             <input type="hidden" name="numero_conta_bancaria" value="">
 
+
+                            <input type="hidden" id="id_numero_documento1" value="" name="id_numero_documento[]" />
+                            <input type="hidden" id="id_numero_documento2" value="" name="id_numero_documento[]" />
+                            <input type="hidden" id="id_numero_documento3" value="" name="id_numero_documento[]" />
+                            <input type="hidden" id="numero_documento1" value="" name="numero_documento[]" />
+                            <input type="hidden" id="numero_documento2" value="" name="numero_documento[]" />
+                            <input type="hidden" id="numero_documento3" value="" name="numero_documento[]" />
 
                             <div class="px-5 mb-3">
                                 <strong>EMPRESA</strong>
