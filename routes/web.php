@@ -36,8 +36,6 @@ Route::get('/login{error?}', [LoginController::class, 'index'])->name('autentica
 Route::get('/', [LoginController::class, 'index'])->name('autenticacao');
 Route::post('/login', [LoginController::class, 'authentication'])->name('autenticacao');
 
-Route::get('/api/despesas',[DespesaController::class, 'api']);
-
 Route::middleware('autenticacaoMiddleware')->group(function () {
     Route::get('/home', [PainelController::class, 'index'])->name('painel');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -86,6 +84,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/despesas')->group(function
     Route::get('/{id}', [DespesaController::class, 'show']);
     Route::post('/{id}', [DespesaController::class, 'edit']);
     Route::post('/delete/{id}', [DespesaController::class, 'delete']);
+    Route::post('/edit/provision-date', [DespesaController::class, 'setProvisionDate']);
 });
 
 Route::middleware('autenticacaoMiddleware')->prefix('/classificacaoDocumento')->group(function (){

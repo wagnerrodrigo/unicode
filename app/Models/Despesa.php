@@ -138,7 +138,7 @@ class Despesa extends Model
         return DB::select("SELECT id_despesa FROM intranet.tab_despesa WHERE dt_inicio = ?", [$timestamp]);
     }
 
-    static function findOne($id, $formaPagamento = null, $tipoDespesa = null)
+    static function findOne($id, $formaPagamento = null, $tipoDespesa = null, $centroCustoDespesa = null)
     {
         $query = DB::table('intranet.tab_despesa')->join(
             'intranet.status_despesa',
@@ -150,22 +150,27 @@ class Despesa extends Model
             'intranet.tab_tipo_despesa.id_tipo_despesa',
             '=',
             'intranet.tab_despesa.fk_tab_tipo_despesa_id'
-        )->join(
-            'intranet.tab_centro_custo',
-            'intranet.tab_centro_custo.id_centro_custo',
-            '=',
-            'intranet.tab_despesa.fk_tab_centro_custo_id'
-        )->join(
-            'intranet.tab_departamento',
-            'intranet.tab_departamento.id_departamento',
-            '=',
-            'intranet.tab_centro_custo.fk_tab_departamento'
-        )->join(
-            'intranet.tab_empresa',
-            'id_empresa',
-            '=',
-            'intranet.tab_centro_custo.fk_empresa_id'
         );
+
+        if ($centroCustoDespesa) {
+            $query->join(
+                'intranet.tab_centro_custo',
+                'intranet.tab_centro_custo.id_centro_custo',
+                '=',
+                'intranet.tab_despesa.fk_tab_centro_custo_id'
+            )->join(
+                'intranet.tab_departamento',
+                'intranet.tab_departamento.id_departamento',
+                '=',
+                'intranet.tab_centro_custo.fk_tab_departamento'
+            )->join(
+                'intranet.tab_empresa',
+                'id_empresa',
+                '=',
+                'intranet.tab_centro_custo.fk_empresa_id'
+            );
+        }
+
         if (
             $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DEPOSITO ||
             $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DOC ||
@@ -292,7 +297,7 @@ class Despesa extends Model
     }
     static function findInfosDespesaById($id)
     {
-        $query = "SELECT fk_tab_tipo_despesa_id, fk_condicao_pagamento_id FROM intranet.tab_despesa WHERE id_despesa = ?;";
+        $query = "SELECT fk_tab_tipo_despesa_id,fk_condicao_pagamento_id,fk_tab_centro_custo_id FROM intranet.tab_despesa WHERE id_despesa = ?;";
         return DB::select($query, [$id]);
     }
 
@@ -314,5 +319,12 @@ class Despesa extends Model
         DB::table('intranet.tab_despesa')
             ->where('id_despesa', '=', $id)
             ->update(['fk_status_despesa_id' => StatusDespesa::PAGO]);
+    }
+
+    static function setProvisionDate($id, $date)
+    {
+        DB::table('intranet.tab_despesa')
+            ->where('id_despesa', '=', $id)
+            ->update(['dt_provisionamento' => $date]);
     }
 }

@@ -54,6 +54,10 @@
                             <button type="submit" id="btn_busca_filtro" class="btn btn-primary" style="padding: 8px 12px;">
                                 <i class="bi bi-search"></i>
                             </button>
+
+                            <button type="button" class="btn btn-warning" onclick="modalProvisionDate()" style="padding: 8px 12px;">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
                         </div>
                     </div>
                 </form>
@@ -74,7 +78,7 @@
                         @if(count($despesas) > 0)
                         @foreach($despesas as $despesa)
                         <tr class={{$despesa->de_status_despesa != 'EM ATRASO' ? "font-color-despesa" : "font-color-despesa-vencida"}}>
-                            <td>{{$despesa->id_despesa}}</td>
+                            <td><input type="checkbox" name="ids_despesas" value="{{$despesa->id_despesa}}">{{$despesa->id_despesa}}</td>
                             <td>{{$mascara::maskMoeda($despesa->valor_total_despesa)}}</td>
                             <td>{{$despesa->qt_parcelas_despesa}}</td>
                             <td>{{$despesa->dt_inicio != null ? date("d/m/Y", strtotime($despesa->dt_inicio)) : ''}}</td>
@@ -143,6 +147,7 @@
 
 <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     var inputDataInicio = '';
@@ -185,6 +190,87 @@
             });
         }
     });
+
+
+    function getExpenseId() {
+        const ids = [];
+        $('input[name="ids_despesas"]:checked').each(function() {
+            ids.push($(this).val());
+        });
+
+        return ids;
+    }
+
+    function setProvisionDate(ids, date) {
+        if (ids.length > 0 && date != '') {
+            $.ajax({
+                type: 'POST',
+                url: '/despesas/edit/provision-date',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    ids: ids,
+                    date: date,
+                },
+                success: function() {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'SUCESSO',
+                        text: 'Data de provisionamento alterada com sucesso!',
+                        footer: ''
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        } else {
+                            location.reload();
+                        }
+                    })
+                },
+                fail: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'ATENÇÃO',
+                        text: "Erro ao tentar alterar a data de provisionamento!",
+                        footer: ''
+                    })
+                }
+            })
+        } else if (ids.length == 0) {
+            Swal.fire({
+                icon: "error",
+                title: 'ATENÇÃO',
+                text: "Selecione pelo menos uma despesa!",
+                footer: ''
+            })
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'ATENÇÃO',
+                text: "Preencha todos os campos!",
+                footer: ''
+            })
+        }
+    }
+
+    function modalProvisionDate() {
+        var date;
+        Swal.fire({
+            title: '<h3>EDITAR DATA DE PROVISIONAMENTO</h3>',
+            html: '<div class="input-group mx-auto" style="width: 250px">' +
+                `<input type="date" class="form-control" id="provision_date"/>` +
+                '</div>',
+            showCloseButton: true,
+            showCancelButton: false,
+            showConfirmButton: true,
+            confirmButtonText: 'Enviar',
+            focusConfirm: false,
+        }).then((result) => {
+            var date = document.getElementById("provision_date").value;
+            if (result.isConfirmed) {
+                setProvisionDate(getExpenseId(), date);
+            }
+        })
+    }
 </script>
 
 

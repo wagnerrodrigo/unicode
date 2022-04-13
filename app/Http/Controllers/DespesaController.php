@@ -47,7 +47,8 @@ class DespesaController extends Controller
         }
     }
 
-    public function api(Request $request){
+    public function api(Request $request)
+    {
         try {
             $despesaRepository = new DespesaRepository();
             $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
@@ -84,10 +85,12 @@ class DespesaController extends Controller
 
             $tipo = TipoDespesa::class;
 
-            $condicao_pagamento = $infosDespesa[0]->fk_condicao_pagamento_id;
-            $tipo_despesa = $infosDespesa[0]->fk_tab_tipo_despesa_id;
+            $condicaoPagamento = $infosDespesa[0]->fk_condicao_pagamento_id;
+            $tipoDespesa = $infosDespesa[0]->fk_tab_tipo_despesa_id;
+            $centroCustoDespesa = $infosDespesa[0]->fk_tab_centro_custo_id;
 
-            $despesas = Despesa::findOne($id, $condicao_pagamento, $tipo_despesa);
+            $despesas = Despesa::findOne($id, $condicaoPagamento, $tipoDespesa, $centroCustoDespesa);
+
 
             $mascara = new Mascaras();
             if ($despesas == null || empty($despesas)) {
@@ -269,6 +272,24 @@ class DespesaController extends Controller
             return redirect()
                 ->back()
                 ->with('error', 'Não foi possível excluir a Despesa!');
+        }
+    }
+
+    public function setProvisionDate(Request $request)
+    {
+        try {
+            $provisionDate = $request->date;
+            $ExpenseIds = $request->ids;
+
+            foreach ($ExpenseIds as $id) {
+               Despesa::setProvisionDate($id, $provisionDate);
+            }
+
+            return redirect()->back()->with('success', 'Data de provisionamento editada!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível editar a Data de provisionamento' . $e->getMessage());
         }
     }
 }
