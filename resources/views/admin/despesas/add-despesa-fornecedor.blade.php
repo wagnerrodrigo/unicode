@@ -18,6 +18,7 @@
                             <div id="hidden_inputs_itens"></div>
                             <div id="hidden_inputs_tipo_documento"></div>
                             <input type="hidden" name="numero_processo" value="">
+                            <input type="hidden" name="id_empresa_selecionada" id="id_busca_empresa"/>
                             <input type="hidden" name="numero_pix" value="">
                             <input type="hidden" name="numero_conta_bancaria" value="">
 
@@ -26,9 +27,6 @@
                                 <strong>EMPRESA</strong>
                                 <input required type="text" id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-busca" />
                                 <div id="results_empresa" class="resultado-busca"></div>
-                                <!--serve somente para armazenar o id da empresa selecionada-->
-                                <input type="hidden" id="id_busca_empresa"></input>
-                                <!-- ### -->
                             </div>
                     </div>
 
@@ -118,7 +116,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="inserirQuant" info-categoria="Produto ou Serviço"  style="padding:15px">
+                                    <div class="inserirQuant" info-categoria="Produto ou Serviço" style="padding:15px">
                                         <select class="form-control input-add mt-1" id="produto_servico" placeholder="Produto ou Servico" style="width: 190px"></select>
                                     </div>
 
@@ -165,7 +163,7 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>VALOR</strong>
-                            <input required type="text" placeholder="Informe o numero" onkeyup="formataValor(this)" onblur="validaValor(this)"id="valorTotal" class="form-control input-add" name="valor_total" />
+                            <input required type="text" placeholder="Informe o numero" onkeyup="formataValor(this)" onblur="validaValor(this)" id="valorTotal" class="form-control input-add" name="valor_total" />
                             <span id="erro_valor_despesa"></span>
                         </div>
 
@@ -257,31 +255,25 @@
 
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
-                            <h3>INFORMAÇÕES DA NOTA</h3>
-                            <strong>NUMERO DA NOTA</strong>
-                            <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add mb-3" name="numero_nota_documento" />
-                            <strong >NUMERO DO DOCUMENTO</strong>
-                            <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add" name="numero_documento" />
-                        </div>
-
-                        <div class="px-5 mb-3" style="margin-top: 38px">
-                            <strong>SERIE</strong>
-                            <input type="text" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" class="form-control input-add" name="serie_documento" maxlength="4" />
+                            <h3>INFORMAÇÕES ADICIONAIS</h3>
                         </div>
                     </div>
 
                     <div class="d-flex flex-row" style="width: 100%; align-items:center;">
                         <div class="px-5 mb-3">
-                            <strong>TIPO DE DOCUMENTO </strong>
-                            <select required type="text" id="buscaDocumento" value="" class="form-control input-add" style="width: 443px;">
-                                <option id="resultsDocumentos" class="resultadoDocumento"></option>
-                            </select>
+                            <div class="d-flex flex-column">
+                                <strong>TIPO DE DOCUMENTO </strong>
+                                <select required type="text" id="buscaDocumento" value="" class="form-control input-add mb-2">
+                                    <option id="resultsDocumentos" class="resultadoDocumento"></option>
+                                </select>
+                                <div>
+                                    <button class="btn btn-primary" id="btnAddDoc" type="button" style="padding: 8px 12px;">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <button class="btn btn-primary" id="btnAddDoc" type="button" style="padding: 8px 12px;">
-                                <i class="bi bi-plus"></i>
-                            </button>
-                        </div>
+
 
                         <div class="px-5 mb-3">
                             <strong>DATA DE EMISSÃO</strong>
@@ -574,7 +566,7 @@
             } else {
                 erro.innerHTML = '';
             }
-        }else{
+        } else {
             erro.innerHTML = '';
         }
     }
@@ -591,13 +583,13 @@
             } else {
                 erro.innerHTML = '';
             }
-        }else{
+        } else {
             erro.innerHTML = '';
         }
     }
 
     function validaqtdItem(obj) {
-       var valor = obj.value.replace(/[^0-9]/g, '');
+        var valor = obj.value.replace(/[^0-9]/g, '');
 
         if (obj.value != '') {
             if (obj.value.length < 3 || valor <= 0) {
@@ -607,7 +599,7 @@
             } else {
                 erro.innerHTML = '';
             }
-        }else{
+        } else {
             erro.innerHTML = '';
         }
     }

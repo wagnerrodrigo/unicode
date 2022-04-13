@@ -148,6 +148,11 @@ class Despesa extends Model
             'intranet.tab_tipo_despesa.id_tipo_despesa',
             '=',
             'intranet.tab_despesa.fk_tab_tipo_despesa_id'
+        )->join(
+            'intranet.tab_empresa',
+            'intranet.tab_empresa.id_empresa',
+            '=',
+            'intranet.tab_despesa.fk_empresa_id'
         );
 
         if ($centroCustoDespesa) {
@@ -161,11 +166,6 @@ class Despesa extends Model
                 'intranet.tab_departamento.id_departamento',
                 '=',
                 'intranet.tab_centro_custo.fk_tab_departamento'
-            )->join(
-                'intranet.tab_empresa',
-                'id_empresa',
-                '=',
-                'intranet.tab_centro_custo.fk_empresa_id'
             );
         }
 

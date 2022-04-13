@@ -79,6 +79,7 @@ class DespesaController extends Controller
 
     public function show($id)
     {
+
         try {
             $despesaRepository = new DespesaRepository();
             $infosDespesa = $despesaRepository->findInfosDespesa($id);
@@ -112,7 +113,7 @@ class DespesaController extends Controller
     {
         //adicionar numero_documento no banco e no model
         //$despesa->numero_documento = $request->numero_documento
-        dd($request->all());
+        //dd($request->all());
         try {
 
             $condicaoPagamentoId = new CondicaoPagamentoId();
@@ -120,7 +121,7 @@ class DespesaController extends Controller
             //instancia model Despesa
             $despesa = new Despesa();
             $despesa->fk_centro_de_custo = $request->centro_custo_empresa;
-            $despesa->fk_empresa_id = $request->empresa_id;
+            $despesa->fk_empresa_id = $request->id_empresa_selecionada;
             //faz a verificação do campo tipo da despesa e seta o valor no model
             if ($request->tipo_despesa == 'empregado') {
                 $despesa->fk_tipo_despesa = TipoDespesa::EMPREGADO;

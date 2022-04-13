@@ -30,7 +30,25 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>NUMERO DA DESPESA</strong>
+                                </div>
+                                <span>{{ $despesa->id_despesa }}</span>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="d-flex">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>EMPRESA</strong>
+                                </div>
+                                <span>{{ $despesa->de_empresa }}</span>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
@@ -45,29 +63,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>NUMERO DA DESPESA</strong>
+                                    <strong>STATUS</strong>
                                 </div>
-                                <span>{{ $despesa->id_despesa }}</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div>
-                                    <strong>TIPO DA DESPESA</strong>
-                                </div>
-                                <span>{{ $despesa->de_tipo_despesa }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div>
-                                    <strong>SÉRIE</strong>
-                                </div>
-                                <span>{{ $despesa->serie_despesa }}</span>
+                                <span>{{ $despesa->de_status_despesa }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -75,21 +73,12 @@
                                 <div>
                                     <strong>DATA DE EMISSÃO</strong>
                                 </div>
-                                <span>{{ $despesa->dt_emissao == null ? '' : date('d/m/Y', strtotime($despesa->dt_emissao)) }}</span>
+                                <span>{{ $despesa->dt_emissao == null ? 'NÃO CADASTRADO' : date('d/m/Y', strtotime($despesa->dt_emissao)) }}</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="d-flex">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div>
-                                    <strong>STATUS</strong>
-                                </div>
-                                <span>{{ $despesa->de_status_despesa }}</span>
-                            </div>
-                        </div>
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
@@ -98,9 +87,7 @@
                                 <span>{{ $despesa->qt_parcelas_despesa }}</span>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="d-flex">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
@@ -109,6 +96,10 @@
                                 <span>{{ $mascara::maskMoeda($despesa->valor_total_despesa) }}</span>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="d-flex">
+
                     </div>
                 </div>
 
@@ -140,27 +131,27 @@
                         <form action="/despesas/{{ $despesa->id_despesa }}" method="POST" style="padding: 10px;">
                             @csrf
 
-                                <div class="px-5 mb-3">
-                                    <strong>DATA DE EMISSÃO</strong>
-                                    <input type="date" required class="form-control input-add" value="{{ $despesa->dt_emissao }}" id="dt_emissao" name="data_emissao" style="width: 358px" />
-                                    <span id="erro_dt_emissao"></span>
-                                </div>
+                            <div class="px-5 mb-3">
+                                <strong>DATA DE EMISSÃO</strong>
+                                <input type="date" required class="form-control input-add" value="{{ $despesa->dt_emissao }}" id="dt_emissao" name="data_emissao" style="width: 358px" />
+                                <span id="erro_dt_emissao"></span>
                             </div>
                     </div>
-                    <div class="modal-footer">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" id="btnSalvar" class="btn btn-primary me-1 mb-1">
-                                <i data-feather="check-circle"></i>Salvar
-                            </button>
-                            <!-- mudar para produto -->
-                            <a href="{{ route('despesas') }}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
-                        </div>
-                        </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button type="submit" id="btnSalvar" class="btn btn-primary me-1 mb-1">
+                            <i data-feather="check-circle"></i>Salvar
+                        </button>
+                        <!-- mudar para produto -->
+                        <a href="{{ route('despesas') }}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 
