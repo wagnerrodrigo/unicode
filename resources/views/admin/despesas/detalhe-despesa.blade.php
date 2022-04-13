@@ -36,7 +36,7 @@
                                 <div>
                                     <strong>CENTRO DE CUSTO</strong>
                                 </div>
-                                <span>{{ $despesa->de_departamento ? $despesa->de_departamento : ''}}</span>
+                                <span>{{ $despesa->de_departamento ?? 'NÃO CADASTRADO'}}</span>
                             </div>
                         </div>
                     </div>
