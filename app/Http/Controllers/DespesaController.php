@@ -113,7 +113,6 @@ class DespesaController extends Controller
     {
         try {
             $condicaoPagamentoId = new CondicaoPagamentoId();
-
             //instancia model Despesa
             $despesa = new Despesa();
             $despesa->fk_centro_de_custo = $request->centro_custo_empresa;
@@ -254,6 +253,9 @@ class DespesaController extends Controller
             //adiciona data fim nos rateios da despesa
             $rateioRepository = new RateioRepository();
             $rateioRepository->setEndDateRateio($id, $dt_fim);
+
+            $documentoRepository = new DocumentoRepository();
+            $documentoRepository->setEndDateDocumento($id, $dt_fim);
 
             return redirect()->back()->with('success', 'Despesa Excluída!');
         } catch (\Exception $e) {

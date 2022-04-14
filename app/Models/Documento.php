@@ -25,4 +25,11 @@ class Documento extends Model
             $documento->dt_inicio,
         ]);
     }
+
+    static function del($expenseId, $endDate)
+    {
+        DB::update("UPDATE intranet.tab_documento
+        SET dt_fim = ?
+        WHERE fk_tab_despesa_id = ?", [$endDate, $expenseId]);
+    }
 }

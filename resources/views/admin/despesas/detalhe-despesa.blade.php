@@ -79,6 +79,25 @@
                     </div>
 
                     <div class="d-flex">
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>DATA DE CRIAÇÃO</strong>
+                                </div>
+                                <span>{{ $despesa->dt_inicio == null ? 'NÃO CADASTRADO' : date('d/m/Y', strtotime($despesa->dt_inicio)) }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>DATA DE PROVISIONAMENTO</strong>
+                                </div>
+                                <span>{{ $despesa->dt_provisionamento == null ? 'NÃO CADASTRADO' : date('d/m/Y', strtotime($despesa->dt_provisionamento)) }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
