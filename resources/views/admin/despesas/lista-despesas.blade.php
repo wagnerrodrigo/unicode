@@ -11,6 +11,7 @@
                     <i class="bi bi-plus-circle"></i> NOVA DESPESA
                 </a>
             </div>
+
             <div class="card-body">
                 <!-- Form de filtro por status -->
                 <form name="form_status">
@@ -39,13 +40,8 @@
 
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputStatus">FILIAL</label>
-                                <select class="form-select" id="inputStatus" name="filial">
+                                <select class="form-select" id="inputFilial" name="filial">
                                     <option selected value=""></option>
-                                    <option value="1">CODE</option>
-                                    <option value="4">EM ATRASO</option>
-                                    <option value="5">MIGRAÇÃO</option>
-                                    <option value="2">PAGO</option>
-                                    <option value="1">PROVISIONADO</option>
                                 </select>
                             </div>
                         </div>
@@ -164,6 +160,32 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+    const empresas = [];
+    let inputFilial = document.getElementById('inputFilial');
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: '/empresas',
+            success: function(data) {
+                console.log(data);
+                $.each(data, function(key, val) {
+                    $(inputFilial)
+                        .append(
+                            `<option value="${val.id_empresa}">${val.de_empresa} - ${val.regiao_empresa}</option>`
+                        )
+                });
+            },
+            fail: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ATENÇÃO',
+                    text: "Erro ao tentar buscar as empresas!",
+                    footer: ''
+                })
+            }
+        });
+    });
+
     var inputDataInicio = '';
     $("#inputDataInicio").on("change", function() {
         inputDataInicio = $(this).val();

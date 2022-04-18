@@ -16,7 +16,7 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        $empresas = Endereco::selectAll();
+        $empresas = Empresa::selectAll();
 
         $empresasAtivas = [];
         $empresasInativas = [];
@@ -29,7 +29,7 @@ class EmpresaController extends Controller
             };
         }
 
-        return view('admin.empresas.lista-empresas', compact('empresasAtivas'));
+        return response()->json($empresasAtivas);
     }
 
     public function formEmpresas()
