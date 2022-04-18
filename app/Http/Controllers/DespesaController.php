@@ -48,31 +48,6 @@ class DespesaController extends Controller
         }
     }
 
-    public function api(Request $request)
-    {
-        try {
-            $despesaRepository = new DespesaRepository();
-            $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
-
-            $mascara = new Mascaras();
-            //quantidade de resultados por pagina
-            $results = $request->input('results');
-            $dt_inicio = $request->input('dt_inicio');
-            $dt_fim = $request->input('dt_fim');
-            $status_despesa = $request->input('status');
-
-            if ($request->has('status')) {
-                $despesas = Despesa::selectAll($results, $status_despesa, $dt_inicio, $dt_fim);
-            } else {
-                $despesas = Despesa::selectAll($results = 10);
-            }
-            return response()->json($despesas);
-        } catch (\Exception $e) {
-            $error = CustomErrorMessage::ERROR_LIST_DESPESA;
-            return view('error', compact('error'));
-        }
-    }
-
     public function formDespesa()
     {
         return view('admin.despesas.add-despesa-fornecedor');
@@ -80,7 +55,8 @@ class DespesaController extends Controller
 
     public function show($id)
     {
-        try {
+        //dd(Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString()));
+        // try {
             $despesaRepository = new DespesaRepository();
             $infosDespesa = $despesaRepository->findInfosDespesa($id);
 
@@ -92,7 +68,7 @@ class DespesaController extends Controller
 
             $despesas = Despesa::findOne($id, $condicaoPagamento, $tipoDespesa, $centroCustoDespesa);
 
-
+            dd($despesas);
             $mascara = new Mascaras();
             if ($despesas == null || empty($despesas)) {
                 return view('admin.despesas.despesa-nao-encontrada');
@@ -103,10 +79,10 @@ class DespesaController extends Controller
 
                 return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo'));
             }
-        } catch (\Exception $e) {
-            $error = CustomErrorMessage::ERROR_DESPESA;
-            return view('error', compact('error'));
-        }
+        // } catch (\Exception $e) {
+        //     $error = CustomErrorMessage::ERROR_DESPESA;
+        //     return view('error', compact('error'));
+        // }
     }
 
     public function store(Request $request)
@@ -253,9 +229,6 @@ class DespesaController extends Controller
             //adiciona data fim nos rateios da despesa
             $rateioRepository = new RateioRepository();
             $rateioRepository->setEndDateRateio($id, $dt_fim);
-
-            $documentoRepository = new DocumentoRepository();
-            $documentoRepository->setEndDateDocumento($id, $dt_fim);
 
             return redirect()->back()->with('success', 'Despesa Excluída!');
         } catch (\Exception $e) {

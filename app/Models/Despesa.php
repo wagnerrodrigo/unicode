@@ -42,7 +42,17 @@ class Despesa extends Model
     //Ao passar parametros, se atentar a ordem que é passado na query
     static function selectAll($results, $status = null, $dt_inicio = null, $dt_fim = null)
     {
+        //NÚMERO	VALOR	PARCELAS	DATA DE CADASTRO	VENCIMENTO	STATUS
         $query = DB::table('intranet.tab_despesa')
+            ->select(
+                'tab_despesa.id_despesa',
+                'tab_despesa.qt_parcelas_despesa',
+                'tab_despesa.dt_inicio',
+                'tab_despesa.dt_vencimento',
+                'tab_despesa.fk_status_despesa_id',
+                'tab_despesa.valor_total_despesa',
+                'status_despesa.de_status_despesa',
+            )
             ->join(
                 'intranet.status_despesa',
                 'intranet.status_despesa.id_status_despesa',

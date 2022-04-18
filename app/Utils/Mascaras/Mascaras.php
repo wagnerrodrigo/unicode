@@ -25,11 +25,20 @@ class Mascaras
 
     static function maskMoeda($val)
     {
-        return 'R$ '.number_format($val, 2, ',', '.');
+        return 'R$ ' . number_format($val, 2, ',', '.');
     }
 
     static function maskPercentual($val)
     {
-        return number_format($val, 2, ',', '.').'%';
+        return number_format($val, 2, ',', '.') . '%';
+    }
+
+    static function maskDate($val)
+    {
+        $val = explode(' ', $val);
+        $val = explode('-', $val[0]);
+        $val = $val[2] . '/' . $val[1] . '/' . $val[0];
+
+        return $val;
     }
 }

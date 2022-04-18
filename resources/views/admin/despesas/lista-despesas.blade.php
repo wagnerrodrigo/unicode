@@ -14,8 +14,8 @@
             <div class="card-body">
                 <!-- Form de filtro por status -->
                 <form name="form_status">
-                    <div class="d-flex flex-row justify-content-around">
-                        <div>
+                    <div class="d-flex flex-column justify-content-around">
+                        <div class="d-flex flex-row justify-content-around">
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputStatus">RESULTADOS</label>
                                 <select class="form-select" id="inputStatus" name="results">
@@ -24,8 +24,7 @@
                                     <option name="results" value="20">20</option>
                                 </select>
                             </div>
-                        </div>
-                        <div>
+
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputStatus">STATUS</label>
                                 <select class="form-select" id="inputStatus" name="status">
@@ -37,29 +36,44 @@
                                     <option value="1">PROVISIONADO</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-md-3">
+
                             <div class="input-group mb-3" style="width: 250px">
-                                <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
-                                <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
+                                <label class="input-group-text" for="inputStatus">FILIAL</label>
+                                <select class="form-select" id="inputStatus" name="filial">
+                                    <option selected value=""></option>
+                                    <option value="1">CODE</option>
+                                    <option value="4">EM ATRASO</option>
+                                    <option value="5">MIGRAÇÃO</option>
+                                    <option value="2">PAGO</option>
+                                    <option value="1">PROVISIONADO</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="input-group mb-3" style="width: 250px">
-                                <label class="input-group-text" for="inputDataFim">DATA FIM</label>
-                                <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
-                            </div>
+                    </div>
+                    <div class="d-flex flex-row justify-content-around">
+
+                        <div class="input-group mb-3" style="width: 250px">
+                            <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
+                            <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
                         </div>
-                        <div>
-                            <button type="submit" id="btn_busca_filtro" class="btn btn-primary" style="padding: 8px 12px;">
+
+                        <div class="input-group mb-3" style="width: 250px">
+                            <label class="input-group-text" for="inputDataFim">DATA FIM</label>
+                            <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
+                        </div>
+
+
+                        <div class="input-group mb-3" style="width: 250px">
+                            <button type="submit" id="btn_busca_filtro" class="btn btn-primary" style="padding: 8px 12px; margin-right:6px; border-radius: 0.267rem">
                                 <i class="bi bi-search"></i>
                             </button>
 
-                            <button type="button" class="btn btn-warning" onclick="modalProvisionDate()" style="padding: 8px 12px;">
-                            <i class="bi bi-pencil-fill"></i>
-                        </button>
+                            <button type="button" class="btn btn-warning" onclick="modalProvisionDate()" style="padding: 8px 12px; border-radius: 0.267rem">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
                         </div>
                     </div>
+
                 </form>
 
                 <table class='table table-striped' id="table1">
