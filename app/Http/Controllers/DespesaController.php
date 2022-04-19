@@ -13,10 +13,10 @@ use App\Utils\Mascaras\Mascaras;
 use App\Repository\DespesaRepository;
 use App\Repository\RateioRepository;
 use App\Repository\ItemDespesaRepository;
-use App\CustomError\CustomErrorMessage;
 use App\Repository\CostCenterRepository;
 use App\Repository\DocumentoRepository;
 use App\Repository\EmpresaRepository;
+use App\CustomError\CustomErrorMessage;
 
 class DespesaController extends Controller
 {
@@ -27,8 +27,7 @@ class DespesaController extends Controller
      */
     public function index(Request $request)
     {
-        //dd($request->all());
-        try {
+        // try {
             $despesaRepository = new DespesaRepository();
             $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
 
@@ -49,10 +48,10 @@ class DespesaController extends Controller
                 $despesas = Despesa::selectAll($results = 10);
             }
             return view('admin.despesas.lista-despesas', compact('despesas', 'mascara', 'results', 'status_despesa', 'dt_inicio', 'dt_fim', 'filial', 'empresas'));
-        } catch (\Exception $e) {
-            $error = CustomErrorMessage::ERROR_LIST_DESPESA;
-            return view('error', compact('error'));
-        }
+        // } catch (\Exception $e) {
+        //     $error = CustomErrorMessage::ERROR_LIST_DESPESA;
+        //     return view('error', compact('error'));
+        // }
     }
 
     public function formDespesa()
@@ -62,7 +61,7 @@ class DespesaController extends Controller
 
     public function show($id)
     {
-        // try {
+        try {
             $despesaRepository = new DespesaRepository();
             $infosDespesa = $despesaRepository->findInfosDespesa($id);
 
@@ -88,10 +87,10 @@ class DespesaController extends Controller
 
                 return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo', 'costCenter'));
             }
-        // } catch (\Exception $e) {
-        //     $error = CustomErrorMessage::ERROR_DESPESA;
-        //     return view('error', compact('error'));
-        // }
+        } catch (\Exception $e) {
+            $error = CustomErrorMessage::ERROR_DESPESA;
+            return view('error', compact('error'));
+        }
     }
 
     public function store(Request $request)

@@ -40,7 +40,7 @@ class Despesa extends Model
     ];
 
     //Ao passar parametros, se atentar a ordem que é passado na query
-    static function selectAll($results, $status = null, $dt_inicio = null, $dt_fim = null)
+    static function selectAll($results, $status = null, $dt_inicio = null, $dt_fim = null, $filial = null)
     {
         //NÚMERO	VALOR	PARCELAS	DATA DE CADASTRO	VENCIMENTO	STATUS
         $query = DB::table('intranet.tab_despesa')
@@ -61,27 +61,53 @@ class Despesa extends Model
             )
             ->where('intranet.tab_despesa.dt_fim', '=', null);
 
-        if ($dt_inicio && $dt_fim && $status) {
+        if ($dt_inicio && $dt_fim && $status && $filial) {
             $despesas = $query
                 ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
                 ->where("intranet.tab_despesa.dt_vencimento", '>=', "$dt_inicio")
                 ->where("intranet.tab_despesa.dt_vencimento", '<=', "$dt_fim")
+                ->where("intranet.tab_despesa.fk_empresa_id", '=', "$filial")
                 ->orderBy('id_despesa', 'asc')->paginate($results);
-        } else if ($dt_inicio && $dt_fim && !$status) {
+        } else if ($dt_inicio && $dt_fim && !$status && $filial) {
             $despesas = $query
                 ->where("intranet.tab_despesa.dt_vencimento", '>=', "$dt_inicio")
                 ->where("intranet.tab_despesa.dt_vencimento", '<=', "$dt_fim")
+                ->where("intranet.tab_despesa.fk_empresa_id", '=', "$filial")
                 ->orderBy('id_despesa', 'asc')
                 ->paginate($results);
-        } else if (!$dt_inicio && !$dt_fim && $status) {
+        } else if (!$dt_inicio && !$dt_fim && $status && $filial) {
             $despesas = $query
                 ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
+                ->where("intranet.tab_despesa.fk_empresa_id", '=', "$filial")
                 ->orderBy('id_despesa', 'asc')
                 ->paginate($results);
-        } else if (!$dt_inicio && !$dt_fim && !$status) {
+        } else if (!$dt_inicio && !$dt_fim && !$status && $filial) {
 
             $despesas = $query
+                ->where("intranet.tab_despesa.fk_empresa_id", '=', "$filial")
                 ->orderBy('de_status_despesa', 'asc')
+                ->paginate($results);
+        } else if ($dt_inicio && $dt_fim && $status && !$filial) {
+            $despesas = $query
+                ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
+                ->where("intranet.tab_despesa.dt_vencimento", '>=', "$dt_inicio")
+                ->where("intranet.tab_despesa.dt_vencimento", '<=', "$dt_fim")
+                ->orderBy('id_despesa', 'asc')
+                ->paginate($results);
+        } else if ($dt_inicio && $dt_fim && !$status && !$filial) {
+            $despesas = $query
+                ->where("intranet.tab_despesa.dt_vencimento", '>=', "$dt_inicio")
+                ->where("intranet.tab_despesa.dt_vencimento", '<=', "$dt_fim")
+                ->orderBy('id_despesa', 'asc')
+                ->paginate($results);
+        } else if (!$dt_inicio && !$dt_fim && $status && !$filial) {
+            $despesas = $query
+                ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
+                ->orderBy('id_despesa', 'asc')
+                ->paginate($results);
+        } else {
+            $despesas = $query
+                ->orderBy('id_despesa', 'asc')
                 ->paginate($results);
         }
         return $despesas;
