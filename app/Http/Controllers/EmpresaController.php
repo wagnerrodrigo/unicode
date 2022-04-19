@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Empresa;
 use Carbon\Carbon;
 use App\Models\Endereco;
+use App\Repository\EmpresaRepository;
 use Illuminate\Http\Request;
 
 class EmpresaController extends Controller
@@ -16,20 +17,10 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        $empresas = Empresa::selectAll();
+        $empresaRepository = new EmpresaRepository();
+        $empresas = $empresaRepository->getEmpresas();
 
-        $empresasAtivas = [];
-        $empresasInativas = [];
-
-        for ($i = 0; $i < count($empresas); $i++) {
-            if ($empresas[$i]->dt_fim === null) {
-                $empresasAtivas[] = $empresas[$i];
-            } else {
-                $empresasInativas[] = $empresas[$i];
-            };
-        }
-
-        return response()->json($empresasAtivas);
+        return response()->json($empresas);
     }
 
     public function formEmpresas()

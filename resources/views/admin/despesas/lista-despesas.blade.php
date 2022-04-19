@@ -29,7 +29,7 @@
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputStatus">STATUS</label>
                                 <select class="form-select" id="inputStatus" name="status">
-                                    <option selected value=""></option>
+                                    <option value=""></option>
                                     <option value="6">A PAGAR</option>
                                     <option value="4">EM ATRASO</option>
                                     <option value="5">MIGRAÇÃO</option>
@@ -41,7 +41,14 @@
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" for="inputStatus">FILIAL</label>
                                 <select class="form-select" id="inputFilial" name="filial">
-                                    <option selected value=""></option>
+                                    <option value=""></option>
+                                    @foreach($empresas as $empresa)
+                                    @if($filial == $empresa->id_empresa)
+                                    <option selected value="{{$empresa->id_empresa}}">{{$empresa->de_empresa}} - {{$empresa->regiao_empresa}}</option>
+                                    @else
+                                    <option value="{{$empresa->id_empresa}}">{{$empresa->de_empresa}} - {{$empresa->regiao_empresa}}</option>
+                                    @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -50,12 +57,12 @@
 
                         <div class="input-group mb-3" style="width: 250px">
                             <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
-                            <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
+                            <input class="form-control" value="{{$dt_inicio ?? ''}}" type="date" max="" name="dt_inicio" id="inputDataInicio">
                         </div>
 
                         <div class="input-group mb-3" style="width: 250px">
                             <label class="input-group-text" for="inputDataFim">DATA FIM</label>
-                            <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
+                            <input class="form-control" value="{{$dt_fim ?? ''}}" type="date" min="" name="dt_fim" id="inputDataFim">
                         </div>
 
 
@@ -160,31 +167,31 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    const empresas = [];
-    let inputFilial = document.getElementById('inputFilial');
-    $(document).ready(function() {
-        $.ajax({
-            type: 'GET',
-            url: '/empresas',
-            success: function(data) {
-                console.log(data);
-                $.each(data, function(key, val) {
-                    $(inputFilial)
-                        .append(
-                            `<option value="${val.id_empresa}">${val.de_empresa} - ${val.regiao_empresa}</option>`
-                        )
-                });
-            },
-            fail: function() {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'ATENÇÃO',
-                    text: "Erro ao tentar buscar as empresas!",
-                    footer: ''
-                })
-            }
-        });
-    });
+    // const empresas = [];
+    // let inputFilial = document.getElementById('inputFilial');
+    // $(document).ready(function() {
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/empresas',
+    //         success: function(data) {
+    //             console.log(data);
+    //             $.each(data, function(key, val) {
+    //                 $(inputFilial)
+    //                     .append(
+    //                         `<option value="${val.id_empresa}">${val.de_empresa} - ${val.regiao_empresa}</option>`
+    //                     )
+    //             });
+    //         },
+    //         fail: function() {
+    //             Swal.fire({
+    //                 icon: 'error',
+    //                 title: 'ATENÇÃO',
+    //                 text: "Erro ao tentar buscar as empresas!",
+    //                 footer: ''
+    //             })
+    //         }
+    //     });
+    // });
 
     var inputDataInicio = '';
     $("#inputDataInicio").on("change", function() {

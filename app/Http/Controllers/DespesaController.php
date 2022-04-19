@@ -15,6 +15,7 @@ use App\Repository\RateioRepository;
 use App\Repository\ItemDespesaRepository;
 use App\CustomError\CustomErrorMessage;
 use App\Repository\DocumentoRepository;
+use App\Repository\EmpresaRepository;
 
 class DespesaController extends Controller
 {
@@ -25,6 +26,7 @@ class DespesaController extends Controller
      */
     public function index(Request $request)
     {
+        //dd($request->all());
         try {
             $despesaRepository = new DespesaRepository();
             $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
@@ -35,13 +37,17 @@ class DespesaController extends Controller
             $dt_inicio = $request->input('dt_inicio');
             $dt_fim = $request->input('dt_fim');
             $status_despesa = $request->input('status');
+            $filial = $request->input('filial');
+
+            $empresaRepository = new EmpresaRepository();
+            $empresas = $empresaRepository->getEmpresas();
 
             if ($request->has('status')) {
-                $despesas = Despesa::selectAll($results, $status_despesa, $dt_inicio, $dt_fim);
+                $despesas = Despesa::selectAll($results, $status_despesa, $dt_inicio, $dt_fim, $filial);
             } else {
                 $despesas = Despesa::selectAll($results = 10);
             }
-            return view('admin.despesas.lista-despesas', compact('despesas', 'mascara', 'results', 'status_despesa', 'dt_inicio', 'dt_fim'));
+            return view('admin.despesas.lista-despesas', compact('despesas', 'mascara', 'results', 'status_despesa', 'dt_inicio', 'dt_fim', 'filial', 'empresas'));
         } catch (\Exception $e) {
             $error = CustomErrorMessage::ERROR_LIST_DESPESA;
             return view('error', compact('error'));
@@ -55,8 +61,7 @@ class DespesaController extends Controller
 
     public function show($id)
     {
-        //dd(Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString()));
-        // try {
+        try {
             $despesaRepository = new DespesaRepository();
             $infosDespesa = $despesaRepository->findInfosDespesa($id);
 
@@ -68,7 +73,6 @@ class DespesaController extends Controller
 
             $despesas = Despesa::findOne($id, $condicaoPagamento, $tipoDespesa, $centroCustoDespesa);
 
-            dd($despesas);
             $mascara = new Mascaras();
             if ($despesas == null || empty($despesas)) {
                 return view('admin.despesas.despesa-nao-encontrada');
@@ -79,10 +83,10 @@ class DespesaController extends Controller
 
                 return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo'));
             }
-        // } catch (\Exception $e) {
-        //     $error = CustomErrorMessage::ERROR_DESPESA;
-        //     return view('error', compact('error'));
-        // }
+        } catch (\Exception $e) {
+            $error = CustomErrorMessage::ERROR_DESPESA;
+            return view('error', compact('error'));
+        }
     }
 
     public function store(Request $request)
