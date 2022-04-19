@@ -269,15 +269,12 @@ class Despesa extends Model
     static function set($despesa)
     {
         DB::update("UPDATE intranet.tab_despesa
-        SET numero_documento_despesa = ?,
-            serie_despesa = ?,
-            tipo_documento = ?,
-            dt_emissao = ?
+        SET
+            dt_emissao = ?,
+            fk_tab_centro_custo_id = ?
         WHERE id_despesa = ?", [
-            $despesa->numero_documento_despesa,
-            $despesa->serie_despesa,
-            $despesa->tipo_documento,
             $despesa->dt_emissao,
+            $despesa->fk_tab_centro_custo_id,
             $despesa->id_despesa
         ]);
     }

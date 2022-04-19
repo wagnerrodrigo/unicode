@@ -14,6 +14,7 @@ use App\Repository\DespesaRepository;
 use App\Repository\RateioRepository;
 use App\Repository\ItemDespesaRepository;
 use App\CustomError\CustomErrorMessage;
+use App\Repository\CostCenterRepository;
 use App\Repository\DocumentoRepository;
 use App\Repository\EmpresaRepository;
 
@@ -61,9 +62,11 @@ class DespesaController extends Controller
 
     public function show($id)
     {
-        try {
+        // try {
             $despesaRepository = new DespesaRepository();
             $infosDespesa = $despesaRepository->findInfosDespesa($id);
+
+            $costCenterRepository = new CostCenterRepository();
 
             $tipo = TipoDespesa::class;
 
@@ -73,6 +76,8 @@ class DespesaController extends Controller
 
             $despesas = Despesa::findOne($id, $condicaoPagamento, $tipoDespesa, $centroCustoDespesa);
 
+            $costCenter = $costCenterRepository->getCenterCostByIdCompany($despesas[0]->fk_empresa_id);
+
             $mascara = new Mascaras();
             if ($despesas == null || empty($despesas)) {
                 return view('admin.despesas.despesa-nao-encontrada');
@@ -81,12 +86,12 @@ class DespesaController extends Controller
                 $data_consertada = explode(' ', $despesa->dt_emissao);
                 $despesa->dt_emissao = $data_consertada[0];
 
-                return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo'));
+                return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo', 'costCenter'));
             }
-        } catch (\Exception $e) {
-            $error = CustomErrorMessage::ERROR_DESPESA;
-            return view('error', compact('error'));
-        }
+        // } catch (\Exception $e) {
+        //     $error = CustomErrorMessage::ERROR_DESPESA;
+        //     return view('error', compact('error'));
+        // }
     }
 
     public function store(Request $request)
@@ -209,10 +214,8 @@ class DespesaController extends Controller
             $despesa = new Despesa();
 
             $despesa->id_despesa = $id;
-            $despesa->numero_documento_despesa = $request->numero_nota_documento;
-            $despesa->serie_despesa = $request->serie_documento;
-            $despesa->tipo_documento = $request->tipo_documento;
             $despesa->dt_emissao = $request->data_emissao;
+            $despesa->fk_tab_centro_custo_id = $request->centro_custo;
 
             Despesa::set($despesa);
 

@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="d-flex">
-                    <div class="col-md-6">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <div>
                                     <strong>DATA DE CRIAÇÃO</strong>
@@ -149,28 +149,43 @@
                         <!-- mudar para produto  -->
                         <form action="/despesas/{{ $despesa->id_despesa }}" method="POST" style="padding: 10px;">
                             @csrf
+                            <div class="d-flex mt-10" style="width: 100%">
+                                <div class="px-5 mb-3">
+                                    <strong>DATA DE EMISSÃO</strong>
+                                    <input type="date" required class="form-control input-add" value="{{ $despesa->dt_emissao }}" id="dt_emissao" name="data_emissao" style="width: 358px" />
+                                    <span id="erro_dt_emissao"></span>
+                                </div>
 
-                            <div class="px-5 mb-3">
-                                <strong>DATA DE EMISSÃO</strong>
-                                <input type="date" required class="form-control input-add" value="{{ $despesa->dt_emissao }}" id="dt_emissao" name="data_emissao" style="width: 358px" />
-                                <span id="erro_dt_emissao"></span>
+                                <div class="px-5 mb-3">
+                                    <strong>CENTRO DE CUSTO</strong>
+                                    <select class="form-control input-add" id="inputCentroCusto" name="centro_custo" style="width: 358px">
+                                        <option value=""></option>
+                                        @foreach($costCenter as $costC)
+                                        @if($costC->id_centro_custo == $despesa->fk_tab_centro_custo_id)
+                                        <option selected value="{{$costC->id_centro_custo}}">{{$costC->de_departamento}}</option>
+                                        @else
+                                        <option value="{{$costC->id_centro_custo}}">{{$costC->de_departamento}}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="col-sm-12 d-flex justify-content-end">
-                        <button type="submit" id="btnSalvar" class="btn btn-primary me-1 mb-1">
-                            <i data-feather="check-circle"></i>Salvar
-                        </button>
-                        <!-- mudar para produto -->
-                        <a href="{{ route('despesas') }}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+
+                    <div class="modal-footer">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="submit" id="btnSalvar" class="btn btn-primary me-1 mb-1">
+                                <i data-feather="check-circle"></i>Salvar
+                            </button>
+                            <!-- mudar para produto -->
+                            <a href="{{ route('despesas') }}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                        </div>
+                        </form>
                     </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 
