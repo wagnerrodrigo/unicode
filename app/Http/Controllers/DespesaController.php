@@ -27,7 +27,7 @@ class DespesaController extends Controller
      */
     public function index(Request $request)
     {
-        // try {
+        try {
             $despesaRepository = new DespesaRepository();
             $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
 
@@ -48,10 +48,10 @@ class DespesaController extends Controller
                 $despesas = Despesa::selectAll($results = 10);
             }
             return view('admin.despesas.lista-despesas', compact('despesas', 'mascara', 'results', 'status_despesa', 'dt_inicio', 'dt_fim', 'filial', 'empresas'));
-        // } catch (\Exception $e) {
-        //     $error = CustomErrorMessage::ERROR_LIST_DESPESA;
-        //     return view('error', compact('error'));
-        // }
+        } catch (\Exception $e) {
+            $error = CustomErrorMessage::ERROR_LIST_DESPESA;
+            return view('error', compact('error'));
+        }
     }
 
     public function formDespesa()

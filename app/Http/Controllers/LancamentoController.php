@@ -161,7 +161,7 @@ class LancamentoController extends Controller
         $despesa = $despesaRepository->findInfosDespesa($id);
 
         $lancamentos = $despesaRepository->getExpenseById($id, $despesa[0]->fk_condicao_pagamento_id, $despesa[0]->fk_tab_tipo_despesa_id);
-        //de_condicao_pagamento
+
         $mascara = new Mascaras();
 
         return view('admin.lancamentos.add-lancamento', compact('lancamentos', 'mascara'));
