@@ -102,6 +102,10 @@
                             <td>{{$despesa->dt_vencimento != null ? date("d/m/Y", strtotime($despesa->dt_vencimento)) : ''}}</td>
                             <td>{{$despesa->de_status_despesa}}</td>
                             <td>
+                                <div>
+                                    <button type="button" id="abrir_parcelas_{{$despesa->id_despesa}}" class="accordion-button custon-btn custon-btn-accordion" onclick="getParcelas(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{$despesa->id_despesa}}" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 25px">
+                                    </button>
+                                </div>
                                 <a href="/despesas/{{$despesa->id_despesa}}" class="btn btn-primary" style="padding: 8px 12px;">
                                     <i class="bi bi-eye-fill"></i>
                                 </a>
@@ -110,47 +114,52 @@
                                 @endif
                             </td>
                         </tr>
+                        <tr>
+                    <tbody id="parcela_{{$despesa->id_despesa}}">
 
-                        <!-- Inicio Modal Delete-->
-                        <div class="modal-danger me-1 mb-1 d-inline-block">
-                            <!--Danger theme Modal -->
-                            <div class="modal fade text-left" id="delete{{$despesa->id_despesa}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-danger">
-                                            <h5 class="modal-title white" id="myModalLabel120">EXCLUSÃO</h5>
-                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                <i data-feather="x"></i>
+                    </tbody>
+                    </tr>
+
+                    <!-- Inicio Modal Delete-->
+                    <div class="modal-danger me-1 mb-1 d-inline-block">
+                        <!--Danger theme Modal -->
+                        <div class="modal fade text-left" id="delete{{$despesa->id_despesa}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-danger">
+                                        <h5 class="modal-title white" id="myModalLabel120">EXCLUSÃO</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                            <i data-feather="x"></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Deseja realmente excluir a Despesa: {{$despesa->id_despesa}}?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                            <i class="bx bx-x d-block d-sm-none"></i>
+                                            <span class="d-none d-sm-block">Cancelar</span>
+                                        </button>
+                                        <form action="/despesas/delete/{{$despesa->id_despesa}}" method="POST">
+                                            @csrf
+                                            <button class="btn btn-danger ml-1">
+                                                <i class="bx bx-check d-block d-sm-none"></i>
+                                                <span class="d-none d-sm-block">Excluir</span>
                                             </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Deseja realmente excluir a Despesa: {{$despesa->id_despesa}}?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                                <i class="bx bx-x d-block d-sm-none"></i>
-                                                <span class="d-none d-sm-block">Cancelar</span>
-                                            </button>
-                                            <form action="/despesas/delete/{{$despesa->id_despesa}}" method="POST">
-                                                @csrf
-                                                <button class="btn btn-danger ml-1">
-                                                    <i class="bx bx-check d-block d-sm-none"></i>
-                                                    <span class="d-none d-sm-block">Excluir</span>
-                                                </button>
-                                            </form>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Fim Modal Delete-->
-                        @endforeach
-                        @else
-                        <tr>
-                            <td colspan="6">DESPESA NÃO CADASTRADA</td>
-                        </tr>
-                        @endif
+                    <!-- Fim Modal Delete-->
+                    @endforeach
+                    @else
+                    <tr>
+                        <td colspan="6">DESPESA NÃO CADASTRADA</td>
+                    </tr>
+                    @endif
                     </tbody>
 
                 </table>
@@ -313,6 +322,55 @@
                 setProvisionDate(getExpenseId(), date);
             }
         })
+    }
+
+
+    function getParcelas(object) {
+        var href = object.getAttribute("href");
+        var id = href.substring(href.indexOf("-") + 1);
+
+        let expanded = event.target.getAttribute("aria-expanded");
+        event.target.setAttribute("aria-expanded", (expanded == "true") ? "false" : "true");
+
+        if (expanded == 'true') {
+            $.ajax({
+                type: "GET",
+                url: `/parcelas/${id}`,
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                    if (response != '') {
+                        for (i = 0; i < response.length; i++) {
+                            $(`#parcela_${id}`).append(
+                                `<tr class="table-dark tr_generated_${id}">` +
+                                "<td>" + response[i].id_parcela_despesa + '</td>' +
+                                "<td>" + response[i].valor_parcela + '</td>' +
+                                `<td>${response[i].num_parcela}</td>` +
+                                "<td>" + response[i].dt_emissao + "</td>" +
+                                "<td>" + response[i].dt_vencimento + "</td>" +
+                                `<td>${response[i].de_status_despesa}</td>` +
+                                "<td><a href='' class='btn btn-primary' style='padding: 8px 12px;'><i class='bi bi-eye-fill'></i></a>" +
+                                "<button data-bs-toggle='modal' data-bs-target='#delete{{$despesa->id_despesa}}' class='btn btn-danger' style='padding: 8px 12px;'><i class='bi bi-trash-fill'></i></button></td>"
+                            );
+                        }
+                    } else {
+                        $(`#extrato_${id}`).append(
+                            `<tr class="table-light tr_generated_${id}">` +
+                            `<td><span style="color: red; font-weight: bold;">Não há extrato</span></td>` +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "</tr>"
+                        );
+                    }
+                },
+            });
+        } else {
+            expanded = 'true';
+            $(`.tr_generated_${id}`).remove();
+        }
     }
 </script>
 

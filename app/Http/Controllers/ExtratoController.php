@@ -37,6 +37,30 @@ class ExtratoController extends Controller
         }
     }
 
+    public function index2(Request $request)
+    {
+        $lancamentoRepository = new LancamentoRepository();
+        $mascara = new Mascaras();
+        $extratos = Extrato::selectAll();
+
+        if ($request->has('dt_inicio') && $request->has('dt_fim')) {
+            $dt_lancamento = $request->input('dt_inicio');
+            $dt_vencimento = $request->input('dt_fim');
+            if (empty($dt_lancamento) && empty($dt_vencimento)) {
+                $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
+
+                return view('admin.extrato.extrato2', compact('lancamentos', 'extratos', 'mascara'));
+            } else {
+                $lancamentos = $this->showPeriodDate($dt_lancamento, $dt_vencimento);
+                return view('admin.extrato.extrato2', compact('lancamentos',  'extratos', 'mascara'));
+            }
+        } else {
+            $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
+
+            return view('admin.extrato.extrato2', compact('lancamentos', 'extratos', 'mascara'));
+        }
+    }
+
     public function showCompany()
     {
         $extrato = Extrato::findByCompany();
@@ -57,7 +81,7 @@ class ExtratoController extends Controller
         return response()->json($extrato);
     }
 
-    //pega a conta bancara pelo id do lançamento -> pega o extrato pelos ids das contas bancarias relacionadas ao lancamento
+    //pega a conta bancaria pelo id do lançamento -> pega o extrato pelos ids das contas bancarias relacionadas ao lancamento
     public function getExtractByBankAccount($id_lancamento)
     {
         try {
@@ -78,6 +102,12 @@ class ExtratoController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
+    }
+
+    public function getAllExtracts()
+    {
+        $extrato = Extrato::selectAll();
+        return response()->json($extrato);
     }
 
     // [FIX] tela de para aprovação equipe financeiro

@@ -78,15 +78,77 @@
                             <th> <button class="btn btn-small btn-primary" id="conciliacao_{{ $lancamento->id_tab_lancamento }}">Conciliar</button></th>
                         </tr>
                         <tr>
-                            <tbody id="extrato_{{ $lancamento->id_tab_lancamento }}">
+                    <tbody id="extrato_{{ $lancamento->id_tab_lancamento }}">
 
-                            </tbody>
-                        </tr>
+                    </tbody>
+                    </tr>
+                    </tr>
                     </tbody>
                     @endforeach
                     @endif
                 </table>
                 <div>{{ $lancamentos->links() }}</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h1>EXTRATOS DISPONÍVEIS</h1>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('extrato') }}" method="GET">
+                    <div class="d-flex">
+                        <div class="col-md-3">
+                            <div class="input-group mb-3" style="width: 250px">
+                                <label class="input-group-text" info-data="Data inicio do Pagamento" for="inputDataInicio">DATA INICIO</label>
+                                <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3" style="width: 240px">
+                                <label class="input-group-text" info-data="Data fim do Pagamento" for="inputDataFim">DATA FIM</label>
+                                <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" id="btnSearch" class="btn btn-primary" style="padding: 8px 12px;">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <table class='table table-striped' id="table1">
+                    <thead>
+                        <tr>
+                            <th>ID DESPESA</th>
+                            <th>DATA DO PAGAMENTO</th>
+                            <th>BANCO</th>
+                            <th style="padding:1px">VALOR</th>
+                            <th>DESCRIÇÃO</th>
+                            <th>AÇÕES</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if ($extratos)
+                        @foreach ($extratos as $extrato)
+                        <tr>
+                            <td>
+                                {{$extrato->id_extrato}}
+                                <input type="checkbox" class="inputs_selecionandos" name="radio_lancamento" value="{{ $extrato->id_extrato }}" id="radio_extrato_{{ $extrato->id_extrato }}">
+                            </td>
+                            <td>{{date("d/m/Y", strtotime($extrato->dataserver))}}</td>
+                            <td>{{$extrato->org}}</td>
+                            <td>{{$mascara::maskMoeda($extrato->trnamt)}}</td>
+                            <td>{{$extrato->memo}}</td>
+                        </tr>
+                    </tbody>
+                    @endforeach
+                    @endif
+                </table>
+                <div>{{ $extratos->links() }}</div>
             </div>
         </div>
     </div>
@@ -108,7 +170,6 @@
         $("#inputDataFim").prop("min", function() {
             return inputDataInicio;
         })
-        console.log(inputDataInicio);
         $("#inputDataFim").attr("disabled", false);
         $("#inputDataFim").prop("required", true);
     })
@@ -118,16 +179,13 @@
         $("#inputDataInicio").prop("max", function() {
             return inputDataFim;
         })
-        // $("#btnSearch").attr("disabled", false);
-        console.log(inputDataFim);
-        console.log($("#inputDataInicio").val());
         $("#inputDataInicio").prop("required", true);
     })
 </script>
 
 
 
-<script>
+<!-- <script>
     var valorExtrato = 0;
     var valorDespesa = 0;
 
@@ -333,6 +391,6 @@
         return ano + '-' + ("0" + mes).slice(-2) + '-' + ("0" + dia).slice(-2);
         // Utilizo o .slice(-2) para garantir o formato com 2 digitos.
     }
-</script>
+</script> -->
 
 @endsection

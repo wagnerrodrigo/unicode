@@ -25,6 +25,7 @@ use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\ComprasController;
 use App\Http\Controllers\PixController;
 use App\Http\Controllers\ClassificacaoDocumentoController;
+use App\Http\Controllers\ParcelaDespesaController;
 use App\Models\ClassificacaoDocumento;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +48,7 @@ Route::get('/teste', [TesteController::class, 'all'])->name('teste');
 //rotas extratos
 Route::middleware('autenticacaoMiddleware')->prefix('/extrato')->group(function () {
     Route::get('/', [ExtratoController::class, 'index'])->name('extrato');
+    Route::get('/2', [ExtratoController::class, 'index2']);
     Route::get('/lancamento/{id}', [ExtratoController::class, 'getExtractByBankAccount']);
     Route::get('/empresa', [ExtratoController::class, 'showCompany']);
     Route::get('/pesquisa/{dt_inicio}/{dt_fim}', [ExtratoController::class, 'showPeriodDate']);
@@ -87,7 +89,11 @@ Route::middleware('autenticacaoMiddleware')->prefix('/despesas')->group(function
     Route::post('/edit/provision-date', [DespesaController::class, 'setProvisionDate']);
 });
 
-Route::middleware('autenticacaoMiddleware')->prefix('/classificacaoDocumento')->group(function (){
+Route::middleware('autenticacaoMiddleware')->prefix('/parcelas')->group(function () {
+    Route::get('/{id}', [ParcelaDespesaController::class, 'getDespesas']);
+});
+
+Route::middleware('autenticacaoMiddleware')->prefix('/classificacaoDocumento')->group(function () {
     Route::get('/doc', [ClassificacaoDocumentoController::class, 'showDocuments']);
 });
 //rotas condicao pagamento
@@ -180,11 +186,11 @@ Route::middleware('autenticacaoMiddleware')->prefix('/contas-bancarias')->group(
     Route::get('/fornecedor/{id}', [ContaBancariaController::class, 'showByFornecedor']);
 });
 
-Route::middleware('autenticacaoMiddleware')->prefix('/pix')->group(function(){
+Route::middleware('autenticacaoMiddleware')->prefix('/pix')->group(function () {
     Route::get('/fornecedor/{id}', [PixController::class, 'showByFornecedor'])->name('pix');
     Route::get('/empregado/{id}', [PixController::class, 'showByEmpregado'])->name('pix-empregado');
     Route::get('/tipo-pix', [PixController::class, 'showBydescriptionPix']);
-    Route::post('/store',[PixController::class, 'storeWithJSON']);
+    Route::post('/store', [PixController::class, 'storeWithJSON']);
 });
 //rotas Instituições Bancárias
 Route::middleware('autenticacaoMiddleware')->prefix('/instituicoes-financeira')->group(function () {
@@ -213,7 +219,7 @@ Route::middleware('autenticacaoMiddleware')->get('/pagamentos/{id}', [PagamentoC
 Route::middleware('autenticacaoMiddleware')->prefix('/cep')->group(function () {
     Route::post('/', [ApiViaCepController::class, 'buscaCep']);
     Route::get('/', [FornecedorController::class, 'testeCep']);
-    Route::get('/pesquisaCNPJ/{cnpj}',[FornecedorController::class, 'webScraping'])->name(('webScraping'));
+    Route::get('/pesquisaCNPJ/{cnpj}', [FornecedorController::class, 'webScraping'])->name(('webScraping'));
 });
 
 Route::middleware('autenticacaoMiddleware')->prefix('/compras')->group(function () {

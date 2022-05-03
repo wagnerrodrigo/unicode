@@ -17,6 +17,8 @@ use App\Repository\CostCenterRepository;
 use App\Repository\DocumentoRepository;
 use App\Repository\EmpresaRepository;
 use App\CustomError\CustomErrorMessage;
+use App\Repository\ParcelaDespesaRepository;
+use Facade\FlareClient\Time\Time;
 
 class DespesaController extends Controller
 {
@@ -27,6 +29,8 @@ class DespesaController extends Controller
      */
     public function index(Request $request)
     {
+        //$parcelaDespesaRepository = new ParcelaDespesaRepository();
+        //dd($parcelaDespesaRepository->getParcelasByDespesa(18326));
         try {
             $despesaRepository = new DespesaRepository();
             $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
@@ -95,8 +99,8 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $condicaoPagamentoId = new CondicaoPagamentoId();
+        // try {
+            $parcelaDespesaRepository = new ParcelaDespesaRepository();
             //instancia model Despesa
             $despesa = new Despesa();
             $despesa->fk_centro_de_custo = $request->centro_custo_empresa;
@@ -113,20 +117,15 @@ class DespesaController extends Controller
             }
 
             $despesa->fk_plano_contas = $request->tipo_classificacao;
-            $despesa->numero_documento_despesa = $request->numero_nota_documento;
-            $despesa->qt_parcelas_despesa = $request->parcelas;
+            $despesa->qt_parcelas_despesa = $request->numero_parcelas;
             $despesa->serie_despesa = $request->serie_documento;
             $despesa->dt_emissao = $request->data_emissao;
             $despesa->valor_total_despesa = FormataValor::Real($request->valor_total);
             $despesa->fk_status_despesa_id = StatusDespesa::A_PAGAR;
             $despesa->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
             $despesa->de_despesa = mb_convert_case($request->titulo_despesa, MB_CASE_UPPER, 'UTF-8');
-            $despesa->dt_vencimento = $request->data_vencimento;
             $despesa->moeda = $request->moeda;
-            $despesa->dt_provisionamento = $request->data_provisionamento;
-            $despesa->fk_condicao_pagamento_id = $condicaoPagamentoId->getId($request->tipo_pagamento);
-            $despesa->fk_conta_bancaria = $request->numero_conta_bancaria;
-            $despesa->fk_tab_pix = $request->numero_pix;
+
             $despesa->numero_processo = $request->numero_processo;
             $despesa->dt_fim = null;
 
@@ -137,38 +136,6 @@ class DespesaController extends Controller
             //pega o id da despesa criada anteriormente para inserir na tabela ItemDespesa
             $id_despesa = Despesa::findByTimeStamp($timestamp);
 
-            //caso haja rateio na despesa executa
-            if ($request->empresa_rateio) {
-                $rateios = [];
-
-                $soma_porcentagem_rateio = 0;
-                $soma_valor_rateio = 0;
-                //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
-                for ($i = 0; $i < count($request->empresa_rateio); $i++) {
-                    $rateios[] = [
-                        'centro_custo_rateio' => $request->custo_rateio[$i],
-                        'valor_rateio' => trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0"),
-                        'porcentagem_rateio' => $request->porcentagem_rateio[$i],
-                    ];
-                    //soma os valores do rateio
-                    $soma_porcentagem_rateio += $request->porcentagem_rateio[$i];
-                    $soma_valor_rateio += trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0");
-                }
-                //verifica se a soma das porcentagens é igual a 100 caso não seja retorna o restante para o centro de custo inicial
-                if ($soma_porcentagem_rateio != 100) {
-                    $resto_porcentagem = 100 - $soma_porcentagem_rateio;
-                    $valor_restante = FormataValor::Real($request->valor_total) - $soma_valor_rateio;
-
-                    $rateios[] = [
-                        'centro_custo_rateio' => $request->centro_custo_empresa,
-                        'valor_rateio' => $valor_restante,
-                        'porcentagem_rateio' => $resto_porcentagem,
-                    ];
-                }
-                //chama a função do repository de rateios que salva no banco
-                $rateioRepository = new RateioRepository();
-                $rateioRepository->create($rateios, $id_despesa[0]->id_despesa);
-            }
             //caso haja produto na despesa executa
             if ($request->id_produto) {
                 $itensDespesa = [];
@@ -185,26 +152,44 @@ class DespesaController extends Controller
                 $itemDespesaRepository->create($itensDespesa, $id_despesa[0]->id_despesa);
             }
 
-            if ($request->id_numero_documento) {
-                $documentosDespesa = [];
-                //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
-                for ($i = 0; $i < count($request->id_numero_documento); $i++) {
-                    $documentosDespesa[] = [
-                        'fk_tipo_documento' => $request->id_numero_documento[$i],
-                        'de_documento' => $request->numero_documento[$i],
+            if ($request->parcelas > 1) {
+                $parcelas = [];
+                for ($i = 0; $i < count($request->parcelas); $i++) {
+                    $parcelas[] = [
+                        'fk_despesa' => $id_despesa[0]->id_despesa,
+                        'num_parcela' => $i + 1,
+                        'dt_emissao' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
+                        'dt_vencimento' => date('Y-m-d', strtotime('+' . $i + 1 . ' month')),
+                        'dt_inicio' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
+                        'dt_fim' => null,
+                        'valor_parcela' => $request->parcelas[$i],
+                        'fk_status_parcela_id' => StatusDespesa::A_PAGAR,
+                        'fk_forma_pagamento_id' => null,
+                        'fk_tipo_pagamento_id' => null,
+                        'fk_conta_bancaria_id' => null,
                     ];
                 }
-                //chama a função do repository de documentos que salva no banco
-                $documentoRepository = new DocumentoRepository();
-                $documentoRepository->create($documentosDespesa, $id_despesa[0]->id_despesa);
+                $parcelaDespesaRepository->store($parcelas);
+            } else {
+                $parcelaDespesaRepository->store([
+                    'fk_despesa' => $id_despesa[0]->id_despesa,
+                    'num_parcela' => 1,
+                    'dt_emissao' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
+                    'dt_vencimento' => $request->data_vencimento,
+                    'valor_parcela' => $request->valor_total,
+                    'fk_status_parcela_id' => StatusDespesa::A_PAGAR,
+                    'fk_forma_pagamento_id' => null,
+                    'fk_tipo_pagamento_id' => null,
+                    'fk_conta_bancaria_id' => null,
+                ]);
             }
 
             return redirect()->route('despesas')->with('success', 'Despesa Cadastrada!');
-        } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', 'Não foi possível cadastrar a Despesa' . $e->getMessage());
-        }
+        // } catch (\Exception $e) {
+        //     return redirect()
+        //         ->back()
+        //         ->with('error', 'Não foi possível cadastrar a Despesa' . $e->getMessage());
+        // }
     }
 
     public function edit($id, Request $request)

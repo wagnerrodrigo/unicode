@@ -20,6 +20,9 @@ class Extrato extends Model
 
     static function selectAll()
     {
+        return DB::table('intranet.tab_extrato')
+            ->where('tab_extrato.trnamt', '<', '0')
+            ->paginate(10);
     }
 
     static function findByExtract($id)
@@ -57,6 +60,6 @@ class Extrato extends Model
     {
         $query = "SELECT * FROM intranet.tab_extrato WHERE intranet.tab_extrato.fk_tab_conta_bancaria = $id_conta AND intranet.tab_extrato.dtposted = '$dt_pagamento'";
 
-       return DB::select($query);
+        return DB::select($query);
     }
 }
