@@ -101,27 +101,33 @@
 
                 <hr />
 
-                <div class="table-responsive">
-                    <table class="table table-bordered mb-0">
-                        <thead>
-                            <th>ID</th>
-                            <th>Empresa</th>
-                            <th>Centro de custo</th>
-                            <th>Valor</th>
-                            <th>Porcentagem</th>
-                        </thead>
+                @if(count($rateios) > 0)
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0">
+                            <thead>
+                                <th>ID</th>
+                                <th>Empresa</th>
+                                <th>Centro de custo</th>
+                                <th>Valor</th>
+                                <th>Porcentagem</th>
+                            </thead>
 
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>CODE AND GO DESENVOLVIMENTO DE SISTEMAS LTDA</td>
-                                <td>TESTE</td>
-                                <td>100.00</td>
-                                <td>100%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                            <tbody>
+                                @foreach($rateios as $rateio)
+                                <tr>
+                                    <td>{{$rateio->id_rateio_despesa}}</td>
+                                    <td>{{$rateio->de_empresa}} {{$rateio->regiao_empresa}}</td>
+                                    <td>{{$rateio->de_departamento}}</td>
+                                    <td>{{$rateio->valor_rateio_despesa}}</td>
+                                    <td>{{$rateio->porcentagem_rateio_despesa}}%</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                 <div></div>
+                @endif
                 </hr>
             </div>
         </div>

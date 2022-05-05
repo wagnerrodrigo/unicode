@@ -45,7 +45,7 @@ function geraParcelas(valorTotal, numeroParcelas) {
                         `<input type="date" class="form-control vencimento_parcela_gerada" id="vencimento_parcela${i + 1}" name="vencimento_parcela[]" value="${todayWithouthTime}">
                     </div>`;
                 parcelasGeradasHidden.innerHTML +=
-                    `<input type="hidden" name="parcelas[]" value="${(valorTotal / numeroParcelas.value).toFixed(2)}">` +
+                    `<input type="hidden" name="parcelas[]"  id="parcela_numero${i + 1}" value="${(valorTotal / numeroParcelas.value).toFixed(2)}">` +
                     `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${i + 1}" value="">`;
             }
         }
@@ -64,6 +64,10 @@ function atribuiValorAParcelaGerada() {
 
     var valorTotalParcelas = 0;
     console.log(datasParcelasGeradas);
+    console.log(parcelasGeradasHidden);
+    console.log(parcelasGeradas);
+    console.log(datasParcelasGeradasHidden);
+    console.log(valorTotalDespesa);
 
     for (let i = 0; i < parcelasGeradas.length; i++) {
         parcelasGeradasHidden = document.getElementById(

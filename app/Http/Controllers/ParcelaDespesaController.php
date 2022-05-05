@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repository\DespesaRepository;
 use App\Repository\ParcelaDespesaRepository;
+use App\Repository\RateioRepository;
 use App\Utils\TipoDespesa;
 use Illuminate\Http\Request;
 
@@ -21,12 +22,14 @@ class ParcelaDespesaController extends Controller
     {
         $despesaRepository = new DespesaRepository();
         $parcelaDespesaRepository = new ParcelaDespesaRepository();
+        $rateioRepository = new RateioRepository();
         $parcela = $parcelaDespesaRepository->getParcela($idParcela);
+        $rateios = $rateioRepository->findRateioDespesa($parcela->fk_despesa);
 
         $tipo = TipoDespesa::class;
 
         foreach($despesaRepository->getExpenseById($parcela->fk_despesa, TipoDespesa::EMPREGADO) as $despesa){}
 
-        return view('admin.despesas.detalhe-parcela', compact('parcela', 'despesa', 'tipo'));
+        return view('admin.despesas.detalhe-parcela', compact('parcela', 'despesa', 'tipo', 'rateios'));
     }
 }

@@ -18,7 +18,6 @@ use App\Repository\DocumentoRepository;
 use App\Repository\EmpresaRepository;
 use App\CustomError\CustomErrorMessage;
 use App\Repository\ParcelaDespesaRepository;
-use Facade\FlareClient\Time\Time;
 
 class DespesaController extends Controller
 {
@@ -99,7 +98,7 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        //dd($request->all());
         // try {
             $parcelaDespesaRepository = new ParcelaDespesaRepository();
             //instancia model Despesa
@@ -151,6 +150,38 @@ class DespesaController extends Controller
                 //chama a função do repository de itens que salva no banco
                 $itemDespesaRepository = new ItemDespesaRepository();
                 $itemDespesaRepository->create($itensDespesa, $id_despesa[0]->id_despesa);
+            }
+            //caso haja rateio na despesa executa
+            if ($request->empresa_rateio) {
+                $rateios = [];
+
+                $soma_porcentagem_rateio = 0;
+                $soma_valor_rateio = 0;
+                //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
+                for ($i = 0; $i < count($request->empresa_rateio); $i++) {
+                    $rateios[] = [
+                        'centro_custo_rateio' => $request->custo_rateio[$i],
+                        'valor_rateio' => trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0"),
+                        'porcentagem_rateio' => $request->porcentagem_rateio[$i],
+                    ];
+                    //soma os valores do rateio
+                    $soma_porcentagem_rateio += $request->porcentagem_rateio[$i];
+                    $soma_valor_rateio += trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0");
+                }
+                //verifica se a soma das porcentagens é igual a 100 caso não seja retorna o restante para o centro de custo inicial
+                if ($soma_porcentagem_rateio != 100) {
+                    $resto_porcentagem = 100 - $soma_porcentagem_rateio;
+                    $valor_restante = FormataValor::Real($request->valor_total) - $soma_valor_rateio;
+
+                    $rateios[] = [
+                        'centro_custo_rateio' => $request->centro_custo_empresa,
+                        'valor_rateio' => $valor_restante,
+                        'porcentagem_rateio' => $resto_porcentagem,
+                    ];
+                }
+                //chama a função do repository de rateios que salva no banco
+                $rateioRepository = new RateioRepository();
+                $rateioRepository->create($rateios, $id_despesa[0]->id_despesa);
             }
 
             if ($request->parcelas > 1) {
