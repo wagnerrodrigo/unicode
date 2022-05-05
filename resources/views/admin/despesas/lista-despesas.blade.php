@@ -352,10 +352,13 @@
                             $(`#parcela_${id}`).append(
                                 `<tr class="table-dark tr_generated_${id}">` +
                                 "<td>" + response[i].id_parcela_despesa + '</td>' +
-                                "<td>" + response[i].valor_parcela + '</td>' +
+                                "<td>" + Intl.NumberFormat('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                }).format(response[i].valor_parcela) + '</td>' +
                                 `<td>${response[i].num_parcela}</td>` +
-                                "<td>" + response[i].dt_emissao + "</td>" +
-                                "<td>" + response[i].dt_vencimento + "</td>" +
+                                "<td>" + Intl.DateTimeFormat('pt-BR').format(new Date(response[i].dt_emissao)) + "</td>" +
+                                "<td>" + Intl.DateTimeFormat('pt-BR').format(new Date(response[i].dt_vencimento)) + "</td>" +
                                 `<td>${response[i].de_status_despesa}</td>` +
                                 "<td><a href='/parcelas/detalhes/" + response[i].id_parcela_despesa + "' class='btn btn-primary' style='padding: 8px 12px;'><i class='bi bi-eye-fill'></i></a></td>"
                             );
