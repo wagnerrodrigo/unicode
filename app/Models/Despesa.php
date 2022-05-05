@@ -172,7 +172,7 @@ class Despesa extends Model
         return DB::select("SELECT id_despesa FROM intranet.tab_despesa WHERE dt_inicio = ?", [$timestamp]);
     }
 
-    static function findOne($id, $formaPagamento = null, $tipoDespesa = null, $centroCustoDespesa = null)
+    static function findOne($id, $tipoDespesa = null)
     {
         $query = DB::table('intranet.tab_despesa')->join(
             'intranet.status_despesa',
@@ -191,99 +191,21 @@ class Despesa extends Model
             'intranet.tab_despesa.fk_empresa_id'
         );
 
-        if ($centroCustoDespesa) {
-            $query->join(
-                'intranet.tab_centro_custo',
-                'intranet.tab_centro_custo.id_centro_custo',
-                '=',
-                'intranet.tab_despesa.fk_tab_centro_custo_id'
-            )->join(
-                'intranet.tab_departamento',
-                'intranet.tab_departamento.id_departamento',
-                '=',
-                'intranet.tab_centro_custo.fk_tab_departamento'
-            );
-        }
-
-        if (
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DEPOSITO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DOC ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::TRANSFERENCIA ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::TED
-        ) {
+        if ($tipoDespesa == TipoDespesa::EMPREGADO) {
             $query->leftJoin(
                 'intranet.tab_empregado',
                 'intranet.tab_empregado.id_empregado',
                 '=',
                 'intranet.tab_despesa.fk_tab_empregado_id'
-            )->join(
-                'intranet.tab_condicao_pagamento',
-                'intranet.tab_condicao_pagamento.id_condicao_pagamento',
-                '=',
-                'intranet.tab_despesa.fk_condicao_pagamento_id'
-            )->join(
-                'intranet.tab_conta_bancaria',
-                'intranet.tab_conta_bancaria.id_conta_bancaria',
-                '=',
-                'intranet.tab_despesa.fk_conta_bancaria'
             );
         } else if (
-            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::DEPOSITO ||
-            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::DOC ||
-            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::TRANSFERENCIA ||
-            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::TED
+            $tipoDespesa == TipoDespesa::FORNECEDOR
         ) {
             $query->join(
                 'intranet.tab_fornecedor',
                 'intranet.tab_fornecedor.id_fornecedor',
                 '=',
                 'intranet.tab_despesa.fk_tab_fornecedor_id'
-            )->join(
-                'intranet.tab_condicao_pagamento',
-                'intranet.tab_condicao_pagamento.id_condicao_pagamento',
-                '=',
-                'intranet.tab_despesa.fk_condicao_pagamento_id'
-            )->join(
-                'intranet.tab_conta_bancaria',
-                'intranet.tab_conta_bancaria.id_conta_bancaria',
-                '=',
-                'intranet.tab_despesa.fk_conta_bancaria'
-            );
-        } else if (
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::BOLETO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CHEQUE ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO ||
-            $tipoDespesa == TipoDespesa::EMPREGADO && $formaPagamento == CondicaoPagamentoId::PIX
-        ) {
-            $query->leftJoin(
-                'intranet.tab_empregado',
-                'intranet.tab_empregado.id_empregado',
-                '=',
-                'intranet.tab_despesa.fk_tab_empregado_id'
-            )->join(
-                'intranet.tab_condicao_pagamento',
-                'intranet.tab_condicao_pagamento.id_condicao_pagamento',
-                '=',
-                'intranet.tab_despesa.fk_condicao_pagamento_id'
-            );
-        } else if (
-            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::BOLETO ||
-            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::CHEQUE ||
-            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::DINHEIRO ||
-            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::CARTAO_CREDITO ||
-            $tipoDespesa == TipoDespesa::FORNECEDOR && $formaPagamento == CondicaoPagamentoId::PIX
-        ) {
-            $query->join(
-                'intranet.tab_fornecedor',
-                'intranet.tab_fornecedor.id_fornecedor',
-                '=',
-                'intranet.tab_despesa.fk_tab_fornecedor_id'
-            )->join(
-                'intranet.tab_condicao_pagamento',
-                'intranet.tab_condicao_pagamento.id_condicao_pagamento',
-                '=',
-                'intranet.tab_despesa.fk_condicao_pagamento_id'
             );
         } else if ($tipoDespesa == TipoDespesa::MIGRACAO) {
             $query;

@@ -101,17 +101,22 @@
                             <td>{{$despesa->dt_inicio != null ? date("d/m/Y", strtotime($despesa->dt_inicio)) : ''}}</td>
                             <td>{{$despesa->dt_vencimento != null ? date("d/m/Y", strtotime($despesa->dt_vencimento)) : ''}}</td>
                             <td>{{$despesa->de_status_despesa}}</td>
-                            <td>
+                            <td class="d-flex justify-content-evenly">
                                 <div>
-                                    <button type="button" id="abrir_parcelas_{{$despesa->id_despesa}}" class="accordion-button custon-btn custon-btn-accordion" onclick="getParcelas(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{$despesa->id_despesa}}" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 25px">
-                                    </button>
+                                    <i type="button" class="bi bi-caret-down-fill" id="abrir_parcelas_{{$despesa->id_despesa}}" onclick="getParcelas(this)" data-bs-toggle="collapse" href="#collapseExample-{{$despesa->id_despesa}}" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size: 25px; color: #820ad1">
+
+                                    </i>
                                 </div>
-                                <a href="/despesas/{{$despesa->id_despesa}}" class="btn btn-primary" style="padding: 8px 12px;">
-                                    <i class="bi bi-eye-fill"></i>
-                                </a>
-                                @if($despesa->de_status_despesa == 'A PAGAR' ||$despesa->de_status_despesa == 'EM ATRASO')
-                                <button data-bs-toggle="modal" data-bs-target="#delete{{$despesa->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
-                                @endif
+                                <div>
+                                    <a href="/despesas/{{$despesa->id_despesa}}" class="btn btn-primary" style="padding: 8px 12px;">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </a>
+                                </div>
+                                <div>
+                                    @if($despesa->de_status_despesa == 'A PAGAR' ||$despesa->de_status_despesa == 'EM ATRASO')
+                                    <button data-bs-toggle="modal" data-bs-target="#delete{{$despesa->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -332,6 +337,9 @@
         let expanded = event.target.getAttribute("aria-expanded");
         event.target.setAttribute("aria-expanded", (expanded == "true") ? "false" : "true");
 
+        let icon = event.target.getAttribute("class");
+        event.target.setAttribute("class", (expanded == "true") ? "bi bi-caret-up-fill" : "bi bi-caret-down-fill");
+
         if (expanded == 'true') {
             $.ajax({
                 type: "GET",
@@ -339,7 +347,7 @@
                 dataType: "json",
                 success: function(response) {
                     console.log(response);
-                    if (response != '') {
+                    if (response.length > 0) {
                         for (i = 0; i < response.length; i++) {
                             $(`#parcela_${id}`).append(
                                 `<tr class="table-dark tr_generated_${id}">` +
@@ -349,14 +357,14 @@
                                 "<td>" + response[i].dt_emissao + "</td>" +
                                 "<td>" + response[i].dt_vencimento + "</td>" +
                                 `<td>${response[i].de_status_despesa}</td>` +
-                                "<td><a href='' class='btn btn-primary' style='padding: 8px 12px;'><i class='bi bi-eye-fill'></i></a>" +
-                                "<button data-bs-toggle='modal' data-bs-target='#delete{{$despesa->id_despesa}}' class='btn btn-danger' style='padding: 8px 12px;'><i class='bi bi-trash-fill'></i></button></td>"
+                                "<td><a href='/parcelas/detalhes/" + response[i].id_parcela_despesa + "' class='btn btn-primary' style='padding: 8px 12px;'><i class='bi bi-eye-fill'></i></a></td>"
                             );
                         }
                     } else {
-                        $(`#extrato_${id}`).append(
+                        $(`#parcela_${id}`).append(
                             `<tr class="table-light tr_generated_${id}">` +
-                            `<td><span style="color: red; font-weight: bold;">Não há extrato</span></td>` +
+                            `<td><span style="color: red; font-weight: bold;">Não há parcelas</span></td>` +
+                            "<td></td>" +
                             "<td></td>" +
                             "<td></td>" +
                             "<td></td>" +

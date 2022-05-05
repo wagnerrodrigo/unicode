@@ -26,4 +26,8 @@ class ParcelaDespesaRepository {
     function getParcelasByDespesa($fk_despesa){
         return ParcelaDespesa::parcelasDespesa($fk_despesa);
     }
+
+    function getParcela($idParcela){
+        return ParcelaDespesa::parcela($idParcela);
+    }
 }

@@ -79,4 +79,14 @@ class ParcelaDespesa extends Model
             'intranet.status_despesa.id_status_despesa'
         )->where('tab_parcela_despesa.fk_despesa', $idDespesa)->orderBy('num_parcela', 'asc')->get();
     }
+
+    static function parcela($idParcela)
+    {
+        return DB::table('intranet.tab_parcela_despesa')->join(
+            'intranet.status_despesa',
+            'tab_parcela_despesa.fk_status_id',
+            '=',
+            'intranet.status_despesa.id_status_despesa'
+        )->where('id_parcela_despesa', $idParcela)->first();
+    }
 }

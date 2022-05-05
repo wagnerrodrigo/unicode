@@ -272,3 +272,39 @@ function limpaCamposRateio() {
     $("#valor_rateado").val("");
     $("#porcentagem_rateado").val("");
 }
+
+
+function handleChange(object) {
+    if (object.value == 'true') {
+
+        var rateios = document.getElementById('div_rateio');
+        rateios.innerHTML += '<div class="d-flex flex-column" id="div_rateio_gerado" style="width: 100%;" > ' +
+            '<div class="px-5" style="padding: 8px 12px;">' +
+            '<button class="btn btn-primary" id="adicionar_rateio" type="button" data-bs-toggle="modal" data-bs-target="#xrateio" style="padding: 8px 12px;"><i class="bi bi-plus"></i></button>' +
+            '</div>' +
+            '<div class="px-5 mb-3">' +
+            '<div class="table-responsive">' +
+            '<table class="table table-bordered mb-0">' +
+            '<thead>' +
+            '<tr>' +
+            '<th>EMPRESA</th>' +
+            '<th>CENTRO DE CUSTO</th>' +
+            '<th>RATEIO</th>' +
+            '<th>%</th>' +
+            '<th>EDITAR</th>' +
+            '</tr>' +
+            '</thead>' +
+
+            '<tbody id="table_rateio">' +
+
+            '</tbody>' +
+            '</table>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+    } else {
+        var rateio_gerado = document.getElementById('div_rateio_gerado');
+        rateio_gerado.remove();
+    }
+}

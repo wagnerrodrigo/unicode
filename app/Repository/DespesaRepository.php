@@ -32,9 +32,9 @@ class DespesaRepository
         Despesa::setStatusIfPaid($id_despesa);
     }
 
-    function getExpenseById($id, $condicao_pagamento, $tipo_despesa)
+    function getExpenseById($id, $tipo_despesa)
     {
-        return Despesa::findOne($id, $condicao_pagamento, $tipo_despesa);
+        return Despesa::findOne($id, $tipo_despesa);
     }
 
     function getItems($id)

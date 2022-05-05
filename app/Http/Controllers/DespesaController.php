@@ -99,6 +99,7 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         // try {
             $parcelaDespesaRepository = new ParcelaDespesaRepository();
             //instancia model Despesa
@@ -159,7 +160,7 @@ class DespesaController extends Controller
                         'fk_despesa' => $id_despesa[0]->id_despesa,
                         'num_parcela' => $i + 1,
                         'dt_emissao' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
-                        'dt_vencimento' => date('Y-m-d', strtotime('+' . $i + 1 . ' month')),
+                        'dt_vencimento' => $request->vencimento_parcela[$i],
                         'dt_inicio' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
                         'dt_fim' => null,
                         'valor_parcela' => $request->parcelas[$i],

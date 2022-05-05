@@ -176,6 +176,40 @@
                     <hr>
                     <br>
 
+                    <!-- Rateio -->
+                    <div class="d-flex" style="width: 100%; align-items:center">
+                        <div class="px-5 mb-3">
+                            <h3>RATEIO</h3>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="flex-column mt-10">
+                            <div class="px-5">
+                                <span>RATEIO?</span>
+                            </div>
+
+                            <div class="d-flex mt-10">
+                                <div class="px-5 " style="padding: 8px 12px;">
+                                    <strong for="input_rateio form-check-primary">NÃO</strong>
+                                    <input class="form-check-input" checked type="radio" onchange="handleChange(this);" name="rateio" value="false">
+                                </div>
+
+                                <div class="px-5" style="padding: 8px 12px;">
+                                    <strong for="input_rateio">SIM</strong>
+                                    <input class="form-check-input" type="radio" onchange="handleChange(this);" name="rateio" value="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="div_rateio"></div>
+                    <br>
+                    <hr>
+                    <br>
+
+
                     <div class="d-flex" style="width: 100%; align-items:center">
                         <div class="px-5 mb-3">
                             <h3>PARCELAS</h3>
@@ -263,6 +297,77 @@
         </div>
     </div>
 </div>
+
+<!-- Inicio Modal Rateio-->
+<div class="me-1 mb-1 d-inline-block">
+    <!--Extra Large Modal -->
+    <div class="modal fade text-left w-100" id="xrateio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel16">RATEIO</h4>
+
+                    <div>
+                        <span>VALOR TOTAL: </span>
+                        <input class="input-add" id="modal_valor_total" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple; margin-right:20px">
+
+                        <span>VALOR RATEADO: </span>
+                        <input class="input-add" id="modal_valor_rateado" name="modal_valor_rateado" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple">
+                    </div>
+
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x" data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>EMPRESA</strong>
+                            <input class="form-control input-busca" type="text" id="rateio_empresa" autocomplete="off" placeholder="Empresa" style="width: 60rem" />
+                            <div id="results_rateio_empresa" class="resultado-busca-rateio"></div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>CENTRO DE CUSTO</strong>
+                            <select class="form-control input-add" id="custo_rateio">
+                                <option selected value="" class="resultado-busca"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>VALOR RATEADO</strong>
+                            <input class="form-control mt-1" id="valor_rateado" onkeyup="formataValor(this)" type="text" onkeypress="return onlynumber();" placeholder="Valor do item" style="width: 358px" />
+                        </div>
+                        <div class="d-flex flex-row" style="width: 100%; align-items:center">
+                            <div>
+                                <input class="form-control mt-1" id="porcentagem_rateado" type="text" min="0" max="5" onkeyup="return validateValue(this);" onkeypress="return onlynumber();" maxlength="3" style="width: 58px" />
+                            </div>
+
+                            <div>
+                                <strong>%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button class="btn btn-success me-1 mb-1" type="button" id="seleciona_rateio">
+                            <i data-feather="check-circle"></i>ADICIONAR
+                        </button>
+                        <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal" aria-label="Close">
+                            CANCELAR
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fim modal Rateio -->
 
 
 
