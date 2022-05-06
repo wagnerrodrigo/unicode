@@ -7,20 +7,23 @@
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>DESPESA N°{{ $despesa->id_despesa }}</h1>
+                <h1>INFORMAÇÕES DA DESPESA N°{{ $despesa->id_despesa }}</h1>
             </div>
             <div class="card-body" style="font-size: 18px;">
 
                 <div class="d-flex">
                     <div class="col-md-6">
                         <div class="form-group">
+                            <input type="hidden" id="tipo_despesa" value="{{$despesa->fk_tab_tipo_despesa_id}}">
                             @if ($despesa->fk_tab_tipo_despesa_id == $tipo::FORNECEDOR)
                             <div>
                                 <strong>EMPRESA</strong>
                             </div>
                             <span>{{ $despesa->de_razao_social }}</span>
+                            <input type="hidden" id="id_fornecedor" value="{{$despesa->fk_tab_fornecedor_id}}">
 
                             @elseif($despesa->fk_tab_tipo_despesa_id == $tipo::EMPREGADO)
+                            <input type="hidden" id="id_empregado" value="{{$despesa->fk_tab_empregado_id}}">
                             <div>
                                 <strong>EMPREGADO</strong>
                             </div>
@@ -83,6 +86,25 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div>
+                                <strong>CLASSIFICAÇÃO</strong>
+                            </div>
+                            <span>{{ $despesa->de_plano_contas }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div>
+                                <strong>TIPO</strong>
+                            </div>
+                            <span>{{ $despesa->de_clasificacao_contabil }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div>
                                 <strong>PARCELAS</strong>
                             </div>
                             <span>{{ $despesa->qt_parcelas_despesa }}</span>
@@ -135,7 +157,7 @@
         <div class="main-content container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <h1>PARCELA N°{{ $parcela->num_parcela }}</h1>
+                    <h1>INFORMAÇÕES DA PARCELA N°{{ $parcela->num_parcela }}</h1>
                 </div>
                 <div class="card-body" style="font-size: 18px;">
                     <div class="card-body">
@@ -216,25 +238,37 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel16">Editar despesa</h4>
+                            <h4 class="modal-title" id="myModalLabel16">EDITAR PARCELA</h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <i class="bi bi-x" data-feather="x"></i>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <!-- mudar para produto  -->
-                            <form action="/despesas/{{ $despesa->id_despesa }}" method="POST" style="padding: 10px;">
+                            <form action="/parcelas/alterar/{{$parcela->id_parcela_despesa}}" method="POST" style="padding: 10px;">
                                 @csrf
                                 <div class="d-flex mt-10" style="width: 100%">
                                     <div class="px-5 mb-3">
-                                        <strong>DATA DE EMISSÃO</strong>
-                                        <input type="date" required class="form-control input-add" value="{{ $despesa->dt_emissao }}" id="dt_emissao" name="data_emissao" style="width: 358px" />
+                                        <strong>DATA DE PROVISIONAMENTO</strong>
+                                        <input type="date" required class="form-control input-add" value="{{ $parcela->dt_provisionamento }}" id="data_provisionamento" name="data_provisionamento" style="width: 358px" />
                                         <span id="erro_dt_emissao"></span>
                                     </div>
 
                                     <div class="px-5 mb-3">
-                                        <strong>CENTRO DE CUSTO</strong>
+                                        <strong>CONDIÇÃO PAGAMENTO</strong>
+                                        <select required class="form-control input-add teste"  name="tipo_pagamento" id="condicao_pagamento">
+                                            <option selected value=""></option>
+                                        </select>
 
+                                    </div>
+                                </div>
+
+                                <div class="d-flex" style="width: 100%">
+                                    <div class="px-5 mb-3" id="conta_hidden">
+                                        <!-- CAMPO DE CONTA BANCARIA E PIX -->
+                                    </div>
+
+                                    <div class="px-5 mb-3" id="modal_conta">
+                                        <!-- BUTTON MODAL -->
                                     </div>
                                 </div>
                         </div>
@@ -255,21 +289,7 @@
         </div>
     </div>
 
-
-
-
-
-
-
     <!-- fim modal -->
-
-    <script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
-
-    <script src="assets/js/feather-icons/feather.min.js"></script>
-    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="assets/js/vendors.js"></script>
-
-    <script src="assets/js/main.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
@@ -319,6 +339,239 @@
                     }
                 }
             }
+        }
+    </script>
+
+    <script>
+        //Buscar condição de pagamento no banco de dados com requisição via AJAX
+        var tipoDespesa = document.getElementById("tipo_despesa").value;
+        $.ajax({
+                type: "GET",
+                url: `/condicao_pagamento`,
+                dataType: "json",
+            })
+            .done(function(response) {
+                //traz os resultados do banco para uma div hidden
+                $.each(response, function(key, val) {
+                    if (val.id_condicao_pagamento != 9) {
+                        $("#condicao_pagamento")
+                            .append(
+                                `<option class="item_condicao_pagamento" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</option>`
+                            )
+                    }
+                });
+
+                $("#condicao_pagamento").change(function() {
+                    var id_tipo_pagamento = $(this).val();
+
+                    //tipos de pagamento  3 = Depósito; 6 = DOC; 7 = TED; 8 == Tranferência;
+
+
+                    if (
+                        id_tipo_pagamento == 3 ||
+                        id_tipo_pagamento == 6 ||
+                        id_tipo_pagamento == 7 ||
+                        id_tipo_pagamento == 8
+                    ) {
+                        alert('sou um deposito');
+                        limpaCamposContaBancariaPix();
+                        //gera input de conta
+                        $("#conta_hidden").append(
+                            "<strong class='remove_conta'>CONTA BANCÁRIA DO FORNECEDOR/EMPREGADO</strong>" +
+                            "<select name='conta_bancaria' onclick='getContaBancaria(this)' class='form-control input-add remove_conta' id='contas_fornecedor'>" +
+                            "<option value='' class='contas_fornecedor_resultado'></option>" +
+                            "</select>"
+                        );
+                        var endpoint;
+                        var url = "/contas-bancarias/";
+
+
+
+                        if (tipoDespesa == 1) {
+                            let idEmpregado = document.getElementById("id_empregado").value; ;
+                            endpoint = `${idEmpregado}/empregado`;
+                            url = url + endpoint;
+                        } else if (tipoDespesa == 2) {
+                            let idFornecedor = document.getElementById("id_fornecedor").value; ;
+                            endpoint = `${idFornecedor}/fornecedor`;
+                            url = url + endpoint;
+                        }
+
+                        $.ajax({
+                            type: "GET",
+                            url: url,
+                            dataType: "json",
+                        }).done(function(response) {
+                            //mostra os resultados da busca em uma div
+                            $.each(response, function(key, val) {
+                                $("#contas_fornecedor").append(
+                                    `<option class="contas_fornecedor_resultado" value="${val.id_conta_bancaria}">${val.co_banco} - ${val.de_banco} AG: ${val.nu_agencia} CONTA: ${val.nu_conta}</option>`
+                                );
+                            });
+                        });
+
+                        //botão modal de conta bancaria
+                        $("#modal_conta").append(
+                            `<strong class="remove_btn_modal">ADICIONAR CONTA BANCÁRIA</strong>` +
+                            `<div class="remove_btn_modal">
+                        <button type="button" onclick="adicionaContaBancaria()" id="btn_modal_conta" class="btn btn-primary remove_btn_modal" data-bs-toggle="modal" data-bs-target="#modal_conta_bancaria" style="padding: 8px 12px;">
+                        <i class="bi bi-plus"></i>
+                        </button>
+                    </div>`
+                        );
+                        //tipo de pagamento 2 = pix
+                    } else if (id_tipo_pagamento == 2) {
+                        limpaCamposContaBancariaPix();
+
+                        $("#conta_hidden").append(
+                            "<strong class='remove_conta'>PIX DO FORNECEDOR</strong>" +
+                            "<select onclick='getPix(this)' class='form-control input-add remove_pix' id='pix_fornecedor'>" +
+                            "<option value='' class='pix_fornecedor_resultado'></option>" +
+                            "</select>"
+                        );
+
+
+                        if (tipoDespesa == 2) {
+                            $.ajax({
+                                    type: "GET",
+                                    url: `/pix/fornecedor/${idFornecedor}`,
+                                    dataType: "json",
+                                })
+                                .done(function(response) {
+                                    if (response.length == 0) {
+                                        $("#pix_fornecedor").empty();
+                                        $("#pix_fornecedor").append(
+                                            `<option selected class="" value="">Nenhum pix cadastrado </option>`
+                                        );
+                                    } else {
+                                        $("#pix_fornecedor").empty();
+                                        $.each(response, function(key, val) {
+                                            $("#pix_fornecedor").append(
+                                                `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
+                                            );
+                                        });
+                                    }
+                                })
+                                .fail(function(response) {
+                                    swal({
+                                        title: "Atenção",
+                                        text: "Não foi possível buscar os PIX",
+                                        icon: "warning",
+                                        button: "OK",
+                                    });
+                                });
+                        } else {
+                            // [REGRA DE NEGOCIO]-> não exite uma definição para o pix do empregado
+                            // ajax de busca do pix do empregado
+                            $.ajax({
+                                    type: "GET",
+                                    url: `/pix/empregado/${idEmpregado}`,
+                                    dataType: "json",
+                                })
+                                .done(function(response) {
+                                    if (response.length == 0) {
+                                        $("#pix_fornecedor").empty();
+                                        $("#pix_fornecedor").append(
+                                            `<option selected class="" value="">Nenhum pix cadastrado </option>`
+                                        );
+                                    } else {
+                                        $("#pix_fornecedor").empty();
+                                        $.each(response, function(key, val) {
+                                            $("#pix_fornecedor").append(
+                                                `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
+                                            );
+                                        });
+                                    }
+                                })
+                                .fail(function(response) {
+                                    swal({
+                                        title: "Atenção",
+                                        text: "Não foi possível buscar os PIX",
+                                        icon: "warning",
+                                        button: "OK",
+                                    });
+                                });
+                        }
+
+                        //botão do modal de conta pix
+                        $("#modal_conta").append(
+                            `<strong class="remove_btn_modal">ADICIONAR PIX</strong>` +
+                            `<div class="remove_btn_modal">
+                        <button type="button" onclick="adicionaPix()" id="btn_modal_conta" class="btn btn-primary remove_btn_modal" data-bs-toggle="modal" data-bs-target="#modal_pix" style="padding: 8px 12px;">
+                        <i class="bi bi-plus"></i>
+                        </button>
+                    </div>`
+                        );
+                    } else {
+                        limpaCamposContaBancariaPix();
+                    }
+                });
+
+                // $(".item_condicao_pagamento").click(function() {
+                //     $("#condicao_pagamento").val($(this).text());
+
+                //     console.log($(this).text());
+
+
+                //     //faz a requisição ajax para buscar tipo de classificação
+                // });
+            })
+            .fail(function() {
+                console.log("erro na requisição Ajax");
+            });
+
+        // limpa campos de conta bancaria e pix
+        function limpaCamposContaBancariaPix() {
+            $(".remove_btn_modal").remove();
+            $(".remove_conta").remove();
+            $(".remove_pix").remove();
+            $("#contas_fornecedor").empty();
+            $("#pix_fornecedor").empty();
+            $("#numero_pix").attr("value", "");
+            $("#numero_conta_bancaria").attr("value", "");
+        }
+
+        // nao esta funcionado o limpaCamposContaPix
+        function limpaCamposContaPix() {
+            $("#option_Pix").remove();
+        }
+
+        $("#form_despesa").submit(function(event) {
+            if ($("#condicao_pagamento").val() == "") {
+                swal({
+                    title: "Atenção",
+                    text: "Selecione a condição de pagamento",
+                    icon: "warning",
+                    button: "OK",
+                });
+                event.preventDefault();
+            }
+        });
+
+        function limpaCamposDespesaJuridica() {
+            $(".remove_processo").remove();
+            $("input[name=numero_processo]").attr("value", "");
+        }
+
+        //adiciona delay nos campos de pesquisa
+        function delay(callback, ms) {
+            var timer = 0;
+            return function() {
+                var context = this,
+                    args = arguments;
+                clearTimeout(timer);
+                timer = setTimeout(function() {
+                    callback.apply(context, args);
+                }, ms || 0);
+            };
+        }
+
+        function getPix(object) {
+            $("input[name=numero_pix]").attr("value", object.value);
+        }
+
+        function getContaBancaria(object) {
+            $("input[name=numero_conta_bancaria]").attr("value", object.value);
         }
     </script>
 

@@ -54,7 +54,7 @@
                                 <div>
                                     <strong>CENTRO DE CUSTO</strong>
                                 </div>
-                                <span>{{ $despesa->de_departamento ?? 'NÃO CADASTRADO'}}</span>
+                                <span>{{ $despesa->fk_tab_centro_custo_id == null ? 'NÃO CADASTRADO' : $despesa->de_departamento}}</span>
                             </div>
                         </div>
                     </div>
@@ -71,9 +71,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>DATA DE EMISSÃO</strong>
+                                    <strong>DATA DE CRIAÇÃO</strong>
                                 </div>
-                                <span>{{ $despesa->dt_emissao == null ? 'NÃO CADASTRADO' : date('d/m/Y', strtotime($despesa->dt_emissao)) }}</span>
+                                <span>{{ $despesa->dt_inicio == null ? 'NÃO CADASTRADO' : date('d/m/Y', strtotime($despesa->dt_inicio)) }}</span>
                             </div>
                         </div>
                     </div>
@@ -82,17 +82,17 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>DATA DE CRIAÇÃO</strong>
+                                    <strong>CLASSIFICAÇÃO</strong>
                                 </div>
-                                <span>{{ $despesa->dt_inicio == null ? 'NÃO CADASTRADO' : date('d/m/Y', strtotime($despesa->dt_inicio)) }}</span>
+                                <span>{{ $despesa->de_clasificacao_contabil }}</span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div>
-                                    <strong>DATA DE PROVISIONAMENTO</strong>
+                                    <strong>TIPO</strong>
                                 </div>
-                                <span>{{ $despesa->dt_provisionamento == null ? 'NÃO CADASTRADO' : date('d/m/Y', strtotime($despesa->dt_provisionamento)) }}</span>
+                                <span>{{ $despesa->de_plano_contas }}</span>
                             </div>
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                                 <div>
                                     <strong>PARCELAS</strong>
                                 </div>
-                                <span>{{ $despesa->qt_parcelas_despesa }}</span>
+                                <span>{{$despesa->qt_parcelas_despesa}}</span>
                             </div>
                         </div>
 
@@ -152,7 +152,7 @@
                             <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>DATA DE EMISSÃO</strong>
-                                    <input type="date" required class="form-control input-add" value="{{ $despesa->dt_emissao }}" id="dt_emissao" name="data_emissao" style="width: 358px" />
+                                    <input type="date" required class="form-control input-add" value="{{ $despesa->dt_inicio }}" id="dt_inicio" name="data_inicio" style="width: 358px" />
                                     <span id="erro_dt_emissao"></span>
                                 </div>
 

@@ -92,6 +92,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/despesas')->group(function
 Route::middleware('autenticacaoMiddleware')->prefix('/parcelas')->group(function () {
     Route::get('/{id}', [ParcelaDespesaController::class, 'getDespesas']);
     Route::get('/detalhes/{id}', [ParcelaDespesaController::class, 'getParcela']);
+    Route::post('/alterar/{id}', [ParcelaDespesaController::class, 'setParcelaDespesa']);
 });
 
 Route::middleware('autenticacaoMiddleware')->prefix('/classificacaoDocumento')->group(function () {

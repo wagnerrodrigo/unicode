@@ -105,4 +105,17 @@ class ParcelaDespesa extends Model
                 'intranet.status_despesa.id_status_despesa'
             )->where('id_parcela_despesa', $idParcela)->first();
     }
+
+    static function setParcela(ParcelaDespesa $parcela)
+    {
+        DB::table('intranet.tab_parcela_despesa')
+            ->where('id_parcela_despesa', $parcela->id_parcela_despesa)
+            ->update([
+                'fk_status_id' => $parcela->fk_status_id,
+                'dt_provisionamento' => $parcela->dt_provisionamento,
+                'fk_condicao_pagamento' => $parcela->fk_condicao_pagamento,
+                'fk_conta_bancaria' => $parcela->fk_conta_bancaria,
+                'fk_pix_id' => $parcela->fk_pix_id,
+            ]);
+    }
 }

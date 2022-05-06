@@ -66,17 +66,18 @@ class DespesaController extends Controller
     {
         try {
             $despesaRepository = new DespesaRepository();
-            $infosDespesa = $despesaRepository->findInfosDespesa($id);
+            foreach ($despesaRepository->findTipoECentroCustoDespesa($id) as $tipoDespesa) {
+            }
 
             $costCenterRepository = new CostCenterRepository();
 
             $tipo = TipoDespesa::class;
 
-            $condicaoPagamento = $infosDespesa[0]->fk_condicao_pagamento_id;
-            $tipoDespesa = $infosDespesa[0]->fk_tab_tipo_despesa_id;
-            $centroCustoDespesa = $infosDespesa[0]->fk_tab_centro_custo_id;
-
-            $despesas = Despesa::findOne($id, $condicaoPagamento, $tipoDespesa, $centroCustoDespesa);
+            $despesas = Despesa::findOne(
+                $id,
+                $tipoDespesa->fk_tab_tipo_despesa_id,
+                $tipoDespesa->fk_tab_centro_custo_id
+            );
 
             $costCenter = $costCenterRepository->getCenterCostByIdCompany($despesas[0]->fk_empresa_id);
 
@@ -85,8 +86,6 @@ class DespesaController extends Controller
                 return view('admin.despesas.despesa-nao-encontrada');
             } else {
                 $despesa = $despesas[0];
-                $data_consertada = explode(' ', $despesa->dt_emissao);
-                $despesa->dt_emissao = $data_consertada[0];
 
                 return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo', 'costCenter'));
             }
@@ -99,7 +98,7 @@ class DespesaController extends Controller
     public function store(Request $request)
     {
         //dd($request->all());
-        // try {
+        try {
             $parcelaDespesaRepository = new ParcelaDespesaRepository();
             //instancia model Despesa
             $despesa = new Despesa();
@@ -217,11 +216,11 @@ class DespesaController extends Controller
             }
 
             return redirect()->route('despesas')->with('success', 'Despesa Cadastrada!');
-        // } catch (\Exception $e) {
-        //     return redirect()
-        //         ->back()
-        //         ->with('error', 'Não foi possível cadastrar a Despesa' . $e->getMessage());
-        // }
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível cadastrar a Despesa' . $e->getMessage());
+        }
     }
 
     public function edit($id, Request $request)

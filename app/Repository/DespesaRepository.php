@@ -14,9 +14,9 @@ class DespesaRepository
     }
 
     //método busca condicao de pagamento, tipo de despesa e id do centro de custo
-    function findInfosDespesa($id)
+    function findTipoECentroCustoDespesa($id)
     {
-        return Despesa::findInfosDespesaById($id);
+        return Despesa::findTipoECentroCustoDespesa($id);
     }
 
     function setStatusIfDefeaded($data)
@@ -32,7 +32,7 @@ class DespesaRepository
         Despesa::setStatusIfPaid($id_despesa);
     }
 
-    function getExpenseById($id, $tipo_despesa)
+    function getExpenseById($id, $tipo_despesa = null)
     {
         return Despesa::findOne($id, $tipo_despesa);
     }

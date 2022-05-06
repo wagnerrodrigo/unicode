@@ -172,10 +172,35 @@ class Despesa extends Model
         return DB::select("SELECT id_despesa FROM intranet.tab_despesa WHERE dt_inicio = ?", [$timestamp]);
     }
 
-    static function findOne($id, $tipoDespesa = null)
+    static function findOne($id, $tipoDespesa = null, $centroCusto = null)
     {
-        $query = DB::table('intranet.tab_despesa')
-            ->join(
+        if ($centroCusto) {
+            $query = DB::table('intranet.tab_despesa')->select(
+                "tab_despesa.id_despesa",
+                "tab_despesa.fk_tab_centro_custo_id",
+                "tab_despesa.fk_tab_tipo_despesa_id",
+                "tab_despesa.fk_empresa_id",
+                "tab_despesa.fk_plano_contas",
+                "tab_despesa.fk_status_despesa_id",
+                "tab_despesa.fk_tab_fornecedor_id",
+                "tab_despesa.fk_tab_empregado_id",
+                "tab_plano_contas.fk_tab_clasificacao_contabil_id",
+                "tab_plano_contas.fk_tab_de_plano_contas",
+                "tab_despesa.qt_parcelas_despesa",
+                "tab_despesa.valor_total_despesa",
+                "tab_despesa.dt_inicio",
+                "tab_despesa.dt_fim",
+                "tab_despesa.de_despesa",
+                "status_despesa.de_status_despesa",
+                "tab_tipo_despesa.de_tipo_despesa",
+                "tab_empresa.de_empresa",
+                "tab_empresa.regiao_empresa",
+                "de_plano_contas.de_plano_contas",
+                "tab_clasificacao_contabil.de_clasificacao_contabil",
+                "tab_empregado.nome_empregado",
+                "tab_empregado.nu_cpf_cnpj",
+                "tab_departamento.de_departamento",
+            )->join(
                 'intranet.status_despesa',
                 'intranet.status_despesa.id_status_despesa',
                 '=',
@@ -190,7 +215,66 @@ class Despesa extends Model
                 'intranet.tab_empresa.id_empresa',
                 '=',
                 'intranet.tab_despesa.fk_empresa_id'
+            )->join(
+                "intranet.tab_plano_contas",
+                "intranet.tab_plano_contas.id_plano_contas",
+                "=",
+                "intranet.tab_despesa.fk_plano_contas"
+            )->join(
+                "intranet.de_plano_contas",
+                "intranet.de_plano_contas.id_de_plano_contas",
+                "=",
+                "intranet.tab_plano_contas.fk_tab_de_plano_contas"
+            )->join(
+                "intranet.tab_clasificacao_contabil",
+                "intranet.tab_clasificacao_contabil.id_clasificacao_contabil",
+                "=",
+                "tab_plano_contas.fk_tab_clasificacao_contabil_id"
+            )->join(
+                    "intranet.tab_centro_custo",
+                    "intranet.tab_centro_custo.id_centro_custo",
+                    "=",
+                    "intranet.tab_despesa.fk_tab_centro_custo_id"
+                )
+                ->join(
+                    "intranet.tab_departamento",
+                    "intranet.tab_departamento.id_departamento",
+                    "=",
+                    "intranet.tab_centro_custo.fk_tab_departamento"
+                );
+        }else{
+            $query = DB::table('intranet.tab_despesa')->join(
+                'intranet.status_despesa',
+                'intranet.status_despesa.id_status_despesa',
+                '=',
+                'intranet.tab_despesa.fk_status_despesa_id'
+            )->join(
+                'intranet.tab_tipo_despesa',
+                'intranet.tab_tipo_despesa.id_tipo_despesa',
+                '=',
+                'intranet.tab_despesa.fk_tab_tipo_despesa_id'
+            )->join(
+                'intranet.tab_empresa',
+                'intranet.tab_empresa.id_empresa',
+                '=',
+                'intranet.tab_despesa.fk_empresa_id'
+            )->join(
+                "intranet.tab_plano_contas",
+                "intranet.tab_plano_contas.id_plano_contas",
+                "=",
+                "intranet.tab_despesa.fk_plano_contas"
+            )->join(
+                "intranet.de_plano_contas",
+                "intranet.de_plano_contas.id_de_plano_contas",
+                "=",
+                "intranet.tab_plano_contas.fk_tab_de_plano_contas"
+            )->join(
+                "intranet.tab_clasificacao_contabil",
+                "intranet.tab_clasificacao_contabil.id_clasificacao_contabil",
+                "=",
+                "tab_plano_contas.fk_tab_clasificacao_contabil_id"
             );
+        }
 
         if ($tipoDespesa == TipoDespesa::EMPREGADO) {
             $query->leftJoin(
@@ -199,9 +283,7 @@ class Despesa extends Model
                 '=',
                 'intranet.tab_despesa.fk_tab_empregado_id'
             );
-        } else if (
-            $tipoDespesa == TipoDespesa::FORNECEDOR
-        ) {
+        } else if ($tipoDespesa == TipoDespesa::FORNECEDOR) {
             $query->join(
                 'intranet.tab_fornecedor',
                 'intranet.tab_fornecedor.id_fornecedor',
@@ -249,9 +331,9 @@ class Despesa extends Model
     {
         return DB::select("SELECT fk_condicao_pagamento_id FROM intranet.tab_despesa WHERE id_despesa =?;", [$id]);
     }
-    static function findInfosDespesaById($id)
+    static function findTipoECentroCustoDespesa($id)
     {
-        $query = "SELECT fk_tab_tipo_despesa_id,fk_condicao_pagamento_id,fk_tab_centro_custo_id FROM intranet.tab_despesa WHERE id_despesa = ?;";
+        $query = "SELECT fk_tab_tipo_despesa_id, fk_tab_centro_custo_id FROM intranet.tab_despesa WHERE id_despesa = ?;";
         return DB::select($query, [$id]);
     }
 
