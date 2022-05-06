@@ -103,7 +103,7 @@
                             <td>{{$despesa->de_status_despesa}}</td>
                             <td class="d-flex justify-content-evenly">
                                 <div>
-                                    <i type="button" class="bi bi-caret-down-fill" id="abrir_parcelas_{{$despesa->id_despesa}}" onclick="getParcelas(this)" data-bs-toggle="collapse" href="#collapseExample-{{$despesa->id_despesa}}" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size: 25px; color: #820ad1">
+                                    <i type="button" class="bi bi-caret-down" id="abrir_parcelas_{{$despesa->id_despesa}}" onclick="getParcelas(this)" data-bs-toggle="collapse" href="#collapseExample-{{$despesa->id_despesa}}" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size: 25px;">
 
                                     </i>
                                 </div>
@@ -338,7 +338,7 @@
         event.target.setAttribute("aria-expanded", (expanded == "true") ? "false" : "true");
 
         let icon = event.target.getAttribute("class");
-        event.target.setAttribute("class", (expanded == "true") ? "bi bi-caret-up-fill" : "bi bi-caret-down-fill");
+        event.target.setAttribute("class", (expanded == "true") ? "bi bi-caret-up" : "bi bi-caret-down");
 
         if (expanded == 'true') {
             $.ajax({

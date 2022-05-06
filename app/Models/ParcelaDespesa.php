@@ -82,11 +82,27 @@ class ParcelaDespesa extends Model
 
     static function parcela($idParcela)
     {
-        return DB::table('intranet.tab_parcela_despesa')->join(
-            'intranet.status_despesa',
-            'tab_parcela_despesa.fk_status_id',
-            '=',
-            'intranet.status_despesa.id_status_despesa'
-        )->where('id_parcela_despesa', $idParcela)->first();
+        return DB::table('intranet.tab_parcela_despesa')
+            ->select(
+                "tab_parcela_despesa.id_parcela_despesa",
+                "tab_parcela_despesa.fk_despesa",
+                "tab_parcela_despesa.num_parcela",
+                "tab_parcela_despesa.valor_parcela",
+                "tab_parcela_despesa.dt_emissao",
+                "tab_parcela_despesa.dt_vencimento",
+                "tab_parcela_despesa.dt_provisionamento",
+                "status_despesa.de_status_despesa",
+                "tab_parcela_despesa.fk_condicao_pagamento",
+                "tab_parcela_despesa.fk_conta_bancaria",
+                "tab_parcela_despesa.fk_pix_id",
+                "tab_parcela_despesa.dt_inicio",
+                "tab_parcela_despesa.dt_fim"
+            )
+            ->join(
+                'intranet.status_despesa',
+                'tab_parcela_despesa.fk_status_id',
+                '=',
+                'intranet.status_despesa.id_status_despesa'
+            )->where('id_parcela_despesa', $idParcela)->first();
     }
 }

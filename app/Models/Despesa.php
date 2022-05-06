@@ -174,22 +174,23 @@ class Despesa extends Model
 
     static function findOne($id, $tipoDespesa = null)
     {
-        $query = DB::table('intranet.tab_despesa')->join(
-            'intranet.status_despesa',
-            'intranet.status_despesa.id_status_despesa',
-            '=',
-            'intranet.tab_despesa.fk_status_despesa_id'
-        )->join(
-            'intranet.tab_tipo_despesa',
-            'intranet.tab_tipo_despesa.id_tipo_despesa',
-            '=',
-            'intranet.tab_despesa.fk_tab_tipo_despesa_id'
-        )->join(
-            'intranet.tab_empresa',
-            'intranet.tab_empresa.id_empresa',
-            '=',
-            'intranet.tab_despesa.fk_empresa_id'
-        );
+        $query = DB::table('intranet.tab_despesa')
+            ->join(
+                'intranet.status_despesa',
+                'intranet.status_despesa.id_status_despesa',
+                '=',
+                'intranet.tab_despesa.fk_status_despesa_id'
+            )->join(
+                'intranet.tab_tipo_despesa',
+                'intranet.tab_tipo_despesa.id_tipo_despesa',
+                '=',
+                'intranet.tab_despesa.fk_tab_tipo_despesa_id'
+            )->join(
+                'intranet.tab_empresa',
+                'intranet.tab_empresa.id_empresa',
+                '=',
+                'intranet.tab_despesa.fk_empresa_id'
+            );
 
         if ($tipoDespesa == TipoDespesa::EMPREGADO) {
             $query->leftJoin(

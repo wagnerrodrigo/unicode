@@ -192,12 +192,12 @@
                             <div class="d-flex mt-10">
                                 <div class="px-5 " style="padding: 8px 12px;">
                                     <strong for="input_rateio form-check-primary">NÃO</strong>
-                                    <input class="form-check-input" checked type="radio" onchange="handleChange(this);" name="rateio" value="false">
+                                    <input class="form-check-input" checked type="radio" id="radio_false" onchange="handleChange(this);" name="rateio" value="false">
                                 </div>
 
                                 <div class="px-5" style="padding: 8px 12px;">
                                     <strong for="input_rateio">SIM</strong>
-                                    <input class="form-check-input" type="radio" onchange="handleChange(this);" name="rateio" value="true">
+                                    <input class="form-check-input" type="radio" id="radio_true" onchange="handleChange(this);" name="rateio" value="true">
                                 </div>
                             </div>
                         </div>

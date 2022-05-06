@@ -94,7 +94,7 @@
                             <div>
                                 <strong>VALOR TOTAL</strong>
                             </div>
-                            <span>{{ $despesa->valor_total_despesa }}</span>
+                            <span>{{ $mascara::maskMoeda($despesa->valor_total_despesa) }}</span>
                         </div>
                     </div>
                 </div>
@@ -102,31 +102,31 @@
                 <hr />
 
                 @if(count($rateios) > 0)
-                    <div class="table-responsive">
-                        <table class="table table-bordered mb-0">
-                            <thead>
-                                <th>ID</th>
-                                <th>Empresa</th>
-                                <th>Centro de custo</th>
-                                <th>Valor</th>
-                                <th>Porcentagem</th>
-                            </thead>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <th style="padding:10px;">ID</th>
+                            <th>Empresa</th>
+                            <th>Centro de custo</th>
+                            <th>Valor</th>
+                            <th style="padding:5px;">%</th>
+                        </thead>
 
-                            <tbody>
-                                @foreach($rateios as $rateio)
-                                <tr>
-                                    <td>{{$rateio->id_rateio_despesa}}</td>
-                                    <td>{{$rateio->de_empresa}} {{$rateio->regiao_empresa}}</td>
-                                    <td>{{$rateio->de_departamento}}</td>
-                                    <td>{{$rateio->valor_rateio_despesa}}</td>
-                                    <td>{{$rateio->porcentagem_rateio_despesa}}%</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                        <tbody>
+                            @foreach($rateios as $rateio)
+                            <tr>
+                                <td style="padding:5px;">{{$rateio->id_rateio_despesa}}</td>
+                                <td>{{$rateio->de_empresa}} {{$rateio->regiao_empresa}}</td>
+                                <td>{{$rateio->de_departamento}}</td>
+                                <td>{{$mascara::maskMoeda($rateio->valor_rateio_despesa)}}</td>
+                                <td style="padding:5px;">{{$rateio->porcentagem_rateio_despesa}}%</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 @else
-                 <div></div>
+                <div></div>
                 @endif
                 </hr>
             </div>
@@ -145,7 +145,7 @@
                                     <div>
                                         <strong>VALOR PARCELA</strong>
                                     </div>
-                                    <span>{{ $parcela->valor_parcela }}</span>
+                                    <span>{{ $mascara::maskMoeda($parcela->valor_parcela) }}</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
