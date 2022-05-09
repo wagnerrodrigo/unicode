@@ -11,7 +11,6 @@ var today = now.toISOString();
 console.log(today);
 var todayWithouthTime = today.split("T")[0];
 
-
 var valorTotal = document.getElementById("valorTotal");
 
 adicionar_parcela.onclick = () => geraParcelas(valorTotal, numeroParcelas);
@@ -21,32 +20,32 @@ function geraParcelas(valorTotal, numeroParcelas) {
     if (numeroParcelas.value > 0 && valorTotal > 0) {
         for (let i = 0; i < numeroParcelas.value; i++) {
             if (!parcelaFixa.checked) {
-                parcelasGeradas.innerHTML += `
-                <div class="form-group d-flex">
-                    <div>
-                        <label for="parcela${i + 1}">Parcela ${i + 1}</label>
-                    </div>
-                    <input type="text" class="form-control parcela_gerada" id="parcela${i + 1}" name="parcela[]" placeholder="Digite o valor da parcela">
-                    <div>
-                        <label for="data_vencimento${i + 1}">Data Vencimento ${i + 1}</label>
-                    </div>
-                    <input type="date" class="form-control vencimento_parcela_gerada" id="vencimento_parcela${i + 1}" name="vencimento_parcela[]" value="${todayWithouthTime}">
-                </div>`;
+                parcelasGeradas.innerHTML +=
+                    '<div class="d-flex">' +
+                        '<div class="px-5 mb-5">' +
+                            `<label for="parcela${i + 1}">Parcela ${i + 1}</label>` +
+                            `<input type="text" class="form-control input-add parcela_gerada" onkeyup="formataValor(this)" onblur="validaValor(this)" id="parcela${i + 1}" name="parcela[]" placeholder="Digite o valor da parcela">` +
+                        "</div>" +
+                        '<div class="px-5 mb-5">' +
+                            `<label for="data_vencimento${i + 1}">Data Vencimento ${i + 1}</label>` +
+                            `<input type="date" class="form-control vencimento_parcela_gerada" id="vencimento_parcela${i + 1}" name="vencimento_parcela[]" value="${todayWithouthTime}">` +
+                        "</div>" +
+                    "</div>";
                 parcelasGeradasHidden.innerHTML +=
                     `<input type="hidden" name="parcelas[]" id="parcela_numero${i + 1}" value="">` +
                     `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${i + 1}" value="">`;
             } else {
                 parcelasGeradas.innerHTML +=
-                    `<div class="form-group">
-                        <div>
-                            <label for="parcela${i + 1}">Parcela ${i + 1}</label>
-                        </div>
-                        <input type="text" readonly class="form-control parcela_gerada" id="parcela${i + 1}" value="${(valorTotal / numeroParcelas.value).toFixed(2)}" name="parcela[]">` +
-                        `<div>
-                            <label for="data_vencimento${i + 1}">Data Vencimento ${i + 1}</label>
-                        </div>` +
-                        `<input type="date" class="form-control vencimento_parcela_gerada" id="vencimento_parcela${i + 1}" name="vencimento_parcela[]" value="${todayWithouthTime}">
-                    </div>`;
+                '<div class="d-flex">' +
+                '<div class="px-5 mb-5">' +
+                    `<label for="parcela${i + 1}">Parcela ${i + 1}</label>` +
+                    `<input type="text" readonly value="${Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format((valorTotal / numeroParcelas.value).toFixed(2))}" class="form-control input-add parcela_gerada" id="parcela${i + 1}" name="parcela[]" >` +
+                "</div>" +
+                '<div class="px-5 mb-5">' +
+                    `<label for="data_vencimento${i + 1}">Data Vencimento ${i + 1}</label>` +
+                    `<input type="date" class="form-control vencimento_parcela_gerada vencimento_parcela_gerada" value="${todayWithouthTime}" id="vencimento_parcela${i + 1}" name="vencimento_parcela[]" value="${todayWithouthTime}">` +
+                "</div>" +
+            "</div>";
                 parcelasGeradasHidden.innerHTML +=
                     `<input type="hidden" name="parcelas[]"  id="parcela_numero${i + 1}" value="${(valorTotal / numeroParcelas.value).toFixed(2)}">` +
                     `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${i + 1}" value="">`;
@@ -61,24 +60,19 @@ function atribuiValorAParcelaGerada() {
     var datasParcelasGeradas = document.getElementsByClassName("vencimento_parcela_gerada");
     var datasParcelasGeradasHidden = document.getElementsByClassName("vencimento_parcela");
     var valorTotalDespesa = document.getElementById("valorTotal").value;
-    valorTotalDespesa = parseFloat(
-        valorTotalDespesa.replace(/\./g, "").replace(",", ".")
-    );
+    valorTotalDespesa = parseFloat(valorTotalDespesa.replace(/\./g, "").replace(",", "."));
 
     var valorTotalParcelas = 0;
 
     for (let i = 0; i < parcelasGeradas.length; i++) {
-        parcelasGeradasHidden = document.getElementById(
-            "parcela_numero" + (i + 1)
-        );
-        datasParcelasGeradasHidden = document.getElementById(
-            "vencimento_parcela_numero" + (i + 1)
-        );
+        parcelasGeradasHidden = document.getElementById("parcela_numero" + (i + 1));
+        datasParcelasGeradasHidden = document.getElementById("vencimento_parcela_numero" + (i + 1));
 
-        parcelasGeradasHidden.value = parcelasGeradas[i].value;
+        parcelasGeradasHidden.value = Number(parseFloat(parcelasGeradas[i].value.replace(/[^0-9,]*/g, '').replace(',', '.')).toFixed(2));
         datasParcelasGeradasHidden.value = datasParcelasGeradas[i].value;
-        valorTotalParcelas += parseFloat(parcelasGeradas[i].value);
+        valorTotalParcelas += Number(parseFloat(parcelasGeradas[i].value.replace(/[^0-9,]*/g, '').replace(',', '.')).toFixed(2));
     }
+
     if (valorTotalParcelas != valorTotalDespesa) {
         swal({
             title: "Valor total das parcelas é diferente do valor total da despesa!",
@@ -99,7 +93,10 @@ function atribuiValorAParcelaGerada() {
             datasParcelasGeradasHidden.value = "";
         }
     } else {
-       if(!validaForm())
-        document.getElementById("form_despesa").submit();
+        if (!validaForm()) document.getElementById("form_despesa").submit();
     }
+}
+
+function removeItens(){
+
 }

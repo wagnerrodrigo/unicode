@@ -249,7 +249,7 @@
                     <br />
                     <br />
 
-                    <div id="parcelas_geradas">
+                    <div id="parcelas_geradas" class="flex-column">
 
                     </div>
 
@@ -372,12 +372,6 @@
 
 
 <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
-<script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
-
-<script src="{{ asset('assets/js/vendors.js') }}"></script>
-
-<script src="{{ asset('assets/js/main.js') }}"></script>
-
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
 
@@ -455,9 +449,9 @@
         var error = true;
 
         if (
-            dadoEmpresa.value == ''
-            || dadoEmpresa.value == null
-            ||dadoEmpresa.value == undefined
+            dadoEmpresa.value == '' ||
+            dadoEmpresa.value == null ||
+            dadoEmpresa.value == undefined
         ) {
             swal({
                 title: "Atenção",
@@ -467,21 +461,9 @@
             });
             return error;
         } else if (
-            dadoCPFCNPJ.value == ''
-            || dadoCPFCNPJ.value == null
-            || dadoCPFCNPJ.value == undefined
-        ) {
-            swal({
-                title: "Atenção",
-                text: "Selecione uma empresa ou funcionário",
-                icon: "warning",
-                button: "OK",
-            });
-            return error;
-        }else if (
-            dadoTipoClassificacao.value == ''
-            || dadoTipoClassificacao.value == null
-            || dadoTipoClassificacao.value == undefined
+            dadoCPFCNPJ.value == '' ||
+            dadoCPFCNPJ.value == null ||
+            dadoCPFCNPJ.value == undefined
         ) {
             swal({
                 title: "Atenção",
@@ -491,9 +473,21 @@
             });
             return error;
         } else if (
-            dadoClassificacao.value == ''
-            || dadoClassificacao.value == null
-            || dadoClassificacao.value == undefined
+            dadoTipoClassificacao.value == '' ||
+            dadoTipoClassificacao.value == null ||
+            dadoTipoClassificacao.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma empresa ou funcionário",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        } else if (
+            dadoClassificacao.value == '' ||
+            dadoClassificacao.value == null ||
+            dadoClassificacao.value == undefined
         ) {
             swal({
                 title: "Atenção",
@@ -503,9 +497,9 @@
             });
             return error;
         } else if (
-            dadoTitulo.value == ''
-            || dadoTitulo.value == null
-            || dadoTitulo.value == undefined
+            dadoTitulo.value == '' ||
+            dadoTitulo.value == null ||
+            dadoTitulo.value == undefined
         ) {
             swal({
                 title: "Atenção",
