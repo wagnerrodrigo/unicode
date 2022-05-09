@@ -92,7 +92,7 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>TITULO</strong>
-                            <input required name="titulo_despesa" maxlength="100" class="form-control input-busca"></input>
+                            <input required id="titulo" name="titulo_despesa" maxlength="100" class="form-control input-busca"></input>
                         </div>
                     </div>
 
@@ -443,6 +443,80 @@
         } else {
             erro.innerHTML = '';
         }
+    }
+
+
+    function validaForm() {
+        var dadoEmpresa = document.getElementById("busca_empresa");
+        var dadoCPFCNPJ = document.getElementById("input_cpf_cnpj");
+        var dadoClassificacao = document.getElementById("classificacao_con");
+        var dadoTipoClassificacao = document.getElementById("tipo_classificacao");
+        var dadoTitulo = document.getElementById("titulo");
+        var error = true;
+
+        if (
+            dadoEmpresa.value == ''
+            || dadoEmpresa.value == null
+            ||dadoEmpresa.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma empresa",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        } else if (
+            dadoCPFCNPJ.value == ''
+            || dadoCPFCNPJ.value == null
+            || dadoCPFCNPJ.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma empresa ou funcionário",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        }else if (
+            dadoTipoClassificacao.value == ''
+            || dadoTipoClassificacao.value == null
+            || dadoTipoClassificacao.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma empresa ou funcionário",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        } else if (
+            dadoClassificacao.value == ''
+            || dadoClassificacao.value == null
+            || dadoClassificacao.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma classificação",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        } else if (
+            dadoTitulo.value == ''
+            || dadoTitulo.value == null
+            || dadoTitulo.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Preencha o título",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        }
+        error = false;
+        return error;
     }
 </script>
 

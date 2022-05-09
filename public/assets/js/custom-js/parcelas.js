@@ -99,6 +99,7 @@ function atribuiValorAParcelaGerada() {
             datasParcelasGeradasHidden.value = "";
         }
     } else {
+       if(!validaForm())
         document.getElementById("form_despesa").submit();
     }
 }
