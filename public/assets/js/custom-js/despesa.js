@@ -257,7 +257,6 @@ document.getElementById("btnDespesa").onclick = function () {
                                                             response[0]
                                                                 .de_razao_social
                                                         );
-
                                                         $(
                                                             "#fk_empregado_fornecedor"
                                                         ).attr(
@@ -265,7 +264,6 @@ document.getElementById("btnDespesa").onclick = function () {
                                                             response[0]
                                                                 .id_fornecedor
                                                         );
-
                                                         $("#Cnpj_Cpf").val("");
                                                         $("#modal-busca").modal(
                                                             "hide"
@@ -317,7 +315,6 @@ document.getElementById("btnDespesa").onclick = function () {
                                             $("#Cnpj_Cpf").val($(this).text());
                                             var cpfEmpregado =
                                                 $(this).attr("value");
-
                                             $("#ResultadoCnpjCpf").html("");
                                             // preenche o campo de input_cpf_cnpj e o input_razao_social com base no item anterior
                                             $.ajax({
@@ -331,7 +328,6 @@ document.getElementById("btnDespesa").onclick = function () {
                                                         idEmpregado =
                                                             response[0]
                                                                 .id_empregado;
-
                                                         $(
                                                             "#input_cpf_cnpj"
                                                         ).val(
@@ -344,7 +340,6 @@ document.getElementById("btnDespesa").onclick = function () {
                                                             response[0]
                                                                 .nome_empregado
                                                         );
-
                                                         $(
                                                             "#fk_empregado_fornecedor"
                                                         ).attr(
@@ -352,7 +347,6 @@ document.getElementById("btnDespesa").onclick = function () {
                                                             response[0]
                                                                 .id_empregado
                                                         );
-
                                                         $("#Cnpj_Cpf").val("");
                                                         $("#modal-busca").modal(
                                                             "hide"
@@ -380,7 +374,7 @@ document.getElementById("btnDespesa").onclick = function () {
 
 var id_button_item = 0;
 var totalItens = 0;
-var valorTotal = 0;
+var valorTotalDespesa = 0;
 var valorRemovido = 0;
 
 var moeda = $("#moeda").val();
@@ -453,22 +447,21 @@ $("#Prod").click(function () {
 
         // soma de todos os valores dos items
         Number(valorFormatado);
-        Number(valorTotal);
         Number(quanti);
 
-        valorTotal = valorTotal + valorFormatado * quanti;
+        valorTotalDespesa = valorTotalDespesa + valorFormatado * quanti;
         $("#valorTotal").attr("readonly", true);
 
         //verificar campo vazio!
 
         if (moeda == "REAL") {
-            $("#valorTotal").val(tipoMoeda(valorTotal, "REAL"));
+            $("#valorTotal").val(tipoMoeda(valorTotalDespesa, "REAL"));
         }
         if (moeda == "DOLAR") {
-            $("#valorTotal").val(tipoMoeda(valorTotal, "DOLAR"));
+            $("#valorTotal").val(tipoMoeda(valorTotalDespesa, "DOLAR"));
         }
         if (moeda == "EURO") {
-            $("#valorTotal").val(tipoMoeda(valorTotal, "EURO"));
+            $("#valorTotal").val(tipoMoeda(valorTotalDespesa, "EURO"));
         }
     }
 });
@@ -482,7 +475,7 @@ function removeItem(id) {
     //subtrai 1 ao total de itens
     totalItens--;
 
-    valorTotal = valorTotal - valorRemovido * qtdItems;
+    valorTotalDespesa = valorTotalDespesa - valorRemovido * qtdItems;
 
     //verifica quantos itens existem na table e modifica o campo valorTotal para readonly caso seja difernte de 0
     if (totalItens == 0) {
@@ -493,210 +486,7 @@ function removeItem(id) {
 
     $(`#tab${id}`).remove();
     $(`#input_generated_itens${id}`).remove();
-    $("#valorTotal").val(tipoMoeda(valorTotal, moeda));
-}
-
-//Buscar condição de pagamento no banco de dados com requisição via AJAX
-$.ajax({
-    type: "GET",
-    url: `/condicao_pagamento`,
-    dataType: "json",
-})
-    .done(function (response) {
-        //traz os resultados do banco para uma div hidden
-        $.each(response, function (key, val) {
-            if (val.id_condicao_pagamento != 9) {
-                $("#itens_tipo_pagamento")
-                    .append(
-                        `<div class="item_condicao_pagamento" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</div>`
-                    )
-                    .hide();
-            }
-        });
-
-        $("#condicao_pagamento").click(function () {
-            $("#itens_tipo_pagamento").show();
-        });
-
-        $(".item_condicao_pagamento").click(function () {
-            $("#condicao_pagamento").val($(this).text());
-            $("#itens_tipo_pagamento").hide();
-
-            var id_tipo_pagamento = $(this).attr("value");
-            //tipos de pagamento  3 = Depósito; 6 = DOC; 7 = TED; 8 == Tranferência;
-            if (
-                id_tipo_pagamento == 3 ||
-                id_tipo_pagamento == 6 ||
-                id_tipo_pagamento == 7 ||
-                id_tipo_pagamento == 8
-            ) {
-                limpaCamposContaBancariaPix();
-                //gera input de conta
-                $("#conta_hidden").append(
-                    "<strong class='remove_conta'>CONTA BANCÁRIA DO FORNECEDOR/EMPREGADO</strong>" +
-                        "<select name='conta_bancaria' onclick='getContaBancaria(this)' class='form-control input-add remove_conta' id='contas_fornecedor'>" +
-                        "<option value='' class='contas_fornecedor_resultado'></option>" +
-                        "</select>"
-                );
-                var endpoint;
-                var url = "/contas-bancarias/";
-
-                tipoDespesa = $("input[name=tipo_despesa]:checked").val();
-
-                if (tipoDespesa == "empregado") {
-                    endpoint = `${idEmpregado}/${tipoDespesa}`;
-                    url = url + endpoint;
-                } else if (tipoDespesa == "fornecedor") {
-                    endpoint = `${idFornecedor}/${tipoDespesa}`;
-                    url = url + endpoint;
-                }
-
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    dataType: "json",
-                }).done(function (response) {
-                    //mostra os resultados da busca em uma div
-                    $.each(response, function (key, val) {
-                        $("#contas_fornecedor").append(
-                            `<option class="contas_fornecedor_resultado" value="${val.id_conta_bancaria}">${val.co_banco} - ${val.de_banco} AG: ${val.nu_agencia} CONTA: ${val.nu_conta}</option>`
-                        );
-                    });
-                });
-
-                //botão modal de conta bancaria
-                $("#modal_conta").append(
-                    `<strong class="remove_btn_modal">ADICIONAR CONTA BANCÁRIA</strong>` +
-                        `<div class="remove_btn_modal">
-                        <button type="button" onclick="adicionaContaBancaria()" id="btn_modal_conta" class="btn btn-primary remove_btn_modal" data-bs-toggle="modal" data-bs-target="#modal_conta_bancaria" style="padding: 8px 12px;">
-                        <i class="bi bi-plus"></i>
-                        </button>
-                    </div>`
-                );
-                //tipo de pagamento 2 = pix
-            } else if (id_tipo_pagamento == 2) {
-                limpaCamposContaBancariaPix();
-
-                $("#conta_hidden").append(
-                    "<strong class='remove_conta'>PIX DO FORNECEDOR</strong>" +
-                        "<select onclick='getPix(this)' class='form-control input-add remove_pix' id='pix_fornecedor'>" +
-                        "<option value='' class='pix_fornecedor_resultado'></option>" +
-                        "</select>"
-                );
-                tipoDespesa = $("input[name=tipo_despesa]:checked").val();
-
-                if (tipoDespesa == "fornecedor") {
-                    $.ajax({
-                        type: "GET",
-                        url: `/pix/fornecedor/${idFornecedor}`,
-                        dataType: "json",
-                    })
-                        .done(function (response) {
-                            if (response.length == 0) {
-                                $("#pix_fornecedor").empty();
-                                $("#pix_fornecedor").append(
-                                    `<option selected class="" value="">Nenhum pix cadastrado </option>`
-                                );
-                            } else {
-                                $("#pix_fornecedor").empty();
-                                $.each(response, function (key, val) {
-                                    $("#pix_fornecedor").append(
-                                        `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
-                                    );
-                                });
-                            }
-                        })
-                        .fail(function (response) {
-                            swal({
-                                title: "Atenção",
-                                text: "Não foi possível buscar os PIX",
-                                icon: "warning",
-                                button: "OK",
-                            });
-                        });
-                } else {
-                    // [REGRA DE NEGOCIO]-> não exite uma definição para o pix do empregado
-                    // ajax de busca do pix do empregado
-                    $.ajax({
-                        type: "GET",
-                        url: `/pix/empregado/${idEmpregado}`,
-                        dataType: "json",
-                    })
-                        .done(function (response) {
-                            if (response.length == 0) {
-                                $("#pix_fornecedor").empty();
-                                $("#pix_fornecedor").append(
-                                    `<option selected class="" value="">Nenhum pix cadastrado </option>`
-                                );
-                            } else {
-                                $("#pix_fornecedor").empty();
-                                $.each(response, function (key, val) {
-                                    $("#pix_fornecedor").append(
-                                        `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
-                                    );
-                                });
-                            }
-                        })
-                        .fail(function (response) {
-                            swal({
-                                title: "Atenção",
-                                text: "Não foi possível buscar os PIX",
-                                icon: "warning",
-                                button: "OK",
-                            });
-                        });
-                }
-
-                //botão do modal de conta pix
-                $("#modal_conta").append(
-                    `<strong class="remove_btn_modal">ADICIONAR PIX</strong>` +
-                        `<div class="remove_btn_modal">
-                        <button type="button" onclick="adicionaPix()" id="btn_modal_conta" class="btn btn-primary remove_btn_modal" data-bs-toggle="modal" data-bs-target="#modal_pix" style="padding: 8px 12px;">
-                        <i class="bi bi-plus"></i>
-                        </button>
-                    </div>`
-                );
-            } else {
-                limpaCamposContaBancariaPix();
-            }
-            //faz a requisição ajax para buscar tipo de classificação
-        });
-    })
-    .fail(function () {
-        console.log("erro na requisição Ajax");
-    });
-
-// limpa campos de conta bancaria e pix
-function limpaCamposContaBancariaPix() {
-    $(".remove_btn_modal").remove();
-    $(".remove_conta").remove();
-    $(".remove_pix").remove();
-    $("#contas_fornecedor").empty();
-    $("#pix_fornecedor").empty();
-    $("#numero_pix").attr("value", "");
-    $("#numero_conta_bancaria").attr("value", "");
-}
-
-// nao esta funcionado o limpaCamposContaPix
-function limpaCamposContaPix() {
-    $("#option_Pix").remove();
-}
-
-$("#form_despesa").submit(function (event) {
-    if ($("#condicao_pagamento").val() == "") {
-        swal({
-            title: "Atenção",
-            text: "Selecione a condição de pagamento",
-            icon: "warning",
-            button: "OK",
-        });
-        event.preventDefault();
-    }
-});
-
-function limpaCamposDespesaJuridica() {
-    $(".remove_processo").remove();
-    $("input[name=numero_processo]").attr("value", "");
+    $("#valorTotal").val(tipoMoeda(valorTotalDespesa, moeda));
 }
 
 //adiciona delay nos campos de pesquisa
@@ -712,99 +502,7 @@ function delay(callback, ms) {
     };
 }
 
-function getPix(object) {
-    $("input[name=numero_pix]").attr("value", object.value);
+function limpaCamposDespesaJuridica() {
+    $(".remove_processo").remove();
+    $("input[name=numero_processo]").attr("value", "");
 }
-
-function getContaBancaria(object) {
-    $("input[name=numero_conta_bancaria]").attr("value", object.value);
-}
-
-function getProcesso(object) {
-    $("input[name=numero_processo]").attr("value", object.value);
-}
-
-$("#dt_emissao").on("change", function () {
-    var dateObj = $("#dt_emissao").val();
-
-    var dataDividida = dateObj.split("-");
-    var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
-    var now = new Date();
-    var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-    if (data > dataAtual) {
-        $(this).css({ color: "red" });
-        $("#erro_dt_emissao")
-            .html("Data de emissão maior que a data atual")
-            .css({ color: "red", fontStyle: "italic" });
-        $("#dt_emissao").focus();
-    } else {
-        $("#erro_dt_emissao").html("");
-        $(this).css({ color: "black" });
-    }
-});
-var id_item_Doc = 0;
-
-$("#buscaDocumento").click(function () {
-    if (!$("#buscaDocumento").val() != "") {
-        $.each(respostaDocumento, function (key, val) {
-            console.log(respostaDocumento);
-            $("#buscaDocumento").append(
-                `<option class="itemDocumento" value="${val.id_tipo_documento}">${val.de_tipo_documento}</option>`
-            );
-        });
-    }
-});
-
-$("#btnAddDoc").click(function () {
-    $("#buscaDocumento").text();
-    // var descricao_documento = $("#buscaDocumento").val();
-    var descricao_documento = $("#buscaDocumento option:selected").text();
-    var id_documento = $("#buscaDocumento option:selected").val();
-    $(`#id_numero_documento${id_item_Doc + 1}`).attr("value", id_documento);
-    if (id_item_Doc < 3 && id_documento != 14) {
-        $("#inputDadosDoc").append(
-            `<div class="d-flex" style="width: 100%" id="${id_documento}" > ` +
-                `<div class="px-5 mb-3">` +
-                `<strong>${descricao_documento}</strong>` +
-                `<input type="text" id="numero_${id_item_Doc}" class="form-control input-add" />` +
-                `</div>` +
-                `</div>`
-        );
-    } else if (id_item_Doc < 3 && id_documento == 14) {
-        $("#inputDadosDoc").append(
-            `<div class="d-flex" style="width: 100%" id="${id_documento}" > ` +
-                `<div class="px-5 mb-3">` +
-                `<strong>${descricao_documento}</strong>` +
-                `<input type="text" id="numero_${
-                    id_item_Doc + 1
-                }" class="form-control input-add" />` +
-                `</div>` +
-                `<div class="px-5 mb-3">` +
-                `<strong>Serie</strong>` +
-                `<input type="text" id="id_documento_${id_item_Doc}" class="form-control input-add" />` +
-                `</div>` +
-                `</div>`
-        );
-    } else {
-        swal({
-            title: "Numero maximo de documento",
-            text: "Não é permitido adicionar mais itens",
-            icon: "warning",
-            button: "OK",
-        });
-    }
-    id_item_Doc++;
-
-    $(`#numero_0`).on("blur", function () {
-        $(`#numero_documento1`).attr("value", $("#numero_0").val());
-    });
-
-    $(`#numero_1`).on("blur", function () {
-        $(`#numero_documento2`).attr("value", $("#numero_1").val());
-    });
-
-    $(`#numero_2`).on("blur", function () {
-        $(`#numero_documento3`).attr("value", $("#numero_2").val());
-    });
-});

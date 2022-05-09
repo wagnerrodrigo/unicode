@@ -225,12 +225,12 @@
                             <div class="d-flex mt-10">
                                 <div class="px-5 " style="padding: 8px 12px;">
                                     <strong for="input_parcela form-check-primary">NÃO</strong>
-                                    <input class="form-check-input" checked type="radio" name="tipo_parcela" id="tipo_parcela" value="nao">
+                                    <input class="form-check-input" checked type="radio" name="tipo_parcela" id="parcela_variavel" value="nao">
                                 </div>
 
                                 <div class="px-5" style="padding: 8px 12px;">
                                     <strong for="input_parcela_sim">SIM</strong>
-                                    <input class="form-check-input" type="radio" name="tipo_parcela" id="tipo_parcela" value="sim">
+                                    <input class="form-check-input" type="radio" name="tipo_parcela" id="parcela_fixa" value="sim">
                                 </div>
                             </div>
                         </div>

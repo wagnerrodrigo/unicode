@@ -28,7 +28,8 @@ class Lancamento extends Model
             $lancamentos = $query->where('intranet.tab_despesa.fk_status_despesa_id', '=', $status_despesa_id)
                 ->paginate(10);
         } else {
-            $lancamentos = $query->where('intranet.tab_despesa.fk_status_despesa_id', '=', 6)
+            $lancamentos = $query->where('intranet.tab_despesa.fk_tab_centro_custo_id', '!=', null)
+                ->where('intranet.tab_despesa.fk_status_despesa_id', '=', 6)
                 ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)->orderBy('intranet.status_despesa.de_status_despesa', 'asc')
                 ->paginate($results);
         }

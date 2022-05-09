@@ -252,24 +252,6 @@
                                         <input type="date" required class="form-control input-add" value="{{ $parcela->dt_provisionamento }}" id="data_provisionamento" name="data_provisionamento" style="width: 358px" />
                                         <span id="erro_dt_emissao"></span>
                                     </div>
-
-                                    <div class="px-5 mb-3">
-                                        <strong>CONDIÇÃO PAGAMENTO</strong>
-                                        <select required class="form-control input-add teste"  name="tipo_pagamento" id="condicao_pagamento">
-                                            <option selected value=""></option>
-                                        </select>
-
-                                    </div>
-                                </div>
-
-                                <div class="d-flex" style="width: 100%">
-                                    <div class="px-5 mb-3" id="conta_hidden">
-                                        <!-- CAMPO DE CONTA BANCARIA E PIX -->
-                                    </div>
-
-                                    <div class="px-5 mb-3" id="modal_conta">
-                                        <!-- BUTTON MODAL -->
-                                    </div>
                                 </div>
                         </div>
 
@@ -287,293 +269,68 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- fim modal -->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script>
+            $("#dt_emissao").on("change", function() {
+                var dateObj = $("#dt_emissao").val();
 
-    <script>
-        $("#dt_emissao").on("change", function() {
-            var dateObj = $("#dt_emissao").val();
+                var dataDividida = dateObj.split("-");
+                var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
+                var now = new Date();
+                var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-            var dataDividida = dateObj.split("-");
-            var data = new Date(dataDividida[0], dataDividida[1] - 1, dataDividida[2]);
-            var now = new Date();
-            var dataAtual = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-            if (data > dataAtual) {
-                $(this).css({
-                    color: "red"
-                });
-                $("#erro_dt_emissao")
-                    .html("Data de emissão maior que a data atual")
-                    .css({
-                        color: "red",
-                        fontStyle: "italic"
+                if (data > dataAtual) {
+                    $(this).css({
+                        color: "red"
                     });
-                $("#btnSalvar").attr("disabled", true);
-                $("#dt_emissao").focus();
-            } else {
-                $("#erro_dt_emissao").html("");
-                $(this).css({
-                    color: "black"
-                });
-                $("#btnSalvar").attr("disabled", false);
-            }
-        });
-    </script>
+                    $("#erro_dt_emissao")
+                        .html("Data de emissão maior que a data atual")
+                        .css({
+                            color: "red",
+                            fontStyle: "italic"
+                        });
+                    $("#btnSalvar").attr("disabled", true);
+                    $("#dt_emissao").focus();
+                } else {
+                    $("#erro_dt_emissao").html("");
+                    $(this).css({
+                        color: "black"
+                    });
+                    $("#btnSalvar").attr("disabled", false);
+                }
+            });
 
-    <script>
-        var valor = document.getElementById("tipo_documento").value;
-        window.onload = removeOption(valor);
+            var valor = document.getElementById("tipo_documento").value;
+            window.onload = removeOption(valor);
 
-        function removeOption(value) {
-            var select = document.getElementById("tipo_documento");
+            function removeOption(value) {
+                var select = document.getElementById("tipo_documento");
 
-            var i = select.options.length;
-            while (i--) {
-                if (select.options[i].value == value) {
-                    if (document.getElementById('tipo_documento').options[i].getAttribute('selected') == null) {
-                        select.remove(i);
+                var i = select.options.length;
+                while (i--) {
+                    if (select.options[i].value == value) {
+                        if (document.getElementById('tipo_documento').options[i].getAttribute('selected') == null) {
+                            select.remove(i);
+                        }
                     }
                 }
             }
-        }
-    </script>
 
-    <script>
-        //Buscar condição de pagamento no banco de dados com requisição via AJAX
-        var tipoDespesa = document.getElementById("tipo_despesa").value;
-        $.ajax({
-                type: "GET",
-                url: `/condicao_pagamento`,
-                dataType: "json",
-            })
-            .done(function(response) {
-                //traz os resultados do banco para uma div hidden
-                $.each(response, function(key, val) {
-                    if (val.id_condicao_pagamento != 9) {
-                        $("#condicao_pagamento")
-                            .append(
-                                `<option class="item_condicao_pagamento" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</option>`
-                            )
-                    }
-                });
-
-                $("#condicao_pagamento").change(function() {
-                    var id_tipo_pagamento = $(this).val();
-
-                    //tipos de pagamento  3 = Depósito; 6 = DOC; 7 = TED; 8 == Tranferência;
-
-
-                    if (
-                        id_tipo_pagamento == 3 ||
-                        id_tipo_pagamento == 6 ||
-                        id_tipo_pagamento == 7 ||
-                        id_tipo_pagamento == 8
-                    ) {
-                        alert('sou um deposito');
-                        limpaCamposContaBancariaPix();
-                        //gera input de conta
-                        $("#conta_hidden").append(
-                            "<strong class='remove_conta'>CONTA BANCÁRIA DO FORNECEDOR/EMPREGADO</strong>" +
-                            "<select name='conta_bancaria' onclick='getContaBancaria(this)' class='form-control input-add remove_conta' id='contas_fornecedor'>" +
-                            "<option value='' class='contas_fornecedor_resultado'></option>" +
-                            "</select>"
-                        );
-                        var endpoint;
-                        var url = "/contas-bancarias/";
-
-
-
-                        if (tipoDespesa == 1) {
-                            let idEmpregado = document.getElementById("id_empregado").value; ;
-                            endpoint = `${idEmpregado}/empregado`;
-                            url = url + endpoint;
-                        } else if (tipoDespesa == 2) {
-                            let idFornecedor = document.getElementById("id_fornecedor").value; ;
-                            endpoint = `${idFornecedor}/fornecedor`;
-                            url = url + endpoint;
-                        }
-
-                        $.ajax({
-                            type: "GET",
-                            url: url,
-                            dataType: "json",
-                        }).done(function(response) {
-                            //mostra os resultados da busca em uma div
-                            $.each(response, function(key, val) {
-                                $("#contas_fornecedor").append(
-                                    `<option class="contas_fornecedor_resultado" value="${val.id_conta_bancaria}">${val.co_banco} - ${val.de_banco} AG: ${val.nu_agencia} CONTA: ${val.nu_conta}</option>`
-                                );
-                            });
-                        });
-
-                        //botão modal de conta bancaria
-                        $("#modal_conta").append(
-                            `<strong class="remove_btn_modal">ADICIONAR CONTA BANCÁRIA</strong>` +
-                            `<div class="remove_btn_modal">
-                        <button type="button" onclick="adicionaContaBancaria()" id="btn_modal_conta" class="btn btn-primary remove_btn_modal" data-bs-toggle="modal" data-bs-target="#modal_conta_bancaria" style="padding: 8px 12px;">
-                        <i class="bi bi-plus"></i>
-                        </button>
-                    </div>`
-                        );
-                        //tipo de pagamento 2 = pix
-                    } else if (id_tipo_pagamento == 2) {
-                        limpaCamposContaBancariaPix();
-
-                        $("#conta_hidden").append(
-                            "<strong class='remove_conta'>PIX DO FORNECEDOR</strong>" +
-                            "<select onclick='getPix(this)' class='form-control input-add remove_pix' id='pix_fornecedor'>" +
-                            "<option value='' class='pix_fornecedor_resultado'></option>" +
-                            "</select>"
-                        );
-
-
-                        if (tipoDespesa == 2) {
-                            $.ajax({
-                                    type: "GET",
-                                    url: `/pix/fornecedor/${idFornecedor}`,
-                                    dataType: "json",
-                                })
-                                .done(function(response) {
-                                    if (response.length == 0) {
-                                        $("#pix_fornecedor").empty();
-                                        $("#pix_fornecedor").append(
-                                            `<option selected class="" value="">Nenhum pix cadastrado </option>`
-                                        );
-                                    } else {
-                                        $("#pix_fornecedor").empty();
-                                        $.each(response, function(key, val) {
-                                            $("#pix_fornecedor").append(
-                                                `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
-                                            );
-                                        });
-                                    }
-                                })
-                                .fail(function(response) {
-                                    swal({
-                                        title: "Atenção",
-                                        text: "Não foi possível buscar os PIX",
-                                        icon: "warning",
-                                        button: "OK",
-                                    });
-                                });
-                        } else {
-                            // [REGRA DE NEGOCIO]-> não exite uma definição para o pix do empregado
-                            // ajax de busca do pix do empregado
-                            $.ajax({
-                                    type: "GET",
-                                    url: `/pix/empregado/${idEmpregado}`,
-                                    dataType: "json",
-                                })
-                                .done(function(response) {
-                                    if (response.length == 0) {
-                                        $("#pix_fornecedor").empty();
-                                        $("#pix_fornecedor").append(
-                                            `<option selected class="" value="">Nenhum pix cadastrado </option>`
-                                        );
-                                    } else {
-                                        $("#pix_fornecedor").empty();
-                                        $.each(response, function(key, val) {
-                                            $("#pix_fornecedor").append(
-                                                `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
-                                            );
-                                        });
-                                    }
-                                })
-                                .fail(function(response) {
-                                    swal({
-                                        title: "Atenção",
-                                        text: "Não foi possível buscar os PIX",
-                                        icon: "warning",
-                                        button: "OK",
-                                    });
-                                });
-                        }
-
-                        //botão do modal de conta pix
-                        $("#modal_conta").append(
-                            `<strong class="remove_btn_modal">ADICIONAR PIX</strong>` +
-                            `<div class="remove_btn_modal">
-                        <button type="button" onclick="adicionaPix()" id="btn_modal_conta" class="btn btn-primary remove_btn_modal" data-bs-toggle="modal" data-bs-target="#modal_pix" style="padding: 8px 12px;">
-                        <i class="bi bi-plus"></i>
-                        </button>
-                    </div>`
-                        );
-                    } else {
-                        limpaCamposContaBancariaPix();
-                    }
-                });
-
-                // $(".item_condicao_pagamento").click(function() {
-                //     $("#condicao_pagamento").val($(this).text());
-
-                //     console.log($(this).text());
-
-
-                //     //faz a requisição ajax para buscar tipo de classificação
-                // });
-            })
-            .fail(function() {
-                console.log("erro na requisição Ajax");
-            });
-
-        // limpa campos de conta bancaria e pix
-        function limpaCamposContaBancariaPix() {
-            $(".remove_btn_modal").remove();
-            $(".remove_conta").remove();
-            $(".remove_pix").remove();
-            $("#contas_fornecedor").empty();
-            $("#pix_fornecedor").empty();
-            $("#numero_pix").attr("value", "");
-            $("#numero_conta_bancaria").attr("value", "");
-        }
-
-        // nao esta funcionado o limpaCamposContaPix
-        function limpaCamposContaPix() {
-            $("#option_Pix").remove();
-        }
-
-        $("#form_despesa").submit(function(event) {
-            if ($("#condicao_pagamento").val() == "") {
-                swal({
-                    title: "Atenção",
-                    text: "Selecione a condição de pagamento",
-                    icon: "warning",
-                    button: "OK",
-                });
-                event.preventDefault();
+            //adiciona delay nos campos de pesquisa
+            function delay(callback, ms) {
+                var timer = 0;
+                return function() {
+                    var context = this,
+                        args = arguments;
+                    clearTimeout(timer);
+                    timer = setTimeout(function() {
+                        callback.apply(context, args);
+                    }, ms || 0);
+                };
             }
-        });
-
-        function limpaCamposDespesaJuridica() {
-            $(".remove_processo").remove();
-            $("input[name=numero_processo]").attr("value", "");
-        }
-
-        //adiciona delay nos campos de pesquisa
-        function delay(callback, ms) {
-            var timer = 0;
-            return function() {
-                var context = this,
-                    args = arguments;
-                clearTimeout(timer);
-                timer = setTimeout(function() {
-                    callback.apply(context, args);
-                }, ms || 0);
-            };
-        }
-
-        function getPix(object) {
-            $("input[name=numero_pix]").attr("value", object.value);
-        }
-
-        function getContaBancaria(object) {
-            $("input[name=numero_conta_bancaria]").attr("value", object.value);
-        }
-    </script>
+        </script>
 
 
-    @endsection
+        @endsection

@@ -4,8 +4,11 @@ var numeroParcelas = document.getElementById("numero_parcelas");
 var parcelasGeradas = document.getElementById("parcelas_geradas");
 var parcelasGeradasHidden = document.getElementById("hidden_inputs_parcelas");
 
+var parcelaFixa = parcela[1];
+
 var now = new Date();
 var today = now.toISOString();
+console.log(today);
 var todayWithouthTime = today.split("T")[0];
 
 
@@ -17,7 +20,7 @@ function geraParcelas(valorTotal, numeroParcelas) {
     valorTotal = valorTotal.value.replace(/\./g, "").replace(",", ".");
     if (numeroParcelas.value > 0 && valorTotal > 0) {
         for (let i = 0; i < numeroParcelas.value; i++) {
-            if (parcela[0].checked) {
+            if (!parcelaFixa.checked) {
                 parcelasGeradas.innerHTML += `
                 <div class="form-group d-flex">
                     <div>
@@ -63,11 +66,6 @@ function atribuiValorAParcelaGerada() {
     );
 
     var valorTotalParcelas = 0;
-    console.log(datasParcelasGeradas);
-    console.log(parcelasGeradasHidden);
-    console.log(parcelasGeradas);
-    console.log(datasParcelasGeradasHidden);
-    console.log(valorTotalDespesa);
 
     for (let i = 0; i < parcelasGeradas.length; i++) {
         parcelasGeradasHidden = document.getElementById(
@@ -82,8 +80,6 @@ function atribuiValorAParcelaGerada() {
         valorTotalParcelas += parseFloat(parcelasGeradas[i].value);
     }
     if (valorTotalParcelas != valorTotalDespesa) {
-        console.log(valorTotalParcelas);
-        console.log(valorTotalDespesa);
         swal({
             title: "Valor total das parcelas é diferente do valor total da despesa!",
             text: "Por favor, verifique os valores das parcelas!",

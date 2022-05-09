@@ -231,18 +231,17 @@ class Despesa extends Model
                 "=",
                 "tab_plano_contas.fk_tab_clasificacao_contabil_id"
             )->join(
-                    "intranet.tab_centro_custo",
-                    "intranet.tab_centro_custo.id_centro_custo",
-                    "=",
-                    "intranet.tab_despesa.fk_tab_centro_custo_id"
-                )
-                ->join(
-                    "intranet.tab_departamento",
-                    "intranet.tab_departamento.id_departamento",
-                    "=",
-                    "intranet.tab_centro_custo.fk_tab_departamento"
-                );
-        }else{
+                "intranet.tab_centro_custo",
+                "intranet.tab_centro_custo.id_centro_custo",
+                "=",
+                "intranet.tab_despesa.fk_tab_centro_custo_id"
+            )->join(
+                "intranet.tab_departamento",
+                "intranet.tab_departamento.id_departamento",
+                "=",
+                "intranet.tab_centro_custo.fk_tab_departamento"
+            );
+        } else {
             $query = DB::table('intranet.tab_despesa')->join(
                 'intranet.status_despesa',
                 'intranet.status_despesa.id_status_despesa',
