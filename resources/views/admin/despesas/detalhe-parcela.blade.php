@@ -77,7 +77,7 @@
                             <div>
                                 <strong>DATA DE EMISSÃO</strong>
                             </div>
-                            <span>{{ $despesa->dt_inicio == null ? 'NÃO CADASTRADO' : date('d/m/Y', strtotime($despesa->dt_inicio))}}</span>
+                            <span>{{ date('d/m/Y', strtotime($parcela->dt_emissao))}}</span>
                         </div>
                     </div>
                 </div>
