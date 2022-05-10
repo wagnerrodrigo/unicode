@@ -92,7 +92,7 @@
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
                             <strong>TITULO</strong>
-                            <input required name="titulo_despesa" maxlength="100" class="form-control input-busca"></input>
+                            <input required id="titulo" name="titulo_despesa" maxlength="100" class="form-control input-busca"></input>
                         </div>
                     </div>
 
@@ -249,7 +249,7 @@
                     <br />
                     <br />
 
-                    <div id="parcelas_geradas">
+                    <div id="parcelas_geradas" class="flex-column">
 
                     </div>
 
@@ -309,7 +309,7 @@
 
                     <div>
                         <span>VALOR TOTAL: </span>
-                        <input class="input-add" id="modal_valor_total" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple; margin-right:20px">
+                        <input class="input-add" id="modal_valor_total" value="" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple; margin-right:20px">
 
                         <span>VALOR RATEADO: </span>
                         <input class="input-add" id="modal_valor_rateado" name="modal_valor_rateado" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple">
@@ -372,12 +372,6 @@
 
 
 <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
-<script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
-
-<script src="{{ asset('assets/js/vendors.js') }}"></script>
-
-<script src="{{ asset('assets/js/main.js') }}"></script>
-
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
 
@@ -443,6 +437,80 @@
         } else {
             erro.innerHTML = '';
         }
+    }
+
+
+    function validaForm() {
+        var dadoEmpresa = document.getElementById("busca_empresa");
+        var dadoCPFCNPJ = document.getElementById("input_cpf_cnpj");
+        var dadoClassificacao = document.getElementById("classificacao_con");
+        var dadoTipoClassificacao = document.getElementById("tipo_classificacao");
+        var dadoTitulo = document.getElementById("titulo");
+        var error = true;
+
+        if (
+            dadoEmpresa.value == '' ||
+            dadoEmpresa.value == null ||
+            dadoEmpresa.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma empresa",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        } else if (
+            dadoCPFCNPJ.value == '' ||
+            dadoCPFCNPJ.value == null ||
+            dadoCPFCNPJ.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma empresa ou funcionário",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        } else if (
+            dadoTipoClassificacao.value == '' ||
+            dadoTipoClassificacao.value == null ||
+            dadoTipoClassificacao.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma empresa ou funcionário",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        } else if (
+            dadoClassificacao.value == '' ||
+            dadoClassificacao.value == null ||
+            dadoClassificacao.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma classificação",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        } else if (
+            dadoTitulo.value == '' ||
+            dadoTitulo.value == null ||
+            dadoTitulo.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Preencha o título",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        }
+        error = false;
+        return error;
     }
 </script>
 

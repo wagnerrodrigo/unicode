@@ -261,10 +261,11 @@ function removeRateio(id, valorRateado, centro_custo) {
 }
 
 //adiciona valor total ao input acima do modal de rateio
-$("#adicionar_rateio").click(function () {
-    var valorTotal = $("#valorTotal").val();
-    $("#modal_valor_total").val(valorTotal);
-});
+function pegaValorDespesa(){
+    var valorTotalDaDespesa = document.getElementById("valorTotal").value;
+    $("#modal_valor_total").attr("value", valorTotalDaDespesa);
+    $("#modal_valor_total").val(valorTotalDaDespesa);
+}
 
 function limpaCamposRateio() {
     $("#rateio_empresa").val("");
@@ -293,7 +294,7 @@ function handleChange(object) {
         rateios.innerHTML +=
             '<div class="d-flex flex-column" id="div_rateio_gerado" style="width: 100%;" > ' +
             '<div class="px-5" style="padding: 8px 12px;">' +
-            '<button class="btn btn-primary" id="adicionar_rateio" type="button" data-bs-toggle="modal" data-bs-target="#xrateio" style="padding: 8px 12px;"><i class="bi bi-plus"></i></button>' +
+            '<button class="btn btn-primary" id="adicionar_rateio" onclick="pegaValorDespesa()" type="button" data-bs-toggle="modal" data-bs-target="#xrateio" style="padding: 8px 12px;"><i class="bi bi-plus"></i></button>' +
             "</div>" +
             '<div class="px-5 mb-3">' +
             '<div class="table-responsive">' +

@@ -175,32 +175,7 @@ class Despesa extends Model
     static function findOne($id, $tipoDespesa = null, $centroCusto = null)
     {
         if ($centroCusto) {
-            $query = DB::table('intranet.tab_despesa')->select(
-                "tab_despesa.id_despesa",
-                "tab_despesa.fk_tab_centro_custo_id",
-                "tab_despesa.fk_tab_tipo_despesa_id",
-                "tab_despesa.fk_empresa_id",
-                "tab_despesa.fk_plano_contas",
-                "tab_despesa.fk_status_despesa_id",
-                "tab_despesa.fk_tab_fornecedor_id",
-                "tab_despesa.fk_tab_empregado_id",
-                "tab_plano_contas.fk_tab_clasificacao_contabil_id",
-                "tab_plano_contas.fk_tab_de_plano_contas",
-                "tab_despesa.qt_parcelas_despesa",
-                "tab_despesa.valor_total_despesa",
-                "tab_despesa.dt_inicio",
-                "tab_despesa.dt_fim",
-                "tab_despesa.de_despesa",
-                "status_despesa.de_status_despesa",
-                "tab_tipo_despesa.de_tipo_despesa",
-                "tab_empresa.de_empresa",
-                "tab_empresa.regiao_empresa",
-                "de_plano_contas.de_plano_contas",
-                "tab_clasificacao_contabil.de_clasificacao_contabil",
-                "tab_empregado.nome_empregado",
-                "tab_empregado.nu_cpf_cnpj",
-                "tab_departamento.de_departamento",
-            )->join(
+            $query = DB::table('intranet.tab_despesa')->join(
                 'intranet.status_despesa',
                 'intranet.status_despesa.id_status_despesa',
                 '=',
