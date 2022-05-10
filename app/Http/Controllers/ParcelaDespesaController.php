@@ -32,7 +32,7 @@ class ParcelaDespesaController extends Controller
 
         $tipo = TipoDespesa::class;
         foreach($despesaRepository->findTipoECentroCustoDespesa($parcela->fk_despesa) as $tipoDespesa){}
-        foreach($despesaRepository->getExpenseById($parcela->fk_despesa, $tipoDespesa->fk_tab_tipo_despesa_id) as $despesa){}
+        foreach($despesaRepository->getExpenseById($parcela->fk_despesa, $tipoDespesa->fk_tab_tipo_despesa_id, $tipoDespesa->fk_tab_centro_custo_id) as $despesa){}
 
         return view('admin.despesas.detalhe-parcela', compact('parcela', 'despesa', 'tipo', 'rateios', 'mascara'));
     }

@@ -58,7 +58,7 @@
                             <div>
                                 <strong>CENTRO DE CUSTO</strong>
                             </div>
-                            <span>{{ $despesa->de_departamento ?? 'NÃO CADASTRADO'}}</span>
+                            <span>{{ $despesa->fk_tab_centro_custo_id ? $despesa->de_departamento : 'NÃO CADASTRADO'}}</span>
                         </div>
                     </div>
                 </div>
