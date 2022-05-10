@@ -309,7 +309,7 @@
 
                     <div>
                         <span>VALOR TOTAL: </span>
-                        <input class="input-add" id="modal_valor_total" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple; margin-right:20px">
+                        <input class="input-add" id="modal_valor_total" value="" name="modal_valor_total" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple; margin-right:20px">
 
                         <span>VALOR RATEADO: </span>
                         <input class="input-add" id="modal_valor_rateado" name="modal_valor_rateado" readonly style="width: 120px; border-radius: 3px; border: 1px solid purple">
