@@ -13,6 +13,7 @@ adicionar_parcela.onclick = () => geraParcelas(valorTotal, numeroParcelas);
 function geraParcelas(valorTotal, numeroParcelas) {
     valorTotal = valorTotal.value.replace(/\./g, "").replace(",", ".");
     if (numeroParcelas.value > 0 && valorTotal > 0) {
+        removeItens();
         for (let i = 0; i < numeroParcelas.value; i++) {
             if (!parcelaFixa.checked) {
                 parcelasGeradas.innerHTML +=
@@ -77,6 +78,13 @@ function geraParcelas(valorTotal, numeroParcelas) {
                     }" value="">`;
             }
         }
+    }else{
+        swal({
+            title: "Atenção",
+            text: "Verifique o numero de parcelas e o valor total",
+            icon: "warning",
+            button: "Fechar",
+        });
     }
 }
 
@@ -144,7 +152,10 @@ function atribuiValorAParcelaGerada() {
     }
 }
 
-function removeItens() {}
+function removeItens() {
+    $("#parcelas_geradas").empty();
+    $("#hidden_inputs_parcelas").empty();
+}
 
 function geraDataVencimentoParcelas(parcela) {
     var now = new Date();

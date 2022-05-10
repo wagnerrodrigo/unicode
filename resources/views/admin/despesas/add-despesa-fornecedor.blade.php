@@ -327,7 +327,6 @@
                             <div id="results_rateio_empresa" class="resultado-busca-rateio"></div>
                         </div>
                     </div>
-                    <div class="date"></div>
 
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
