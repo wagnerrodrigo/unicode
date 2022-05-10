@@ -159,7 +159,7 @@ class ContaBancariaController extends Controller
     }
 
     public function showByIdFornecedorEmpregado($id, $tipoDespesa)
-    {
+    {// pegar o tipodespesa no copor da requisição se tiver empregado ou fornecedor
         if ($tipoDespesa == 'empregado') {
             $conta = ContaBancaria::getContaBancariaEmpregado($id);
         }

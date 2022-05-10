@@ -158,9 +158,10 @@ class LancamentoController extends Controller
     public function provisionamento($id)
     {
         $despesaRepository = new DespesaRepository();
-        $despesa = $despesaRepository->findInfosDespesa($id);
+        $dadosDespesa = $despesaRepository->findTipoECentroCustoDespesa($id);
+        foreach($dadosDespesa as $despesa){}
+        $lancamentos = $despesaRepository->getExpenseById($id, $despesa->fk_tab_tipo_despesa_id);
 
-        $lancamentos = $despesaRepository->getExpenseById($id, $despesa[0]->fk_condicao_pagamento_id, $despesa[0]->fk_tab_tipo_despesa_id);
 
         $mascara = new Mascaras();
 

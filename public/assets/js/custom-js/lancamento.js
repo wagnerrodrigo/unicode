@@ -1,3 +1,6 @@
+var idFornecedor = $("#idFornecedor").val();
+var idEmpregado = $("#idEmpregado").val();
+var tipoDespesa;
 $(document).ready(function () {
     $("#modal_valor_rateado").val("0,00");
 });
@@ -414,3 +417,190 @@ $("#btnConciliacao").click(function () {
         }
     }
 });
+
+
+//Buscar condição de pagamento no banco de dados com requisição via AJAX
+$.ajax({
+    type: "GET",
+    url: `/condicao_pagamento`,
+    dataType: "json",
+})
+    .done(function (response) {
+        //traz os resultados do banco para uma div hidden
+        $.each(response, function (key, val) {
+            if (val.id_condicao_pagamento != 9) {
+                $("#itens_tipo_pagamento")
+                    .append(
+                        `<div class="item_condicao_pagamento" value="${val.id_condicao_pagamento}">${val.de_condicao_pagamento}</div>`
+                    )
+                    .hide();
+            }
+        });
+
+        $("#condicao_pagamento").click(function () {
+            $("#itens_tipo_pagamento").show();
+        });
+
+        $(".item_condicao_pagamento").click(function () {
+            $("#condicao_pagamento").val($(this).text());
+            $("#itens_tipo_pagamento").hide();
+
+            var id_tipo_pagamento = $(this).attr("value");
+            //tipos de pagamento  3 = Depósito; 6 = DOC; 7 = TED; 8 == Tranferência;
+            if (
+                id_tipo_pagamento == 3 ||
+                id_tipo_pagamento == 6 ||
+                id_tipo_pagamento == 7 ||
+                id_tipo_pagamento == 8
+            ) {
+                limpaCamposContaBancariaPix();
+                //gera input de conta
+                $("#conta_hidden").append(
+                    "<strong class='remove_conta'>CONTA BANCÁRIA DO FORNECEDOR/EMPREGADO</strong>" +
+                        "<select name='conta_bancaria' onclick='getContaBancaria(this)' class='form-control input-add remove_conta' id='contas_fornecedor'>" +
+                        "<option value='' class='contas_fornecedor_resultado'></option>" +
+                        "</select>"
+                );
+                var endpoint;
+                var url = "/contas-bancarias/";
+
+                tipoDespesa = $("input[name=tipo_despesa]:checked").val();
+
+                if (tipoDespesa == "empregado") {
+                    endpoint = `${idEmpregado}/${tipoDespesa}`;
+                    url = url + endpoint;
+                } else if (tipoDespesa == "fornecedor") {
+                    endpoint = `${idFornecedor}/${tipoDespesa}`;
+                    url = url + endpoint;
+                }
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    dataType: "json",
+                }).done(function (response) {
+                    //mostra os resultados da busca em uma div
+                    $.each(response, function (key, val) {
+                        $("#contas_fornecedor").append(
+                            `<option class="contas_fornecedor_resultado" value="${val.id_conta_bancaria}">${val.co_banco} - ${val.de_banco} AG: ${val.nu_agencia} CONTA: ${val.nu_conta}</option>`
+                        );
+                    });
+                });
+
+                //botão modal de conta bancaria
+                $("#modal_conta").append(
+                    `<strong class="remove_btn_modal">ADICIONAR CONTA BANCÁRIA</strong>` +
+                        `<div class="remove_btn_modal">
+                        <button type="button" onclick="adicionaContaBancaria()" id="btn_modal_conta" class="btn btn-primary remove_btn_modal" data-bs-toggle="modal" data-bs-target="#modal_conta_bancaria" style="padding: 8px 12px;">
+                        <i class="bi bi-plus"></i>
+                        </button>
+                    </div>`
+                );
+                //tipo de pagamento 2 = pix
+            } else if (id_tipo_pagamento == 2) {
+                limpaCamposContaBancariaPix();
+
+                $("#conta_hidden").append(
+                    "<strong class='remove_conta'>PIX DO FORNECEDOR</strong>" +
+                        "<select onclick='getPix(this)' class='form-control input-add remove_pix' id='pix_fornecedor'>" +
+                        "<option value='' class='pix_fornecedor_resultado'></option>" +
+                        "</select>"
+                );
+                tipoDespesa = $("input[name=tipo_despesa]:checked").val();
+
+                if (tipoDespesa == "fornecedor") {
+                    $.ajax({
+                        type: "GET",
+                        url: `/pix/fornecedor/${idFornecedor}`,
+                        dataType: "json",
+                    })
+                        .done(function (response) {
+                            if (response.length == 0) {
+                                $("#pix_fornecedor").empty();
+                                $("#pix_fornecedor").append(
+                                    `<option selected class="" value="">Nenhum pix cadastrado </option>`
+                                );
+                            } else {
+                                $("#pix_fornecedor").empty();
+                                $.each(response, function (key, val) {
+                                    $("#pix_fornecedor").append(
+                                        `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
+                                    );
+                                });
+                            }
+                        })
+                        .fail(function (response) {
+                            swal({
+                                title: "Atenção",
+                                text: "Não foi possível buscar os PIX",
+                                icon: "warning",
+                                button: "OK",
+                            });
+                        });
+                } else {
+                    // [REGRA DE NEGOCIO]-> não exite uma definição para o pix do empregado
+                    // ajax de busca do pix do empregado
+                    $.ajax({
+                        type: "GET",
+                        url: `/pix/empregado/${idEmpregado}`,
+                        dataType: "json",
+                    })
+                        .done(function (response) {
+                            if (response.length == 0) {
+                                $("#pix_fornecedor").empty();
+                                $("#pix_fornecedor").append(
+                                    `<option selected class="" value="">Nenhum pix cadastrado </option>`
+                                );
+                            } else {
+                                $("#pix_fornecedor").empty();
+                                $.each(response, function (key, val) {
+                                    $("#pix_fornecedor").append(
+                                        `<option class="pix_fornecedor_resultado" value="${val.id_pix}">${val.de_tipo_pix} - ${val.de_pix}</option>`
+                                    );
+                                });
+                            }
+                        })
+                        .fail(function (response) {
+                            swal({
+                                title: "Atenção",
+                                text: "Não foi possível buscar os PIX",
+                                icon: "warning",
+                                button: "OK",
+                            });
+                        });
+                }
+
+                //botão do modal de conta pix
+                $("#modal_conta").append(
+                    `<strong class="remove_btn_modal">ADICIONAR PIX</strong>` +
+                        `<div class="remove_btn_modal">
+                        <button type="button" onclick="adicionaPix()" id="btn_modal_conta" class="btn btn-primary remove_btn_modal" data-bs-toggle="modal" data-bs-target="#modal_pix" style="padding: 8px 12px;">
+                        <i class="bi bi-plus"></i>
+                        </button>
+                    </div>`
+                );
+            } else {
+                limpaCamposContaBancariaPix();
+            }
+            //faz a requisição ajax para buscar tipo de classificação
+        });
+    })
+    .fail(function () {
+        console.log("erro na requisição Ajax");
+    });
+
+    // limpa campos de conta bancaria e pix
+    function limpaCamposContaBancariaPix() {
+        $(".remove_btn_modal").remove();
+        $(".remove_conta").remove();
+        $(".remove_pix").remove();
+        $("#contas_fornecedor").empty();
+        $("#pix_fornecedor").empty();
+        $("#numero_pix").attr("value", "");
+        $("#numero_conta_bancaria").attr("value", "");
+    }
+
+    // nao esta funcionado o limpaCamposContaPix
+    function limpaCamposContaPix() {
+        $("#option_Pix").remove();
+    }
