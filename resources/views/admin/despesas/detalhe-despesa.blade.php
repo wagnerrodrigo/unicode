@@ -379,10 +379,8 @@
         var inputCentroCusto = document.getElementById("inputCentroCusto").value;
 
         if (inputCentroCusto == '' || inputCentroCusto == null) {
-            alert("Preencha o campo centro de custo");
             $("#adicionar_rateio").attr("disabled", true);
         } else {
-            alert("centro de custo");
             $("#adicionar_rateio").attr("disabled", false);
             centro_de_custo_selecionado = inputCentroCusto;
         }
