@@ -54,7 +54,6 @@
                         </div>
                     </div>
                     <div class="d-flex flex-row justify-content-around">
-
                         <div class="input-group mb-3" style="width: 250px">
                             <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
                             <input class="form-control" value="{{$dt_inicio ?? ''}}" type="date" max="" name="dt_inicio" id="inputDataInicio">
@@ -64,7 +63,6 @@
                             <label class="input-group-text" for="inputDataFim">DATA FIM</label>
                             <input class="form-control" value="{{$dt_fim ?? ''}}" type="date" min="" name="dt_fim" id="inputDataFim">
                         </div>
-
 
                         <div class="input-group mb-3" style="width: 250px">
                             <button type="submit" id="btn_busca_filtro" class="btn btn-primary" style="padding: 8px 12px; margin-right:6px; border-radius: 0.267rem">
@@ -76,7 +74,6 @@
                             </button>
                         </div>
                     </div>
-
                 </form>
 
                 <table class='table table-striped' id="table1">
@@ -91,6 +88,7 @@
                             <th>AÇÃO</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         @if(count($despesas) > 0)
                         @foreach($despesas as $despesa)
@@ -103,7 +101,7 @@
                             <td>{{$despesa->de_status_despesa}}</td>
                             <td class="d-flex justify-content-evenly">
                                 <div>
-                                    <i type="button" class="bi bi-caret-down" id="abrir_parcelas_{{$despesa->id_despesa}}" onclick="getParcelas(this)" data-bs-toggle="collapse" href="#collapseExample-{{$despesa->id_despesa}}" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size: 25px;">
+                                    <i type="button" class="bi bi-caret-down" id="abrir_parcelas_{{$despesa->id_despesa}}" onclick="getParcelas(this, '/parcelas/detalhes/')" data-bs-toggle="collapse" href="#collapseExample-{{$despesa->id_despesa}}" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size: 25px;">
 
                                     </i>
                                 </div>
@@ -120,53 +118,52 @@
                             </td>
                         </tr>
                         <tr>
-                    <tbody id="parcela_{{$despesa->id_despesa}}">
+                            <tbody id="parcela_{{$despesa->id_despesa}}">
 
-                    </tbody>
-                    </tr>
+                            </tbody>
+                        </tr>
 
-                    <!-- Inicio Modal Delete-->
-                    <div class="modal-danger me-1 mb-1 d-inline-block">
-                        <!--Danger theme Modal -->
-                        <div class="modal fade text-left" id="delete{{$despesa->id_despesa}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header bg-danger">
-                                        <h5 class="modal-title white" id="myModalLabel120">EXCLUSÃO</h5>
-                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                            <i data-feather="x"></i>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Deseja realmente excluir a Despesa: {{$despesa->id_despesa}}?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                            <i class="bx bx-x d-block d-sm-none"></i>
-                                            <span class="d-none d-sm-block">Cancelar</span>
-                                        </button>
-                                        <form action="/despesas/delete/{{$despesa->id_despesa}}" method="POST">
-                                            @csrf
-                                            <button class="btn btn-danger ml-1">
-                                                <i class="bx bx-check d-block d-sm-none"></i>
-                                                <span class="d-none d-sm-block">Excluir</span>
+                        <!-- Inicio Modal Delete-->
+                        <div class="modal-danger me-1 mb-1 d-inline-block">
+                            <!--Danger theme Modal -->
+                            <div class="modal fade text-left" id="delete{{$despesa->id_despesa}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger">
+                                            <h5 class="modal-title white" id="myModalLabel120">EXCLUSÃO</h5>
+                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                <i data-feather="x"></i>
                                             </button>
-                                        </form>
+                                        </div>
+                                        <div class="modal-body">
+                                            Deseja realmente excluir a Despesa: {{$despesa->id_despesa}}?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                                <i class="bx bx-x d-block d-sm-none"></i>
+                                                <span class="d-none d-sm-block">Cancelar</span>
+                                            </button>
+                                            <form action="/despesas/delete/{{$despesa->id_despesa}}" method="POST">
+                                                @csrf
+                                                <button class="btn btn-danger ml-1">
+                                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                                    <span class="d-none d-sm-block">Excluir</span>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Fim Modal Delete-->
-                    @endforeach
-                    @else
-                    <tr>
-                        <td colspan="6">DESPESA NÃO CADASTRADA</td>
-                    </tr>
-                    @endif
+                        <!-- Fim Modal Delete-->
+                        @endforeach
+                        @else
+                        <tr>
+                            <td colspan="6">DESPESA NÃO CADASTRADA</td>
+                        </tr>
+                        @endif
                     </tbody>
-
                 </table>
                 <div>
                     {{ $status_despesa ? $despesas->appends(['results' => $results, 'status' => $status_despesa, 'dt_inicio' => $dt_inicio, 'dt_fim' => $dt_fim])->links() : $despesas->appends(['results' => $results, 'status' => '', 'dt_inicio' => $dt_inicio, 'dt_fim' => $dt_fim])->links() }}
@@ -179,34 +176,9 @@
 <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('assets/js/custom-js/parcelas.js') }}"></script>
 
 <script>
-    // const empresas = [];
-    // let inputFilial = document.getElementById('inputFilial');
-    // $(document).ready(function() {
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '/empresas',
-    //         success: function(data) {
-    //             console.log(data);
-    //             $.each(data, function(key, val) {
-    //                 $(inputFilial)
-    //                     .append(
-    //                         `<option value="${val.id_empresa}">${val.de_empresa} - ${val.regiao_empresa}</option>`
-    //                     )
-    //             });
-    //         },
-    //         fail: function() {
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'ATENÇÃO',
-    //                 text: "Erro ao tentar buscar as empresas!",
-    //                 footer: ''
-    //             })
-    //         }
-    //     });
-    // });
-
     var inputDataInicio = '';
     $("#inputDataInicio").on("change", function() {
         inputDataInicio = $(this).val();
@@ -327,61 +299,6 @@
                 setProvisionDate(getExpenseId(), date);
             }
         })
-    }
-
-
-    function getParcelas(object) {
-        var href = object.getAttribute("href");
-        var id = href.substring(href.indexOf("-") + 1);
-
-        let expanded = event.target.getAttribute("aria-expanded");
-        event.target.setAttribute("aria-expanded", (expanded == "true") ? "false" : "true");
-
-        let icon = event.target.getAttribute("class");
-        event.target.setAttribute("class", (expanded == "true") ? "bi bi-caret-up" : "bi bi-caret-down");
-
-        if (expanded == 'true') {
-            $.ajax({
-                type: "GET",
-                url: `/parcelas/${id}`,
-                dataType: "json",
-                success: function(response) {
-                    console.log(response);
-                    if (response.length > 0) {
-                        for (i = 0; i < response.length; i++) {
-                            $(`#parcela_${id}`).append(
-                                `<tr class="table-dark tr_generated_${id}">` +
-                                "<td>" + response[i].id_parcela_despesa + '</td>' +
-                                "<td>" + Intl.NumberFormat('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                }).format(response[i].valor_parcela) + '</td>' +
-                                `<td>${response[i].num_parcela}</td>` +
-                                "<td>" + Intl.DateTimeFormat('pt-BR').format(new Date(response[i].dt_emissao)) + "</td>" +
-                                "<td>" + Intl.DateTimeFormat('pt-BR').format(new Date(response[i].dt_vencimento)) + "</td>" +
-                                `<td>${response[i].de_status_despesa}</td>` +
-                                "<td><a href='/parcelas/detalhes/" + response[i].id_parcela_despesa + "' class='btn btn-primary' style='padding: 8px 12px;'><i class='bi bi-eye-fill'></i></a></td>"
-                            );
-                        }
-                    } else {
-                        $(`#parcela_${id}`).append(
-                            `<tr class="table-light tr_generated_${id}">` +
-                            `<td><span style="color: red; font-weight: bold;">Não há parcelas</span></td>` +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "</tr>"
-                        );
-                    }
-                },
-            });
-        } else {
-            expanded = 'true';
-            $(`.tr_generated_${id}`).remove();
-        }
     }
 </script>
 

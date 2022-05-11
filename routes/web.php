@@ -70,7 +70,6 @@ Route::middleware('autenticacaoMiddleware')->prefix('/fornecedores')->group(func
     Route::post('/delete/{id}', [FornecedorController::class, 'destroy'])->name('destroy-fornecedores');
 });
 
-
 // rotas Empregados
 Route::middleware('autenticacaoMiddleware')->prefix('/empregados')->group(function () {
     Route::get('/cpf/{nu_cpf_cnpj}', [EmpregadoController::class, 'showCpf']);

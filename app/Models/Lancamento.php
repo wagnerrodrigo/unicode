@@ -14,7 +14,8 @@ class Lancamento extends Model
     static function selectAll($results = 10, $dt_inicio = null, $dt_fim = null, $status_despesa_id = null)
     {
         $query = DB::table('intranet.tab_despesa')
-            ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id');
+            ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
+            ->where('intranet.tab_despesa.fk_tab_centro_custo_id', '!=', null);
 
         if ($dt_inicio && $dt_fim && $status_despesa_id) {
             $lancamentos = $query
@@ -28,7 +29,7 @@ class Lancamento extends Model
             $lancamentos = $query->where('intranet.tab_despesa.fk_status_despesa_id', '=', $status_despesa_id)
                 ->paginate(10);
         } else {
-            $lancamentos = $query->where('intranet.tab_despesa.fk_tab_centro_custo_id', '!=', null)
+            $lancamentos = $query
                 ->where('intranet.tab_despesa.fk_status_despesa_id', '=', 6)
                 ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)->orderBy('intranet.status_despesa.de_status_despesa', 'asc')
                 ->paginate($results);

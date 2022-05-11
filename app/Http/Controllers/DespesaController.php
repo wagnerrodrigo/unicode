@@ -28,8 +28,6 @@ class DespesaController extends Controller
      */
     public function index(Request $request)
     {
-        //$parcelaDespesaRepository = new ParcelaDespesaRepository();
-        //dd($parcelaDespesaRepository->getParcelasByDespesa(18326));
         try {
             $despesaRepository = new DespesaRepository();
             $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));

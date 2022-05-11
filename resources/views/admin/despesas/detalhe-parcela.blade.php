@@ -2,7 +2,6 @@
 @section('title', 'Despesa')
 @section('content')
 
-
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
         <div class="card">
@@ -229,7 +228,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- Inicio Modal Editar-->
         <div class="me-1 mb-1 d-inline-block">
