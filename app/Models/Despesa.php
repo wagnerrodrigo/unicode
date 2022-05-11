@@ -275,10 +275,8 @@ class Despesa extends Model
     {
         DB::update("UPDATE intranet.tab_despesa
         SET
-            dt_emissao = ?,
             fk_tab_centro_custo_id = ?
         WHERE id_despesa = ?", [
-            $despesa->dt_emissao,
             $despesa->fk_tab_centro_custo_id,
             $despesa->id_despesa
         ]);

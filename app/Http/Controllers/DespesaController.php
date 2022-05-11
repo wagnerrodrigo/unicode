@@ -224,13 +224,44 @@ class DespesaController extends Controller
 
     public function edit($id, Request $request)
     {
-        dd($request->all());
         try {
             $despesa = new Despesa();
 
             $despesa->id_despesa = $id;
-            $despesa->dt_emissao = $request->data_emissao;
             $despesa->fk_tab_centro_custo_id = $request->centro_custo;
+
+            //caso haja rateio na despesa executa
+            if ($request->empresa_rateio) {
+                $rateios = [];
+
+                $soma_porcentagem_rateio = 0;
+                $soma_valor_rateio = 0;
+                //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
+                for ($i = 0; $i < count($request->empresa_rateio); $i++) {
+                    $rateios[] = [
+                        'centro_custo_rateio' => $request->custo_rateio[$i],
+                        'valor_rateio' => trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0"),
+                        'porcentagem_rateio' => $request->porcentagem_rateio[$i],
+                    ];
+                    //soma os valores do rateio
+                    $soma_porcentagem_rateio += $request->porcentagem_rateio[$i];
+                    $soma_valor_rateio += trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0");
+                }
+                //verifica se a soma das porcentagens é igual a 100 caso não seja retorna o restante para o centro de custo inicial
+                if ($soma_porcentagem_rateio != 100) {
+                    $resto_porcentagem = 100 - $soma_porcentagem_rateio;
+                    $valor_restante = FormataValor::Real($request->valor_total) - $soma_valor_rateio;
+
+                    $rateios[] = [
+                        'centro_custo_rateio' => $request->centro_custo_empresa,
+                        'valor_rateio' => $valor_restante,
+                        'porcentagem_rateio' => $resto_porcentagem,
+                    ];
+                }
+                //chama a função do repository de rateios que salva no banco
+                $rateioRepository = new RateioRepository();
+                $rateioRepository->create($rateios, $id);
+            }
 
             Despesa::set($despesa);
 

@@ -185,12 +185,6 @@
                             <div id="hidden_inputs"></div>
                             <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
-                                    <strong>DATA DE EMISSÃO</strong>
-                                    <input type="date" required class="form-control input-add" value="{{ $despesa->dt_inicio }}" id="dt_inicio" name="data_inicio" style="width: 358px" />
-                                    <span id="erro_dt_emissao"></span>
-                                </div>
-
-                                <div class="px-5 mb-3">
                                     <strong>CENTRO DE CUSTO</strong>
                                     <select class="form-control input-add" id="inputCentroCusto" onchange="validaCentroCusto()" name="centro_custo" style="width: 358px">
                                         <option value=""></option>
