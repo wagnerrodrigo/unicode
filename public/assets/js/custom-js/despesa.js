@@ -190,6 +190,7 @@ $("#busca_empresa").keyup(
             $("#results_empresa").html("");
         }
     }, 500)
+
 );
 
 //seleciona tipo de despesa

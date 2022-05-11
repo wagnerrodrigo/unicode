@@ -76,6 +76,8 @@ $("#valor_rateado").blur(function () {
         .replace(",", ".")
         .replace("R$", "");
 
+        console.log(valorTotalDespesa)
+
     valorRateado = Number(valorRateado);
 
     if (valorTotalItens == "") {
@@ -116,7 +118,10 @@ $("#porcentagem_rateado").blur(function () {
             .toString()
             .replace("R$", "")
     );
+    console.log(valorTotalDespesa);
+    console.log(valorRateado);
 });
+
 
 //id utilizado para autoincrementar os ids dos inputs e tabelas ao adicionar um rateio
 var id_button_rateio = 0;

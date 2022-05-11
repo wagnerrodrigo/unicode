@@ -77,15 +77,17 @@ class DespesaController extends Controller
                 $tipoDespesa->fk_tab_centro_custo_id
             );
 
-            $costCenter = $costCenterRepository->getCenterCostByIdCompany($despesas[0]->fk_empresa_id);
+            $rateioRepository = new RateioRepository();
+            $rateios = $rateioRepository->findRateioDespesa($id);
+            foreach ($despesas as $despesa) {}
+
+            $costCenter = $costCenterRepository->getCenterCostByIdCompany($despesa->fk_empresa_id);
 
             $mascara = new Mascaras();
-            if ($despesas == null || empty($despesas)) {
-                return view('admin.despesas.despesa-nao-encontrada');
+            if ($despesa) {
+                return view('admin.despesas.detalhe-despesa', compact('despesa', 'rateios',  'mascara', 'tipo', 'costCenter'));
             } else {
-                $despesa = $despesas[0];
-
-                return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo', 'costCenter'));
+                return view('admin.despesas.despesa-nao-encontrada');
             }
         } catch (\Exception $e) {
             $error = CustomErrorMessage::ERROR_DESPESA;
@@ -222,6 +224,7 @@ class DespesaController extends Controller
 
     public function edit($id, Request $request)
     {
+        dd($request->all());
         try {
             $despesa = new Despesa();
 

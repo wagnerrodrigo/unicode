@@ -179,7 +179,6 @@ function getParcelas(object, url) {
 
     let icon = event.target.getAttribute("class");
     event.target.setAttribute("class", (expanded == "true") ? "bi bi-caret-up" : "bi bi-caret-down");
-    console.log(url);
     if (expanded == 'true') {
         $.ajax({
             type: "GET",
