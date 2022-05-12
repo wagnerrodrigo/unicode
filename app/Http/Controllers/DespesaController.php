@@ -280,6 +280,8 @@ class DespesaController extends Controller
             //adiciona data fim nos rateios da despesa
             $rateioRepository = new RateioRepository();
             $rateioRepository->setEndDateRateio($id, $dt_fim);
+            $parcelaDespesaRepository = new ParcelaDespesaRepository();
+            $parcelaDespesaRepository->setEndDate($id, $dt_fim);
 
             return redirect()->back()->with('success', 'Despesa Excluída!');
         } catch (\Exception $e) {

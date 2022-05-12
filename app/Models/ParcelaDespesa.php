@@ -146,4 +146,10 @@ class ParcelaDespesa extends Model
             ->where('id_parcela_despesa', '=', $id)
             ->update(['fk_status_id' => StatusDespesa::PAGO]);
     }
+
+    static function del($id, $date){
+        DB::update("UPDATE intranet.tab_parcela_despesa
+        SET dt_fim = ?
+        WHERE fk_despesa = ?", [$date, $id]);
+    }
 }

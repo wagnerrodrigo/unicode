@@ -38,7 +38,7 @@ class ParcelaDespesaController extends Controller
     }
 
     public function setParcelaDespesa(Request $request){
-            dd($request->all());
+        dd($request->all());
     }
 
     public function setProvisionDate(Request $request)

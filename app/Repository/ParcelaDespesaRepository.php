@@ -48,4 +48,9 @@ class ParcelaDespesaRepository {
     {
         return ParcelaDespesa::parcela($id_parcela_despesa);
     }
+
+    function setEndDate($id_parcela, $end_date)
+    {
+        return ParcelaDespesa::del($id_parcela, $end_date);
+    }
 }
