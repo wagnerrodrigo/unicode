@@ -190,7 +190,7 @@ function getParcelas(object, url) {
 
                         $(`#parcela_${id}`).append(
                             `<tr class="table-dark tr_generated_${id}">` +
-                            "<td>" + response[i].id_parcela_despesa + '</td>' +
+                            `<td><input type="checkbox" name="ids_despesas" value="${response[i].id_parcela_despesa}">` + response[i].id_parcela_despesa + '</td>' +
                             "<td>" + Intl.NumberFormat('pt-BR', {
                                 style: 'currency',
                                 currency: 'BRL'

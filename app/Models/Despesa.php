@@ -328,11 +328,4 @@ class Despesa extends Model
             ->where('id_despesa', '=', $id)
             ->update(['fk_status_despesa_id' => StatusDespesa::PAGO]);
     }
-
-    static function setProvisionDate($id, $date)
-    {
-        DB::table('intranet.tab_despesa')
-            ->where('id_despesa', '=', $id)
-            ->update(['dt_provisionamento' => $date]);
-    }
 }

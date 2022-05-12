@@ -85,13 +85,13 @@ Route::middleware('autenticacaoMiddleware')->prefix('/despesas')->group(function
     Route::get('/{id}', [DespesaController::class, 'show']);
     Route::post('/{id}', [DespesaController::class, 'edit']);
     Route::post('/delete/{id}', [DespesaController::class, 'delete']);
-    Route::post('/edit/provision-date', [DespesaController::class, 'setProvisionDate']);
 });
 
 Route::middleware('autenticacaoMiddleware')->prefix('/parcelas')->group(function () {
     Route::get('/{id}', [ParcelaDespesaController::class, 'getDespesas']);
     Route::get('/detalhes/{id}', [ParcelaDespesaController::class, 'getParcela']);
     Route::post('/alterar/{id}', [ParcelaDespesaController::class, 'setParcelaDespesa']);
+    Route::post('/edit/provision-date', [ParcelaDespesaController::class, 'setProvisionDate']);
 });
 
 Route::middleware('autenticacaoMiddleware')->prefix('/classificacaoDocumento')->group(function () {

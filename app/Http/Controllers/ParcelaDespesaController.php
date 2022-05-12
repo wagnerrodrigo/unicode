@@ -40,4 +40,22 @@ class ParcelaDespesaController extends Controller
     public function setParcelaDespesa(Request $request){
             dd($request->all());
     }
+
+    public function setProvisionDate(Request $request)
+    {
+        try {
+            $provisionDate = $request->date;
+            $ExpenseIds = $request->ids;
+
+            foreach ($ExpenseIds as $id) {
+                ParcelaDespesa::setProvisionDate($id, $provisionDate);
+            }
+
+            return redirect()->back()->with('success', 'Data de provisionamento alterada!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível editar a Data de provisionamento' . $e->getMessage());
+        }
+    }
 }

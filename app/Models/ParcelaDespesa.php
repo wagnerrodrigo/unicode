@@ -118,4 +118,11 @@ class ParcelaDespesa extends Model
                 'fk_pix_id' => $parcela->fk_pix_id,
             ]);
     }
+
+    static function setProvisionDate($id, $date)
+    {
+        DB::table('intranet.tab_parcela_despesa')
+            ->where('id_parcela_despesa', '=', $id)
+            ->update(['dt_provisionamento' => $date]);
+    }
 }

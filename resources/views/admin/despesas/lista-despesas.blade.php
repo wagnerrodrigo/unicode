@@ -93,7 +93,7 @@
                         @if(count($despesas) > 0)
                         @foreach($despesas as $despesa)
                         <tr class={{$despesa->de_status_despesa != 'EM ATRASO' ? "font-color-despesa" : "font-color-despesa-vencida"}}>
-                            <td><input type="checkbox" name="ids_despesas" value="{{$despesa->id_despesa}}">{{$despesa->id_despesa}}</td>
+                            <td>{{$despesa->id_despesa}}</td>
                             <td>{{$mascara::maskMoeda($despesa->valor_total_despesa)}}</td>
                             <td>{{$despesa->qt_parcelas_despesa}}</td>
                             <td>{{$despesa->dt_inicio != null ? date("d/m/Y", strtotime($despesa->dt_inicio)) : ''}}</td>
@@ -234,7 +234,7 @@
         if (ids.length > 0 && date != '') {
             $.ajax({
                 type: 'POST',
-                url: '/despesas/edit/provision-date',
+                url: '/parcelas/edit/provision-date',
                 data: {
                     "_token": "{{ csrf_token() }}",
                     ids: ids,

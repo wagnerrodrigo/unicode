@@ -290,22 +290,4 @@ class DespesaController extends Controller
                 ->with('error', 'Não foi possível excluir a Despesa!');
         }
     }
-
-    public function setProvisionDate(Request $request)
-    {
-        try {
-            $provisionDate = $request->date;
-            $ExpenseIds = $request->ids;
-
-            foreach ($ExpenseIds as $id) {
-                Despesa::setProvisionDate($id, $provisionDate);
-            }
-
-            return redirect()->back()->with('success', 'Data de provisionamento editada!');
-        } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', 'Não foi possível editar a Data de provisionamento' . $e->getMessage());
-        }
-    }
 }
