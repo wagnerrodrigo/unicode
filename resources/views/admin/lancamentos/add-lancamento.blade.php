@@ -1,11 +1,12 @@
 @extends('layouts.templates.template')
 @section('title', 'Detalhes Lançamento')
 
+{{-- @dd($parcela) --}}
 @section('content')
 
     <div id="main" style="margin-top: 5px;">
         <div class="main-content container-fluid">
-            @foreach ($lancamentos as $lancamento)
+
                 <div class="card">
                     <div class="card-header">
                         <h1>LANÇAMENTO DESPESA: {{ $lancamento->id_despesa }}</h1>
@@ -45,24 +46,8 @@
                                             value="{{ $lancamento->valor_total_despesa }}">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <div>
-                                            <strong>DATA DO VENCIMENTO</strong>
-                                        </div>
-                                        <span>{{ date('d/m/Y', strtotime($lancamento->dt_vencimento)) }}</span>
-                                    </div>
-                                </div>
 
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <div>
-                                            <strong>DATA DO EFETIVO PAGAMENTO</strong>
-                                        </div>
-                                        <input class="form-control" id="input_efetivo_pagamento" type="date"
-                                            name="data_efetivo_pagamento" id="id_Efetivo_Pg">
-                                    </div>
-                                </div>
+
                             </div>
 
                             <div class="d-flex">
@@ -76,16 +61,6 @@
                                         <span>{{ $lancamento->de_status_despesa }}</span>
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <div>
-                                            <strong>CONDIÇÃO DE PAGAMENTO</strong>
-                                        </div>
-                                        <span>asdf</span>
-                                        {{-- <span>{{ $lancamento->de_condicao_pagamento }}</span> --}}
-                                    </div>
-                                </div>
                             </div>
 
 
@@ -95,13 +70,17 @@
                             {{-- Inico info Parcelas --}}
                             <br>
                             <div class="d-flex">
-                                <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <h2>PARCELA NUMERO: <strong>{{$parcela->num_parcela}}</strong> </h2>
+                                    </div>
+
                                     <div class="form-group">
                                         <div>
-                                            <strong>RATEIO EMPRESA</strong>
+                                            <strong>DATA DO EFETIVO PAGAMENTO</strong>
                                         </div>
-                                        <span> RATEIO EMPRESA RATEIO EMPRESA RATEIO EMPRESA RATEIO EMPRESA RATEIO EMPRESA
-                                            RATEIO EMPRESA</span>
+                                        <input class="form-control" id="input_efetivo_pagamento" type="date"
+                                            name="data_efetivo_pagamento" id="id_Efetivo_Pg">
                                     </div>
                                 </div>
                             </div>
@@ -114,9 +93,9 @@
                                         <div>
                                             <strong>VALOR DA PARCELA</strong>
                                         </div>
-                                        <span>{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}</span>
+                                        <span>{{ $mascara::maskMoeda($parcela->valor_parcela) }}</span>
                                         <input type="hidden" name="" id="valorTotal"
-                                            value="{{ $lancamento->valor_total_despesa }}">
+                                            value="{{ $parcela->valor_parcela }}">
                                     </div>
                                 </div>
 
@@ -137,9 +116,6 @@
                                     <input type="hidden" id="idEmpregado" value="{{ $lancamento->fk_tab_empregado_id }}">
                                     <input type="hidden" id="idFornecedor"
                                         value="{{ $lancamento->fk_tab_fornecedor_id }}">
-
-                                    {{ $lancamento->fk_tab_empregado_id }}
-                                    {{ $lancamento->fk_tab_fornecedor_id }}
                                 </div>
 
 
@@ -174,7 +150,6 @@
                             </div>
                         </div>
                     </div>
-            @endforeach
         </div>
 
         <div class="card" style="padding-top: 5px; margin-top: 90px">
@@ -197,7 +172,6 @@
                     @csrf
 
                     <input type="hidden" id="hidden_inputs_itens">
-                    @foreach ($lancamentos as $lancamento)
                         <input type="hidden" name="id_despesa" id="id_despesa" value="{{ $lancamento->id_despesa }}">
                         <input type="hidden" name="fk_condicao_pagamento_id" id="fk_condicao_pagamento_id"
                             value="{{ $lancamento->fk_condicao_pagamento_id }}">
@@ -207,7 +181,6 @@
                         <input type="hidden" name="dt_vencimento" id="dt_vencimento"
                             value="{{ $lancamento->dt_vencimento }}">
                         <input type="hidden" name="dt_efetivo_pagamento" id="hidden_dt_efetivo_pagamento" value="">
-                    @endforeach
                     <input type="hidden" id="hiddenInputs">
 
                     <div class="d-flex" style="width: 100%;  margin: 15px;">
@@ -262,14 +235,16 @@
                             <div class="d-flex flex-column" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>TITULAR</strong>
-                                    @foreach ($lancamentos as $lancamento)
+
                                         <input class="form-control input-busca" name="titular_conta" type="text"
                                             id="titular_conta" readonly style="width: 60rem"
-                                            value="{{ $lancamento->fk_tab_tipo_despesa_id == 1 ? $lancamento->nome_empregado : $lancamento->de_razao_social }}" />
+                                            placeholder="{{ $lancamento->fk_tab_tipo_despesa_id == 1
+                                                    ? $lancamento->nome_empregado
+                                                    : $lancamento->de_razao_social
+                                                     }}" />
 
-                                    @endforeach
-                                    <input name="id_titular_conta" type="hidden" id="id_titular_conta" />
-                                    <input name="tipo_da_despesa" type="hidden" id="tipo_da_despesa" value="{{$lancamento->fk_tab_tipo_despesa_id}}"/>
+                                            <input name="id_titular_conta" type="hidden" id="id_titular_conta" />
+                                            <input name="tipo_da_despesa" type="hidden" id="tipo_da_despesa" value="{{$lancamento->fk_tab_tipo_despesa_id}}"/>
                                 </div>
 
                                 <div class="px-5 mb-3">
@@ -344,7 +319,11 @@
                                 <div class="px-5 mb-3">
                                     <strong>TITULAR</strong>
                                     <input class="form-control input-busca" name="titular_conta_pix" type="text"
-                                        id="titular_conta_pix" readonly style="width: 60rem" />
+                                        id="titular_conta_pix" readonly style="width: 60rem"
+                                        placeholder="{{ $lancamento->fk_tab_tipo_despesa_id == 1
+                                                      ? $lancamento->nome_empregado
+                                                      : $lancamento->de_razao_social }}"  />
+
                                     <input name="id_titular_pix" type="hidden" id="id_titular_pix" />
                                     <input name="tipo_do_titular" type="hidden" id="tipo_do_titular" />
                                 </div>

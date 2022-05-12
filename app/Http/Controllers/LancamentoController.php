@@ -66,7 +66,6 @@ class LancamentoController extends Controller
         try {
             $despesaRepository = new DespesaRepository();
             $fk_condicao_pagamento = $despesaRepository->findPaymentCondition($request->id_despesa);
-
             if (!empty($request->valor_rateio_pagamento)) {
 
                 $lancamento = new Lancamento();
@@ -159,15 +158,19 @@ class LancamentoController extends Controller
     public function provisionamento($id)
     {
         $despesaRepository = new DespesaRepository();
-        $dadosDespesa = $despesaRepository->findTipoECentroCustoDespesa($id);
+        $parcelaDespesaRepository = new ParcelaDespesaRepository();
+        $parcela = $parcelaDespesaRepository->getParcela($id);
+        $dadosDespesa = $despesaRepository->findTipoECentroCustoDespesa($parcela->fk_despesa);
+
         foreach ($dadosDespesa as $despesa) {
         }
-        $lancamentos = $despesaRepository->getExpenseById($id, $despesa->fk_tab_tipo_despesa_id);
+        $lancamentos = $despesaRepository->getExpenseById($parcela->fk_despesa, $despesa->fk_tab_tipo_despesa_id, null);
 
-
+        foreach($lancamentos as $lancamento){}
+        // dd($lancamento);
         $mascara = new Mascaras();
 
-        return view('admin.lancamentos.add-lancamento', compact('lancamentos', 'mascara'));
+        return view('admin.lancamentos.add-lancamento', compact('lancamento', 'mascara', 'parcela'));
     }
 
 
