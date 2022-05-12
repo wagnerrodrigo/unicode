@@ -242,12 +242,13 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="/parcelas/alterar/{{$parcela->id_parcela_despesa}}" method="POST" style="padding: 10px;">
+                            <form action="/parcelas/edit/provision-date" method="POST" style="padding: 10px;">
                                 @csrf
                                 <div class="d-flex mt-10" style="width: 100%">
                                     <div class="px-5 mb-3">
+                                        <input type="hidden" name="ids[]" value="{{$parcela->id_parcela_despesa}}">
                                         <strong>DATA DE PROVISIONAMENTO</strong>
-                                        <input type="date" required class="form-control input-add" value="{{ $parcela->dt_provisionamento }}" id="data_provisionamento" name="data_provisionamento" style="width: 358px" />
+                                        <input type="date" required class="form-control input-add" value="{{ $parcela->dt_provisionamento }}" id="data_provisionamento" name="date" style="width: 358px" />
                                         <span id="erro_dt_emissao"></span>
                                     </div>
                                 </div>
