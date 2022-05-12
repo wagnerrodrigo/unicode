@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use App\Utils\StatusDespesa;
 
 class ParcelaDespesa extends Model
 {
@@ -117,5 +118,38 @@ class ParcelaDespesa extends Model
                 'fk_conta_bancaria' => $parcela->fk_conta_bancaria,
                 'fk_pix_id' => $parcela->fk_pix_id,
             ]);
+    }
+
+    static function setProvisionDate($id, $date)
+    {
+        DB::table('intranet.tab_parcela_despesa')
+            ->where('id_parcela_despesa', '=', $id)
+            ->update(['dt_provisionamento' => $date]);
+    }
+
+    static function findByDueDate($date)
+    {
+        return DB::table('intranet.tab_parcela_despesa')
+            ->where('fk_status_id', '=', StatusDespesa::A_PAGAR)->where('dt_vencimento', '<', $date)->get();
+    }
+
+    static function setStatusIfDefeaded($id)
+    {
+        DB::table('intranet.tab_parcela_despesa')
+            ->where('id_parcela_despesa', '=', $id)
+            ->update(['fk_status_id' => StatusDespesa::EM_ATRASO]);
+    }
+
+    static function setStatusIfPaid($id)
+    {
+        DB::table('intranet.tab_parcela_despesa')
+            ->where('id_parcela_despesa', '=', $id)
+            ->update(['fk_status_id' => StatusDespesa::PAGO]);
+    }
+
+    static function del($id, $date){
+        DB::update("UPDATE intranet.tab_parcela_despesa
+        SET dt_fim = ?
+        WHERE fk_despesa = ?", [$date, $id]);
     }
 }

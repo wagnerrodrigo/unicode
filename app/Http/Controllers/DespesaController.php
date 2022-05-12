@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Despesa;
 use Illuminate\Http\Request;
-use App\Utils\CondicaoPagamentoId;
 use App\Utils\TipoDespesa;
 use App\Utils\FormataValor;
 use App\Utils\StatusDespesa;
@@ -14,7 +13,6 @@ use App\Repository\DespesaRepository;
 use App\Repository\RateioRepository;
 use App\Repository\ItemDespesaRepository;
 use App\Repository\CostCenterRepository;
-use App\Repository\DocumentoRepository;
 use App\Repository\EmpresaRepository;
 use App\CustomError\CustomErrorMessage;
 use App\Repository\ParcelaDespesaRepository;
@@ -28,11 +26,9 @@ class DespesaController extends Controller
      */
     public function index(Request $request)
     {
-        //$parcelaDespesaRepository = new ParcelaDespesaRepository();
-        //dd($parcelaDespesaRepository->getParcelasByDespesa(18326));
         try {
-            $despesaRepository = new DespesaRepository();
-            $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
+            $parcelaDespesaRepository = new ParcelaDespesaRepository;
+            $parcelaDespesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
 
             $mascara = new Mascaras();
             //quantidade de resultados por pagina
@@ -79,15 +75,17 @@ class DespesaController extends Controller
                 $tipoDespesa->fk_tab_centro_custo_id
             );
 
-            $costCenter = $costCenterRepository->getCenterCostByIdCompany($despesas[0]->fk_empresa_id);
+            $rateioRepository = new RateioRepository();
+            $rateios = $rateioRepository->findRateioDespesa($id);
+            foreach ($despesas as $despesa) {}
+
+            $costCenter = $costCenterRepository->getCenterCostByIdCompany($despesa->fk_empresa_id);
 
             $mascara = new Mascaras();
-            if ($despesas == null || empty($despesas)) {
-                return view('admin.despesas.despesa-nao-encontrada');
+            if ($despesa) {
+                return view('admin.despesas.detalhe-despesa', compact('despesa', 'rateios',  'mascara', 'tipo', 'costCenter'));
             } else {
-                $despesa = $despesas[0];
-
-                return view('admin.despesas.detalhe-despesa', compact('despesa', 'mascara', 'tipo', 'costCenter'));
+                return view('admin.despesas.despesa-nao-encontrada');
             }
         } catch (\Exception $e) {
             $error = CustomErrorMessage::ERROR_DESPESA;
@@ -228,8 +226,40 @@ class DespesaController extends Controller
             $despesa = new Despesa();
 
             $despesa->id_despesa = $id;
-            $despesa->dt_emissao = $request->data_emissao;
             $despesa->fk_tab_centro_custo_id = $request->centro_custo;
+
+            //caso haja rateio na despesa executa
+            if ($request->empresa_rateio) {
+                $rateios = [];
+
+                $soma_porcentagem_rateio = 0;
+                $soma_valor_rateio = 0;
+                //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
+                for ($i = 0; $i < count($request->empresa_rateio); $i++) {
+                    $rateios[] = [
+                        'centro_custo_rateio' => $request->custo_rateio[$i],
+                        'valor_rateio' => trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0"),
+                        'porcentagem_rateio' => $request->porcentagem_rateio[$i],
+                    ];
+                    //soma os valores do rateio
+                    $soma_porcentagem_rateio += $request->porcentagem_rateio[$i];
+                    $soma_valor_rateio += trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0");
+                }
+                //verifica se a soma das porcentagens é igual a 100 caso não seja retorna o restante para o centro de custo inicial
+                if ($soma_porcentagem_rateio != 100) {
+                    $resto_porcentagem = 100 - $soma_porcentagem_rateio;
+                    $valor_restante = FormataValor::Real($request->valor_total) - $soma_valor_rateio;
+
+                    $rateios[] = [
+                        'centro_custo_rateio' => $request->centro_custo_empresa,
+                        'valor_rateio' => $valor_restante,
+                        'porcentagem_rateio' => $resto_porcentagem,
+                    ];
+                }
+                //chama a função do repository de rateios que salva no banco
+                $rateioRepository = new RateioRepository();
+                $rateioRepository->create($rateios, $id);
+            }
 
             Despesa::set($despesa);
 
@@ -250,30 +280,14 @@ class DespesaController extends Controller
             //adiciona data fim nos rateios da despesa
             $rateioRepository = new RateioRepository();
             $rateioRepository->setEndDateRateio($id, $dt_fim);
+            $parcelaDespesaRepository = new ParcelaDespesaRepository();
+            $parcelaDespesaRepository->setEndDate($id, $dt_fim);
 
             return redirect()->back()->with('success', 'Despesa Excluída!');
         } catch (\Exception $e) {
             return redirect()
                 ->back()
                 ->with('error', 'Não foi possível excluir a Despesa!');
-        }
-    }
-
-    public function setProvisionDate(Request $request)
-    {
-        try {
-            $provisionDate = $request->date;
-            $ExpenseIds = $request->ids;
-
-            foreach ($ExpenseIds as $id) {
-                Despesa::setProvisionDate($id, $provisionDate);
-            }
-
-            return redirect()->back()->with('success', 'Data de provisionamento editada!');
-        } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', 'Não foi possível editar a Data de provisionamento' . $e->getMessage());
         }
     }
 }

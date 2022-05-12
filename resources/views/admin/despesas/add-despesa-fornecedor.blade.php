@@ -385,8 +385,6 @@
 <script src="{{ asset('assets/js/custom-js/mascara-cnpj-cpf.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/mascara-telefone.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/valida-email.js') }}"></script>
-<script src="{{ asset('assets/js/custom-js/conta-bancaria-despesa.js') }}"></script>
-<script src="{{ asset('assets/js/custom-js/conta-pix.js') }}"></script>
 
 <script>
     function verificaValor(obj) {

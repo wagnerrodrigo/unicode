@@ -30,4 +30,27 @@ class ParcelaDespesaRepository {
     function getParcela($idParcela){
         return ParcelaDespesa::parcela($idParcela);
     }
+
+    function setStatusIfDefeaded($data)
+    {
+        $despesasVencidas = ParcelaDespesa::findByDueDate($data);
+
+        for ($i = 0; $i < count($despesasVencidas); $i++) {
+            ParcelaDespesa::setStatusIfDefeaded($despesasVencidas[$i]->id_parcela_despesa);
+        }
+    }
+
+    function setStatusIfPaid($id_parcela_despesa){
+        ParcelaDespesa::setStatusIfPaid($id_parcela_despesa);
+    }
+
+    function getExpenseById($id_parcela_despesa)
+    {
+        return ParcelaDespesa::parcela($id_parcela_despesa);
+    }
+
+    function setEndDate($id_parcela, $end_date)
+    {
+        return ParcelaDespesa::del($id_parcela, $end_date);
+    }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Empresa;
 use Carbon\Carbon;
-use App\Models\Endereco;
 use App\Repository\EmpresaRepository;
 use Illuminate\Http\Request;
 

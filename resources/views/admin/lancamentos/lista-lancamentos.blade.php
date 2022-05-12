@@ -2,6 +2,7 @@
 @section('title', 'Lançamento')
 
 @section('content')
+
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
         <div class="card">
@@ -64,59 +65,70 @@
                     </tbody>
                     @else
                     <tr>
-                        <th>DESPESA</th>
-                        <th>DESCRIÇÃO DESPESA</th>
-                        <th>VALOR DA DESPESA</th>
-                        <th>DATA VENCIMENTO</th>
+                        <th>NÚMERO</th>
+                        <th>VALOR</th>
+                        <th>DESCRIÇÃO</th>
+                        <th>DATA DE CADASTRO</th>
+                        <th>VENCIMENTO</th>
                         <th>STATUS</th>
-                        <th>AÇÕES</th>
+                        <th>AÇÃO</th>
                     </tr>
                     </thead>
                     <tbody>
                         @foreach($lancamentos as $lancamento)
                         <tr class={{$lancamento->de_status_despesa != 'EM ATRASO' ? "font-color-despesa" : "font-color-despesa-vencida"}}>
                             <td>{{$lancamento->id_despesa}}</td>
-                            <td>{{$lancamento->de_despesa}}</td>
                             <td>{{$mascara::maskMoeda($lancamento->valor_total_despesa)}}</td>
-                            <td>{{date("d/m/Y", strtotime($lancamento->dt_vencimento))}}</td>
+                            <td>{{$lancamento->de_despesa}}</td>
+                            <td>{{date("d/m/Y", strtotime($lancamento->dt_inicio))}}</td>
+                            <td></td>
                             <td>{{$lancamento->de_status_despesa}}</td>
-                            <td>
-                                <!-- muda a rota-->
-                                <a href="lancamentos/provisionamento/{{$lancamento->id_despesa}}" class="btn btn-success" style="padding: 8px 12px;">
-                                    <i class="bi bi-eye-fill"></i>
-                                </a>
-                                <button data-bs-toggle="modal" data-bs-target="#delete{{$lancamento->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
+
+                            <td class="d-flex justify-content-evenly" style="padding-bottom:22px">
+                                <div>
+                                    <i type="button" class="bi bi-caret-down" id="abrir_parcelas_{{$lancamento->id_despesa}}" onclick="getParcelas(this, '/lancamentos/provisionamento/')" data-bs-toggle="collapse" href="#collapseExample-{{$lancamento->id_despesa}}" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size: 25px;">
+
+                                    </i>
+                                </div>
+                                <div>
+                                    <button data-bs-toggle="modal" data-bs-target="#delete{{$lancamento->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
+                                </div>
                             </td>
                         </tr>
-                        <div class="modal fade text-left" id="delete{{$lancamento->id_despesa}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-danger">
-                                            <h5 class="modal-title white" id="myModalLabel120">EXCLUSÃO</h5>
-                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                <i data-feather="x"></i>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Deseja realmente excluir a Despesa: {{$lancamento->id_despesa}}?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                                <i class="bx bx-x d-block d-sm-none"></i>
-                                                <span class="d-none d-sm-block">Cancelar</span>
-                                            </button>
-                                            <form action="/despesas/delete/{{$lancamento->id_despesa}}" method="POST">
-                                                @csrf
-                                                <button class="btn btn-danger ml-1">
-                                                    <i class="bx bx-check d-block d-sm-none"></i>
-                                                    <span class="d-none d-sm-block">Excluir</span>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
+                        <tr>
+                            <tbody id="parcela_{{$lancamento->id_despesa}}">
+
+                            </tbody>
+                        </tr>
+                    <div class="modal fade text-left" id="delete{{$lancamento->id_despesa}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger">
+                                    <h5 class="modal-title white" id="myModalLabel120">EXCLUSÃO</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Deseja realmente excluir a Despesa: {{$lancamento->id_despesa}}?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Cancelar</span>
+                                    </button>
+                                    <form action="/despesas/delete/{{$lancamento->id_despesa}}" method="POST">
+                                        @csrf
+                                        <button class="btn btn-danger ml-1">
+                                            <i class="bx bx-check d-block d-sm-none"></i>
+                                            <span class="d-none d-sm-block">Excluir</span>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
+                    </div>
+                    @endforeach
                     </tbody>
                     @endif
                 </table>
@@ -129,6 +141,7 @@
 <script src="assets/js/feather-icons/feather.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="{{ asset('assets/js/custom-js/lancamento.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/parcelas.js') }}"></script>
 
 <script>
     var inputDataInicio;

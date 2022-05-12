@@ -14,7 +14,8 @@ class Lancamento extends Model
     static function selectAll($results = 10, $dt_inicio = null, $dt_fim = null, $status_despesa_id = null)
     {
         $query = DB::table('intranet.tab_despesa')
-            ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id');
+            ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
+            ->where('intranet.tab_despesa.fk_tab_centro_custo_id', '!=', null);
 
         if ($dt_inicio && $dt_fim && $status_despesa_id) {
             $lancamentos = $query
@@ -28,7 +29,7 @@ class Lancamento extends Model
             $lancamentos = $query->where('intranet.tab_despesa.fk_status_despesa_id', '=', $status_despesa_id)
                 ->paginate(10);
         } else {
-            $lancamentos = $query->where('intranet.tab_despesa.fk_tab_centro_custo_id', '!=', null)
+            $lancamentos = $query
                 ->where('intranet.tab_despesa.fk_status_despesa_id', '=', 6)
                 ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)->orderBy('intranet.status_despesa.de_status_despesa', 'asc')
                 ->paginate($results);
@@ -135,16 +136,16 @@ class Lancamento extends Model
     static function findByStatus($id_status)
     {
         $data = DB::table('intranet.tab_lancamento')->join(
-            'intranet.tab_despesa',
-            'id_despesa',
+            'intranet.tab_parcela_despesa',
+            'id_parcela_despesa',
             '=',
-            'intranet.tab_lancamento.fk_tab_despesa_id'
+            'intranet.tab_lancamento.fk_tab_parcela_despesa_id'
         )->join(
             'intranet.status_despesa',
             'id_status_despesa',
             '=',
-            'intranet.tab_despesa.fk_status_despesa_id'
-        )->where("intranet.tab_despesa.fk_status_despesa_id", "=", $id_status)->orderBy('intranet.tab_lancamento.id_tab_lancamento', 'desc')->paginate(10);
+            'intranet.tab_parcela_despesa.fk_status_id'
+        )->where("intranet.tab_parcela_despesa.fk_status_id", "=", $id_status)->orderBy('intranet.tab_lancamento.id_tab_lancamento', 'desc')->paginate(10);
 
         return $data;
     }
