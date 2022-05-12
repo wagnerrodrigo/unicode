@@ -126,7 +126,7 @@
                                             <strong>FORMA DE PAGAMENTO </strong>
                                         </div>
                                         <input required class="form-control input-add teste" name="tipo_pagamento"
-                                            id="condicao_pagamento" readonly style="cursor: pointer; width: 200px"></input>
+                                            id="condicao_pagamento" readonly style="cursor: pointer; width: 200px"/>
                                         <div id="itens_tipo_pagamento" class="input-style" style="cursor: pointer;">
                                         </div>
                                     </div>
@@ -135,7 +135,8 @@
                                 <div class="col-md-3">
 
                                     <input type="hidden" id="idEmpregado" value="{{ $lancamento->fk_tab_empregado_id }}">
-                                    <input type="hidden" id="idFornecedor" value="{{ $lancamento->fk_tab_fornecedor_id }}">
+                                    <input type="hidden" id="idFornecedor"
+                                        value="{{ $lancamento->fk_tab_fornecedor_id }}">
 
                                     {{ $lancamento->fk_tab_empregado_id }}
                                     {{ $lancamento->fk_tab_fornecedor_id }}
@@ -146,7 +147,7 @@
                             </div>
 
                             <div class="d-flex" style="width: 100%">
-                                <div class="col-md-3" id="conta_hidden">
+                                <div class="col-md-6" id="conta_hidden">
                                     <!-- CAMPO DE CONTA BANCARIA E PIX -->
                                 </div>
 
@@ -161,7 +162,7 @@
                             <hr>
                             <div id="acrescidos"></div>
                             <hr>
-                            <br>
+
                         </div>
 
                         <div class="d-flex">
@@ -176,7 +177,7 @@
             @endforeach
         </div>
 
-        <div class="card" style="padding-top: 5px">
+        <div class="card" style="padding-top: 5px; margin-top: 90px">
             <div class="card-header">
                 <h1>CONTA DE PAGAMENTO </h1>
             </div>
@@ -239,6 +240,8 @@
     </div>
 
 
+    {{-- de_razao_social nome_emprega --}}
+
 
     <!-- Inicio Modal Adicionar-->
     <div class="me-1 mb-1 d-inline-block">
@@ -259,10 +262,14 @@
                             <div class="d-flex flex-column" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>TITULAR</strong>
-                                    <input class="form-control input-busca" name="titular_conta" type="text"
-                                        id="titular_conta" readonly style="width: 60rem" />
+                                    @foreach ($lancamentos as $lancamento)
+                                        <input class="form-control input-busca" name="titular_conta" type="text"
+                                            id="titular_conta" readonly style="width: 60rem"
+                                            value="{{ $lancamento->fk_tab_tipo_despesa_id == 1 ? $lancamento->nome_empregado : $lancamento->de_razao_social }}" />
+
+                                    @endforeach
                                     <input name="id_titular_conta" type="hidden" id="id_titular_conta" />
-                                    <input name="tipo_da_despesa" type="hidden" id="tipo_da_despesa" />
+                                    <input name="tipo_da_despesa" type="hidden" id="tipo_da_despesa" value="{{$lancamento->fk_tab_tipo_despesa_id}}"/>
                                 </div>
 
                                 <div class="px-5 mb-3">
@@ -498,17 +505,13 @@
     </div>
     <!-- Fim modal Adicionar -->
 
-    <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
-    <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
-
-    <script src="{{ asset('assets/js/vendors.js') }}"></script>
-
-    <script src="{{ asset('assets/js/vendors.js') }}"></script>
-
-    <script src="{{ asset('assets/js/main.js') }}"></script>
-
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="{{ asset('assets/js/custom-js/lancamento.js') }}"></script>
+    <script src="{{ asset('assets/js/custom-js/conta-pix.js') }}"></script>
+    <script src="{{ asset('assets/js/custom-js/conta-bancaria-despesa.js') }}"></script>
+    <script src="{{ asset('assets/js/custom-js/valida-email.js') }}"></script>
+    <script src="{{ asset('assets/js/custom-js/mascara-telefone.js') }}"></script>
+    <script src="{{ asset('assets/js/custom-js/valida-cpf-cnpj.js') }}"></script>
     <script src="{{ asset('assets/js/custom-js/mascara-data.js') }}"></script>
     <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
     <script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
