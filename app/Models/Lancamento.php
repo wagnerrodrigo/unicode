@@ -136,16 +136,16 @@ class Lancamento extends Model
     static function findByStatus($id_status)
     {
         $data = DB::table('intranet.tab_lancamento')->join(
-            'intranet.tab_despesa',
-            'id_despesa',
+            'intranet.tab_parcela_despesa',
+            'id_parcela_despesa',
             '=',
-            'intranet.tab_lancamento.fk_tab_despesa_id'
+            'intranet.tab_lancamento.fk_tab_parcela_despesa_id'
         )->join(
             'intranet.status_despesa',
             'id_status_despesa',
             '=',
-            'intranet.tab_despesa.fk_status_despesa_id'
-        )->where("intranet.tab_despesa.fk_status_despesa_id", "=", $id_status)->orderBy('intranet.tab_lancamento.id_tab_lancamento', 'desc')->paginate(10);
+            'intranet.tab_parcela_despesa.fk_status_id'
+        )->where("intranet.tab_parcela_despesa.fk_status_id", "=", $id_status)->orderBy('intranet.tab_lancamento.id_tab_lancamento', 'desc')->paginate(10);
 
         return $data;
     }
