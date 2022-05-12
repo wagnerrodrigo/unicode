@@ -92,7 +92,7 @@
                     <tbody>
                         @if(count($despesas) > 0)
                         @foreach($despesas as $despesa)
-                        <tr class={{$despesa->de_status_despesa != 'EM ATRASO' ? "font-color-despesa" : "font-color-despesa-vencida"}}>
+                        <tr class="font-color-despesa">
                             <td>{{$despesa->id_despesa}}</td>
                             <td>{{$mascara::maskMoeda($despesa->valor_total_despesa)}}</td>
                             <td>{{$despesa->qt_parcelas_despesa}}</td>

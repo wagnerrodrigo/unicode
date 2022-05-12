@@ -187,10 +187,9 @@ function getParcelas(object, url) {
             success: function(response) {
                 if (response.length > 0) {
                     for (i = 0; i < response.length; i++) {
-
                         $(`#parcela_${id}`).append(
-                            `<tr class="table-dark tr_generated_${id}">` +
-                            `<td><input type="checkbox" name="ids_despesas" value="${response[i].id_parcela_despesa}">` + response[i].id_parcela_despesa + '</td>' +
+                            `<tr class="table-dark tr_generated_${id} ${response[i].de_status_despesa == 'EM ATRASO' ? "font-color-despesa-vencida" : "font-color-despesa"}">` +
+                            `<td><input style="margin-right: 5px" type="checkbox" name="ids_despesas" value="${response[i].id_parcela_despesa}">` + response[i].id_parcela_despesa + '</td>' +
                             "<td>" + Intl.NumberFormat('pt-BR', {
                                 style: 'currency',
                                 currency: 'BRL'
