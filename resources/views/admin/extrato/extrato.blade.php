@@ -68,20 +68,6 @@
 
                             </td>
                         </tr>
-
-                        <tr class="collapse" id="collapseExample-{{ $lancamento->id_tab_lancamento }}">
-                            <th>ID EXTRATO</th>
-                            <th>NOME BANCO</th>
-                            <th>DESCRIÇÃO</th>
-                            <th>DATA PAGAMENTO</th>
-                            <th>PREÇO</th>
-                            <th> <button class="btn btn-small btn-primary" id="conciliacao_{{ $lancamento->id_tab_lancamento }}">Conciliar</button></th>
-                        </tr>
-                        <tr>
-                            <tbody id="extrato_{{ $lancamento->id_tab_lancamento }}">
-
-                            </tbody>
-                        </tr>
                     </tbody>
                     @endforeach
                     @endif
@@ -89,13 +75,43 @@
                 <div>{{ $lancamentos->links() }}</div>
             </div>
         </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h1>EXTRATOS DISPONIVEIS</h1>
+            </div>
+            <div class="card-body">
+                <table class='table table-striped' id="table2">
+                    <thead>
+                        <tr>
+                            <th>ID EXTRATO</th>
+                            <th>NOME BANCO</th>
+                            <th>DESCRIÇÃO</th>
+                            <th>DATA PAGAMENTO</th>
+                            <th>PREÇO</th>
+                            <th>NOME DO ARQUIVO</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach($extratos as $extrato)
+                        <tr class="table-dark">
+                            <td style="padding:5px;"><input style="margin-right: 5px;" type="checkbox" name="ids_extratos[]" value="{{$extrato->id_extrato}}" />{{$extrato->id_extrato}}</td>
+                            <td style="padding:5px;">{{$extrato->org}}</td>
+                            <td style="padding:5px;">{{$extrato->memo}}</td>
+                            <td style="padding:5px;">{{date("d/m/Y", strtotime($extrato->dtposted))}}</td>
+                            <td style="padding:5px;">{{$mascara::maskMoeda($extrato->trnamt)}}</td>
+                            <td style="padding:5px;">{{$extrato->filename}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <div>{{ $extratos->render() }}</div>
+            </div>
+        </div>
     </div>
 </div>
 
-<script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
-<script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
-<script src="{{ asset('assets/js/vendors.js') }}"></script>
-<script src="{{ asset('assets/js/main.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- <script src="{{ asset('assets/js/custom-js/extrato.js') }}"></script> -->
@@ -146,16 +162,7 @@
                         for (i = 0; i < response.length; i++) {
                             $.each(response[i], function(key, val) {
                                 $(`#extrato_${id}`).append(
-                                    `<tr class="table-dark tr_generated_${id}">` +
-                                    `<td>` + val.id_extrato + `<input type="checkbox" name="ids_extratos[]" value="${val.id_extrato}"/></td>` +
-                                    `<td>${val.org}</td>` +
-                                    `<td>${val.memo}</td>` +
-                                    "<td>" + Intl.DateTimeFormat('pt-BR').format(new Date(val.dtposted)) + "</td>" +
-                                    "<td>" + Intl.NumberFormat('pt-BR', {
-                                        style: 'currency',
-                                        currency: 'BRL'
-                                    }).format(val.trnamt) + `<input type="hidden" id="valorExtratoId${val.id_extrato}" value="${val.trnamt}"/></td>` +
-                                    "<td></td>"
+
                                 );
                             });
                         }

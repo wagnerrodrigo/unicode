@@ -301,8 +301,9 @@ class Despesa extends Model
 
     static function findPaymentConditionById($id)
     {
-        return DB::select("SELECT fk_condicao_pagamento_id FROM intranet.tab_despesa WHERE id_despesa =?;", [$id]);
+        return DB::select("SELECT fk_condicao_pagamento_id FROM intranet.tab_despesa WHERE id_despesa = ?;", [$id]);
     }
+
     static function findTipoECentroCustoDespesa($id)
     {
         $query = "SELECT fk_tab_tipo_despesa_id, fk_tab_centro_custo_id FROM intranet.tab_despesa WHERE id_despesa = ?;";
