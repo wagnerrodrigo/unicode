@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Despesa;
 use Illuminate\Http\Request;
-use App\Utils\CondicaoPagamentoId;
 use App\Utils\TipoDespesa;
 use App\Utils\FormataValor;
 use App\Utils\StatusDespesa;
@@ -14,7 +13,6 @@ use App\Repository\DespesaRepository;
 use App\Repository\RateioRepository;
 use App\Repository\ItemDespesaRepository;
 use App\Repository\CostCenterRepository;
-use App\Repository\DocumentoRepository;
 use App\Repository\EmpresaRepository;
 use App\CustomError\CustomErrorMessage;
 use App\Repository\ParcelaDespesaRepository;
@@ -29,8 +27,8 @@ class DespesaController extends Controller
     public function index(Request $request)
     {
         try {
-            $despesaRepository = new DespesaRepository();
-            $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
+            $parcelaDespesaRepository = new ParcelaDespesaRepository;
+            $parcelaDespesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
 
             $mascara = new Mascaras();
             //quantidade de resultados por pagina

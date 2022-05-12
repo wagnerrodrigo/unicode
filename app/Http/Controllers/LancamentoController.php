@@ -10,6 +10,7 @@ use App\Utils\Mascaras\Mascaras;
 use Carbon\Carbon;
 use App\Repository\DespesaRepository;
 use App\CustomError\CustomErrorMessage;
+use App\Repository\ParcelaDespesaRepository;
 use App\Repository\RateioRepository;
 
 class LancamentoController extends Controller
@@ -23,8 +24,8 @@ class LancamentoController extends Controller
     {
         try {
             //muda status da despesa caso a data de vencimento seja inferior a data atual
-            $despesaRepository = new DespesaRepository();
-            $despesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
+            $parcelaDespesaRepository = new ParcelaDespesaRepository;
+            $parcelaDespesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
 
             $filtros = null;
             // dd($request->results);
@@ -159,7 +160,8 @@ class LancamentoController extends Controller
     {
         $despesaRepository = new DespesaRepository();
         $dadosDespesa = $despesaRepository->findTipoECentroCustoDespesa($id);
-        foreach($dadosDespesa as $despesa){}
+        foreach ($dadosDespesa as $despesa) {
+        }
         $lancamentos = $despesaRepository->getExpenseById($id, $despesa->fk_tab_tipo_despesa_id);
 
 

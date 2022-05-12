@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use App\Utils\StatusDespesa;
 
 class ParcelaDespesa extends Model
 {
@@ -124,5 +125,25 @@ class ParcelaDespesa extends Model
         DB::table('intranet.tab_parcela_despesa')
             ->where('id_parcela_despesa', '=', $id)
             ->update(['dt_provisionamento' => $date]);
+    }
+
+    static function findByDueDate($date)
+    {
+        return DB::table('intranet.tab_parcela_despesa')
+            ->where('fk_status_id', '=', StatusDespesa::A_PAGAR)->where('dt_vencimento', '<', $date)->get();
+    }
+
+    static function setStatusIfDefeaded($id)
+    {
+        DB::table('intranet.tab_parcela_despesa')
+            ->where('id_parcela_despesa', '=', $id)
+            ->update(['fk_status_id' => StatusDespesa::EM_ATRASO]);
+    }
+
+    static function setStatusIfPaid($id)
+    {
+        DB::table('intranet.tab_parcela_despesa')
+            ->where('id_parcela_despesa', '=', $id)
+            ->update(['fk_status_id' => StatusDespesa::PAGO]);
     }
 }
