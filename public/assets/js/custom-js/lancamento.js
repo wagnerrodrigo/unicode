@@ -1,6 +1,6 @@
 var idFornecedor = $("#idFornecedor").val();
 var idEmpregado = $("#idEmpregado").val();
-var tipoDespesa;
+var tipoDespesa = $("#tipo_da_despesa").val();
 $(document).ready(function () {
     $("#modal_valor_rateado").val("0,00");
 });
@@ -437,6 +437,7 @@ $.ajax({
             }
         });
 
+        console.log(tipoDespesa);
         $("#condicao_pagamento").click(function () {
             $("#itens_tipo_pagamento").show();
         });
@@ -447,6 +448,7 @@ $.ajax({
 
             var id_tipo_pagamento = $(this).attr("value");
             //tipos de pagamento  3 = Depósito; 6 = DOC; 7 = TED; 8 == Tranferência;
+            console.log(id_tipo_pagamento);
             if (
                 id_tipo_pagamento == 3 ||
                 id_tipo_pagamento == 6 ||
@@ -464,15 +466,16 @@ $.ajax({
                 var endpoint;
                 var url = "/contas-bancarias/";
 
-                tipoDespesa = $("input[name=tipo_despesa]:checked").val();
 
-                if (tipoDespesa == "empregado") {
-                    endpoint = `${idEmpregado}/${tipoDespesa}`;
+
+                if (tipoDespesa == 1) {
+                    endpoint = `${idEmpregado}/empregado`;
                     url = url + endpoint;
-                } else if (tipoDespesa == "fornecedor") {
-                    endpoint = `${idFornecedor}/${tipoDespesa}`;
+                } else if (tipoDespesa == 2) {
+                    endpoint = `${idFornecedor}/fornecedor`;
                     url = url + endpoint;
                 }
+                console.log(url);
 
                 $.ajax({
                     type: "GET",
@@ -506,9 +509,9 @@ $.ajax({
                         "<option value='' class='pix_fornecedor_resultado'></option>" +
                         "</select>"
                 );
-                tipoDespesa = $("input[name=tipo_despesa]:checked").val();
 
-                if (tipoDespesa == "fornecedor") {
+
+                if (tipoDespesa == 2) {
                     $.ajax({
                         type: "GET",
                         url: `/pix/fornecedor/${idFornecedor}`,
