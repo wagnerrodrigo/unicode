@@ -60,20 +60,15 @@ class DespesaController extends Controller
 
     public function show($id)
     {
-        try {
+        // try {
             $despesaRepository = new DespesaRepository();
-            foreach ($despesaRepository->findTipoECentroCustoDespesa($id) as $tipoDespesa) {
-            }
+            foreach ($despesaRepository->findTipoECentroCustoDespesa($id) as $tipoDespesa) {}
 
             $costCenterRepository = new CostCenterRepository();
 
             $tipo = TipoDespesa::class;
 
-            $despesas = Despesa::findOne(
-                $id,
-                $tipoDespesa->fk_tab_tipo_despesa_id,
-                $tipoDespesa->fk_tab_centro_custo_id
-            );
+            $despesas = Despesa::findOne($id,$tipoDespesa->fk_tab_tipo_despesa_id,$tipoDespesa->fk_tab_centro_custo_id);
 
             $rateioRepository = new RateioRepository();
             $rateios = $rateioRepository->findRateioDespesa($id);
@@ -87,10 +82,10 @@ class DespesaController extends Controller
             } else {
                 return view('admin.despesas.despesa-nao-encontrada');
             }
-        } catch (\Exception $e) {
-            $error = CustomErrorMessage::ERROR_DESPESA;
-            return view('error', compact('error'));
-        }
+        // } catch (\Exception $e) {
+        //     $error = CustomErrorMessage::ERROR_DESPESA;
+        //     return view('error', compact('error'));
+        // }
     }
 
     public function store(Request $request)

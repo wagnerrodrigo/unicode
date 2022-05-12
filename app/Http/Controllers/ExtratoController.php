@@ -19,45 +19,25 @@ class ExtratoController extends Controller
     public function index(Request $request)
     {
         $lancamentoRepository = new LancamentoRepository();
+        $extratos = new Extrato();
+        $extratos = $extratos->selectAll();
+
         $mascara = new Mascaras();
+
         if ($request->has('dt_inicio') && $request->has('dt_fim')) {
             $dt_lancamento = $request->input('dt_inicio');
             $dt_vencimento = $request->input('dt_fim');
 
             if (empty($dt_lancamento) && empty($dt_vencimento)) {
                 $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
-                return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
+                return view('admin.extrato.extrato', compact('lancamentos', 'mascara', 'extratos'));
             } else {
                 $lancamentos = $this->showPeriodDate($dt_lancamento, $dt_vencimento);
-                return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
+                return view('admin.extrato.extrato', compact('lancamentos', 'mascara', 'extratos'));
             }
         } else {
             $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
-            return view('admin.extrato.extrato', compact('lancamentos', 'mascara'));
-        }
-    }
-
-    public function index2(Request $request)
-    {
-        $lancamentoRepository = new LancamentoRepository();
-        $mascara = new Mascaras();
-        $extratos = Extrato::selectAll();
-
-        if ($request->has('dt_inicio') && $request->has('dt_fim')) {
-            $dt_lancamento = $request->input('dt_inicio');
-            $dt_vencimento = $request->input('dt_fim');
-            if (empty($dt_lancamento) && empty($dt_vencimento)) {
-                $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
-
-                return view('admin.extrato.extrato2', compact('lancamentos', 'extratos', 'mascara'));
-            } else {
-                $lancamentos = $this->showPeriodDate($dt_lancamento, $dt_vencimento);
-                return view('admin.extrato.extrato2', compact('lancamentos',  'extratos', 'mascara'));
-            }
-        } else {
-            $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
-
-            return view('admin.extrato.extrato2', compact('lancamentos', 'extratos', 'mascara'));
+            return view('admin.extrato.extrato', compact('lancamentos', 'mascara', 'extratos'));
         }
     }
 
@@ -109,23 +89,6 @@ class ExtratoController extends Controller
         $extrato = Extrato::selectAll();
         return response()->json($extrato);
     }
-
-    // [FIX] tela de para aprovação equipe financeiro
-
-    // public function showExtractDetails($id){
-    //     $lancamentoRepository = new LancamentoRepository();
-    //     $rateioRepository = new RateioRepository();
-    //     $rateios = $rateioRepository->findContaBancariaRateioByLancamento($id);
-    //     $lancamentos = $lancamentoRepository->findAccountingEntryById($id);
-
-
-    //     $extratos = Extrato::findByExtract($id);
-    //     return view('admin.extrato.add-extrato', compact('lancamentos','rateios', 'extratos'));
-    // }
-
-    // public function showInfoExtract(){
-    //     return view('admin.extrato.info-extrato');
-    // }
 
     /**
      * Show the form for editing the specified resource.

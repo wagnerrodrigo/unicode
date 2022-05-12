@@ -26,7 +26,6 @@ use App\Http\Controllers\ComprasController;
 use App\Http\Controllers\PixController;
 use App\Http\Controllers\ClassificacaoDocumentoController;
 use App\Http\Controllers\ParcelaDespesaController;
-use App\Models\ClassificacaoDocumento;
 use Illuminate\Support\Facades\Route;
 
 //rotas públicas
@@ -48,7 +47,6 @@ Route::get('/teste', [TesteController::class, 'all'])->name('teste');
 //rotas extratos
 Route::middleware('autenticacaoMiddleware')->prefix('/extrato')->group(function () {
     Route::get('/', [ExtratoController::class, 'index'])->name('extrato');
-    Route::get('/2', [ExtratoController::class, 'index2']);
     Route::get('/lancamento/{id}', [ExtratoController::class, 'getExtractByBankAccount']);
     Route::get('/empresa', [ExtratoController::class, 'showCompany']);
     Route::get('/pesquisa/{dt_inicio}/{dt_fim}', [ExtratoController::class, 'showPeriodDate']);
@@ -117,7 +115,6 @@ Route::middleware('autenticacaoMiddleware')->prefix('/conciliacao')->group(funct
     Route::post('/{id}', [ConciliacaoController::class, 'create']);
 });
 
-
 //Centro de custo Empresa rotas
 Route::middleware('autenticacaoMiddleware')->prefix('/centroCustoEmpresa')->group(function () {
     Route::get('/{id}', [CentroCustosController::class, 'showById']);
@@ -144,7 +141,6 @@ Route::middleware('autenticacaoMiddleware')->prefix('/lancamentos')->group(funct
     Route::get('/pesquisa/atributos', [LancamentoController::class, 'showBydateAndstatus']);
     Route::post('/delete/{id}', [LancamentoController::class, 'destroy']);
 });
-
 
 //rotas Produto
 Route::prefix('/produto')->group(function () {
@@ -210,7 +206,6 @@ Route::middleware('autenticacaoMiddleware')->prefix('/enderecos')->group(functio
     Route::get('/empresas', [EnderecoController::class, 'selectEmpresa']);
     Route::get('/adicionar', [EnderecoController::class, 'formEndereco']);
     Route::get('/{id}', [EnderecoController::class, 'show']);
-    //Route::post('/adicionar', [EnderecoController::class, 'store']);
 });
 
 // rotas de pagamentos
