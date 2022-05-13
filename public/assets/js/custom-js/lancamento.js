@@ -608,3 +608,14 @@ $.ajax({
     function limpaCamposContaPix() {
         $("#option_Pix").remove();
     }
+    function getPix(object) {
+        $("input[name=numero_pix_fornecedor_empregado]").attr("value", object.value);
+        $("input[name=numero_conta_bancaria_fornecedor_empregado]").attr("value", '');
+        console.log({pix:object.value});
+    }
+
+    function getContaBancaria(object) {
+        $("input[name=numero_conta_bancaria_fornecedor_empregado]").attr("value", object.value);
+        $("input[name=numero_pix_fornecedor_empregado]").attr("value", '');
+        console.log({conta_bancaria:object.value});
+    }
