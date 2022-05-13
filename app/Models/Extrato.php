@@ -22,6 +22,7 @@ class Extrato extends Model
     {
         return DB::table('intranet.tab_extrato')
             ->where('tab_extrato.trnamt', '<', '0')
+            ->join('intranet.tab_conta_bancaria', 'tab_extrato.fk_tab_conta_bancaria', '=', 'tab_conta_bancaria.id_conta_bancaria')
             ->paginate(10);
     }
 
