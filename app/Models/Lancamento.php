@@ -166,7 +166,7 @@ class Lancamento extends Model
     {
         DB::insert("INSERT INTO intranet.tab_lancamento
         (
-            fk_tab_despesa_id,
+            fk_tab_parcela_despesa_id,
             dt_lancamento,
             dt_vencimento,
             dt_inicio,
@@ -178,7 +178,7 @@ class Lancamento extends Model
             dt_fim
         )
         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
-            $lancamento->id_despesa,
+            $lancamento->id_parcela_despesa,
             $lancamento->dt_lancamento,
             $lancamento->dt_vencimento,
             $lancamento->dt_inicio,

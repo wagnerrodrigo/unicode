@@ -14,7 +14,7 @@
                     <div class="card-body" style="font-size: 18px;">
                         <div class="card-body">
                             <div class="d-flex">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div>
                                             <strong>DESCRIÇÃO DA DESPESA </strong>
@@ -22,9 +22,7 @@
                                         <span>{{ $lancamento->de_despesa }}</span>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="d-flex">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div>
@@ -41,19 +39,12 @@
                                         <div>
                                             <strong>VALOR</strong>
                                         </div>
-                                        <span>{{ $mascara::maskMoeda($lancamento->valor_total_despesa) }}</span>
-                                        <input type="hidden" name="" id="valorTotal"
-                                            value="{{ $lancamento->valor_total_despesa }}">
+                                        <span>{{ $mascara::maskMoeda($parcela->valor_parcela) }}</span>
+                                        <input type="hidden" name="" id="valorTotal" value="{{ $parcela->valor_parcela }}"/>
                                     </div>
                                 </div>
 
-
-                            </div>
-
-                            <div class="d-flex">
-
-
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div>
                                             <strong>STATUS</strong>
@@ -63,8 +54,6 @@
                                 </div>
                             </div>
 
-
-                            <hr />
                             <hr />
 
                             {{-- Inico info Parcelas --}}
@@ -113,13 +102,9 @@
 
                                 <div class="col-md-3">
 
-                                    <input type="hidden" id="idEmpregado" value="{{ $lancamento->fk_tab_empregado_id }}">
-                                    <input type="hidden" id="idFornecedor"
-                                        value="{{ $lancamento->fk_tab_fornecedor_id }}">
+                                    <input type="hidden" id="idEmpregado" value="{{ $lancamento->fk_tab_empregado_id }}"/>
+                                    <input type="hidden" id="idFornecedor" value="{{ $lancamento->fk_tab_fornecedor_id }}"/>
                                 </div>
-
-
-
                             </div>
 
                             <div class="d-flex" style="width: 100%">
@@ -172,9 +157,8 @@
                     @csrf
 
                     <input type="hidden" id="hidden_inputs_itens">
-                        <input type="hidden" name="id_despesa" id="id_despesa" value="{{ $lancamento->id_despesa }}">
-                        <input type="hidden" name="fk_condicao_pagamento_id" id="fk_condicao_pagamento_id"
-                            value="{{ $lancamento->fk_condicao_pagamento_id }}">
+                        <input type="hidden" name="id_parcela_despesa" id="id_despesa" value="{{ $parcela->id_parcela_despesa }}">
+                        <input type="hidden" name="fk_condicao_pagamento_id" id="fk_condicao_pagamento_id" value="{{ $lancamento->fk_condicao_pagamento_id }}">
                         <input type="hidden" name="id_empresa" id="id_empresa" value="{{ $lancamento->id_empresa }}">
                         <input type="hidden" name="valor_total_despesa" id="valor_total_despesa"
                             value="{{ $lancamento->valor_total_despesa }}">

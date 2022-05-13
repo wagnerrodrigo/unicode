@@ -63,15 +63,23 @@ class LancamentoController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $despesaRepository = new DespesaRepository();
-            $fk_condicao_pagamento = $despesaRepository->findPaymentCondition($request->id_despesa);
+        // try {
+            //adiciona fk_condicao_pagamento_id, fk_tab_conta_bancaria, fk_tab_pix
+            $parcelaDespesaRepository = new ParcelaDespesaRepository();
+
+            $parcelas = [
+                'fk_condicao_pagamento' => $request->fk_condicao_pagamento_id,
+                'fk_tab_conta_bancaria' => $request->fk_tab_conta_bancaria,
+                'fk_tab_pix' => $request->fk_tab_pix,
+            ];
+
+            $parcelaDespesaRepository->addPayment($parcelas, $request->id_parcela_despesa);
+
             if (!empty($request->valor_rateio_pagamento)) {
 
                 $lancamento = new Lancamento();
 
-                $lancamento->id_despesa = $request->id_despesa;
-                $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
+                $lancamento->id_parcela_despesa = $request->id_parcela_despesa;
                 $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 $lancamento->dt_lancamento = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 $lancamento->dt_vencimento = $request->dt_vencimento;
@@ -113,7 +121,6 @@ class LancamentoController extends Controller
                 $lancamento = new Lancamento();
 
                 $lancamento->id_despesa = $request->id_despesa;
-                $lancamento->fk_condicao_pagamento_id = $fk_condicao_pagamento[0]->fk_condicao_pagamento_id;
                 $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 $lancamento->dt_lancamento =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 $lancamento->dt_vencimento = $request->dt_vencimento;
@@ -127,15 +134,14 @@ class LancamentoController extends Controller
                 // FIM requeste somente lancamento
             }
 
-            $despesa = new Despesa();
-            $despesa::setStatus($request->id_despesa);
+            $parcelaDespesaRepository->setStatus($request->id_parcela_despesa);
 
             return redirect()->route('lancamentos')->with('success', 'Lançamento Cadastrado!');
-        } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', 'Não foi possível realizar o Lançamento' . $e->getMessage());
-        }
+        // } catch (\Exception $e) {
+        //     return redirect()
+        //         ->back()
+        //         ->with('error', 'Não foi possível realizar o Lançamento' . $e->getMessage());
+        // }
     }
 
     /**

@@ -53,4 +53,21 @@ class ParcelaDespesaRepository {
     {
         return ParcelaDespesa::del($id_parcela, $end_date);
     }
+
+    function addPayment(array $parcelas, $idParcela)
+    {
+        $parcela = new ParcelaDespesa();
+        //percorre o novo array e chama o metodo de inserção no banco para cada indice do array de rateios
+        for ($i = 0; $i < count($parcelas); $i++) {
+            $parcela->fk_condicao_pagamento = $parcelas['fk_condicao_pagamento'];
+            $parcela->fk_tab_conta_bancaria = $parcelas['fk_tab_conta_bancaria'];
+            $parcela->fk_pix_id = $parcelas['fk_tab_pix'];
+
+            ParcelaDespesa::addPayment($parcela, $idParcela);
+        }
+    }
+
+    function setStatus($id_parcela_despesa){
+        ParcelaDespesa::setStatus($id_parcela_despesa);
+    }
 }

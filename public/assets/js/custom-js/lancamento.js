@@ -443,6 +443,7 @@ $.ajax({
         });
 
         $(".item_condicao_pagamento").click(function () {
+            $("#fk_condicao_pagamento_id").attr("value", $(this).attr("value"));
             $("#condicao_pagamento").val($(this).text());
             $("#itens_tipo_pagamento").hide();
 

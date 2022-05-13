@@ -78,7 +78,8 @@ class ParcelaDespesa extends Model
             'tab_parcela_despesa.fk_status_id',
             '=',
             'intranet.status_despesa.id_status_despesa'
-        )->where('tab_parcela_despesa.fk_despesa', $idDespesa)->orderBy('num_parcela', 'asc')->get();
+        )->where('fk_status_id', '!=', StatusDespesa::PROVISIONADO)
+            ->where('fk_status_id', '!=', StatusDespesa::PAGO)->where('tab_parcela_despesa.fk_despesa', $idDespesa)->orderBy('num_parcela', 'asc')->get();
     }
 
     static function parcela($idParcela)
@@ -104,7 +105,10 @@ class ParcelaDespesa extends Model
                 'tab_parcela_despesa.fk_status_id',
                 '=',
                 'intranet.status_despesa.id_status_despesa'
-            )->where('id_parcela_despesa', $idParcela)->first();
+            )
+            ->where('fk_status_id', '!=', StatusDespesa::PROVISIONADO)
+            ->where('fk_status_id', '!=', StatusDespesa::PAGO)
+            ->where('id_parcela_despesa', $idParcela)->first();
     }
 
     static function setParcela(ParcelaDespesa $parcela)
@@ -147,9 +151,35 @@ class ParcelaDespesa extends Model
             ->update(['fk_status_id' => StatusDespesa::PAGO]);
     }
 
-    static function del($id, $date){
+    static function del($id, $date)
+    {
         DB::update("UPDATE intranet.tab_parcela_despesa
         SET dt_fim = ?
         WHERE fk_despesa = ?", [$date, $id]);
+    }
+
+    static function addPayment($parcela, $idParcela)
+    {
+        DB::update(
+            "UPDATE intranet.tab_parcela_despesa
+        SET fk_condicao_pagamento = ?, fk_conta_bancaria = ?, fk_pix_id = ?
+        WHERE id_parcela_despesa = ?",
+            [
+                $parcela->fk_condicao_pagamento,
+                $parcela->fk_tab_conta_bancaria,
+                $parcela->fk_tab_pix,
+                $idParcela
+            ]
+        );
+    }
+
+    static function setStatus($id_parcela_despesa)
+    {
+        DB::update(
+            "UPDATE intranet.tab_parcela_despesa
+            SET fk_status_id = 1
+            WHERE id_parcela_despesa = ?",
+            [$id_parcela_despesa]
+        );
     }
 }
