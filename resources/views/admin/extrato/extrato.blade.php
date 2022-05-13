@@ -159,20 +159,45 @@
     valorExtrato = 0;
     valorDespesa = 0;
 
-    $('input[name="ids_extratos[]"]:checked').each(function() {
-        const extrato = {
-            id: $(this).val(),
-            conta_bancaria: $(`#conta_bancaria_extrato${$(this).val()}`).val(),
-        }
-        extratos.push(extrato);
-        if (extratos.length > 1) {
-            for (i = 1; i < extratos.length; i++) {
-                if (extrato.conta_bancaria != extratos[i - 1].conta_bancaria) {
-                    alert("As contas bancárias não são iguais");
+    $('input[name="ids_extratos[]"]').change(function() {
+        //adiciona extrato ao array de extratos
+        if ($(this).prop("checked") == true) {
+            const extrato = {
+                id: $(this).val(),
+                conta_bancaria: $(`#conta_bancaria_extrato${$(this).val()}`).val(),
+            }
+
+            if (extratos.length < 1) {
+                extratos.push(extrato);
+            } else {
+                if (extrato.conta_bancaria != extratos[0].conta_bancaria) {
+                    swal.fire({
+                        title: 'Atenção',
+                        text: 'Selecione extratos de mesma conta bancaria',
+                        type: 'warning',
+                        confirmButtonText: 'Fechar'
+                    });
+                    $(this).prop('checked', false);
+                } else {
+                    extratos.push(extrato);
                 }
             }
+            valorExtrato = valorExtrato + Number($(`#valorExtratoId${$(this).val()}`).val());
+        } else {
+            //remove extrato do array
+            const extrato = {
+                id: $(this).val(),
+                conta_bancaria: $(`#conta_bancaria_extrato${$(this).val()}`).val(),
+            }
+
+            var extratoFiltrado = extratos.find(extrato => extrato.id === $(this).val());
+            extratos.splice(extratos.indexOf(extratoFiltrado), 1);
+            valorExtrato = valorExtrato - Number($(`#valorExtratoId${$(this).val()}`).val());
         }
-        valorExtrato = valorExtrato + Number($(`#valorExtratoId${$(this).val()}`).val());
+    });
+
+    $('input[name="ids_extratos[]"]:checked').each(function() {
+
     });
 
     $('input[name="inputs_selecionandos[]"]:checked').each(function() {
@@ -190,14 +215,14 @@
     });
 
     $(`#conciliacao`).click(function() {
-        if (ids_lancamentos == '') {
+        if (lancamentos == '') {
             swal.fire({
                 title: "Atenção",
                 text: "Você não selecionou nenhum lançamento",
                 icon: "warning",
                 button: "Ok",
             });
-        } else if (ids_extratos == '') {
+        } else if (extratos == '') {
             swal.fire({
                 title: "Atenção",
                 text: "Você não selecionou nenhum extrato",
