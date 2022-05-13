@@ -145,6 +145,11 @@ class Lancamento extends Model
             'id_status_despesa',
             '=',
             'intranet.tab_parcela_despesa.fk_status_id'
+        )->join(
+            'intranet.tab_rateio_pagamento',
+            'fk_tab_lancamento',
+            '=',
+            'id_tab_lancamento'
         )->where("intranet.tab_parcela_despesa.fk_status_id", "=", $id_status)->orderBy('intranet.tab_lancamento.id_tab_lancamento', 'desc')->paginate(10);
 
         return $data;

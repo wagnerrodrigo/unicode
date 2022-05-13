@@ -35,7 +35,7 @@
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>ID DESPESA</th>
+                            <th>ID PARCELA</th>
                             <th>DATA DO PAGAMENTO</th>
                             <th>DESCRIÇÃO</th>
                             <th style="padding:1px">VALOR</th>
@@ -50,44 +50,49 @@
                         @foreach ($lancamentos as $lancamento)
                         <tr>
                             <td>
-                                {{ $lancamento->fk_tab_despesa_id }}
-                                <input type="checkbox" class="inputs_selecionandos" name="radio_lancamento" value="{{ $lancamento->id_tab_lancamento }}" id="radio_lancamento_{{ $lancamento->id_tab_lancamento }}">
+                                {{ $lancamento->fk_tab_parcela_despesa_id }}
+                                <input type="checkbox" class="inputs_selecionandos" name="inputs_selecionandos[]" value="{{ $lancamento->fk_tab_parcela_despesa_id }}" id="radio_lancamento_{{ $lancamento->id_tab_lancamento }}">
                             </td>
                             <td id="data_efetivo_pagamento_{{ $lancamento->id_tab_lancamento }}">{{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}</td>
-                            <td>{{ $lancamento->de_despesa }}</td>
-                            <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->id_tab_lancamento}}" value="{{$lancamento->valor_pago}}" /></td>
+                            <td>PARCELA {{ $lancamento->num_parcela }}</td>
+                            <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->valor_pago}}" /></td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
+                            <input type="hidden" id="conta_bancaria_lancamento{{ $lancamento->id_tab_lancamento }}" value="">
 
                             <td id="btn_abrir_extratos">
                                 <div class="d-flex justify-content-space-between">
-                                    <button type="button" id="abrir_extratos_{{ $lancamento->id_tab_lancamento }}" disabled class="accordion-button custon-btn custon-btn-accordion" onclick="getExtrato(this)" type="button" data-bs-toggle="collapse" href="#collapseExample-{{ $lancamento->id_tab_lancamento }}" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 25px">
-                                    </button>
                                     <button id="{{ $lancamento->id_tab_lancamento }}" onclick="editLancamento(this.id)" class="btn btn-warning ms-5" style="padding: 8px 12px;"><i class="bi bi-pencil-fill"></i></button>
-                                    <button id="{{ $lancamento->id_tab_lancamento }}" onclick="deleteLancamento(this.id)" class="btn btn-danger ms-2" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
+                                    <!-- <button id="{{ $lancamento->id_tab_lancamento }}" onclick="deleteLancamento(this.id)" class="btn btn-danger ms-2" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button> -->
                                 </div>
 
                             </td>
                         </tr>
+                        @endforeach
+                        @endif
                     </tbody>
-                    @endforeach
-                    @endif
                 </table>
                 <div>{{ $lancamentos->links() }}</div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-header">
-                <h1>EXTRATOS DISPONIVEIS</h1>
+            <div class="d-flex justify-content-between">
+                <div class="card-header">
+                    <h1>EXTRATOS DISPONIVEIS</h1>
+                </div>
+                <div class="px-5 mt-4">
+                    <button class="btn btn-primary" id="conciliacao">REALIZAR CONCILIAÇÃO</button>
+                </div>
             </div>
+
             <div class="card-body">
                 <table class='table table-striped' id="table2">
                     <thead>
                         <tr>
                             <th>ID EXTRATO</th>
-                            <th>NOME BANCO</th>
-                            <th>DESCRIÇÃO</th>
                             <th>DATA PAGAMENTO</th>
+                            <th>DESCRIÇÃO</th>
+                            <th>NOME BANCO</th>
                             <th>PREÇO</th>
                             <th>NOME DO ARQUIVO</th>
                         </tr>
@@ -95,13 +100,14 @@
 
                     <tbody>
                         @foreach($extratos as $extrato)
-                        <tr class="table-dark">
-                            <td style="padding:5px;"><input style="margin-right: 5px;" type="checkbox" name="ids_extratos[]" value="{{$extrato->id_extrato}}" />{{$extrato->id_extrato}}</td>
-                            <td style="padding:5px;">{{$extrato->org}}</td>
-                            <td style="padding:5px;">{{$extrato->memo}}</td>
+                        <tr class="table table-striped">
+                            <td style="padding:5px;">{{$extrato->id_extrato}}<input style="margin-left: 5px;" type="checkbox" name="ids_extratos[]" value="{{$extrato->id_extrato}}" /></td>
                             <td style="padding:5px;">{{date("d/m/Y", strtotime($extrato->dtposted))}}</td>
-                            <td style="padding:5px;">{{$mascara::maskMoeda($extrato->trnamt)}}</td>
+                            <td style="padding:5px;">{{$extrato->memo}}</td>
+                            <td style="padding:5px;">{{$extrato->org}}</td>
+                            <td style="padding:5px;">{{$mascara::maskMoeda($extrato->trnamt)}} <input type="hidden" id="valorExtratoId{{$extrato->id_extrato}}" value="{{$extrato->trnamt}}"></td>
                             <td style="padding:5px;">{{$extrato->filename}}</td>
+                            <input type="hidden" id="conta_bancaria_extrato{{$extrato->id_extrato}}" value="{{$extrato->fk_tab_conta_bancaria}}">
                         </tr>
                         @endforeach
                     </tbody>
@@ -147,125 +153,101 @@
     var valorExtrato = 0;
     var valorDespesa = 0;
 
-    function getExtrato(object) {
-        var href = object.getAttribute("href");
-        var id = href.substring(href.indexOf("-") + 1);
-        var expanded = object.getAttribute("aria-expanded");
 
-        if (expanded == 'true') {
-            $.ajax({
-                type: "GET",
-                url: `/extrato/lancamento/${id}`,
-                dataType: "json",
-                success: function(response) {
-                    if (response != '') {
-                        for (i = 0; i < response.length; i++) {
-                            $.each(response[i], function(key, val) {
-                                $(`#extrato_${id}`).append(
+    var extratos = [];
+    var lancamentos = [];
+    valorExtrato = 0;
+    valorDespesa = 0;
 
-                                );
-                            });
-                        }
-                    } else {
-                        $(`#extrato_${id}`).append(
-                            `<tr class="table-light tr_generated_${id}">` +
-                            `<td><span style="color: red; font-weight: bold;">Não há extrato</span></td>` +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "</tr>"
-                        );
-                    }
-                },
-            });
-
-            $(`#conciliacao_${id}`).click(function() {
-                var id = $(this).attr('id').substring(12);
-                var ids_extratos = [];
-                valorExtrato = 0;
-                valorDespesa = 0;
-                $('input[name="ids_extratos[]"]:checked').each(function() {
-                    if (Number($(`#valorExtratoId${$(this).val()}`).val()) > 0) {
-                        alert("Você selecionou um extrato de entrada");
-                    } else {
-                        ids_extratos.push($(this).val());
-                        valorExtrato = valorExtrato + Number($(`#valorExtratoId${$(this).val()}`).val());
-                    }
-                });
-
-                valorDespesa = Number($(`#valorDespesa${id}`).val());
-
-                if (ids_extratos == '') {
-                    swal({
-                        title: "Atenção",
-                        text: "Você não selecionou nenhum extrato",
-                        icon: "warning",
-                        button: "Ok",
-                    });
-                } else if (valorDespesa + valorExtrato != 0) {
-                    swal({
-                        title: "Atenção",
-                        text: "O valor da despesa é diferente do valor do(s) extrato(s)",
-                        icon: "warning",
-                        button: "Ok",
-                    });
-                } else {
-                    $.ajax({
-                        type: "POST",
-                        url: `/conciliacao/${id}`,
-
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            id_lancamento: id,
-                            ids_extratos: ids_extratos
-                        },
-                        dataType: "json",
-                        success: function(response) {
-                            swal({
-                                title: "Sucesso",
-                                text: "Conciliação realizada com sucesso",
-                                icon: "success",
-                            }).then(function() {
-                                window.location.href = "/extrato";
-                            });
-                        },
-                        fail: function(response) {
-                            swal({
-                                title: "Atenção",
-                                text: "Erro ao realizar a conciliação",
-                                icon: "warning",
-                                button: "Ok",
-                            });
-                        }
-                    });
-                }
-            });
-        } else {
-            $(`.tr_generated_${id}`).remove();
+    $('input[name="ids_extratos[]"]:checked').each(function() {
+        const extrato = {
+            id: $(this).val(),
+            conta_bancaria: $(`#conta_bancaria_extrato${$(this).val()}`).val(),
         }
-    }
-    //função para validar os checkboxes
-    $(function() {
-        $('input.inputs_selecionandos').click(function() {
-            if ($(this).is(":checked")) {
-                $('input.inputs_selecionandos').attr('disabled', true);
-                $('#abrir_extratos_' + $(this).val()).removeAttr('disabled');
-                $(this).removeAttr('disabled');
-            } else {
-                $('input.inputs_selecionandos').removeAttr('disabled');
-                $('#abrir_extratos_' + $(this).val()).attr('disabled', true);
-
-                if ($('#abrir_extratos_' + $(this).val()).attr('aria-expanded') == 'true') {
-                    $('#collapseExample-' + $(this).val()).attr('class', 'collapse');
-                    $(".tr_generated_" + $(this).val()).remove();
-                    $('#abrir_extratos_' + $(this).val()).attr('aria-expanded', false);
+        extratos.push(extrato);
+        if (extratos.length > 1) {
+            for (i = 1; i < extratos.length; i++) {
+                if (extrato.conta_bancaria != extratos[i - 1].conta_bancaria) {
+                    alert("As contas bancárias não são iguais");
                 }
             }
-        })
-    })
+        }
+        valorExtrato = valorExtrato + Number($(`#valorExtratoId${$(this).val()}`).val());
+    });
 
+    $('input[name="inputs_selecionandos[]"]:checked').each(function() {
+        const lancamento = {
+            id: $(this).val(),
+            conta_bancaria: '$(`#conta_bancaria_lancamento${$(this).val()}`).val()',
+        }
+        lancamentos.push(lancamento);
+        valorDespesa = valorDespesa + Number($(`#valorDespesa${$(this).val()}`).val());
+    });
+
+    console.log({
+        extratos,
+        lancamentos
+    });
+
+    $(`#conciliacao`).click(function() {
+        if (ids_lancamentos == '') {
+            swal.fire({
+                title: "Atenção",
+                text: "Você não selecionou nenhum lançamento",
+                icon: "warning",
+                button: "Ok",
+            });
+        } else if (ids_extratos == '') {
+            swal.fire({
+                title: "Atenção",
+                text: "Você não selecionou nenhum extrato",
+                icon: "warning",
+                button: "Ok",
+            });
+        } else if (valorDespesa + valorExtrato != 0) {
+            swal.fire({
+                title: "Atenção",
+                text: "O valor da despesa é diferente do valor do(s) extrato(s)",
+                icon: "warning",
+                button: "Ok",
+            });
+        } else if (contaBancaria != '') {
+
+        } else {
+
+            console.log(ids_extratos);
+            // $.ajax({
+            //     type: "POST",
+            //     url: `/conciliacao/${id}`,
+
+            //     data: {
+            //         "_token": "{{ csrf_token() }}",
+            //         id_lancamento: id,
+            //         ids_extratos: ids_extratos
+            //     },
+            //     dataType: "json",
+            //     success: function(response) {
+            //         swal({
+            //             title: "Sucesso",
+            //             text: "Conciliação realizada com sucesso",
+            //             icon: "success",
+            //         }).then(function() {
+            //             window.location.href = "/extrato";
+            //         });
+            //     },
+            //     fail: function(response) {
+            //         swal({
+            //             title: "Atenção",
+            //             text: "Erro ao realizar a conciliação",
+            //             icon: "warning",
+            //             button: "Ok",
+            //         });
+            //     }
+            // });
+        }
+    });
+
+    //função para validar os checkboxes
     function deleteLancamento(id) {
         Swal.fire({
             title: 'Atenção!',
