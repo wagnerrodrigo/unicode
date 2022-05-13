@@ -69,8 +69,8 @@ class LancamentoController extends Controller
 
             $parcelas = [
                 'fk_condicao_pagamento' => $request->fk_condicao_pagamento_id,
-                'fk_tab_conta_bancaria' => $request->fk_tab_conta_bancaria,
-                'fk_tab_pix' => $request->fk_tab_pix,
+                'fk_tab_conta_bancaria' => $request->numero_conta_bancaria_fornecedor_empregado,
+                'fk_tab_pix' => $request->numero_pix_fornecedor_empregado,
             ];
 
             $parcelaDespesaRepository->addPayment($parcelas, $request->id_parcela_despesa);
