@@ -39,6 +39,7 @@
                             <th>DATA DO PAGAMENTO</th>
                             <th>DESCRIÇÃO</th>
                             <th style="padding:1px">VALOR</th>
+                            <th style="padding:1px">AGENCIA/CONTA</th>
                             <th>STATUS</th>
                             <th>AÇÕES</th>
 
@@ -56,8 +57,9 @@
                             <td id="data_efetivo_pagamento_{{ $lancamento->id_tab_lancamento }}">{{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}</td>
                             <td>PARCELA {{ $lancamento->num_parcela }}</td>
                             <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->valor_pago}}" /></td>
+                            <td>{{ $lancamento->nu_agencia }}/{{$lancamento->nu_conta }}</td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
-                            <input type="hidden" id="conta_bancaria_lancamento{{$lancamento->id_tab_lancamento}}" value="{{$lancamento->fk_tab_conta_bancaria}}">
+                            <input type="hidden" id="conta_bancaria_lancamento{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->fk_tab_conta_bancaria}}">
                             <td id="btn_abrir_extratos">
                                 <div class="d-flex justify-content-space-between">
                                     <button id="{{ $lancamento->id_tab_lancamento }}" onclick="editLancamento(this.id)" class="btn btn-warning ms-5" style="padding: 8px 12px;"><i class="bi bi-pencil-fill"></i></button>
@@ -80,7 +82,7 @@
                     <h1>EXTRATOS DISPONIVEIS</h1>
                 </div>
                 <div class="px-5 mt-4">
-                    <button class="btn btn-primary" id="conciliacao">REALIZAR CONCILIAÇÃO</button>
+                    <button class="btn btn-primary" id="conciliacao" onclick="conciliacao()">REALIZAR CONCILIAÇÃO</button>
                 </div>
             </div>
 
@@ -217,6 +219,7 @@
                     lancamentos.push(lancamento);
                 }
             }
+            console.log(lancamentos);
             valorDespesa = valorDespesa + Number($(`#valorDespesa${$(this).val()}`).val());
         } else {
             //remove extrato do array
@@ -227,6 +230,7 @@
 
             var lancamentoFiltrado = lancamentos.find(lancamento => lancamento.id === $(this).val());
             lancamentos.splice(lancamentos.indexOf(lancamentoFiltrado), 1);
+            console.log(lancamentos);
             valorDespesa = valorDespesa - Number($(`#valorDespesa${$(this).val()}`).val());
         }
     });
@@ -254,40 +258,42 @@
                 icon: "warning",
                 showConfirmButton: true,
             });
-        } else if (contaBancaria != '') {
-            ''
-
+        } else if (lancamentos[0].conta_bancaria != extratos[0].conta_bancaria) {
+            swal.fire({
+                title: "Atenção",
+                text: "As contas bancárias dos lançamentos e extratos selecionados não são iguais",
+                icon: "warning",
+                showConfirmButton: true,
+            });
         } else {
+            $.ajax({
+                type: "POST",
+                url: `/conciliacao`,
 
-            console.log(ids_extratos);
-            // $.ajax({
-            //     type: "POST",
-            //     url: `/conciliacao/${id}`,
-
-            //     data: {
-            //         "_token": "{{ csrf_token() }}",
-            //         id_lancamento: id,
-            //         ids_extratos: ids_extratos
-            //     },
-            //     dataType: "json",
-            //     success: function(response) {
-            //         swal({
-            //             title: "Sucesso",
-            //             text: "Conciliação realizada com sucesso",
-            //             icon: "success",
-            //         }).then(function() {
-            //             window.location.href = "/extrato";
-            //         });
-            //     },
-            //     fail: function(response) {
-            //         swal({
-            //             title: "Atenção",
-            //             text: "Erro ao realizar a conciliação",
-            //             icon: "warning",
-            //             button: "Ok",
-            //         });
-            //     }
-            // });
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    lancamentos,
+                    extratos
+                },
+                dataType: "json",
+                success: function(response) {
+                    swal({
+                        title: "Sucesso",
+                        text: "Conciliação realizada com sucesso",
+                        icon: "success",
+                    }).then(function() {
+                        window.location.href = "/extrato";
+                    });
+                },
+                fail: function(response) {
+                    swal({
+                        title: "Atenção",
+                        text: "Erro ao realizar a conciliação",
+                        icon: "warning",
+                        button: "Ok",
+                    });
+                }
+            });
         }
     };
 

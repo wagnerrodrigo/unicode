@@ -150,6 +150,11 @@ class Lancamento extends Model
             'fk_tab_lancamento',
             '=',
             'id_tab_lancamento'
+        )->join(
+            'intranet.tab_conta_bancaria',
+            'fk_tab_conta_bancaria',
+            '=',
+            'id_conta_bancaria'
         )->where("intranet.tab_parcela_despesa.fk_status_id", "=", $id_status)->orderBy('intranet.tab_lancamento.id_tab_lancamento', 'desc')->paginate(10);
 
         return $data;

@@ -112,7 +112,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/empresas')->group(function
 
 //Centro de custo Empresa rotas
 Route::middleware('autenticacaoMiddleware')->prefix('/conciliacao')->group(function () {
-    Route::post('/{id}', [ConciliacaoController::class, 'create']);
+    Route::post('/', [ConciliacaoController::class, 'create']);
 });
 
 //Centro de custo Empresa rotas
