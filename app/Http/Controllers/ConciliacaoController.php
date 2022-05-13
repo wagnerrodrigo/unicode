@@ -30,11 +30,16 @@ class ConciliacaoController extends Controller
      */
     public function create(Request $request)
     {
-        try {
+        dd($request->all());
+        // try {
             $conciliacao = new Conciliacao();
 
-            foreach ($request->ids_extratos as $id_extrato) {
-                $conciliacao->id_lancamento = $request->id_lancamento;
+            foreach ($request->extratos as $extrato) {
+                dd($extrato);
+            }
+
+            foreach($request->lancamentos as $lancamento){
+                $conciliacao->id_lancamento = $request->id;
                 $conciliacao->id_extrato = $id_extrato;
                 $conciliacao->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 Conciliacao::store($conciliacao);
@@ -58,9 +63,9 @@ class ConciliacaoController extends Controller
             $pagamentoRepository->savePayment($pagamento);
 
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false]);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json(['success' => false]);
+        // }
     }
 
     /**
