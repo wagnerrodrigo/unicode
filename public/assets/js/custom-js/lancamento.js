@@ -81,7 +81,8 @@ var id_button_conta = 0;
 var id_despesa = $("#id_despesa").val();
 var fk_condicao_pagamento_id_tela = $("#fk_condicao_pagamento_id_tela").val();
 var id_empresa = $("#id_empresa").val();
-var valor_total_despesa = $("#valor_total_despesa").val();
+var valorTotal = Number($("#valorParcela").val());
+
 
 var rateios_contas = [];
 
@@ -130,7 +131,7 @@ $("#addContas").click(function () {
             //gera o input com os dados do item para submeter no form
 
             if (novoValorTotal == 0) {
-                novoValorTotal = valor_total_despesa;
+                novoValorTotal = valorTotal;
             } else {
                 novoValorTotal = novoValorTotal
                     .replace("R$", "")
@@ -194,9 +195,6 @@ function limparDescontoJurosMulta() {
 
 //adiciona valor total ao input acima do modal de rateio
 $("#adicionar_rateio").click(function () {
-    var SOMA = 0;
-    var valorTotal = $("#valorTotal").val();
-
     if (
         $("#hiddemJuros").val() != "" &&
         $("#hiddemMulta").val() != "" &&
@@ -205,36 +203,44 @@ $("#adicionar_rateio").click(function () {
     ) {
         var juros = $("#hiddemJuros").val();
         var multa = $("#hiddemMulta").val();
+        var valorTotalFinal = Number($("#valorParcela").val());
 
-        SOMA = Number(juros) + Number(multa) + Number(valorTotal);
+        console.log({
+            juros: juros,
+            multa: multa,
+            valorTotal: valorTotalFinal,
+            novoValorTotal: novoValorTotal,
 
-        SOMA = Intl.NumberFormat("pt-BR", {
+        });
+        novoValorTotal = Number(juros) + Number(multa) + Number(valorTotalFinal);
+
+        novoValorTotal = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-        }).format(SOMA);
-        novoValorTotal = SOMA;
+        }).format(novoValorTotal);
         $("#modal_valor_total").val(novoValorTotal);
     } else if (
         $("#hiddemDesconto").val() != "" &&
         $("#hiddemDesconto").val() != null
     ) {
         var desconto = $("#hiddemDesconto").val();
-        SUB = Number(valorTotal) - Number(desconto);
-        SUB = Intl.NumberFormat("pt-BR", {
+        novoValorTotal = Number(valorTotalFinal) - Number(desconto);
+        novoValorTotal = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-        }).format(SUB);
-        novoValorTotal = SUB;
+        }).format(novoValorTotal);
+
         $("#modal_valor_total").val(novoValorTotal);
     } else {
-        var valorTotal = Intl.NumberFormat("pt-BR", {
+        valorTotalFinal = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
         }).format($("#valorTotal").val());
 
-        $("#modal_valor_total").val(valorTotal);
+        $("#modal_valor_total").val(novoValorTotal);
     }
 });
+
 
 // pega o valor da data do efetivo pagamento e coloca em um campo hidden
 $("#input_efetivo_pagamento").on("change", function () {

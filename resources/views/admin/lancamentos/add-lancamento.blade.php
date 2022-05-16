@@ -40,7 +40,7 @@
                                             <strong>VALOR</strong>
                                         </div>
                                         <span>{{ $mascara::maskMoeda($parcela->valor_parcela) }}</span>
-                                        <input type="hidden" name="" id="valorTotal" value="{{ $parcela->valor_parcela }}"/>
+                                        <input type="hidden" name="" id="valorParcela" value="{{ $parcela->valor_parcela }}"/>
                                     </div>
                                 </div>
 
