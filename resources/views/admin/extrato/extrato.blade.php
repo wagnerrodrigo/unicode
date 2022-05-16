@@ -2,9 +2,30 @@
 @section('title', 'Extrato')
 @section('content')
 
+@if (\Session::has('success'))
+<script>
+    swal({
+        title: "Sucesso!",
+        text: "{{ \Session::get('success') }}",
+        icon: "success",
+        button: "Ok",
+    });
+</script>
+@endif
+
+@if (\Session::has('error'))
+<script>
+    swal({
+        title: "Erro!",
+        text: "{{ \Session::get('error') }}",
+        icon: "error",
+        button: "Ok",
+    });
+</script>
+@endif
+
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
-
         <div class="card">
             <div class="card-header">
                 <h1>LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO </h1>
@@ -58,7 +79,7 @@
                             <td id="data_efetivo_pagamento_{{ $lancamento->id_tab_lancamento }}">{{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}</td>
                             <td>PARCELA {{ $lancamento->num_parcela }}</td>
                             <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->valor_pago}}" /></td>
-                            <td>{{ $lancamento->nu_agencia }}/{{$lancamento->nu_conta }}</td>
+                            <td>A:{{ $lancamento->nu_agencia }} C:{{$lancamento->nu_conta }}</td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
                             <input type="hidden" id="conta_bancaria_lancamento{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->fk_tab_conta_bancaria}}">
                             <td id="btn_abrir_extratos">
@@ -108,7 +129,7 @@
                             <td style="padding:5px;">{{$extrato->memo}}</td>
                             <td style="padding:5px;">{{$extrato->org}}</td>
                             <td style="padding:5px;">{{$mascara::maskMoeda($extrato->trnamt)}} <input type="hidden" id="valorExtratoId{{$extrato->id_extrato}}" value="{{$extrato->trnamt}}"></td>
-                            <td style="padding:5px;">{{$extrato->nu_agencia}}/{{$extrato->nu_conta}}</td>
+                            <td style="padding:5px;">A:{{$extrato->nu_agencia}} C:{{$extrato->nu_conta}}</td>
                             <input type="hidden" id="conta_bancaria_extrato{{$extrato->id_extrato}}" value="{{$extrato->fk_tab_conta_bancaria}}">
                         </tr>
                         @endforeach
@@ -154,7 +175,6 @@
 <script>
     var valorExtrato = 0;
     var valorDespesa = 0;
-
 
     var extratos = [];
     var lancamentos = [];
@@ -220,10 +240,16 @@
                     lancamentos.push(lancamento);
                 }
             }
-            console.log(lancamentos);
             valorDespesa = valorDespesa + Number($(`#valorDespesa${$(this).val()}`).val());
+        }else if(lancamentos.length > 0 && extratos.length > 1){
+            swal.fire({
+                title: 'Atenção',
+                text: 'Selecione apenas um extrato',
+                type: 'warning',
+                confirmButtonText: 'Fechar'
+            });
+            $(this).prop('checked', false);
         } else {
-            //remove extrato do array
             const lancamento = {
                 id: $(this).val(),
                 conta_bancaria: $(`#conta_bancaria_lancamento${$(this).val()}`).val(),
@@ -231,14 +257,11 @@
 
             var lancamentoFiltrado = lancamentos.find(lancamento => lancamento.id === $(this).val());
             lancamentos.splice(lancamentos.indexOf(lancamentoFiltrado), 1);
-            console.log(lancamentos);
             valorDespesa = valorDespesa - Number($(`#valorDespesa${$(this).val()}`).val());
         }
     });
 
     function conciliacao() {
-        console.log(lancamentos, extratos);
-
         if (lancamentos.length == 0) {
             swal.fire({
                 title: "Atenção",

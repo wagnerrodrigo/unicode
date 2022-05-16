@@ -6,13 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Conciliacao;
 use App\Models\Pagamento;
 use App\Repository\LancamentoRepository;
-use App\Repository\DespesaRepository;
 use App\Repository\PagamentoRepository;
+use App\Repository\ParcelaDespesaRepository;
 use Carbon\Carbon;
 
 class ConciliacaoController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -30,26 +29,42 @@ class ConciliacaoController extends Controller
      */
     public function create(Request $request)
     {
-        dd($request->all());
-        // try {
+        try {
             $conciliacao = new Conciliacao();
+            if (count($request->lancamentos) >= count($request->extratos)) {
+                $indice = 0;
+                for ($i = 0; $i < count($request->lancamentos); $i++) {
+                    $conciliacao->id_lancamento = $request->lancamentos[$i]['id'];
+                    if ($indice < count($request->extratos)) {
+                        $conciliacao->id_extrato = $request->extratos[$indice]['id'];
+                        $indice++;
+                    } else {
+                        $conciliacao->id_extrato = $indice - 1;
+                    }
+                    $conciliacao->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                    Conciliacao::store($conciliacao);
+                }
+            } else if (count($request->lancamentos) < count($request->extratos)) {
+                $indice = 0;
+                for ($i = 0; $i < count($request->extratos); $i++) {
+                    $conciliacao->id_extrato = $request->extratos[$i]['id'];
+                    if ($indice < count($request->lancamentos)) {
+                        $conciliacao->id_lancamento = $request->lancamentos[$i]['id'];
+                        $indice++;
+                    } else {
+                        $conciliacao->id_lancamento = $indice - 1;
+                    }
 
-            foreach ($request->extratos as $extrato) {
-                dd($extrato);
-            }
-
-            foreach($request->lancamentos as $lancamento){
-                $conciliacao->id_lancamento = $request->id;
-                $conciliacao->id_extrato = $id_extrato;
-                $conciliacao->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                Conciliacao::store($conciliacao);
+                    $conciliacao->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                    Conciliacao::store($conciliacao);
+                }
             }
 
             $lancamentoRepository = new LancamentoRepository();
-            $lancamento = $lancamentoRepository->findAccountingEntryById($request->id_lancamento);
+            $lancamento = $lancamentoRepository->findAccountingEntryById($request->lancamentos[0]["id"]);
 
-            $despesaRepository = new DespesaRepository();
-            $despesaRepository->setStatusIfPaid($lancamento[0]->fk_tab_despesa_id);
+            $parcelaDespesaRepository = new ParcelaDespesaRepository();
+            $parcelaDespesaRepository->setStatusIfPaid($lancamento[0]->fk_tab_parcela_despesa_id);
 
             $pagamento = new Pagamento();
             $pagamentoRepository = new PagamentoRepository();
@@ -63,9 +78,9 @@ class ConciliacaoController extends Controller
             $pagamentoRepository->savePayment($pagamento);
 
             return response()->json(['success' => true]);
-        // } catch (\Exception $e) {
-        //     return response()->json(['success' => false]);
-        // }
+        } catch (\Exception $e) {
+            return response()->json(['success' => false]);
+        }
     }
 
     /**

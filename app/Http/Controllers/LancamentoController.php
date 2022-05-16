@@ -63,6 +63,7 @@ class LancamentoController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         // try {
             //adiciona fk_condicao_pagamento_id, fk_tab_conta_bancaria, fk_tab_pix
             $parcelaDespesaRepository = new ParcelaDespesaRepository();
