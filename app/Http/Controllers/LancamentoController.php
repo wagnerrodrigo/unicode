@@ -10,8 +10,10 @@ use App\Utils\Mascaras\Mascaras;
 use Carbon\Carbon;
 use App\Repository\DespesaRepository;
 use App\CustomError\CustomErrorMessage;
+use App\Repository\LancamentoRepository;
 use App\Repository\ParcelaDespesaRepository;
 use App\Repository\RateioRepository;
+use App\Utils\StatusDespesa;
 
 class LancamentoController extends Controller
 {
@@ -63,8 +65,7 @@ class LancamentoController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
-        // try {
+        try {
             //adiciona fk_condicao_pagamento_id, fk_tab_conta_bancaria, fk_tab_pix
             $parcelaDespesaRepository = new ParcelaDespesaRepository();
 
@@ -138,11 +139,11 @@ class LancamentoController extends Controller
             $parcelaDespesaRepository->setStatus($request->id_parcela_despesa);
 
             return redirect()->route('lancamentos')->with('success', 'Lançamento Cadastrado!');
-        // } catch (\Exception $e) {
-        //     return redirect()
-        //         ->back()
-        //         ->with('error', 'Não foi possível realizar o Lançamento' . $e->getMessage());
-        // }
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível realizar o Lançamento' . $e->getMessage());
+        }
     }
 
     /**
@@ -326,5 +327,12 @@ class LancamentoController extends Controller
                 ->back()
                 ->with('error', 'Não foi possível excluir o Lançamento' . $e->getMessage());
         }
+    }
+
+    public function paginate(){
+        $lancamentoRepository = new LancamentoRepository();
+        $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
+
+        return view('admin.lancamentos.list-lancamentos', compact('lancamentos'));
     }
 }

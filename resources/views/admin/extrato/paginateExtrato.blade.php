@@ -2,148 +2,73 @@
 @section('title', 'Extrato')
 @section('content')
 
-@if (\Session::has('success'))
-<script>
-    swal({
-        title: "Sucesso!",
-        text: "{{ \Session::get('success') }}",
-        icon: "success",
-        button: "Ok",
-    });
-</script>
-@endif
+<form action="" method="" id="form_paginacao_extrato">
+    <input type="hidden" id="page_extrato" name="page" value="0">
+</form>
 
-@if (\Session::has('error'))
-<script>
-    swal({
-        title: "Erro!",
-        text: "{{ \Session::get('error') }}",
-        icon: "error",
-        button: "Ok",
-    });
-</script>
-@endif
-<div id="main" style="margin-top: 5px;">
-    <div class="main-content container-fluid">
-        <div class="card">
-            <div class="card-header">
-                <h1>LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO </h1>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('extrato') }}" method="GET">
-                    <div class="d-flex">
-                        <div class="col-md-3">
-                            <div class="input-group mb-3" style="width: 250px">
-                                <label class="input-group-text" info-data="Data inicio do Pagamento" for="inputDataInicio">DATA INICIO</label>
-                                <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="input-group mb-3" style="width: 240px">
-                                <label class="input-group-text" info-data="Data fim do Pagamento" for="inputDataFim">DATA FIM</label>
-                                <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="submit" id="btnSearch" class="btn btn-primary" style="padding: 8px 12px;">
-                                <i class="bi bi-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+<form action="" id="form_paginacao_lancamento">
+    <input type="hidden" id="page_lancamento" name="page" value="0">
+</form>
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-lancamentos">
 
-                <table class='table table-striped' id="table1">
-                    <thead>
-                        <tr>
-                            <th>ID PARCELA</th>
-                            <th>DATA DO PAGAMENTO</th>
-                            <th>DESCRIÇÃO</th>
-                            <th style="padding:1px">VALOR</th>
-                            <th style="padding:1px">AGENCIA/CONTA</th>
-                            <th>STATUS</th>
-                            <th>AÇÕES</th>
-
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @if ($lancamentos != null || !empty($lancamentos))
-                        @foreach ($lancamentos as $lancamento)
-                        <tr>
-                            <td>
-                                {{ $lancamento->fk_tab_parcela_despesa_id }}
-                                <input type="checkbox" class="inputs_selecionandos" name="inputs_selecionandos[]" value="{{ $lancamento->fk_tab_parcela_despesa_id }}" id="radio_lancamento_{{ $lancamento->id_tab_lancamento }}">
-                                <input type="hidden" value="{{ $lancamento->id_tab_lancamento }}" id="id_lancamento_{{ $lancamento->fk_tab_parcela_despesa_id }}">
-                            </td>
-                            <td id="data_efetivo_pagamento_{{ $lancamento->fk_tab_parcela_despesa_id }}">
-                                {{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}
-                                <input type="hidden" value="{{ $lancamento->dt_efetivo_pagamento }}" id="data_{{ $lancamento->fk_tab_parcela_despesa_id }}">
-                            </td>
-                            <td>PARCELA {{ $lancamento->num_parcela }}</td>
-                            <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->valor_pago}}" /></td>
-                            <td>A:{{ $lancamento->nu_agencia }} C:{{$lancamento->nu_conta }}</td>
-                            <td>{{ $lancamento->de_status_despesa }}</td>
-                            <input type="hidden" id="conta_bancaria_lancamento{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->fk_tab_conta_bancaria}}">
-                            <td id="btn_abrir_extratos">
-                                <div class="d-flex justify-content-space-between">
-                                    <button id="{{ $lancamento->id_tab_lancamento }}" onclick="editLancamento(this.id)" class="btn btn-warning ms-5" style="padding: 8px 12px;"><i class="bi bi-pencil-fill"></i></button>
-                                    <!-- <button id="{{ $lancamento->id_tab_lancamento }}" onclick="deleteLancamento(this.id)" class="btn btn-danger ms-2" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button> -->
-                                </div>
-
-                            </td>
-                        </tr>
-                        @endforeach
-                        @endif
-                    </tbody>
-                </table>
-                <div>{{ $lancamentos->links() }}</div>
-            </div>
         </div>
+    </div>
+    <div class="card">
+        <div class="card-extratos">
 
-        <div class="card">
-            <div class="d-flex justify-content-between">
-                <div class="card-header">
-                    <h1>EXTRATOS DISPONIVEIS</h1>
-                </div>
-                <div class="px-5 mt-4">
-                    <button class="btn btn-primary" id="conciliacao" onclick="conciliacao()">REALIZAR CONCILIAÇÃO</button>
-                </div>
-            </div>
-
-            <div class="card-body">
-                <table class='table table-striped' id="table2">
-                    <thead>
-                        <tr>
-                            <th>ID EXTRATO</th>
-                            <th>DATA PAGAMENTO</th>
-                            <th>DESCRIÇÃO</th>
-                            <th>NOME BANCO</th>
-                            <th>PREÇO</th>
-                            <th>AGÊNCIA/CONTA</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach($extratos as $extrato)
-                        <tr class="table table-striped">
-                            <td style="padding:5px;">{{$extrato->id_extrato}}<input style="margin-left: 5px;" type="checkbox" name="ids_extratos[]" value="{{$extrato->id_extrato}}" /></td>
-                            <td style="padding:5px;">{{date("d/m/Y", strtotime($extrato->dtposted))}}</td>
-                            <td style="padding:5px;">{{$extrato->memo}}</td>
-                            <td style="padding:5px;">{{$extrato->org}}</td>
-                            <td style="padding:5px;">{{$mascara::maskMoeda($extrato->trnamt)}} <input type="hidden" id="valorExtratoId{{$extrato->id_extrato}}" value="{{$extrato->trnamt}}"></td>
-                            <td style="padding:5px;">A:{{$extrato->nu_agencia}} C:{{$extrato->nu_conta}}</td>
-                            <input type="hidden" id="conta_bancaria_extrato{{$extrato->id_extrato}}" value="{{$extrato->fk_tab_conta_bancaria}}">
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <div>{{ $extratos->render() }}</div>
-            </div>
         </div>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+    $(document).ready(function() {
+        loadTableExtrato(0);
+        loadTableLancamentos(0);
+    });
+
+    $(document).on('click', '#pagination_extratos a', function(event) {
+        event.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
+        loadTableExtrato(page);
+    });
+
+    $(document).on('click', '#pagination_lancamentos a', function(event) {
+        event.preventDefault();
+        var page = $(this).attr('href').split('/parcelas?page=')[1];
+        console.log(page);
+        loadTableLancamentos(page);
+
+    });
+
+    function loadTableExtrato(page) {
+        $('#page_extrato').val(page);
+        var dados = $('#form_paginacao_extrato').serialize();
+        $.ajax({
+            url: "{{ route('extrato2') }}",
+            type: 'GET',
+            data: dados,
+        }).done(function(data) {
+            $('.card-extratos').html(data);
+        });
+    }
+
+    function loadTableLancamentos(page) {
+        $('#page_lancamento').val(page);
+        var dados = $('#form_paginacao_lancamento').serialize();
+        $.ajax({
+            url: "{{ route('paginate-lancamento') }}",
+            type: 'GET',
+            data: dados,
+        }).done(function(data) {
+            $('.card-lancamentos').html(data);
+        });
+    }
+</script>
+
+
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- <script src="{{ asset('assets/js/custom-js/extrato.js') }}"></script> -->
 
@@ -411,5 +336,4 @@
         // Utilizo o .slice(-2) para garantir o formato com 2 digitos.
     }
 </script>
-
 @endsection

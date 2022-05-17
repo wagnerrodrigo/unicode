@@ -83,6 +83,12 @@ var fk_condicao_pagamento_id_tela = $("#fk_condicao_pagamento_id_tela").val();
 var id_empresa = $("#id_empresa").val();
 var valorTotal = Number($("#valorParcela").val());
 
+$("#modal_valor_total").val(
+    Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+    }).format(valorTotal)
+);
 
 var rateios_contas = [];
 
@@ -205,14 +211,8 @@ $("#adicionar_rateio").click(function () {
         var multa = $("#hiddemMulta").val();
         var valorTotalFinal = Number($("#valorParcela").val());
 
-        console.log({
-            juros: juros,
-            multa: multa,
-            valorTotal: valorTotalFinal,
-            novoValorTotal: novoValorTotal,
-
-        });
-        novoValorTotal = Number(juros) + Number(multa) + Number(valorTotalFinal);
+        novoValorTotal =
+            Number(juros) + Number(multa) + Number(valorTotalFinal);
 
         novoValorTotal = Intl.NumberFormat("pt-BR", {
             style: "currency",
@@ -223,6 +223,11 @@ $("#adicionar_rateio").click(function () {
         $("#hiddemDesconto").val() != "" &&
         $("#hiddemDesconto").val() != null
     ) {
+        console.log({
+            valorTotalFinal,
+            novoValorTotal,
+            desconto
+        });
         var desconto = $("#hiddemDesconto").val();
         novoValorTotal = Number(valorTotalFinal) - Number(desconto);
         novoValorTotal = Intl.NumberFormat("pt-BR", {
@@ -240,7 +245,6 @@ $("#adicionar_rateio").click(function () {
         $("#modal_valor_total").val(novoValorTotal);
     }
 });
-
 
 // pega o valor da data do efetivo pagamento e coloca em um campo hidden
 $("#input_efetivo_pagamento").on("change", function () {
@@ -424,7 +428,6 @@ $("#btnConciliacao").click(function () {
     }
 });
 
-
 //Buscar condição de pagamento no banco de dados com requisição via AJAX
 $.ajax({
     type: "GET",
@@ -473,8 +476,6 @@ $.ajax({
                 var endpoint;
                 var url = "/contas-bancarias/";
 
-
-
                 if (tipoDespesa == 1) {
                     endpoint = `${idEmpregado}/empregado`;
                     url = url + endpoint;
@@ -516,7 +517,6 @@ $.ajax({
                         "<option value='' class='pix_fornecedor_resultado'></option>" +
                         "</select>"
                 );
-
 
                 if (tipoDespesa == 2) {
                     $.ajax({
@@ -599,29 +599,38 @@ $.ajax({
         console.log("erro na requisição Ajax");
     });
 
-    // limpa campos de conta bancaria e pix
-    function limpaCamposContaBancariaPix() {
-        $(".remove_btn_modal").remove();
-        $(".remove_conta").remove();
-        $(".remove_pix").remove();
-        $("#contas_fornecedor").empty();
-        $("#pix_fornecedor").empty();
-        $("#numero_pix").attr("value", "");
-        $("#numero_conta_bancaria").attr("value", "");
-    }
+// limpa campos de conta bancaria e pix
+function limpaCamposContaBancariaPix() {
+    $(".remove_btn_modal").remove();
+    $(".remove_conta").remove();
+    $(".remove_pix").remove();
+    $("#contas_fornecedor").empty();
+    $("#pix_fornecedor").empty();
+    $("#numero_pix").attr("value", "");
+    $("#numero_conta_bancaria").attr("value", "");
+}
 
-    // nao esta funcionado o limpaCamposContaPix
-    function limpaCamposContaPix() {
-        $("#option_Pix").remove();
-    }
-    function getPix(object) {
-        $("input[name=numero_pix_fornecedor_empregado]").attr("value", object.value);
-        $("input[name=numero_conta_bancaria_fornecedor_empregado]").attr("value", '');
-        console.log({pix:object.value});
-    }
+// nao esta funcionado o limpaCamposContaPix
+function limpaCamposContaPix() {
+    $("#option_Pix").remove();
+}
+function getPix(object) {
+    $("input[name=numero_pix_fornecedor_empregado]").attr(
+        "value",
+        object.value
+    );
+    $("input[name=numero_conta_bancaria_fornecedor_empregado]").attr(
+        "value",
+        ""
+    );
+    console.log({ pix: object.value });
+}
 
-    function getContaBancaria(object) {
-        $("input[name=numero_conta_bancaria_fornecedor_empregado]").attr("value", object.value);
-        $("input[name=numero_pix_fornecedor_empregado]").attr("value", '');
-        console.log({conta_bancaria:object.value});
-    }
+function getContaBancaria(object) {
+    $("input[name=numero_conta_bancaria_fornecedor_empregado]").attr(
+        "value",
+        object.value
+    );
+    $("input[name=numero_pix_fornecedor_empregado]").attr("value", "");
+    console.log({ conta_bancaria: object.value });
+}
