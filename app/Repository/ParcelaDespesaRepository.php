@@ -15,6 +15,7 @@ class ParcelaDespesaRepository {
             $parcelaDespesa->valor_parcela = $parcelas[$i]['valor_parcela'];
             $parcelaDespesa->dt_emissao = $parcelas[$i]['dt_emissao'];
             $parcelaDespesa->dt_vencimento = $parcelas[$i]['dt_vencimento'];
+            $parcelaDespesa->dt_provisionamento = $parcelas[$i]['dt_provisionamento'];
             $parcelaDespesa->fk_status_id = $parcelas[$i]['fk_status_parcela_id'];
             $parcelaDespesa->dt_inicio = $parcelas[$i]['dt_inicio'];
             $parcelaDespesa->dt_fim = $parcelas[$i]['dt_fim'];
@@ -62,6 +63,7 @@ class ParcelaDespesaRepository {
             $parcela->fk_condicao_pagamento = $parcelas['fk_condicao_pagamento'];
             $parcela->fk_tab_conta_bancaria = $parcelas['fk_tab_conta_bancaria'];
             $parcela->fk_pix_id = $parcelas['fk_tab_pix'];
+            $parcela->dt_provisionamento = $parcelas['dt_provisionamento'];
 
             ParcelaDespesa::addPayment($parcela, $idParcela);
         }

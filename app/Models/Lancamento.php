@@ -230,4 +230,17 @@ class Lancamento extends Model
         DB::table('intranet.tab_lancamento')->where('id_tab_lancamento', '=', $id)
             ->update(['dt_efetivo_pagamento' => $date]);
     }
+
+    static function updateExpenceBasedOnInstallmet($id_despesa){
+        $query = (
+            "UPDATE tab_despesa A
+             SET fk_status_despesa_id = 1
+            WHERE
+                id_despesa = '". $id_despesa ."'AND
+                qt_parcelas_despesa =
+                (SELECT COUNT(1) FROM tab_parcela_despesa B
+            WHERE B.fk_status_id IN (1) AND fk_despesa = '". $id_despesa ."');");
+            // dd($query);
+              DB::table($query);
+    }
 }

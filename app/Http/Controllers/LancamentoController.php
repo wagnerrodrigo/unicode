@@ -26,6 +26,7 @@ class LancamentoController extends Controller
             //muda status da despesa caso a data de vencimento seja inferior a data atual
             $parcelaDespesaRepository = new ParcelaDespesaRepository;
             $parcelaDespesaRepository->setStatusIfDefeaded(Carbon::now()->setTimezone('America/Sao_Paulo')->format('Y-m-d'));
+            $parcelas = $parcelaDespesaRepository;
 
             $filtros = null;
             // dd($request->results);
@@ -71,10 +72,11 @@ class LancamentoController extends Controller
                 'fk_condicao_pagamento' => $request->fk_condicao_pagamento_id,
                 'fk_tab_conta_bancaria' => $request->numero_conta_bancaria_fornecedor_empregado,
                 'fk_tab_pix' => $request->numero_pix_fornecedor_empregado,
+                'dt_provisionamento' => $request->dt_efetivo_pagamento,
             ];
-
             $parcelaDespesaRepository->addPayment($parcelas, $request->id_parcela_despesa);
 
+            $getParcela = $parcelaDespesaRepository->getParcela($request->id_parcela_despesa);
             if (!empty($request->valor_rateio_pagamento)) {
 
                 $lancamento = new Lancamento();
@@ -89,6 +91,7 @@ class LancamentoController extends Controller
                 $lancamento->desconto = $request->desconto;
                 $lancamento->valor_pago = trim(html_entity_decode($request->valor_pago), " \t\n\r\0\x0B\xC2\xA0");
                 $lancamento->dt_fim = null;
+                $lancamento->updateExpenceBasedOnInstallmet($getParcela->fk_despesa);
                 Lancamento::create($lancamento);
 
                 $timeStamp = $lancamento->dt_inicio;
@@ -130,6 +133,7 @@ class LancamentoController extends Controller
                 $lancamento->desconto = $request->desconto;
                 $lancamento->valor_pago = trim(html_entity_decode($request->valor_pago), " \t\n\r\0\x0B\xC2\xA0");
                 $lancamento->dt_fim = null;
+                $lancamento->updateExpenceBasedOnInstallmet($getParcela->fk_despesa);
                 Lancamento::create($lancamento);
                 // FIM requeste somente lancamento
             }

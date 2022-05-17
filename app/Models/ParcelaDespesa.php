@@ -162,12 +162,13 @@ class ParcelaDespesa extends Model
     {
         DB::update(
             "UPDATE intranet.tab_parcela_despesa
-        SET fk_condicao_pagamento = ?, fk_conta_bancaria = ?, fk_pix_id = ?
+        SET fk_condicao_pagamento = ?, fk_conta_bancaria = ?, fk_pix_id = ?, dt_provisionamento = ?
         WHERE id_parcela_despesa = ?",
             [
                 $parcela->fk_condicao_pagamento,
                 $parcela->fk_tab_conta_bancaria,
-                $parcela->fk_tab_pix,
+                $parcela->fk_pix_id,
+                $parcela->dt_provisionamento,
                 $idParcela
             ]
         );
