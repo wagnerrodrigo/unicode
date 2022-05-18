@@ -18,27 +18,28 @@ class ExtratoController extends Controller
      */
     public function index(Request $request)
     {
-        $lancamentoRepository = new LancamentoRepository();
-        $extratos = new Extrato();
-        $extratos = $extratos->selectAll();
+        return view('admin.extrato.paginateExtrato');
+        // $lancamentoRepository = new LancamentoRepository();
+        // $extratos = new Extrato();
+        // $extratos = $extratos->selectAll();
 
-        $mascara = new Mascaras();
+        // $mascara = new Mascaras();
 
-        if ($request->has('dt_inicio') && $request->has('dt_fim')) {
-            $dt_lancamento = $request->input('dt_inicio');
-            $dt_vencimento = $request->input('dt_fim');
+        // if ($request->has('dt_inicio') && $request->has('dt_fim')) {
+        //     $dt_lancamento = $request->input('dt_inicio');
+        //     $dt_vencimento = $request->input('dt_fim');
 
-            if (empty($dt_lancamento) && empty($dt_vencimento)) {
-                $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
-                return view('admin.extrato.extrato', compact('lancamentos', 'mascara', 'extratos'));
-            } else {
-                $lancamentos = $this->showPeriodDate($dt_lancamento, $dt_vencimento);
-                return view('admin.extrato.extrato', compact('lancamentos', 'mascara', 'extratos'));
-            }
-        } else {
-            $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
-            return view('admin.extrato.extrato', compact('lancamentos', 'mascara', 'extratos'));
-        }
+        //     if (empty($dt_lancamento) && empty($dt_vencimento)) {
+        //         $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
+        //         return view('admin.extrato.extrato', compact('lancamentos', 'mascara', 'extratos'));
+        //     } else {
+        //         $lancamentos = $this->showPeriodDate($dt_lancamento, $dt_vencimento);
+        //         return view('admin.extrato.extrato', compact('lancamentos', 'mascara', 'extratos'));
+        //     }
+        // } else {
+        //     $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
+        //     return view('admin.extrato.extrato', compact('lancamentos', 'mascara', 'extratos'));
+        // }
     }
 
     public function showCompany()
@@ -88,6 +89,14 @@ class ExtratoController extends Controller
     {
         $extrato = Extrato::selectAll();
         return response()->json($extrato);
+    }
+
+    public function paginate(){
+        $extratos = Extrato::selectAll();
+        $mascara = new Mascaras();
+
+        return view('admin.extrato.list-extratos', compact('extratos', 'mascara'));
+
     }
 
     /**

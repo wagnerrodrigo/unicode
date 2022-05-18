@@ -31,7 +31,7 @@ class Lancamento extends Model
         } else {
             $lancamentos = $query
                 ->where('intranet.tab_despesa.fk_status_despesa_id', '=', 6)
-                ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)->orderBy('intranet.status_despesa.de_status_despesa', 'asc')
+                ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)->orderBy('intranet.tab_despesa.id_despesa', 'desc')
                 ->paginate($results);
         }
         return $lancamentos;
@@ -40,7 +40,8 @@ class Lancamento extends Model
     static function findOne($id)
     {
         return DB::table('intranet.tab_lancamento')
-            ->rightJoin('intranet.tab_despesa', 'intranet.tab_lancamento.fk_tab_despesa_id', '=', 'intranet.tab_despesa.id_despesa')
+            ->join('intranet.tab_parcela_despesa', 'intranet.tab_lancamento.fk_tab_parcela_despesa_id', '=', 'intranet.tab_parcela_despesa.id_parcela_despesa')
+            ->join('intranet.tab_despesa', 'intranet.tab_parcela_despesa.fk_despesa', '=', 'intranet.tab_despesa.id_despesa')
             ->join('intranet.tab_centro_custo', 'intranet.tab_despesa.fk_tab_centro_custo_id', '=', 'intranet.tab_centro_custo.id_centro_custo')
             ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
             ->join('intranet.tab_empresa', 'intranet.tab_empresa.id_empresa', '=', 'intranet.tab_centro_custo.fk_empresa_id')

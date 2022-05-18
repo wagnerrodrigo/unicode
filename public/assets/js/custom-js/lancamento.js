@@ -81,7 +81,14 @@ var id_button_conta = 0;
 var id_despesa = $("#id_despesa").val();
 var fk_condicao_pagamento_id_tela = $("#fk_condicao_pagamento_id_tela").val();
 var id_empresa = $("#id_empresa").val();
-var valor_total_despesa = $("#valor_total_despesa").val();
+var valorTotal = Number($("#valorParcela").val());
+
+$("#modal_valor_total").val(
+    Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+    }).format(valorTotal)
+);
 
 var rateios_contas = [];
 
@@ -130,7 +137,7 @@ $("#addContas").click(function () {
             //gera o input com os dados do item para submeter no form
 
             if (novoValorTotal == 0) {
-                novoValorTotal = valor_total_despesa;
+                novoValorTotal = valorTotal;
             } else {
                 novoValorTotal = novoValorTotal
                     .replace("R$", "")
@@ -194,9 +201,6 @@ function limparDescontoJurosMulta() {
 
 //adiciona valor total ao input acima do modal de rateio
 $("#adicionar_rateio").click(function () {
-    var SOMA = 0;
-    var valorTotal = $("#valorTotal").val();
-
     if (
         $("#hiddemJuros").val() != "" &&
         $("#hiddemMulta").val() != "" &&
@@ -205,34 +209,40 @@ $("#adicionar_rateio").click(function () {
     ) {
         var juros = $("#hiddemJuros").val();
         var multa = $("#hiddemMulta").val();
+        var valorTotalFinal = Number($("#valorParcela").val());
 
-        SOMA = Number(juros) + Number(multa) + Number(valorTotal);
+        novoValorTotal =
+            Number(juros) + Number(multa) + Number(valorTotalFinal);
 
-        SOMA = Intl.NumberFormat("pt-BR", {
+        novoValorTotal = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-        }).format(SOMA);
-        novoValorTotal = SOMA;
+        }).format(novoValorTotal);
         $("#modal_valor_total").val(novoValorTotal);
     } else if (
         $("#hiddemDesconto").val() != "" &&
         $("#hiddemDesconto").val() != null
     ) {
+        console.log({
+            valorTotalFinal,
+            novoValorTotal,
+            desconto
+        });
         var desconto = $("#hiddemDesconto").val();
-        SUB = Number(valorTotal) - Number(desconto);
-        SUB = Intl.NumberFormat("pt-BR", {
+        novoValorTotal = Number(valorTotalFinal) - Number(desconto);
+        novoValorTotal = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-        }).format(SUB);
-        novoValorTotal = SUB;
+        }).format(novoValorTotal);
+
         $("#modal_valor_total").val(novoValorTotal);
     } else {
-        var valorTotal = Intl.NumberFormat("pt-BR", {
+        valorTotalFinal = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
         }).format($("#valorTotal").val());
 
-        $("#modal_valor_total").val(valorTotal);
+        $("#modal_valor_total").val(novoValorTotal);
     }
 });
 
@@ -418,7 +428,6 @@ $("#btnConciliacao").click(function () {
     }
 });
 
-
 //Buscar condição de pagamento no banco de dados com requisição via AJAX
 $.ajax({
     type: "GET",
@@ -467,8 +476,6 @@ $.ajax({
                 var endpoint;
                 var url = "/contas-bancarias/";
 
-
-
                 if (tipoDespesa == 1) {
                     endpoint = `${idEmpregado}/empregado`;
                     url = url + endpoint;
@@ -510,7 +517,6 @@ $.ajax({
                         "<option value='' class='pix_fornecedor_resultado'></option>" +
                         "</select>"
                 );
-
 
                 if (tipoDespesa == 2) {
                     $.ajax({
@@ -593,29 +599,38 @@ $.ajax({
         console.log("erro na requisição Ajax");
     });
 
-    // limpa campos de conta bancaria e pix
-    function limpaCamposContaBancariaPix() {
-        $(".remove_btn_modal").remove();
-        $(".remove_conta").remove();
-        $(".remove_pix").remove();
-        $("#contas_fornecedor").empty();
-        $("#pix_fornecedor").empty();
-        $("#numero_pix").attr("value", "");
-        $("#numero_conta_bancaria").attr("value", "");
-    }
+// limpa campos de conta bancaria e pix
+function limpaCamposContaBancariaPix() {
+    $(".remove_btn_modal").remove();
+    $(".remove_conta").remove();
+    $(".remove_pix").remove();
+    $("#contas_fornecedor").empty();
+    $("#pix_fornecedor").empty();
+    $("#numero_pix").attr("value", "");
+    $("#numero_conta_bancaria").attr("value", "");
+}
 
-    // nao esta funcionado o limpaCamposContaPix
-    function limpaCamposContaPix() {
-        $("#option_Pix").remove();
-    }
-    function getPix(object) {
-        $("input[name=numero_pix_fornecedor_empregado]").attr("value", object.value);
-        $("input[name=numero_conta_bancaria_fornecedor_empregado]").attr("value", '');
-        console.log({pix:object.value});
-    }
+// nao esta funcionado o limpaCamposContaPix
+function limpaCamposContaPix() {
+    $("#option_Pix").remove();
+}
+function getPix(object) {
+    $("input[name=numero_pix_fornecedor_empregado]").attr(
+        "value",
+        object.value
+    );
+    $("input[name=numero_conta_bancaria_fornecedor_empregado]").attr(
+        "value",
+        ""
+    );
+    console.log({ pix: object.value });
+}
 
-    function getContaBancaria(object) {
-        $("input[name=numero_conta_bancaria_fornecedor_empregado]").attr("value", object.value);
-        $("input[name=numero_pix_fornecedor_empregado]").attr("value", '');
-        console.log({conta_bancaria:object.value});
-    }
+function getContaBancaria(object) {
+    $("input[name=numero_conta_bancaria_fornecedor_empregado]").attr(
+        "value",
+        object.value
+    );
+    $("input[name=numero_pix_fornecedor_empregado]").attr("value", "");
+    console.log({ conta_bancaria: object.value });
+}

@@ -60,7 +60,7 @@ class DespesaController extends Controller
 
     public function show($id)
     {
-        // try {
+        try {
             $despesaRepository = new DespesaRepository();
             foreach ($despesaRepository->findTipoECentroCustoDespesa($id) as $tipoDespesa) {}
 
@@ -82,10 +82,10 @@ class DespesaController extends Controller
             } else {
                 return view('admin.despesas.despesa-nao-encontrada');
             }
-        // } catch (\Exception $e) {
-        //     $error = CustomErrorMessage::ERROR_DESPESA;
-        //     return view('error', compact('error'));
-        // }
+        } catch (\Exception $e) {
+            $error = CustomErrorMessage::ERROR_DESPESA;
+            return view('error', compact('error'));
+        }
     }
 
     public function store(Request $request)

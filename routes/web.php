@@ -46,6 +46,7 @@ Route::get('/teste', [TesteController::class, 'all'])->name('teste');
 
 //rotas extratos
 Route::middleware('autenticacaoMiddleware')->prefix('/extrato')->group(function () {
+    // Route::get('/', function () {return ;});
     Route::get('/', [ExtratoController::class, 'index'])->name('extrato');
     Route::get('/lancamento/{id}', [ExtratoController::class, 'getExtractByBankAccount']);
     Route::get('/empresa', [ExtratoController::class, 'showCompany']);
@@ -53,6 +54,9 @@ Route::middleware('autenticacaoMiddleware')->prefix('/extrato')->group(function 
     // [FIX] tela de para aprovação equipe financeiro
     Route::get('/info/test-extra/despesa', [ExtratoController::class, 'showInfoExtract']);
     Route::get('/test/detalhes-extrato/despesa/{id}', [ExtratoController::class, 'getExtractByBankAccount'])->name('detalhesExtrato');
+
+    Route::get('/list', [ExtratoController::class, 'paginate'])->name('extrato2');
+
 });
 
 //rotas Fornecedores
@@ -124,7 +128,6 @@ Route::middleware('autenticacaoMiddleware')->prefix('/centroCustoEmpresa')->grou
 //rotas Lançamentos
 Route::middleware('autenticacaoMiddleware')->prefix('/lancamentos')->group(function () {
     Route::get('/', [LancamentoController::class, 'index'])->name('lancamentos');
-    Route::get('/paginate', [LancamentoController::class, 'paginate']);
     Route::get('/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
     Route::get('/provisionamento/{id}', [LancamentoController::class, 'provisionamento'])->name('lancamento-provisionamento');
     Route::post('/adicionar', [LancamentoController::class, 'store']);
@@ -140,6 +143,8 @@ Route::middleware('autenticacaoMiddleware')->prefix('/lancamentos')->group(funct
     Route::get('/filtro-status/{id_status}', [LancamentoController::class, 'showStatus']);
     Route::get('/pesquisa/atributos', [LancamentoController::class, 'showBydateAndstatus']);
     Route::post('/delete/{id}', [LancamentoController::class, 'destroy']);
+
+    Route::get('/paginate/parcelas', [LancamentoController::class, 'paginate'])->name('paginate-lancamento');
 });
 
 //rotas Produto

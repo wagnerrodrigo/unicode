@@ -2,9 +2,29 @@
 @section('title', 'Extrato')
 @section('content')
 
+@if (\Session::has('success'))
+<script>
+    swal({
+        title: "Sucesso!",
+        text: "{{ \Session::get('success') }}",
+        icon: "success",
+        button: "Ok",
+    });
+</script>
+@endif
+
+@if (\Session::has('error'))
+<script>
+    swal({
+        title: "Erro!",
+        text: "{{ \Session::get('error') }}",
+        icon: "error",
+        button: "Ok",
+    });
+</script>
+@endif
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
-
         <div class="card">
             <div class="card-header">
                 <h1>LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO </h1>
@@ -53,11 +73,15 @@
                             <td>
                                 {{ $lancamento->fk_tab_parcela_despesa_id }}
                                 <input type="checkbox" class="inputs_selecionandos" name="inputs_selecionandos[]" value="{{ $lancamento->fk_tab_parcela_despesa_id }}" id="radio_lancamento_{{ $lancamento->id_tab_lancamento }}">
+                                <input type="hidden" value="{{ $lancamento->id_tab_lancamento }}" id="id_lancamento_{{ $lancamento->fk_tab_parcela_despesa_id }}">
                             </td>
-                            <td id="data_efetivo_pagamento_{{ $lancamento->id_tab_lancamento }}">{{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}</td>
+                            <td id="data_efetivo_pagamento_{{ $lancamento->fk_tab_parcela_despesa_id }}">
+                                {{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}
+                                <input type="hidden" value="{{ $lancamento->dt_efetivo_pagamento }}" id="data_{{ $lancamento->fk_tab_parcela_despesa_id }}">
+                            </td>
                             <td>PARCELA {{ $lancamento->num_parcela }}</td>
                             <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->valor_pago}}" /></td>
-                            <td>{{ $lancamento->nu_agencia }}/{{$lancamento->nu_conta }}</td>
+                            <td>A:{{ $lancamento->nu_agencia }} C:{{$lancamento->nu_conta }}</td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
                             <input type="hidden" id="conta_bancaria_lancamento{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->fk_tab_conta_bancaria}}">
                             <td id="btn_abrir_extratos">
@@ -107,7 +131,7 @@
                             <td style="padding:5px;">{{$extrato->memo}}</td>
                             <td style="padding:5px;">{{$extrato->org}}</td>
                             <td style="padding:5px;">{{$mascara::maskMoeda($extrato->trnamt)}} <input type="hidden" id="valorExtratoId{{$extrato->id_extrato}}" value="{{$extrato->trnamt}}"></td>
-                            <td style="padding:5px;">{{$extrato->nu_agencia}}/{{$extrato->nu_conta}}</td>
+                            <td style="padding:5px;">A:{{$extrato->nu_agencia}} C:{{$extrato->nu_conta}}</td>
                             <input type="hidden" id="conta_bancaria_extrato{{$extrato->id_extrato}}" value="{{$extrato->fk_tab_conta_bancaria}}">
                         </tr>
                         @endforeach
@@ -149,63 +173,26 @@
 </script>
 
 
-
 <script>
     var valorExtrato = 0;
     var valorDespesa = 0;
-
 
     var extratos = [];
     var lancamentos = [];
     valorExtrato = 0;
     valorDespesa = 0;
 
-    $('input[name="ids_extratos[]"]').change(function() {
-        //adiciona extrato ao array de extratos
-        if ($(this).prop("checked") == true) {
-            const extrato = {
-                id: $(this).val(),
-                conta_bancaria: $(`#conta_bancaria_extrato${$(this).val()}`).val(),
-            }
-
-            if (extratos.length < 1) {
-                extratos.push(extrato);
-            } else {
-                if (extrato.conta_bancaria != extratos[0].conta_bancaria) {
-                    swal.fire({
-                        title: 'Atenção',
-                        text: 'Selecione extratos de mesma conta bancaria',
-                        type: 'warning',
-                        confirmButtonText: 'Fechar'
-                    });
-                    $(this).prop('checked', false);
-                } else {
-                    extratos.push(extrato);
-                }
-            }
-            valorExtrato = valorExtrato + Number($(`#valorExtratoId${$(this).val()}`).val());
-        } else {
-            //remove extrato do array
-            const extrato = {
-                id: $(this).val(),
-                conta_bancaria: $(`#conta_bancaria_extrato${$(this).val()}`).val(),
-            }
-
-            var extratoFiltrado = extratos.find(extrato => extrato.id === $(this).val());
-            extratos.splice(extratos.indexOf(extratoFiltrado), 1);
-            valorExtrato = valorExtrato - Number($(`#valorExtratoId${$(this).val()}`).val());
-        }
-    });
-
     $('input[name="inputs_selecionandos[]"]').change(function() {
         if ($(this).prop("checked") == true) {
             const lancamento = {
-                id: $(this).val(),
+                id: $(`#id_lancamento_${$(this).val()}`).val(),
                 conta_bancaria: $(`#conta_bancaria_lancamento${$(this).val()}`).val(),
+                data: $(`#data_${$(this).val()}`).val(),
             }
 
             if (lancamentos.length < 1) {
                 lancamentos.push(lancamento);
+                console.log(lancamentos);
             } else {
                 if (lancamento.conta_bancaria != lancamentos[0].conta_bancaria) {
                     swal.fire({
@@ -219,24 +206,76 @@
                     lancamentos.push(lancamento);
                 }
             }
-            console.log(lancamentos);
             valorDespesa = valorDespesa + Number($(`#valorDespesa${$(this).val()}`).val());
+        } else if (lancamentos.length > 0 && extratos.length > 1) {
+            swal.fire({
+                title: 'Atenção',
+                text: 'Selecione apenas um extrato',
+                type: 'warning',
+                confirmButtonText: 'Fechar'
+            });
+            $(this).prop('checked', false);
         } else {
-            //remove extrato do array
             const lancamento = {
                 id: $(this).val(),
                 conta_bancaria: $(`#conta_bancaria_lancamento${$(this).val()}`).val(),
+                data: $(`#data_${$(this).val()}`).val(),
             }
 
             var lancamentoFiltrado = lancamentos.find(lancamento => lancamento.id === $(this).val());
             lancamentos.splice(lancamentos.indexOf(lancamentoFiltrado), 1);
-            console.log(lancamentos);
             valorDespesa = valorDespesa - Number($(`#valorDespesa${$(this).val()}`).val());
         }
     });
 
+    $('input[name="ids_extratos[]"]').change(function() {
+        //adiciona extrato ao array de extratos
+        if ($(this).prop("checked") == true) {
+            const extrato = {
+                id: $(this).val(),
+                conta_bancaria: $(`#conta_bancaria_extrato${$(this).val()}`).val(),
+            }
+
+            if (extrato.conta_bancaria != lancamentos[0].conta_bancaria) {
+                swal.fire({
+                    title: 'Atenção',
+                    text: 'Selecione extratos da mesma conta bancaria dos lançamentos',
+                    type: 'warning',
+                    confirmButtonText: 'Fechar'
+                });
+                $(this).prop('checked', false);
+            } else {
+                if (extratos.length < 1) {
+                    extratos.push(extrato);
+                } else {
+                    if (extrato.conta_bancaria != extratos[0].conta_bancaria) {
+                        swal.fire({
+                            title: 'Atenção',
+                            text: 'Selecione extratos de mesma conta bancaria',
+                            type: 'warning',
+                            confirmButtonText: 'Fechar'
+                        });
+                        $(this).prop('checked', false);
+                    } else {
+                        extratos.push(extrato);
+                    }
+                }
+                valorExtrato = valorExtrato + Number($(`#valorExtratoId${$(this).val()}`).val());
+            }
+        } else {
+            //remove extrato do array
+            const extrato = {
+                id: $(this).val(),
+                conta_bancaria: $(`#conta_bancaria_extrato${$(this).val()}`).val(),
+            }
+
+            var extratoFiltrado = extratos.find(extrato => extrato.id === $(this).val());
+            extratos.splice(extratos.indexOf(extratoFiltrado), 1);
+            valorExtrato = valorExtrato - Number($(`#valorExtratoId${$(this).val()}`).val());
+        }
+    });
+
     function conciliacao() {
-        console.log(lancamentos, extratos);
         if (lancamentos.length == 0) {
             swal.fire({
                 title: "Atenção",
@@ -269,7 +308,6 @@
             $.ajax({
                 type: "POST",
                 url: `/conciliacao`,
-
                 data: {
                     "_token": "{{ csrf_token() }}",
                     lancamentos,

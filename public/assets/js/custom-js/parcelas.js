@@ -11,8 +11,9 @@ var valorTotal = document.getElementById("valorTotal");
 adicionar_parcela.onclick = () => geraParcelas(valorTotal, numeroParcelas);
 
 function geraParcelas(valorTotal, numeroParcelas) {
-    valorTotal = valorTotal.value.replace(/\./g, "").replace(",", ".");
-    if (numeroParcelas.value > 0 && valorTotal > 0) {
+    valorTotal = valorTotal.value;
+    var valorFinal = valorTotal.replace(/\./g, "").replace(",", ".").replace("R$", "");
+    if (numeroParcelas.value > 0 && valorFinal > 0) {
         removeItens();
         for (let i = 0; i < numeroParcelas.value; i++) {
             if (!parcelaFixa.checked) {
@@ -51,7 +52,7 @@ function geraParcelas(valorTotal, numeroParcelas) {
                         "pt-BR",
                         { style: "currency", currency: "BRL" }
                     ).format(
-                        (valorTotal / numeroParcelas.value).toFixed(2)
+                        (valorFinal / numeroParcelas.value).toFixed(2)
                     )}" class="form-control input-add parcela_gerada" id="parcela${
                         i + 1
                     }" name="parcela[]" >` +
@@ -70,7 +71,7 @@ function geraParcelas(valorTotal, numeroParcelas) {
                 parcelasGeradasHidden.innerHTML +=
                     `<input type="hidden" name="parcelas[]"  id="parcela_numero${
                         i + 1
-                    }" value="${(valorTotal / numeroParcelas.value).toFixed(
+                    }" value="${(valorFinal / numeroParcelas.value).toFixed(
                         2
                     )}">` +
                     `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${
@@ -98,7 +99,7 @@ function atribuiValorAParcelaGerada() {
         document.getElementsByClassName("vencimento_parcela");
     var valorTotalDespesa = document.getElementById("valorTotal").value;
     valorTotalDespesa = parseFloat(
-        valorTotalDespesa.replace(/\./g, "").replace(",", ".")
+        valorTotalDespesa.replace(/\./g, "").replace(",", ".").replace("R$", "")
     );
 
     var valorTotalParcelas = 0;
@@ -115,7 +116,7 @@ function atribuiValorAParcelaGerada() {
             parseFloat(
                 parcelasGeradas[i].value
                     .replace(/[^0-9,]*/g, "")
-                    .replace(",", ".")
+                    .replace(",", ".").replace("R$", "")
             ).toFixed(2)
         );
         datasParcelasGeradasHidden.value = datasParcelasGeradas[i].value;
@@ -123,7 +124,7 @@ function atribuiValorAParcelaGerada() {
             parseFloat(
                 parcelasGeradas[i].value
                     .replace(/[^0-9,]*/g, "")
-                    .replace(",", ".")
+                    .replace(",", ".").replace("R$", "")
             ).toFixed(2)
         );
     }
