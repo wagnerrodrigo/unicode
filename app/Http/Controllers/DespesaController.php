@@ -90,8 +90,6 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
-
-        dd($request->all());
         try {
             $parcelaDespesaRepository = new ParcelaDespesaRepository();
             //instancia model Despesa
