@@ -333,6 +333,8 @@ class LancamentoController extends Controller
         $lancamentoRepository = new LancamentoRepository();
         $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
 
-        return view('admin.lancamentos.list-lancamentos', compact('lancamentos'));
+        $mascara = new Mascaras();
+
+        return view('admin.lancamentos.list-lancamentos', compact('lancamentos', 'mascara'));
     }
 }

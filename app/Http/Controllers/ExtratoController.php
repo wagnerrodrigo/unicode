@@ -93,8 +93,9 @@ class ExtratoController extends Controller
 
     public function paginate(){
         $extratos = Extrato::selectAll();
+        $mascara = new Mascaras();
 
-        return view('admin.extrato.list-extratos', compact('extratos'));
+        return view('admin.extrato.list-extratos', compact('extratos', 'mascara'));
 
     }
 

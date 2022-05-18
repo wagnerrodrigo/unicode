@@ -55,7 +55,7 @@
                                 <input type="hidden" value="{{ $lancamento->dt_efetivo_pagamento }}" id="data_{{ $lancamento->fk_tab_parcela_despesa_id }}">
                             </td>
                             <td>PARCELA {{ $lancamento->num_parcela }}</td>
-                            <td style="padding:1px">{{ $lancamento->valor_pago }}<input type="hidden" id="valorDespesa{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->valor_pago}}" /></td>
+                            <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->valor_pago}}" /></td>
                             <td>A:{{ $lancamento->nu_agencia }} C:{{$lancamento->nu_conta }}</td>
                             <td>{{ $lancamento->de_status_despesa }}</td>
                             <input type="hidden" id="conta_bancaria_lancamento{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->fk_tab_conta_bancaria}}">
@@ -76,3 +76,78 @@
         </div>
     </div>
 </div>
+
+<script>
+    $("#inputDataFim").attr("disabled", true);
+    var inputDataInicio;
+    $("#inputDataInicio").on("change", function() {
+        inputDataInicio = $(this).val();
+        $("#inputDataFim").prop("min", function() {
+            return inputDataInicio;
+        })
+        console.log(inputDataInicio);
+        $("#inputDataFim").attr("disabled", false);
+        $("#inputDataFim").prop("required", true);
+    })
+    var inputDataFim;
+    $("#inputDataFim").on("change", function() {
+        inputDataFim = $(this).val();
+        $("#inputDataInicio").prop("max", function() {
+            return inputDataFim;
+        })
+        // $("#btnSearch").attr("disabled", false);
+        console.log(inputDataFim);
+        console.log($("#inputDataInicio").val());
+        $("#inputDataInicio").prop("required", true);
+    })
+</script>
+
+<script>
+    var valorDespesa = 0;
+    var lancamentos = [];
+    $('input[name="inputs_selecionandos[]"]').change(function() {
+        if ($(this).prop("checked") == true) {
+            const lancamento = {
+                id: $(`#id_lancamento_${$(this).val()}`).val(),
+                conta_bancaria: $(`#conta_bancaria_lancamento${$(this).val()}`).val(),
+                data: $(`#data_${$(this).val()}`).val(),
+            }
+
+            if (lancamentos.length < 1) {
+                lancamentos.push(lancamento);
+                console.log(lancamentos);
+            } else {
+                if (lancamento.conta_bancaria != lancamentos[0].conta_bancaria) {
+                    swal.fire({
+                        title: 'Atenção',
+                        text: 'Selecione lancamentos de mesma conta bancaria',
+                        type: 'warning',
+                        confirmButtonText: 'Fechar'
+                    });
+                    $(this).prop('checked', false);
+                } else {
+                    lancamentos.push(lancamento);
+                }
+            }
+            valorDespesa = valorDespesa + Number($(`#valorDespesa${$(this).val()}`).val());
+        } else if (lancamentos.length > 0 && extratos.length > 1) {
+            swal.fire({
+                title: 'Atenção',
+                text: 'Selecione apenas um extrato',
+                type: 'warning',
+                confirmButtonText: 'Fechar'
+            });
+            $(this).prop('checked', false);
+        } else {
+            const lancamento = {
+                id: $(this).val(),
+                conta_bancaria: $(`#conta_bancaria_lancamento${$(this).val()}`).val(),
+                data: $(`#data_${$(this).val()}`).val(),
+            }
+
+            var lancamentoFiltrado = lancamentos.find(lancamento => lancamento.id === $(this).val());
+            lancamentos.splice(lancamentos.indexOf(lancamentoFiltrado), 1);
+            valorDespesa = valorDespesa - Number($(`#valorDespesa${$(this).val()}`).val());
+        }
+    });
+</script>
