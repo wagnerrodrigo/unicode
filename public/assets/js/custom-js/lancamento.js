@@ -1,8 +1,15 @@
 var idFornecedor = $("#idFornecedor").val();
 var idEmpregado = $("#idEmpregado").val();
 var tipoDespesa = $("#tipo_da_despesa").val();
+var valorTotal = Number($("#valorTotal").val());
+
 $(document).ready(function () {
-    $("#modal_valor_rateado").val("0,00");
+    $("#modal_valor_total").text(
+        Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        }).format(valorTotal)
+    );
 });
 
 //inicio função para buscar empresa
@@ -74,21 +81,12 @@ $("#busca_empresa").keyup(
 var valorTotalRateio = 0;
 var valorRateado = 0;
 var valorTotalDespesa = 0;
-var novoValorTotal = 0;
 
 btnSalvar.disabled = true;
 var id_button_conta = 0;
 var id_despesa = $("#id_despesa").val();
 var fk_condicao_pagamento_id_tela = $("#fk_condicao_pagamento_id_tela").val();
 var id_empresa = $("#id_empresa").val();
-var valorTotal = Number($("#valorParcela").val());
-
-$("#modal_valor_total").val(
-    Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-    }).format(valorTotal)
-);
 
 var rateios_contas = [];
 
@@ -135,6 +133,7 @@ $("#addContas").click(function () {
             //retira virgulas do valor unitário
 
             //gera o input com os dados do item para submeter no form
+            var novoValorTotal = 0;
 
             if (novoValorTotal == 0) {
                 novoValorTotal = valorTotal;
@@ -144,6 +143,7 @@ $("#addContas").click(function () {
                     .replace(/\./g, "")
                     .replace(",", ".");
             }
+
             $("#hidden_inputs_itens").append(
                 `<div id="input_generated_account${id_button_conta}">` +
                     `<input type="hidden"  name="id_busca_empresa" value="${rateio_empresa}"/>` +
@@ -192,7 +192,11 @@ function limpaCamposRateio() {
 
 function limparDescontoJurosMulta() {
     var valorDescontoAtual = $("#desconto").val();
-    var valorModalAtual = $("#modal_valor_total").val();
+    var valorModalAtual = $("#modal_valor_total")
+        .val()
+        .replace("R$", "")
+        .replace(/\./g, "")
+        .replace(",", ".");
     var resultadoModalValorTotal = 0;
 
     resultadoModalValorTotal = valorModalAtual - valorDescontoAtual;
@@ -209,40 +213,44 @@ $("#adicionar_rateio").click(function () {
     ) {
         var juros = $("#hiddemJuros").val();
         var multa = $("#hiddemMulta").val();
-        var valorTotalFinal = Number($("#valorParcela").val());
+        var valorTotalFinal = Number($("#valorTotal").val());
 
-        novoValorTotal =
-            Number(juros) + Number(multa) + Number(valorTotalFinal);
+        if(multa == '' || multa == null){
+            multa = 0;
+        }else if(juros == '' || juros == null){
+            juros = 0;
+        }
 
-        novoValorTotal = Intl.NumberFormat("pt-BR", {
+        valorTotalFinal = Number(juros) + Number(multa) + Number(valorTotalFinal);
+
+        valorTotalFinal = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-        }).format(novoValorTotal);
-        $("#modal_valor_total").val(novoValorTotal);
+        }).format(valorTotalFinal);
+
+        $("#modal_valor_total").val(valorTotalFinal);
     } else if (
         $("#hiddemDesconto").val() != "" &&
         $("#hiddemDesconto").val() != null
     ) {
-        console.log({
-            valorTotalFinal,
-            novoValorTotal,
-            desconto
-        });
         var desconto = $("#hiddemDesconto").val();
-        novoValorTotal = Number(valorTotalFinal) - Number(desconto);
-        novoValorTotal = Intl.NumberFormat("pt-BR", {
+        var valorTotalFinal = Number($("#valorTotal").val());
+
+        valorTotalFinal = Number(valorTotalFinal) - Number(desconto);
+
+        valorTotalFinal = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-        }).format(novoValorTotal);
+        }).format(valorTotalFinal);
 
-        $("#modal_valor_total").val(novoValorTotal);
+        $("#modal_valor_total").val(valorTotalFinal);
     } else {
-        valorTotalFinal = Intl.NumberFormat("pt-BR", {
+        var valorTotalFinal = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
         }).format($("#valorTotal").val());
 
-        $("#modal_valor_total").val(novoValorTotal);
+        $("#modal_valor_total").val(valorTotalFinal);
     }
 });
 
@@ -338,7 +346,7 @@ $("#btnConciliacao").click(function () {
     var juros = $("#juros").val().replace(/\./g, "").replace(",", ".");
     var multa = $("#multa").val().replace(/\./g, "").replace(",", ".");
     var desconto = $("#desconto").val().replace(/\./g, "").replace(",", ".");
-    var valorTotal = $("#valorTotal").val();
+
     var soma = Number(juros) + Number(multa);
 
     if (Number(desconto) >= Number(valorTotal)) {
