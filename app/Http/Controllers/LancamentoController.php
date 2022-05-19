@@ -91,8 +91,8 @@ class LancamentoController extends Controller
                 $lancamento->juros = $request->juros;
                 $lancamento->multa = $request->multa;
                 $lancamento->desconto = $request->desconto;
-                $request->juros != null ? $lancamento->valor_pago = $request->valor_pago + ($request->juros + $request->multa)
-                                        : $lancamento->valor_pago = $request->valor_pago - $request->desconto;
+                $request->juros != null ? $lancamento->valor_pago = floatval($request->valor_pago) + (floatval($request->juros) + floatval($request->multa))
+                                        : $lancamento->valor_pago = floatval($request->valor_pago) - floatval($request->desconto);
                 $lancamento->dt_fim = null;
                 $lancamento->updateExpenceBasedOnInstallmet($getParcela->fk_despesa);
                 Lancamento::create($lancamento);
@@ -176,7 +176,8 @@ class LancamentoController extends Controller
         }
         $lancamentos = $despesaRepository->getExpenseById($parcela->fk_despesa, $despesa->fk_tab_tipo_despesa_id, null);
 
-        foreach($lancamentos as $lancamento){}
+        foreach ($lancamentos as $lancamento) {
+        }
         // dd($lancamento);
         $mascara = new Mascaras();
 
@@ -331,7 +332,8 @@ class LancamentoController extends Controller
         }
     }
 
-    public function paginate(){
+    public function paginate()
+    {
         $lancamentoRepository = new LancamentoRepository();
         $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
 
