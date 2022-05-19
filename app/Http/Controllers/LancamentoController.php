@@ -91,7 +91,8 @@ class LancamentoController extends Controller
                 $lancamento->juros = $request->juros;
                 $lancamento->multa = $request->multa;
                 $lancamento->desconto = $request->desconto;
-                $lancamento->valor_pago = trim(html_entity_decode($request->valor_pago), " \t\n\r\0\x0B\xC2\xA0");
+                $request->juros != null ? $lancamento->valor_pago = $request->valor_pago + ($request->juros + $request->multa)
+                                        : $lancamento->valor_pago = $request->valor_pago - $request->desconto;
                 $lancamento->dt_fim = null;
                 $lancamento->updateExpenceBasedOnInstallmet($getParcela->fk_despesa);
                 Lancamento::create($lancamento);
@@ -102,9 +103,6 @@ class LancamentoController extends Controller
 
                 if ($request->valor_rateio_pagamento) {
                     $valor_rateio = trim(html_entity_decode($request->valor_rateio_pagamento), " \t\n\r\0\x0B\xC2\xA0");
-
-                    // $removePonto = str_replace(".", "", $removeCifrao);
-                    // $substituiVirgula = str_replace(",", ".", $removePonto);
                     $rateios[] = [
                         'valor_rateio_pagamento' => $valor_rateio,
                         'fk_tab_conta_bancaria' => $request->fk_tab_conta_bancaria,

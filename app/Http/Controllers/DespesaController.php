@@ -62,17 +62,19 @@ class DespesaController extends Controller
     {
         try {
             $despesaRepository = new DespesaRepository();
-            foreach ($despesaRepository->findTipoECentroCustoDespesa($id) as $tipoDespesa) {}
+            foreach ($despesaRepository->findTipoECentroCustoDespesa($id) as $tipoDespesa) {
+            }
 
             $costCenterRepository = new CostCenterRepository();
 
             $tipo = TipoDespesa::class;
 
-            $despesas = Despesa::findOne($id,$tipoDespesa->fk_tab_tipo_despesa_id,$tipoDespesa->fk_tab_centro_custo_id);
+            $despesas = Despesa::findOne($id, $tipoDespesa->fk_tab_tipo_despesa_id, $tipoDespesa->fk_tab_centro_custo_id);
 
             $rateioRepository = new RateioRepository();
             $rateios = $rateioRepository->findRateioDespesa($id);
-            foreach ($despesas as $despesa) {}
+            foreach ($despesas as $despesa) {
+            }
 
             $costCenter = $costCenterRepository->getCenterCostByIdCompany($despesa->fk_empresa_id);
 
@@ -185,6 +187,7 @@ class DespesaController extends Controller
                         'dt_vencimento' => $request->vencimento_parcela[$i],
                         'dt_inicio' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
                         'dt_fim' => null,
+                        'dt_provisionamento' => null,
                         'valor_parcela' => $request->parcelas[$i],
                         'fk_status_parcela_id' => StatusDespesa::A_PAGAR,
                         'fk_forma_pagamento_id' => null,
@@ -193,18 +196,6 @@ class DespesaController extends Controller
                     ];
                 }
                 $parcelaDespesaRepository->store($parcelas);
-            } else {
-                $parcelaDespesaRepository->store([
-                    'fk_despesa' => $id_despesa[0]->id_despesa,
-                    'num_parcela' => 1,
-                    'dt_emissao' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
-                    'dt_vencimento' => $request->data_vencimento,
-                    'valor_parcela' => $request->valor_total,
-                    'fk_status_parcela_id' => StatusDespesa::A_PAGAR,
-                    'fk_forma_pagamento_id' => null,
-                    'fk_tipo_pagamento_id' => null,
-                    'fk_conta_bancaria_id' => null,
-                ]);
             }
 
             return redirect()->route('despesas')->with('success', 'Despesa Cadastrada!');
