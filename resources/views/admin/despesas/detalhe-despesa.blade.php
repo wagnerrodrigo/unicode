@@ -183,6 +183,7 @@
                         <form action="/despesas/{{ $despesa->id_despesa }}" method="POST" style="padding: 10px;" id="form_edit_despesa">
                             @csrf
                             <div id="hidden_inputs"></div>
+                            <input type="hidden" name="valor_total" value="{{$despesa->valor_total_despesa}}">
                             <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>CENTRO DE CUSTO</strong>
