@@ -24,6 +24,10 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
+
+    var pageExtrato = 1;
+    var pageLancamento = 1;
+    var contaBancaria = null;
     $(document).ready(function() {
         loadTableExtrato(0);
         loadTableLancamentos(0);
@@ -31,16 +35,32 @@
 
     $(document).on('click', '#pagination_extratos a', function(event) {
         event.preventDefault();
-        var page = $(this).attr('href').split('page=')[1];
-        loadTableExtrato(page);
+        pageExtrato = $(this).attr('href').split('page=')[1];
+        var url = $(this).attr('href').split('extrato')[1];
+        url = url.split('/');
+        if(url[1] == 'filter'){
+            loadTableExtratoWithId(contaBancaria, pageExtrato);
+        }else{
+            loadTableExtrato(pageExtrato);
+        }
     });
 
     $(document).on('click', '#pagination_lancamentos a', function(event) {
         event.preventDefault();
-        var page = $(this).attr('href').split('/parcelas?page=')[1];
-        console.log(page);
-        loadTableLancamentos(page);
+        pageLancamento = $(this).attr('href').split('/parcelas?page=')[1];
 
+        loadTableLancamentos(pageLancamento);
+    });
+
+
+    $(document).on('click', '.inputs_selecionandos', function(event) {
+        if ($(this).prop("checked") == true) {
+            contaBancaria = $(`#conta_bancaria_lancamento${$(this).val()}`).val();
+            loadTableExtratoWithId(contaBancaria, pageExtrato);
+        }else{
+            contaBancaria = null;
+            loadTableExtrato(pageExtrato);
+        }
     });
 
     function loadTableExtrato(page) {
@@ -48,6 +68,18 @@
         var dados = $('#form_paginacao_extrato').serialize();
         $.ajax({
             url: "{{ route('extrato2') }}",
+            type: 'GET',
+            data: dados,
+        }).done(function(data) {
+            $('.card-extratos').html(data);
+        });
+    }
+
+    function loadTableExtratoWithId(id, page) {
+        $('#page_extrato').val(page);
+        var dados = $('#form_paginacao_extrato').serialize();
+        $.ajax({
+            url: "extrato/filter/account/" + id,
             type: 'GET',
             data: dados,
         }).done(function(data) {

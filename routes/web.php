@@ -53,7 +53,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/extrato')->group(function 
     Route::get('/pesquisa/{dt_inicio}/{dt_fim}', [ExtratoController::class, 'showPeriodDate']);
     // [FIX] tela de para aprovação equipe financeiro
     Route::get('/info/test-extra/despesa', [ExtratoController::class, 'showInfoExtract']);
-    Route::get('/test/detalhes-extrato/despesa/{id}', [ExtratoController::class, 'getExtractByBankAccount'])->name('detalhesExtrato');
+    Route::get('/filter/account/{id}', [ExtratoController::class, 'getExtractByIdAccount'])->name('detalhesExtrato');
 
     Route::get('/list', [ExtratoController::class, 'paginate'])->name('extrato2');
 

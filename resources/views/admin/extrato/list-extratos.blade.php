@@ -47,8 +47,6 @@
     var valorExtrato = 0;
     var extratos = [];
 
-
-
     $('input[name="ids_extratos[]"]').change(function() {
         //adiciona extrato ao array de extratos
         if ($(this).prop("checked") == true) {
