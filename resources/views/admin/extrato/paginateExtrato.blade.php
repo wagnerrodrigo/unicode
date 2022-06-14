@@ -50,6 +50,7 @@
         pageLancamento = $(this).attr('href').split('/parcelas?page=')[1];
 
         loadTableLancamentos(pageLancamento);
+        loadTableExtrato(1);
     });
 
 
