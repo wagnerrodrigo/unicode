@@ -57,8 +57,6 @@
         </div>
     </div>
 
-<div>qualquer coisa</div>
-
 </div>
 <script src="{{asset('assets/js/feather-icons/feather.min.js')}}"></script>
 <script src="{{asset('assets/js/app.js')}}"></script>
