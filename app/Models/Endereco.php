@@ -40,8 +40,7 @@ class Endereco extends Model
 
     static function create($endereco)
     {
-        DB::insert("INSERT INTO intranet.tab_endereco
-        (
+        DB::insert("INSERT INTO intranet.tab_endereco(
             fk_tipo_endereco_id,
             fk_tipo_logradouro,
             logradouro,

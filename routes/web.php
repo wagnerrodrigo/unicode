@@ -78,7 +78,6 @@ Route::middleware('autenticacaoMiddleware')->prefix('/empregados')->group(functi
 });
 
 Route::get('/financeiro', [FinanceiroController::class, 'index'])->name('financeiro');
-
 //rotas Despesas
 Route::middleware('autenticacaoMiddleware')->prefix('/despesas')->group(function () {
     Route::get('/', [DespesaController::class, 'index'])->name('despesas');

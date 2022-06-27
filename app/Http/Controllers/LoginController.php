@@ -86,7 +86,7 @@ class LoginController extends Controller
         //mensagens de feedback de validação
         $feedback = [
             'login.required' => 'O campo Login é obrigatório',
-            'password.required' => 'O campo senha é obrigatório'
+            'password.required' => 'O campo senha é obrigatório',
         ];
 
         //chama função de validação
