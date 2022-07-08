@@ -91,8 +91,13 @@ class LancamentoController extends Controller
                 $lancamento->juros = $request->juros;
                 $lancamento->multa = $request->multa;
                 $lancamento->desconto = $request->desconto;
-                $request->juros != null ? $lancamento->valor_pago = floatval($request->valor_pago) + (floatval($request->juros) + floatval($request->multa))
-                                        : $lancamento->valor_pago = floatval($request->valor_pago) - floatval($request->desconto);
+                if($request->juros != null){
+                    $lancamento->valor_pago = floatval($request->valor_pago) + (floatval($request->juros) + floatval($request->multa));
+                }else if($request->juros == null){
+                    $lancamento->valor_pago = floatval($request->valor_pago) - floatval($request->desconto);
+                }else if($request->juros == null && $request->desconto == null){
+                    $lancamento->valor_pago = floatval($request->valor_pago);
+                }
                 $lancamento->dt_fim = null;
                 $lancamento->updateExpenceBasedOnInstallmet($getParcela->fk_despesa);
                 Lancamento::create($lancamento);

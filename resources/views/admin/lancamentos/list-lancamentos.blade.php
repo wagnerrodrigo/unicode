@@ -1,8 +1,17 @@
+
+<style>
+    .table>:not(caption)>*>* {
+    padding: 0.15rem 2rem;
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+</style>
 <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1>LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO </h1>
+                <h1>LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO</h1>
             </div>
             <div class="card-body">
                 <form action="{{ route('extrato') }}" method="GET">
@@ -61,7 +70,7 @@
                             <input type="hidden" id="conta_bancaria_lancamento{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->fk_tab_conta_bancaria}}">
                             <td id="btn_abrir_extratos">
                                 <div class="d-flex justify-content-space-between">
-                                    <button id="{{ $lancamento->id_tab_lancamento }}" onclick="editLancamento(this.id)" class="btn btn-warning ms-5" style="padding: 8px 12px;"><i class="bi bi-pencil-fill"></i></button>
+                                    <button id="{{ $lancamento->id_tab_lancamento }}" onclick="editLancamento(this.id)" class="btn btn-warning" style="padding: 3px 6px; color: black;"><i class="bi bi-pencil-fill"></i></button>
                                     <!-- <button id="{{ $lancamento->id_tab_lancamento }}" onclick="deleteLancamento(this.id)" class="btn btn-danger ms-2" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button> -->
                                 </div>
 

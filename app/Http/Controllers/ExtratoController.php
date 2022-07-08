@@ -85,6 +85,16 @@ class ExtratoController extends Controller
         }
     }
 
+    public function getExtractByIdAccount(String $id){
+        $extratos = Extrato::findByIdAccount($id);
+
+        $mascara = new Mascaras();
+
+        return view('admin.extrato.list-extratos', compact('extratos', 'mascara'));
+
+        // return response()->json($extratos);
+    }
+
     public function getAllExtracts()
     {
         $extrato = Extrato::selectAll();
