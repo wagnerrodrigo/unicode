@@ -22,11 +22,16 @@ use App\Http\Controllers\EmpregadoController;
 use App\Http\Controllers\CondicaoPagamentoController;
 use App\Http\Controllers\ExtratoController;
 use App\Http\Controllers\PagamentoController;
-use App\Http\Controllers\ComprasController;
+use App\Http\Controllers\Compras\ComprasController;
 use App\Http\Controllers\PixController;
 use App\Http\Controllers\ClassificacaoDocumentoController;
 use App\Http\Controllers\ParcelaDespesaController;
+use App\Http\Controllers\Compras\SolicitarCompraController;
+use App\Http\Controllers\Compras\CotacaoCompraController;
+use App\Http\Controllers\Compras\CompraTotalController;
+use App\Http\Controllers\Compras\DiretoriaController;
 use Illuminate\Support\Facades\Route;
+
 
 //rotas públicas
 Route::get('forgot-password{error?}', [LoginController::class, 'forgot'])->name('forgot');
@@ -223,6 +228,22 @@ Route::middleware('autenticacaoMiddleware')->prefix('/cep')->group(function () {
     Route::get('/pesquisaCNPJ/{cnpj}', [FornecedorController::class, 'webScraping'])->name(('webScraping'));
 });
 
-Route::middleware('autenticacaoMiddleware')->prefix('/compras')->group(function () {
-    Route::get('/', [ComprasController::class, 'index'])->name('compras');
+Route::prefix('/compras')->group(function () {
+    Route::get('/', [ComprasController::class, 'index'])->name('home');
+    // Route::get('/{id}', [ComprasController::class, 'show'])->name('showHome');
+
+    //Solicitar Compra
+    Route::post('/solicitar', [SolicitarCompraController::class, 'store']);
+    Route::get('/solicitar', [SolicitarCompraController::class, 'index'])->name('solicitar');
+
+    //Cotação Compra
+    Route::get('/cotacao', [CotacaoCompraController::class, 'index'])->name('cotacao');
+    Route::get('/cotacao/{id}', [CotacaoCompraController::class, 'show'])->name('showCotacao');
+
+    //Todas as Compras
+    Route::get('/total', [CompraTotalController::class, 'index'])->name('total');
+
+    //Analise Diretoria
+    Route::get('/diretoria', [DiretoriaController::class, 'index'])->name('diretoria');
+    Route::get('/diretoria/{id}', [DiretoriaController::class, 'show'])->name('showDiretoria');
 });
