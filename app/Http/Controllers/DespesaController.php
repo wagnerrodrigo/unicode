@@ -164,7 +164,7 @@ class DespesaController extends Controller
                 //verifica se a soma das porcentagens é igual a 100 caso não seja retorna o restante para o centro de custo inicial
                 if ($soma_porcentagem_rateio != 100) {
                     $resto_porcentagem = 100 - $soma_porcentagem_rateio;
-                    dd($request->valor_total, $soma_valor_rateio);
+
                     $valor_restante = FormataValor::Real($request->valor_total) - $soma_valor_rateio;
 
                     $rateios[] = [
