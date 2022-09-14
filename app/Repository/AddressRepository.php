@@ -8,9 +8,9 @@ use App\Models\Cidade;
 use Carbon\Carbon;
 
 
-class AdressRepository
+class AddressRepository
 {
-    function createAdress($id_fornecedor, $enderecos)
+    function createAddress($id_fornecedor, $enderecos)
     {
         //separa os enderecos em um array
         for ($i = 0; $i < count($enderecos); $i++) {
@@ -50,14 +50,14 @@ class AdressRepository
         }
     }
 
-    function findAdressByProvider($id_provider)
+    function findAddressByProvider($id_provider)
     {
         $adresses = Endereco::findByProvider($id_provider);
         return $adresses;
 
     }
 
-    function deleteAdress($id_adress, $date){
+    function deleteAddress($id_adress, $date){
         Endereco::setEndDate($id_adress, $date);
     }
 }

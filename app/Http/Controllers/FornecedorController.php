@@ -8,6 +8,7 @@ use App\Repository\AdressRepository;
 use Illuminate\Http\Request;
 use App\Utils\Mascaras\Mascaras;
 use App\CustomError\CustomErrorMessage;
+use App\Repository\AddressRepository;
 use GuzzleHttp\Client;
 
 class FornecedorController extends Controller
@@ -55,7 +56,7 @@ class FornecedorController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+
             $fornecedor = new Fornecedor();
             $cpf_cnpj_corrigido = str_replace(['.', '-', '/'], '', $request->input('nu_cpf_cnpj'));
 
@@ -87,15 +88,15 @@ class FornecedorController extends Controller
             }
 
             //salva o endereco
-            $adressRepository = new AdressRepository();
-            $adressRepository->createAdress($fornecedor_id, $adresses);
+            $adressRepository = new AddressRepository();
+            $adressRepository->createAddress($fornecedor_id, $adresses);
 
             return redirect()->back()->with('success', 'Fornecedor Cadastrado com Sucesso!!');
-        } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', 'Não foi possível cadastrar o fornecedor');
-        }
+        // } catch (\Exception $e) {
+        //     return redirect()
+        //         ->back()
+        //         ->with('error', 'Não foi possível cadastrar o fornecedor');
+        // }
     }
 
 
@@ -131,8 +132,8 @@ class FornecedorController extends Controller
             if (!$fornecedor->dt_fim) {
                 $mascara = new Mascaras();
 
-                $AdressRepository = new AdressRepository();
-                $adresses = $AdressRepository->findAdressByProvider($id);
+                $AdressRepository = new AddressRepository();
+                $adresses = $AdressRepository->findAddressByProvider($id);
 
                 $retorno = ["success" => null];
 

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Endereco;
+use App\Models\Fornecedor;
+use App\Repository\AddressRepository;
 use Illuminate\Http\Request;
-use App\Repository\EnderecoRepository;
 use Carbon\Carbon;
 
 class EnderecoController extends Controller
@@ -61,7 +62,7 @@ class EnderecoController extends Controller
 
     public function store(Request $request)
     {
-        $enderecoRepository = new EnderecoRepository();
+        $enderecoRepository = new AddressRepository();
 
         // inicio usado para converter strings com acento para upper case
         $encoding = 'UTF-8'; // ou ISO-8859-1...
@@ -80,14 +81,14 @@ class EnderecoController extends Controller
             ]
         ];
 
-        $fornecedor = new \stdClass;
+        $fornecedor = new Fornecedor();
         $fornecedor->id_fornecedor = $request->fornecedor;
 
         $id_fornecedor = [
             "0" => $fornecedor,
         ];
 
-        $enderecoRepository->createEndereco($id_fornecedor, $adresses);
+        $enderecoRepository->createAddress($id_fornecedor, $adresses);
 
         return redirect("/fornecedores/{$request->fornecedor}");
     }
@@ -113,9 +114,9 @@ class EnderecoController extends Controller
 
     public function delete($id)
     {
-        $enderecoRepository = new EnderecoRepository();
+        $enderecoRepository = new AddressRepository();
         try {
-            $enderecoRepository->deleteAdress($id, Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString());
+            $enderecoRepository->deleteAddress($id, Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString());
             return response()->json(['success' => 'Endereço deletado com sucesso!']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e]);

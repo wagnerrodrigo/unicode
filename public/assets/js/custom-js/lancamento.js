@@ -87,6 +87,7 @@ var id_button_conta = 0;
 var id_despesa = $("#id_despesa").val();
 var fk_condicao_pagamento_id_tela = $("#fk_condicao_pagamento_id_tela").val();
 var id_empresa = $("#id_empresa").val();
+var valorTotal = $("#valorParcela").val();
 
 var rateios_contas = [];
 
@@ -205,6 +206,7 @@ function limparDescontoJurosMulta() {
 
 //adiciona valor total ao input acima do modal de rateio
 $("#adicionar_rateio").click(function () {
+    var valorTotalFinal = Number($("#valorParcela").val());
     if (
         $("#hiddemJuros").val() != "" &&
         $("#hiddemMulta").val() != "" &&
