@@ -228,10 +228,9 @@ Route::middleware('autenticacaoMiddleware')->prefix('/cep')->group(function () {
     Route::get('/pesquisaCNPJ/{cnpj}', [FornecedorController::class, 'webScraping'])->name(('webScraping'));
 });
 
-Route::prefix('/compras')->group(function () {
+Route::middleware('autenticacaoMiddleware')->prefix('/compras')->group(function () {
     Route::get('/', [ComprasController::class, 'index'])->name('home');
-    // Route::get('/{id}', [ComprasController::class, 'show'])->name('showHome');
-
+    
     //Solicitar Compra
     Route::post('/solicitar', [SolicitarCompraController::class, 'store']);
     Route::get('/solicitar', [SolicitarCompraController::class, 'index'])->name('solicitar');

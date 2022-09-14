@@ -2,17 +2,53 @@
 @section('title', 'Compra')
 
 @section('content')
-<meta http-equiv="refresh" content="20">
+<!-- <meta http-equiv="refresh" content="20"> -->
   <br>
-  <center>
-    <form class="col-md-4">
-      <input class="form-control me-2" type="search" placeholder="Buscar Compra" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Buscar</button>
+  
+  <form class="col-md-12">
+    <div class="card-header">
+      <h1>TODAS AS SOLICITAÇÕES</h1>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="col-md-3" style="display: inline-block">
+        <input class="form-control me-2" type="search" placeholder="Buscar por Solicitante" aria-label="Search">
+      </div>
+
+      <div class="col-md-3" style="display: inline-block">
+        <div class="input-group mb-3" style="width: 250px">
+          <label class="input-group-text" for="inputStatus">STATUS</label>
+          <select class="form-select" id="inputStatus" name="status">
+            <option value=""></option>
+            <option value="8">Solicitação Cancelada</option>
+            <option value="7">Reprovado</option>
+            <option value="6">Pedido Entregue</option>
+            <option value="4">Compra Liberada</option>
+            <option value="5">Análise Financeiro</option>
+            <option value="2">Em Cotação</option>
+            <option value="1">Análise da Diretoria da Área</option>
+          </select>
+        </div>
+      </div> 
+
+      <div class="col-md-3" style="display: inline-block">
+        <div class="input-group mb-3" style="width: 250px">
+          <label class="input-group-text" for="inputDataInicio">DATA INICIO</label>
+          <input class="form-control" value="{{$dt_inicio ?? ''}}" type="date" max="" name="dt_inicio" id="inputDataInicio">
+        </div>
+      </div>
+
+      <div class="col-md-2" style="display: inline-block">
+        <div class="input-group mb-3" style="width: 250px">
+          <label class="input-group-text" for="inputDataFim">DATA FIM</label>
+          <input class="form-control" value="{{$dt_fim ?? ''}}" type="date" min="" name="dt_fim" id="inputDataFim">
+        </div>
+      </div>
+
+      <center><button class="btn btn-outline-success" type="submit">Buscar</button></center>
     </form>
-  </center>
 
         <br>
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
           <th>ID</th>
           <th>Solicitante</th>
           <th>Produto</th>
@@ -54,15 +90,15 @@
               @endif
               
               
-            <td><a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-binoculars"></i></a></td>
-            <td><a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"><i class="bi bi-file-earmark-text"></i></td>
+              <td><a href="#staticBackdrop-{{$pedido->id_solicitacao_compra}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop-{{$pedido->id_solicitacao_compra}}"><i class="bi bi-binoculars"></i></a></td>
+              <td><a href="#staticBackdrop1-{{$pedido->id_solicitacao_compra}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1-{{$pedido->id_solicitacao_compra}}"><i class="bi bi-file-earmark-text"></i></a></td>
             
-            <!-- Detalhes -->
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <!-- Detalhes -->
+            <div class="modal fade" id="staticBackdrop-{{$pedido->id_solicitacao_compra}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
               <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Detalhes</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Detalhes da Solicitacao: {{$pedido->id_solicitacao_compra}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
@@ -79,7 +115,7 @@
                     <br><br><hr><br>
                         <div class="col-sm-4">Produto: {{$pedido->de_produto}}</div>
                         <div class="col-sm-4">Quantidade: {{$pedido->quantidade}} </div>
-                        <div class="col-sm-4">Descrição: {{$pedido->complemento_produto}} </div>
+                        <div class="col-sm-4">Unidade Medida: {{$pedido->unidade_medida}} </div>
                     <br><br><hr><br>
                         <div class="col-sm-6">Complemento: {{$pedido->complemento_solicitacao}}</div>
                       </div>
@@ -94,11 +130,11 @@
             </div>
 
             <!-- Historico -->
-            <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade" id="staticBackdrop1-{{$pedido->id_solicitacao_compra}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Detalhes</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Detalhes da Solicitacao: {{$pedido->id_solicitacao_compra}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">

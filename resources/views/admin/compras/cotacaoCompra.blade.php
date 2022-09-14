@@ -34,11 +34,14 @@ Incluir anexos por cotação
   <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
       <div class="card">
+        <div class="card-header">
+          <h1>REALIZANDO COTAÇÃO</h1>
+        </div>
         <center>
 
         
 
-          <form class="row g-4" style="width: 90%;" method="POST">
+        <form class="row g-4" style="width: 90%;" method="POST">
           @csrf
             <div class="col-md-6">
               <label for="inputEmail4" class="form-label">Nome do solicitante</label>
@@ -63,88 +66,113 @@ Incluir anexos por cotação
               <datalist id="datalistOptions1">
               </datalist>
             </div>
-            <hr>
-            <div class="col-md-6">
-              <label for="inputState" class="form-label">Categoria</label>
-              <select id="inputState" name="categoria" class="form-select" required>
-                <option>{{$cotacao->de_tipo_produto}}</option>
-              </select>
-            </div>
-
-            <div class="col-md-6">
-              <label for="disabledSelect" class="form-label">Centro de Custo</label>
-              <select id="disabledSelect" name="centro_custo" class="form-select" required>
-                <option>1</option>
-              </select>
-            </div>
-
+            
+</center>
 <hr>
 
-            <div class="col-6">
-              <label for="inputPassword4" class="form-label">Produto</label>
-              <input type="text" class="form-control" name="produto" id="inputPassword4" value="{{$cotacao->de_produto}}" required>
-            </div>
+<div class="accordion" id="accordionExample" >
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+      {{$cotacao->de_produto}}
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        
+         <div class="col-md-4" style="display: inline-block">
+          <label for="inputState" class="form-label">Categoria</label>
+          <select id="inputState" name="categoria" class="form-select" required>
+            <option>{{$cotacao->de_tipo_produto}}</option>
+          </select>
+        </div>
 
-            <div class="col-2">
-              <label for="inputPassword4" class="form-label">Quantidade</label>
-              <input type="number" class="form-control" name="valor_produto" id="inputPassword4" value="{{$cotacao->quantidade}}" min="1" required>
-            </div>
+        <div class="col-md-4" style="display: inline-block">
+          <label for="disabledSelect" class="form-label">Centro de Custo</label>
+          <select id="disabledSelect" name="centro_custo" class="form-select" required>
+            <option>1</option>
+          </select>
+        </div>
 
-            <div class="form-floating">
-                <textarea class="form-control" name="descricao" maxlength="500" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                <label for="floatingTextarea2">Descrição do Produto</label>
-              </div>
+        @foreach($produtos as $produto)
+<br><br>
+        <div class="col-4" style="display: inline-block">
+          <label for="inputPassword4" class="form-label">Produto</label>
+          <input type="text" class="form-control" name="produto" id="inputPassword4" value="{{$produto->de_produto}}" required>
+        </div>
 
-            <div class="col-2">
-              <label for="inputPassword4" class="form-label">Valor do Produto</label>
-              <input type="text" class="form-control" name="valor_produto" id="inputPassword4" value="R$ 0,00" required>
-            </div>
+        <div class="col-2" style="display: inline-block">
+          <label for="inputPassword4" class="form-label">Quantidade</label>
+          <input type="number" class="form-control" name="valor_produto" id="inputPassword4" value="{{$produto->quantidade}}" min="1" required>
+        </div>
 
-            <div class="col-2">
-              <label for="inputPassword4" class="form-label">Valor do Frete</label>
-              <input type="text" class="form-control" name="frete" id="inputPassword4" required>
-            </div>
+        <div class="col-3" style="display: inline-block">
+          <label for="inputPassword4" class="form-label">Unidade Medida</label>
+          <input type="number" class="form-control" name="valor_produto" id="inputPassword4" value="{{$produto->unidade_medida}}" min="1" required>
+        </div>
+<br><br>
+        <div class="col-2" style="display: inline-block">
+          <label for="inputPassword4" class="form-label">Valor do Produto</label>
+          <input type="text" class="form-control" name="valor_produto" id="inputPassword4" value="R$ 0,00" required>
+        </div>
 
-            <div class="col-2">
-              <label for="inputPassword4" class="form-label">Prazo de Entrega:</label>
-              <input type="date" class="form-control" name="prazo_entrega" id="inputPassword4" required>
-            </div>
+        <div class="col-2" style="display: inline-block">
+          <label for="inputPassword4" class="form-label">Valor do Frete</label>
+          <input type="text" class="form-control" name="frete" id="inputPassword4" value="R$ 0,00" required>
+        </div>
 
-            <div class="col-2">
-              <label for="inputPassword4" class="form-label">Condição de Pagamento:</label>
-              <input type="text" class="form-control" name="condição_pagamento" id="inputPassword4" required>
-            </div>
-            <br>
+        <div class="col-3" style="display: inline-block">
+          <label for="inputPassword4" class="form-label">Prazo de Entrega:</label>
+          <input type="date" class="form-control" name="prazo_entrega" id="inputPassword4" required>
+        </div>
 
-            <div class="col-3">
-              <label for="inputPassword4" class="form-label">Nome do Fornecedor</label>
-              <input type="text" class="form-control" name="nomeFornecedor" id="inputPassword4" required>
-            </div>
+        <div class="col-3" style="display: inline-block">
+          <label for="inputPassword4" class="form-label">Condição de Pagamento:</label>
+          <input type="text" class="form-control" name="condição_pagamento" id="inputPassword4" required>
+        </div>
+<br><br>
+        <div class="col-3" style="display: inline-block">
+          <label for="inputPassword4" class="form-label">Nome do Fornecedor</label>
+          <input type="text" class="form-control" name="nomeFornecedor" id="inputPassword4" required>
+        </div>
 
-            <div class="col-2">
-              <label for="inputPassword4" class="form-label">CNPJ do Fornecedor</label>
-              <input type="text" class="form-control" name="cnpjFornecedor" id="inputPassword4" required>
-            </div>
+        <div class="col-2" style="display: inline-block">
+          <label for="inputPassword4" class="form-label">CNPJ do Fornecedor</label>
+          <input type="text" class="form-control" name="cnpjFornecedor" id="inputPassword4" required>
+        </div>
 
-            <div class="col-3">
-              <label for="inputPassword4" class="form-label">Contato do Fornecedor</label>
-              <input type="text" class="form-control" name="contatoFornecedor" id="inputPassword4" required>
-            </div>
-
-<hr>
-
-            <div class="form-floating">
-              <textarea class="form-control" name="complemento" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-              <label for="floatingTextarea2">Observação</label>
-            </div>
-
-            <div class="col-12">
-              <button type="submit" class="btn btn-primary">Enviar</button>
-            </div>
-          </form>
-
+        <div class="col-3" style="display: inline-block">
+          <label for="inputPassword4" class="form-label">Contato do Fornecedor</label>
+          <input type="text" class="form-control" name="contatoFornecedor" id="inputPassword4" required>
+        </div>
+        @endforeach  
       </div>
     </div>
   </div>
-  </center>
+</div>
+     
+<hr>
+
+        <div class="form-floating">
+          <textarea class="form-control" name="complemento" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+          <label for="floatingTextarea2">Observação</label>
+        </div>
+<br>
+<center>
+        <div class="col-1" style="display: inline-block">
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
+        </form>
+
+        <div class="col-1" style="display: inline-block">
+          <a href="{{route('home')}}"> 
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">
+              <font color="blue">Cancelar</font>  
+            </button></a>
+        </div>
+</center>
+      </div>
+    </div>
+  </div>
+
   @endsection

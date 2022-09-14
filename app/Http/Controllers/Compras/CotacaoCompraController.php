@@ -16,7 +16,8 @@ class CotacaoCompraController extends Controller
     public function index()
     {
         $pedidos =  Cotacao::selectAll(10);
-        return view('admin.compras.cotacaoCompra', compact('pedidos'));
+        $produtos = Pedido::ProdutoAll(10);
+        return view('admin.compras.cotacaoCompra', compact('pedidos', 'produtos'));
     }
 
     public function show($id)

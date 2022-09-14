@@ -23,13 +23,13 @@
                         </a>
                     </div>
 
-                    <!-- <div class="col-xl-4 col-md-6 col-sm-12 mb-5">
-                        <a href="{{route('compras')}}">
+                    <div class="col-xl-4 col-md-6 col-sm-12 mb-5">
+                        <a href="{{route('home')}}">
                             <div class="card">
                                 <div class="card-content">
                                     <img src="https://res.cloudinary.com/pedroenrick/image/upload/v1632145575/compras-min_aqooub.jpg" style="width: 100%; height: 415px;" class="card-img-top img-fluid" alt="singleminded">
                                     <div class="card-body">
-                                        <h5 class="card-title">COMPRAS</h5>
+                                        <h5 class="card-title">Compras</h5>
                                         <p class="card-text">
                                             Acessar Módulo Compras
                                         </p>
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                         </a>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>

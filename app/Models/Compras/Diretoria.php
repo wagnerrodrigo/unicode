@@ -105,7 +105,7 @@ class Diretoria extends Model
             'tab_status_pedido.status_atual',
             'tab_cargo_funcional.de_cargo_funcional',
             'tab_produto_solicitado.quantidade',
-            'tab_produto_solicitado.complemento_produto',
+            'tab_produto_solicitado.unidade_medida',
             'tab_produto.de_produto',
             'tab_tipo_produto.de_tipo_produto',
             'tab_empresa.de_empresa'

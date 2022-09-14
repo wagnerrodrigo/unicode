@@ -26,9 +26,8 @@
                         COMPRAS
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="compras">
-                        <li><a class="dropdown-item" href="{{route('home')}}">HOME</a></li>
-                        <li><a class="dropdown-item" href="{{route('solicitar')}}">SOLICITAR</a></li>
-                        <li><a class="dropdown-item" href="{{route('total')}}">TODAS</a></li>
+                        <li><a class="dropdown-item" href="{{route('home')}}">SOLICITAR</a></li>
+                        <li><a class="dropdown-item" href="{{route('total')}}">SOLITAÇÕES</a></li>
                     </ul>
                 </li>
             </ul>
