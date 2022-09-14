@@ -40,13 +40,13 @@ Unidade de Medida: *
             <div class="col-sm-5">Centro de Custo: </div>
         <br><br><hr><br>
         
-        @foreach($produtos as $produto)
+       
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title">{{$produto->de_produto}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Quantidade: {{$produto->quantidade}}</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">{{$produto->de_tipo_produto}}</h6>
-                    <p class="card-text">{{$produto->unidade_medida}}</p>
+                    <h5 class="card-title">{{$diretoria->de_produto}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Quantidade: {{$diretoria->quantidade}}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">{{$diretoria->de_tipo_produto}}</h6>
+                    <p class="card-text">{{$diretoria->unidade_medida}}</p>
                 </div>
                 <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" checked>
                 <label class="btn btn-outline-success" for="success-outlined">Aprovado</label>
@@ -59,7 +59,7 @@ Unidade de Medida: *
                   <div class="col-sm-5">Complemento da Solicitação: {{$diretoria->complemento_solicitacao}}</div> <br><br><br><br>
                 </div>
             </div>
-            @endforeach
+            
 <center>
 
             <div class="form-floating">

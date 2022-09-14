@@ -13,10 +13,9 @@ class ComprasController extends Controller
 {
 
     public function index()
-    {
-        $pedidos =  Pedido::findOne(10);
-        $produtos = Produto::ProdutoAll(10);
-        return view('admin.compras.compraHome', compact('pedidos', 'produtos'));
+    {   
+        $pedidos =  Pedido::selectAll(20);
+        return view('admin.compras.compraHome', compact('pedidos'));
     }
 
     // public function show($id)

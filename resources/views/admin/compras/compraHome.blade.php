@@ -147,16 +147,16 @@
                         <div class="col-sm-5">Centro de Custo: </div>
 
                                 
-                     @foreach($produtos as $produto)
                      
+
                       <br><br><hr><br>
-                      <div class="col-sm-4">Id: {{$produto->fk_tab_solicitacao_compra_id}}</div>
+                      <div class="col-sm-4">Id: {{$pedido->fk_tab_solicitacao_compra_id}}</div>
                       <div class="col-sm-5">Categoria do Produto: {{$pedido->de_tipo_produto}}</div>
-                      <div class="col-sm-4">Produto: {{$produto->de_produto}}</div>
-                      <div class="col-sm-4">Quantidade: {{$produto->quantidade}} </div>
-                      <div class="col-sm-4">Unidade Medida: {{$produto->unidade_medida}} </div>
+                      <div class="col-sm-4">Produto: {{$pedido->de_produto}}</div>
+                      <div class="col-sm-4">Quantidade: {{$pedido->quantidade}} </div>
+                      <div class="col-sm-4">Unidade Medida: {{$pedido->unidade_medida}} </div>
                      
-                     @endforeach
+                   
 
                     <br><br><hr><br>
                         <div class="col-sm-6">Complemento: {{$pedido->complemento_solicitacao}}</div>
