@@ -67,9 +67,10 @@
                     <tr>
                         <th>NÚMERO</th>
                         <th>VALOR</th>
+                        <th>PARCELAS</th>
                         <th>DESCRIÇÃO</th>
                         <th>DATA DE CADASTRO</th>
-                        <th>VENCIMENTO</th>
+                        <th>PROXIMO VENCIMENTO</th>
                         <th>STATUS</th>
                         <th>AÇÃO</th>
                     </tr>
@@ -79,7 +80,8 @@
                         <tr class={{$lancamento->de_status_despesa != 'EM ATRASO' ? "font-color-despesa" : "font-color-despesa-vencida"}}>
                             <td>{{$lancamento->id_despesa}}</td>
                             <td>{{$mascara::maskMoeda($lancamento->valor_total_despesa)}}</td>
-                            <td>{{$lancamento->de_despesa}}</td>
+                            <td>{{$lancamento->qt_parcelas_despesa}}</td>
+                            <td>{{ Str::limit($lancamento->de_despesa, 20) }}</td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_inicio))}}</td>
                             <td></td>
                             <td>{{$lancamento->de_status_despesa}}</td>

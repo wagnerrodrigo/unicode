@@ -205,7 +205,7 @@ document.getElementById("btnDespesa").onclick = function () {
                 document.getElementById("titulo-modal").innerHTML =
                     "Adicionar Fornecedor";
                 document.getElementById("tipo-documento").innerHTML =
-                    "CNPJ/CPF";
+                    "CNPJ/CPF/NOME";
 
                 // Inico da busca dos cnpj/cpf dos fornecedores
                 $("#Cnpj_Cpf").keyup(
@@ -289,7 +289,7 @@ document.getElementById("btnDespesa").onclick = function () {
             if (radios[i].value == "empregado") {
                 document.getElementById("titulo-modal").innerHTML =
                     "Adicionar Empregado";
-                document.getElementById("tipo-documento").innerHTML = "CPF";
+                document.getElementById("tipo-documento").innerHTML = "CPF/NOME";
 
                 // Inicio da busca dos cpf dos empregodos
                 $("#Cnpj_Cpf").keyup(

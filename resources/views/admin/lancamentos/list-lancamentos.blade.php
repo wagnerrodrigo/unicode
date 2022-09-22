@@ -7,29 +7,31 @@
     box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
 }
 </style>
-<div id="main" style="margin-top: 5px;">
+<div id="" style="margin-top: 5px;" style="width: 50%;">
     <div class="main-content container-fluid">
-        <div class="card">
+        <div class="">
             <div class="card-header">
                 <h1>LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO</h1>
             </div>
+<br><br><br><br>
             <div class="card-body">
                 <form action="{{ route('extrato') }}" method="GET">
                     <div class="d-flex">
-                        <div class="col-md-3">
+                        <div class="col-md-5">
                             <div class="input-group mb-3" style="width: 250px">
                                 <label class="input-group-text" info-data="Data inicio do Pagamento" for="inputDataInicio">DATA INICIO</label>
                                 <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="input-group mb-3" style="width: 240px">
+                        <div class="col-md-5">
+                            <div class="input-group mb-3" style="width: 240px" >
                                 <label class="input-group-text" info-data="Data fim do Pagamento" for="inputDataFim">DATA FIM</label>
                                 <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <button type="submit" id="btnSearch" class="btn btn-primary" style="padding: 8px 12px;">
+                        
+                        <div class="col-md-2">
+                            <button type="submit" id="btnSearch" class="btn btn-primary" style="padding: 8px 12px; display: inline-block">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
@@ -39,14 +41,13 @@
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>ID PARCELA</th>
-                            <th>DATA DO PAGAMENTO</th>
-                            <th>DESCRIÇÃO</th>
-                            <th style="padding:1px">VALOR</th>
-                            <th style="padding:1px">AGENCIA/CONTA</th>
-                            <th>STATUS</th>
-                            <th>AÇÕES</th>
-
+                            <th style="padding: 10px;">ID PARCELA</th>
+                            <th style="padding: 10px;">DATA DO PAGAMENTO</th>
+                            <th style="padding: 10px;">DESCRIÇÃO</th>
+                            <th style="padding: 10px;">VALOR</th>
+                            <!-- <th style="padding:1px">AGENCIA/CONTA</th> -->
+                            <!-- <th>STATUS</th> -->
+                            <th style="padding: 10px;">AÇÕES</th>
                         </tr>
                     </thead>
 
@@ -65,8 +66,8 @@
                             </td>
                             <td>PARCELA {{ $lancamento->num_parcela }}</td>
                             <td style="padding:1px">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->valor_pago}}" /></td>
-                            <td>A:{{ $lancamento->nu_agencia }} C:{{$lancamento->nu_conta }}</td>
-                            <td>{{ $lancamento->de_status_despesa }}</td>
+                            <!-- <td>A:{{ $lancamento->nu_agencia }} C:{{$lancamento->nu_conta }}</td> -->
+                            <!-- <td>{{ $lancamento->de_status_despesa }}</td> -->
                             <input type="hidden" id="conta_bancaria_lancamento{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->fk_tab_conta_bancaria}}">
                             <td id="btn_abrir_extratos">
                                 <div class="d-flex justify-content-space-between">

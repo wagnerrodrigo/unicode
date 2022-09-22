@@ -88,11 +88,11 @@ Unidade de Medida: *
                           </div>
 
                           <div class="inserirDesc" info-categoria="Quantidade" style="padding:10px">
-                              <input class="form-control mt-1" id="quantidade" type="text" onkeyup="return onlynumber();" onblur="validaqtdItem(this)" autocomplete="off" placeholder="Quantidade" style="width: 130px" />
+                              <input class="form-control mt-1" id="quantidade" type="text"  onblur="validaqtdItem(this)" autocomplete="off" placeholder="Quantidade" style="width: 130px" />
                           </div>
 
                           <div class="inserirDesc" info-categoria="Valor" style="padding:10px">
-                              <input class="form-control mt-1" id="valor_item" type="text" autocomplete="off" value="R$ 0,00" placeholder="Valor" style="width: 130px" />
+                              <input class="form-control mt-1" id="valor_item" type="text" autocomplete="off" onkeyup="mask_valor();" placeholder="Valor" style="width: 130px" />
                           </div>
 
                           <div class="inserirDesc" info-categoria="Unidade Medida" style="padding:10px">
@@ -172,7 +172,17 @@ Unidade de Medida: *
 <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/mascara-cnpj-cpf.js') }}"></script>
 
+<script>
 
+  function mask_valor(){
+		var n_char = document.getElementById("valor_item").value.length;
+
+		if(n_char == 2){
+			document.getElementById("valor_item").value = "R$" + document.getElementById("valor_item").value + ",";
+	  	}   
+  }
+
+</script>
 
   @endsection
 </body>

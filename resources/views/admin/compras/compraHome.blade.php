@@ -10,6 +10,9 @@
   <div id="main" style="margin-top: 5px;">
     <div class="main-content container-fluid">
       <div class="card">
+      <div class="card-header">
+          <h1>SOLICITAÇÕES DE COMPRA EM ANDAMENTO</h1>
+      </div>
         <div class="card-header">
           <a href="{{route('solicitar')}}"> 
           <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xlarge">

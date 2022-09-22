@@ -306,6 +306,7 @@ function getParcelas(object, url) {
                                 }).format(response[i].valor_parcela) +
                                 "</td>" +
                                 `<td>PARCELA ${response[i].num_parcela}</td>` +
+                                "<td>" + '' + "</td>" +
                                 "<td>" +
                                 Intl.DateTimeFormat("pt-BR").format(
                                     new Date(response[i].dt_emissao)

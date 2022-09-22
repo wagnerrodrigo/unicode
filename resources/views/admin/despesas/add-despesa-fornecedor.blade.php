@@ -28,15 +28,6 @@
                     </div>
 
                     <div class="d-flex mt-10" style="width: 100%">
-                        <div class="px-5 mb-3">
-                            <strong>CENTRO DE CUSTO PRINCIPAL</strong>
-                            <select class="form-control input-busca" name="centro_custo_empresa" id="empresa" style="cursor: pointer;">
-                                <option selected value="" class="resultado-busca"></option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="d-flex mt-10" style="width: 100%">
                         <div class="px-5 mb-3" style="padding: 8px 12px;">
                             <strong for="input_fornecedor form-check-primary">FORNECEDOR</strong>
                             <input class="form-check-input" checked type="radio" name="tipo_despesa" id="despesa_fornecedor" value="fornecedor">
@@ -96,66 +87,15 @@
                         </div>
                     </div>
 
-                    <div class="d-flex" style="width: 100%; align-items:center">
-                        <div class="px-5 mb-3">
-                            <h3>ITENS</h3>
-                        </div>
-                    </div>
-
-                    <div class="d-flex" style="width: 100%; margin: 15px;">
-                        <!-- Inicio da tabela de itens -->
-                        <div class="px-5 mb-3">
-                            <div class="table-responsive">
-                                <div class="d-flex flex-row" style="padding:17px; align-items:center; border: 1px solid #ccc">
-                                    <div class="inserirProd_Ser" info-geral="Categoria" style="padding:15px">
-                                        <select class="form-control mt-1" id="classificacao_tipo_produto">
-                                            <option selected value=""></option>
-                                        </select>
-                                    </div>
-
-                                    <div class="inserirQuant" info-categoria="Produto ou Serviço" style="padding:15px">
-                                        <select class="form-control input-add mt-1" id="produto_servico" placeholder="Produto ou Servico" style="width: 190px"></select>
-                                    </div>
-
-                                    <div class="inserirValor" style="padding:15px">
-                                        <input class="form-control mt-1" id="valor_item" onkeyup="formataValor(this)" max="3" type="text" onblur="verificaValor(this)" type="text" class="dinheiro" autocomplete="off" placeholder="Valor" style="width: 180px" />
-                                        <span id="erro_valor_item"></span>
-                                    </div>
-
-                                    <div class="inserirDesc" style="padding:15px">
-                                        <input class="form-control mt-1" id="quantidade" type="text" onkeyup="return onlynumber();" onblur="validaqtdItem(this)" autocomplete="off" placeholder="Quantidade" style="width: 180px" />
-                                    </div>
-                                    <div style="padding:15px">
-                                        <button class="btn btn-primary" type="button" id="Prod" style="width: 2.5rem; padding: 6.5px; margin-top: 3px">
-                                            <i class="bi bi-plus"></i>
-                                        </button>
-                                    </div>
-                                    <div id="acao_dados" style="display:none;"></div>
-                                </div>
-                                <table class="table table-bordered mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>CLASSIFICAÇÃO</th>
-                                            <th>PRODUTO</th>
-                                            <th>VALOR UNITÁRIO</th>
-                                            <th>QUANTIDADE</th>
-                                            <th>AÇÃO</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="Tb">
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- Fim da tabela de itens -->
-                    </div>
-
-                    <!-- Fim da div da tabela de itens -->
-
                     <br>
                     <hr>
                     <br>
+                    <!-- Valor -->
+                    <div class="d-flex" style="width: 100%; align-items:center">
+                        <div class="px-5 mb-3">
+                            <h3>VALOR</h3>
+                        </div>
+                    </div>
 
                     <div class="d-flex" style="width: 100%">
                         <div class="px-5 mb-3">
@@ -176,10 +116,19 @@
                     <hr>
                     <br>
 
-                    <!-- Rateio -->
+                    <!-- CENTRO DE CUSTO - Rateio -->
                     <div class="d-flex" style="width: 100%; align-items:center">
                         <div class="px-5 mb-3">
-                            <h3>RATEIO</h3>
+                            <h3>CENTRO DE CUSTO</h3>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mt-10" style="width: 100%">
+                        <div class="px-5 mb-3">
+                            <strong>CENTRO DE CUSTO PRINCIPAL</strong>
+                            <select class="form-control input-busca" name="centro_custo_empresa" id="empresa" style="cursor: pointer;">
+                                <option selected value="" class="resultado-busca"></option>
+                            </select>
                         </div>
                     </div>
 

@@ -223,7 +223,7 @@
                         <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
                         @endif
 
-                        <a href="{{ route('despesas') }}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
+                        <a href="{{ route('despesas') }}" class="btn btn-danger" style="padding: 8px 12px;">Voltar</a>
                     </div>
                 </div>
             </div>
@@ -260,7 +260,7 @@
                                     <i data-feather="check-circle"></i>Salvar
                                 </button>
                                 <!-- mudar para produto -->
-                                <a href="{{ route('despesas') }}" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                                <a href="" class="btn btn-secondary me-1 mb-1">Cancelar</a>
                             </div>
                             </form>
                         </div>

@@ -54,7 +54,7 @@
                 </div>
                 <div class="card-footer">
                     <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
-                    <a href="{{route('fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;">Cancelar</a>
+                    <a href="{{route('fornecedores')}}" class="btn btn-danger" style="padding: 8px 12px;">Voltar</a>
                 </div>
             </div>
         </div>

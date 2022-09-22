@@ -82,7 +82,7 @@ class LancamentoController extends Controller
             if (!empty($request->valor_rateio_pagamento)) {
 
                 $lancamento = new Lancamento();
-
+               
                 $lancamento->id_parcela_despesa = $request->id_parcela_despesa;
                 $lancamento->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 $lancamento->dt_lancamento = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
@@ -100,30 +100,32 @@ class LancamentoController extends Controller
                 }
                 $lancamento->dt_fim = null;
                 $lancamento->updateExpenceBasedOnInstallmet($getParcela->fk_despesa);
+              
                 Lancamento::create($lancamento);
 
                 $timeStamp = $lancamento->dt_inicio;
                 $idLancamento = Lancamento::findIdByTimeStamp($timeStamp);
 
 
-                if ($request->valor_rateio_pagamento) {
-                    $valor_rateio = trim(html_entity_decode($request->valor_rateio_pagamento), " \t\n\r\0\x0B\xC2\xA0");
-                    $rateios[] = [
-                        'valor_rateio_pagamento' => $valor_rateio,
-                        'fk_tab_conta_bancaria' => $request->fk_tab_conta_bancaria,
-                    ];
+                // if ($request->valor_rateio_pagamento) {
+                //     $valor_rateio = trim(html_entity_decode($request->valor_rateio_pagamento), " \t\n\r\0\x0B\xC2\xA0");
+                //     $rateios[] = [
+                //         'valor_rateio_pagamento' => $valor_rateio,
+                //         'fk_tab_conta_bancaria' => $request->fk_tab_conta_bancaria,
+                //     ];
 
-                    $rateio = new Rateio();
+                //     $rateio = new Rateio();
 
-                    for ($i = 0; $i < count($rateios); $i++) {
-                        $rateio->valor_rateio_pagamento = $rateios[$i]['valor_rateio_pagamento'];
-                        $rateio->fk_tab_conta_bancaria = $rateios[$i]['fk_tab_conta_bancaria'];
-                        $rateio->fk_tab_lancamento = $idLancamento[0]->id_tab_lancamento;
-                        $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                        $rateio->dt_fim = null;
-                        Rateio::createRateioLancamento($rateio);
-                    }
-                }
+                //     for ($i = 0; $i < count($rateios); $i++) {
+                //         $rateio->valor_rateio_pagamento = $rateios[$i]['valor_rateio_pagamento'];
+                //         $rateio->fk_tab_conta_bancaria = $rateios[$i]['fk_tab_conta_bancaria'];
+                //         $rateio->fk_tab_lancamento = $idLancamento[0]->id_tab_lancamento;
+                //         $rateio->dt_inicio =  Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+                //         $rateio->dt_fim = null;
+                //         Rateio::createRateioLancamento($rateio);
+                //     }
+                // }
+                
             } else {
                 // INICIO requeste somente lancamento
                 $lancamento = new Lancamento();
@@ -150,7 +152,7 @@ class LancamentoController extends Controller
             return redirect()
                 ->back()
                 ->with('error', 'Não foi possível realizar o Lançamento' . $e->getMessage());
-        }
+            }
     }
 
     /**

@@ -9,18 +9,20 @@
 <form action="" id="form_paginacao_lancamento">
     <input type="hidden" id="page_lancamento" name="page" value="0">
 </form>
-<div class="col-xl-12">
-    <div class="card">
-        <div class="card-lancamentos">
 
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-extratos">
+<div class="col-12 card" style="display: block">
 
-        </div>
-    </div>
+<div class="col-6" style="display: inline-block">
+    <div class="card-lancamentos"></div>
 </div>
+
+<div class="col-4" style="display: inline-block;">
+        <div class="card-extratos"></div>
+</div>
+
+
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>

@@ -49,6 +49,7 @@ class Despesa extends Model
                 'tab_despesa.qt_parcelas_despesa',
                 'tab_despesa.dt_inicio',
                 'tab_despesa.dt_vencimento',
+                'tab_despesa.de_despesa',
                 'tab_despesa.fk_status_despesa_id',
                 'tab_despesa.valor_total_despesa',
                 'status_despesa.de_status_despesa',
