@@ -24,19 +24,27 @@ function geraParcelas(valorTotal, numeroParcelas) {
 
         for (let i = 0; i < numeroParcelas.value; i++) {
             if (!parcelaFixa.checked) {
-                parcelasGeradas.innerHTML +=
+                if(numeroParcelas.value == 1){
+                    parcelasGeradas.innerHTML +=
                     '<div class="d-flex">' +
                     '<div class="px-5 mb-5">' +
-                    `<label for="parcela${i + 1}">Parcela ${i + 1}</label>` +
-                    `<input type="text" class="form-control input-add parcela_gerada" onkeyup="formataValor(this)" onblur="validaValor(this)" id="parcela${
-                        i + 1
-                    }" name="parcela[]" placeholder="Digite o valor da parcela">` +
-                    "</div>" +
-                    '<div class="px-5 mb-5">' +
-                    `<label for="data_vencimento${i + 1}">Data Vencimento ${
+                    `<label for="parcela${i + 1}">Parcela ${
                         i + 1
                     }</label>` +
-                    `<input type="date" class="form-control vencimento_parcela_gerada" id="vencimento_parcela${
+                    `<input type="text" readonly value="${Intl.NumberFormat(
+                        "pt-BR",
+                        { style: "currency", currency: "BRL" }
+                    ).format(
+                        valorParcela.toFixed(2)
+                    )}" class="form-control input-add parcela_gerada" id="parcela${
+                        i + 1
+                    }" name="parcela[]" >` +
+                    "</div>" +
+                    '<div class="px-5 mb-5">' +
+                    `<label for="data_vencimento${
+                        i + 1
+                    }">Data Vencimento ${i + 1}</label>` +
+                    `<input type="date" class="form-control vencimento_parcela_gerada vencimento_parcela_gerada" id="vencimento_parcela${
                         i + 1
                     }" name="vencimento_parcela[]" value="${geraDataVencimentoParcelas(
                         i + 1
@@ -44,12 +52,42 @@ function geraParcelas(valorTotal, numeroParcelas) {
                     "</div>" +
                     "</div>";
                 parcelasGeradasHidden.innerHTML +=
-                    `<input type="hidden" name="parcelas[]" id="parcela_numero${
+                    `<input type="hidden" name="parcelas[]"  id="parcela_numero${
                         i + 1
-                    }" value="">` +
+                    }" value="${valorParcela.toFixed(2)}">` +
                     `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${
                         i + 1
                     }" value="">`;
+                
+                    }else{
+                    parcelasGeradas.innerHTML +=
+                        '<div class="d-flex">' +
+                        '<div class="px-5 mb-5">' +
+                        `<label for="parcela${i + 1}">Parcela ${i + 1}</label>` +
+                        `<input type="text" class="form-control input-add parcela_gerada" onkeyup="formataValor(this)" onblur="validaValor(this)" id="parcela${
+                            i + 1
+                        }" name="parcela[]" placeholder="Digite o valor da parcela">` +
+                        "</div>" +
+                        '<div class="px-5 mb-5">' +
+                        `<label for="data_vencimento${i + 1}">Data Vencimento ${
+                            i + 1
+                        }</label>` +
+                        `<input type="date" class="form-control vencimento_parcela_gerada" id="vencimento_parcela${
+                            i + 1
+                        }" name="vencimento_parcela[]" value="${geraDataVencimentoParcelas(
+                            i + 1
+                        )}">` +
+                        "</div>" +
+                        "</div>";
+                    parcelasGeradasHidden.innerHTML +=
+                        `<input type="hidden" name="parcelas[]" id="parcela_numero${
+                            i + 1
+                        }" value="">` +
+                        `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${
+                            i + 1
+                        }" value="">`;}
+
+
             } else {
                 if (valorFinal / numeroParcelas.value != 0) {
                     if (i == 0) {

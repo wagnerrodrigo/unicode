@@ -93,7 +93,7 @@ $("#valor_rateado").blur(function () {
     var valorRateio = valorRateado * 100;
     var porcentagem = valorRateio / valorTotalDespesa;
 
-    $("#porcentagem_rateado").val(porcentagem.toFixed(2));
+    $("#porcentagem_rateado").val(porcentagem);
 });
 
 //informa a porcentagem e gera o valor do rateio
@@ -114,7 +114,7 @@ $("#porcentagem_rateado").blur(function () {
             style: "currency",
             currency: "BRL",
         })
-            .format(valorRateado.toFixed(2))
+            .format(valorRateado)
             .toString()
             .replace("R$", "")
     );
