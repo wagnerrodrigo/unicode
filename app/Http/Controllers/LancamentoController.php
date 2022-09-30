@@ -10,6 +10,7 @@ use App\Utils\Mascaras\Mascaras;
 use Carbon\Carbon;
 use App\Repository\DespesaRepository;
 use App\CustomError\CustomErrorMessage;
+use App\Models\ParcelaDespesa;
 use App\Repository\LancamentoRepository;
 use App\Repository\ParcelaDespesaRepository;
 use App\Repository\RateioRepository;
@@ -101,11 +102,19 @@ class LancamentoController extends Controller
                 $lancamento->dt_fim = null;
                 $lancamento->updateExpenceBasedOnInstallmet($getParcela->fk_despesa);
               
+              
                 Lancamento::create($lancamento);
-
+                
                 $timeStamp = $lancamento->dt_inicio;
                 $idLancamento = Lancamento::findIdByTimeStamp($timeStamp);
 
+              
+                $parcelaDespesaRepository->setStatus($request->id_parcela_despesa);
+
+                // if($request->id_despesa)
+                // $despesa = new Despesa();
+                // $despesa->fk_status_despesa_id   = StatusDespesa::PROVISIONADO;
+                // Despesa::editarStatus($despesa);
 
                 // if ($request->valor_rateio_pagamento) {
                 //     $valor_rateio = trim(html_entity_decode($request->valor_rateio_pagamento), " \t\n\r\0\x0B\xC2\xA0");
@@ -142,8 +151,16 @@ class LancamentoController extends Controller
                 $lancamento->dt_fim = null;
                 $lancamento->updateExpenceBasedOnInstallmet($getParcela->fk_despesa);
                 Lancamento::create($lancamento);
+
                 // FIM requeste somente lancamento
+
+                $parcelaDespesaRepository->setStatus($request->id_parcela_despesa);
+                // if($request->id_despesa)
+                // $despesa = new Despesa();
+                // $despesa->fk_status_despesa_id   = StatusDespesa::PROVISIONADO;
+                // Despesa::editarStatus($despesa);
             }
+
 
             $parcelaDespesaRepository->setStatus($request->id_parcela_despesa);
 
@@ -185,9 +202,9 @@ class LancamentoController extends Controller
 
         foreach ($lancamentos as $lancamento) {
         }
-        // dd($lancamento);
+        
         $mascara = new Mascaras();
-
+       
         return view('admin.lancamentos.add-lancamento', compact('lancamento', 'mascara', 'parcela'));
     }
 

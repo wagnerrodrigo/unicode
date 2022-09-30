@@ -419,7 +419,7 @@
                             <button class="btn btn-success me-1 mb-1" type="button" id="addContas">
                                 <i data-feather="check-circle"></i>ADICIONAR
                             </button>
-                            <button type="button" class="close btn btn-secondary me-1 mb-1" onclick="limpaCamposRateio()" data-bs-dismiss="modal" aria-label="Close">CANCELAR</button>
+                            <button type="button" class="close btn btn-secondary me-1 mb-1" onclick="limpaCamposRateio()" data-bs-dismiss="modal" aria-label="Close">VOLTAR</button>
                         </div>
                     </div>
                 </div>

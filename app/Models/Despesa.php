@@ -48,31 +48,43 @@ class Despesa extends Model
                 'tab_despesa.id_despesa',
                 'tab_despesa.qt_parcelas_despesa',
                 'tab_despesa.dt_inicio',
-                'tab_despesa.dt_vencimento',
+                'tab_parcela_despesa.dt_vencimento',
+                'tab_parcela_despesa.fk_status_id',
+                'tab_parcela_despesa.num_parcela',
                 'tab_despesa.de_despesa',
                 'tab_despesa.fk_status_despesa_id',
                 'tab_despesa.valor_total_despesa',
                 'status_despesa.de_status_despesa',
             )
+            
+            ->join('intranet.tab_parcela_despesa', 
+            'intranet.tab_parcela_despesa.fk_despesa', 
+            '=', 
+            'intranet.tab_despesa.id_despesa')
+
             ->join(
                 'intranet.status_despesa',
                 'intranet.status_despesa.id_status_despesa',
                 '=',
                 'intranet.tab_despesa.fk_status_despesa_id'
-            )
+            ) 
+            
+            ->distinct('id_despesa')
+         
+
             ->where('intranet.tab_despesa.dt_fim', '=', null);
 
         if ($dt_inicio && $dt_fim && $status && $filial) {
             $despesas = $query
                 ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
-                ->where("intranet.tab_despesa.dt_vencimento", '>=', "$dt_inicio")
-                ->where("intranet.tab_despesa.dt_vencimento", '<=', "$dt_fim")
+                ->where("intranet.tab_despesa.dt_inicio", '>=', "$dt_inicio")
+                ->where("intranet.tab_despesa.dt_inicio", '<=', "$dt_fim")
                 ->where("intranet.tab_despesa.fk_empresa_id", '=', "$filial")
                 ->orderBy('id_despesa', 'desc')->paginate($results);
         } else if ($dt_inicio && $dt_fim && !$status && $filial) {
             $despesas = $query
-                ->where("intranet.tab_despesa.dt_vencimento", '>=', "$dt_inicio")
-                ->where("intranet.tab_despesa.dt_vencimento", '<=', "$dt_fim")
+                ->where("intranet.tab_despesa.dt_inicio", '>=', "$dt_inicio")
+                ->where("intranet.tab_despesa.dt_inicio", '<=', "$dt_fim")
                 ->where("intranet.tab_despesa.fk_empresa_id", '=', "$filial")
                 ->orderBy('id_despesa', 'desc')
                 ->paginate($results);
@@ -91,18 +103,19 @@ class Despesa extends Model
         } else if ($dt_inicio && $dt_fim && $status && !$filial) {
             $despesas = $query
                 ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
-                ->where("intranet.tab_despesa.dt_vencimento", '>=', "$dt_inicio")
-                ->where("intranet.tab_despesa.dt_vencimento", '<=', "$dt_fim")
+                ->where("intranet.tab_despesa.dt_inicio", '>=', "$dt_inicio")
+                ->where("intranet.tab_despesa.dt_inicio", '<=', "$dt_fim")
                 ->orderBy('id_despesa', 'desc')
                 ->paginate($results);
         } else if ($dt_inicio && $dt_fim && !$status && !$filial) {
             $despesas = $query
-                ->where("intranet.tab_despesa.dt_vencimento", '>=', "$dt_inicio")
-                ->where("intranet.tab_despesa.dt_vencimento", '<=', "$dt_fim")
+                ->where("intranet.tab_despesa.dt_inicio", '>=', "$dt_inicio")
+                ->where("intranet.tab_despesa.dt_inicio", '<=', "$dt_fim")
                 ->orderBy('id_despesa', 'desc')
                 ->paginate($results);
         } else if (!$dt_inicio && !$dt_fim && $status && !$filial) {
             $despesas = $query
+                ->where('intranet.tab_parcela_despesa.dt_vencimento')
                 ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
                 ->orderBy('id_despesa', 'desc')
                 ->paginate($results);
@@ -275,11 +288,12 @@ class Despesa extends Model
     static function set($despesa)
     {
         DB::update("UPDATE intranet.tab_despesa
-        SET
-            fk_tab_centro_custo_id = ?
+        SET fk_tab_centro_custo_id = ?, fk_plano_contas = ?
         WHERE id_despesa = ?", [
             $despesa->fk_tab_centro_custo_id,
+            $despesa->fk_plano_contas,
             $despesa->id_despesa
+
         ]);
     }
 

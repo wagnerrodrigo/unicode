@@ -24,68 +24,58 @@ function geraParcelas(valorTotal, numeroParcelas) {
 
         for (let i = 0; i < numeroParcelas.value; i++) {
             if (!parcelaFixa.checked) {
-                if(numeroParcelas.value == 1){
-                    parcelasGeradas.innerHTML +=
-                    '<div class="d-flex">' +
-                    '<div class="px-5 mb-5">' +
-                    `<label for="parcela${i + 1}">Parcela ${
-                        i + 1
-                    }</label>` +
-                    `<input type="text" readonly value="${Intl.NumberFormat(
-                        "pt-BR",
-                        { style: "currency", currency: "BRL" }
-                    ).format(
-                        valorParcela.toFixed(2)
-                    )}" class="form-control input-add parcela_gerada" id="parcela${
-                        i + 1
-                    }" name="parcela[]" >` +
-                    "</div>" +
-                    '<div class="px-5 mb-5">' +
-                    `<label for="data_vencimento${
-                        i + 1
-                    }">Data Vencimento ${i + 1}</label>` +
-                    `<input type="date" class="form-control vencimento_parcela_gerada vencimento_parcela_gerada" id="vencimento_parcela${
-                        i + 1
-                    }" name="vencimento_parcela[]" value="${geraDataVencimentoParcelas(
-                        i + 1
-                    )}">` +
-                    "</div>" +
-                    "</div>";
-                parcelasGeradasHidden.innerHTML +=
-                    `<input type="hidden" name="parcelas[]"  id="parcela_numero${
-                        i + 1
-                    }" value="${valorParcela.toFixed(2)}">` +
-                    `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${
-                        i + 1
-                    }" value="">`;
-                
-                    }else{
+                if (numeroParcelas.value == 1) {
                     parcelasGeradas.innerHTML +=
                         '<div class="d-flex">' +
                         '<div class="px-5 mb-5">' +
-                        `<label for="parcela${i + 1}">Parcela ${i + 1}</label>` +
-                        `<input type="text" class="form-control input-add parcela_gerada" onkeyup="formataValor(this)" onblur="validaValor(this)" id="parcela${
-                            i + 1
-                        }" name="parcela[]" placeholder="Digite o valor da parcela">` +
+                        `<label for="parcela${i + 1}">Parcela ${i + 1
+                        }</label>` +
+                        `<input type="text" readonly value="${Intl.NumberFormat(
+                            "pt-BR",
+                            { style: "currency", currency: "BRL" }
+                        ).format(
+                            valorParcela.toFixed(2)
+                        )}" class="form-control input-add parcela_gerada" id="parcela${i + 1
+                        }" name="parcela[]" >` +
                         "</div>" +
                         '<div class="px-5 mb-5">' +
-                        `<label for="data_vencimento${i + 1}">Data Vencimento ${
-                            i + 1
-                        }</label>` +
-                        `<input type="date" class="form-control vencimento_parcela_gerada" id="vencimento_parcela${
-                            i + 1
+                        `<label for="data_vencimento${i + 1
+                        }">Data Vencimento ${i + 1}</label>` +
+                        `<input type="date" class="form-control vencimento_parcela_gerada vencimento_parcela_gerada" id="vencimento_parcela${i + 1
                         }" name="vencimento_parcela[]" value="${geraDataVencimentoParcelas(
                             i + 1
                         )}">` +
                         "</div>" +
                         "</div>";
                     parcelasGeradasHidden.innerHTML +=
-                        `<input type="hidden" name="parcelas[]" id="parcela_numero${
+                        `<input type="hidden" name="parcelas[]"  id="parcela_numero${i + 1
+                        }" value="${valorParcela.toFixed(2)}">` +
+                        `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${i + 1
+                        }" value="">`;
+
+                } else {
+                    parcelasGeradas.innerHTML +=
+                        '<div class="d-flex">' +
+                        '<div class="px-5 mb-5">' +
+                        `<label for="parcela${i + 1}">Parcela ${i + 1}</label>` +
+                        `<input type="text" class="form-control input-add parcela_gerada" onkeyup="formataValor(this)" onblur="validaValor(this)" id="parcela${i + 1
+                        }" name="parcela[]" placeholder="Digite o valor da parcela">` +
+                        "</div>" +
+                        '<div class="px-5 mb-5">' +
+                        `<label for="data_vencimento${i + 1}">Data Vencimento ${i + 1
+                        }</label>` +
+                        `<input type="date" class="form-control vencimento_parcela_gerada" id="vencimento_parcela${i + 1
+                        }" name="vencimento_parcela[]" value="${geraDataVencimentoParcelas(
                             i + 1
+                        )}">` +
+                        "</div>" +
+                        "</div>";
+                    parcelasGeradasHidden.innerHTML +=
+                        `<input type="hidden" name="parcelas[]" id="parcela_numero${i + 1
                         }" value="">` +
-                        `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${
-                            i + 1
-                        }" value="">`;}
+                        `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${i + 1
+                        }" value="">`;
+                }
 
 
             } else {
@@ -94,104 +84,86 @@ function geraParcelas(valorTotal, numeroParcelas) {
                         parcelasGeradas.innerHTML +=
                             '<div class="d-flex">' +
                             '<div class="px-5 mb-5">' +
-                            `<label for="parcela${i + 1}">Parcela ${
-                                i + 1
+                            `<label for="parcela${i + 1}">Parcela ${i + 1
                             }</label>` +
                             `<input type="text" readonly value="${Intl.NumberFormat(
                                 "pt-BR",
                                 { style: "currency", currency: "BRL" }
                             ).format(
                                 valorParcela.toFixed(2)
-                            )}" class="form-control input-add parcela_gerada" id="parcela${
-                                i + 1
+                            )}" class="form-control input-add parcela_gerada" id="parcela${i + 1
                             }" name="parcela[]" >` +
                             "</div>" +
                             '<div class="px-5 mb-5">' +
-                            `<label for="data_vencimento${
-                                i + 1
+                            `<label for="data_vencimento${i + 1
                             }">Data Vencimento ${i + 1}</label>` +
-                            `<input type="date" class="form-control vencimento_parcela_gerada vencimento_parcela_gerada" id="vencimento_parcela${
-                                i + 1
+                            `<input type="date" class="form-control vencimento_parcela_gerada vencimento_parcela_gerada" id="vencimento_parcela${i + 1
                             }" name="vencimento_parcela[]" value="${geraDataVencimentoParcelas(
                                 i + 1
                             )}">` +
                             "</div>" +
                             "</div>";
                         parcelasGeradasHidden.innerHTML +=
-                            `<input type="hidden" name="parcelas[]"  id="parcela_numero${
-                                i + 1
+                            `<input type="hidden" name="parcelas[]"  id="parcela_numero${i + 1
                             }" value="${valorParcela.toFixed(2)}">` +
-                            `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${
-                                i + 1
+                            `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${i + 1
                             }" value="">`;
                     } else {
                         parcelasGeradas.innerHTML +=
                             '<div class="d-flex">' +
                             '<div class="px-5 mb-5">' +
-                            `<label for="parcela${i + 1}">Parcela ${
-                                i + 1
+                            `<label for="parcela${i + 1}">Parcela ${i + 1
                             }</label>` +
                             `<input type="text" readonly value="${Intl.NumberFormat(
                                 "pt-BR",
                                 { style: "currency", currency: "BRL" }
                             ).format(
                                 arredondado
-                            )}" class="form-control input-add parcela_gerada" id="parcela${
-                                i + 1
+                            )}" class="form-control input-add parcela_gerada" id="parcela${i + 1
                             }" name="parcela[]" >` +
                             "</div>" +
                             '<div class="px-5 mb-5">' +
-                            `<label for="data_vencimento${
-                                i + 1
+                            `<label for="data_vencimento${i + 1
                             }">Data Vencimento ${i + 1}</label>` +
-                            `<input type="date" class="form-control vencimento_parcela_gerada vencimento_parcela_gerada" id="vencimento_parcela${
-                                i + 1
+                            `<input type="date" class="form-control vencimento_parcela_gerada vencimento_parcela_gerada" id="vencimento_parcela${i + 1
                             }" name="vencimento_parcela[]" value="${geraDataVencimentoParcelas(
                                 i + 1
                             )}">` +
                             "</div>" +
                             "</div>";
                         parcelasGeradasHidden.innerHTML +=
-                            `<input type="hidden" name="parcelas[]"  id="parcela_numero${
-                                i + 1
+                            `<input type="hidden" name="parcelas[]"  id="parcela_numero${i + 1
                             }" value="${arredondado}">` +
-                            `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${
-                                i + 1
+                            `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${i + 1
                             }" value="">`;
                     }
                 } else {
                     parcelasGeradas.innerHTML +=
                         '<div class="d-flex">' +
                         '<div class="px-5 mb-5">' +
-                        `<label for="parcela${i + 1}">Parcela ${
-                            i + 1
+                        `<label for="parcela${i + 1}">Parcela ${i + 1
                         }</label>` +
                         `<input type="text" readonly value="${Intl.NumberFormat(
                             "pt-BR",
                             { style: "currency", currency: "BRL" }
                         ).format(
                             (valorFinal / numeroParcelas.value).toFixed(2)
-                        )}" class="form-control input-add parcela_gerada" id="parcela${
-                            i + 1
+                        )}" class="form-control input-add parcela_gerada" id="parcela${i + 1
                         }" name="parcela[]" >` +
                         "</div>" +
                         '<div class="px-5 mb-5">' +
-                        `<label for="data_vencimento${i + 1}">Data Vencimento ${
-                            i + 1
+                        `<label for="data_vencimento${i + 1}">Data Vencimento ${i + 1
                         }</label>` +
-                        `<input type="date" class="form-control vencimento_parcela_gerada vencimento_parcela_gerada" id="vencimento_parcela${
-                            i + 1
+                        `<input type="date" class="form-control vencimento_parcela_gerada vencimento_parcela_gerada" id="vencimento_parcela${i + 1
                         }" name="vencimento_parcela[]" value="${geraDataVencimentoParcelas(
                             i + 1
                         )}">` +
                         "</div>" +
                         "</div>";
                     parcelasGeradasHidden.innerHTML +=
-                        `<input type="hidden" name="parcelas[]"  id="parcela_numero${
-                            i + 1
+                        `<input type="hidden" name="parcelas[]"  id="parcela_numero${i + 1
                         }" value="${(valorFinal / numeroParcelas.value).toFixed(2)}">` +
-                        `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${
-                            i + 1
+                        `<input type="hidden" name="vencimento_parcela[]" id="vencimento_parcela_numero${i + 1
                         }" value="">`;
                 }
             }
@@ -329,49 +301,47 @@ function getParcelas(object, url) {
                 if (response.length > 0) {
                     for (i = 0; i < response.length; i++) {
                         $(`#parcela_${id}`).append(
-                            `<tr class="table-dark tr_generated_${id} ${
-                                response[i].de_status_despesa == "EM ATRASO"
-                                    ? "font-color-despesa-vencida"
-                                    : "font-color-despesa"
+                            `<tr class="table-dark tr_generated_${id} ${response[i].de_status_despesa == "EM ATRASO"
+                                ? "font-color-despesa-vencida"
+                                : "font-color-despesa"
                             }">` +
-                                `<td><input style="margin-right: 5px" type="checkbox" name="ids_despesas" value="${response[i].id_parcela_despesa}">` +
-                                response[i].id_parcela_despesa +
-                                "</td>" +
-                                "<td>" +
-                                Intl.NumberFormat("pt-BR", {
-                                    style: "currency",
-                                    currency: "BRL",
-                                }).format(response[i].valor_parcela) +
-                                "</td>" +
-                                `<td>PARCELA ${response[i].num_parcela}</td>` +
-                                "<td>" + '' + "</td>" +
-                                "<td>" +
-                                Intl.DateTimeFormat("pt-BR").format(
-                                    new Date(response[i].dt_emissao)
-                                ) +
-                                "</td>" +
-                                "<td>" +
-                                Intl.DateTimeFormat("pt-BR").format(
-                                    new Date(response[i].dt_vencimento)
-                                ) +
-                                "</td>" +
-                                `<td>${response[i].de_status_despesa}</td>` +
-                                `<td><a href="${
-                                    url + response[i].id_parcela_despesa
-                                }" class='btn btn-primary' style='padding: 8px 12px;'><i class='bi bi-eye-fill'></i></a></td>`
+                            `<td><input style="margin-right: 5px" type="checkbox" name="ids_despesas" value="${response[i].id_parcela_despesa}">` +
+                            response[i].id_parcela_despesa +
+                            "</td>" +
+                            "<td>" +
+                            Intl.NumberFormat("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                            }).format(response[i].valor_parcela) +
+                            "</td>" +
+                            `<td>PARCELA ${response[i].num_parcela}</td>` +
+                            "<td>" + '' + "</td>" +
+                            "<td>" +
+                            Intl.DateTimeFormat("pt-BR").format(
+                                new Date(response[i].dt_emissao)
+                            ) +
+                            "</td>" +
+                            "<td>" +
+                            Intl.DateTimeFormat("pt-BR").format(
+                                new Date(response[i].dt_vencimento)
+                            ) +
+                            "</td>" +
+                            `<td>${response[i].de_status_despesa}</td>` +
+                            `<td><a href="${url + response[i].id_parcela_despesa
+                            }" class='btn btn-primary' style='padding: 8px 12px;'><i class='bi bi-eye-fill'></i></a></td>`
                         );
                     }
                 } else {
                     $(`#parcela_${id}`).append(
                         `<tr class="table-light tr_generated_${id}">` +
-                            `<td><span style="color: red; font-weight: bold;">Não há parcelas</span></td>` +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "</tr>"
+                        `<td><span style="color: red; font-weight: bold;">Não há parcelas</span></td>` +
+                        "<td></td>" +
+                        "<td></td>" +
+                        "<td></td>" +
+                        "<td></td>" +
+                        "<td></td>" +
+                        "<td></td>" +
+                        "</tr>"
                     );
                 }
             },
@@ -380,4 +350,54 @@ function getParcelas(object, url) {
         expanded = "true";
         $(`.tr_generated_${id}`).remove();
     }
+}
+
+function getProximaData(object, url) {
+    //recebe as informações do href
+    var href = object.getAttribute("href");
+    //pega as informações de id de dentro do href
+    var id = href.substring(href.indexOf("-") + 1);
+
+    $.ajax({
+        type: "GET",
+        url: `/parcelas/${id}`,
+        dataType: "json",
+        success: function (response) {
+            if (response.length > 0) {
+                for (i = 0; i < response.length; i++) {
+                    $(`#parcela_${id}`).append(
+                        `<tr class="table-dark tr_generated_${id} ${response[i].de_status_despesa == "EM ATRASO"
+                            ? "font-color-despesa-vencida"
+                            : "font-color-despesa"
+                        }">` +
+                        `<td><input style="margin-right: 5px" type="checkbox" name="ids_despesas" value="${response[i].id_parcela_despesa}">` +
+                        response[i].id_parcela_despesa +
+                        "</td>" +
+                        "<td>" +
+                        Intl.NumberFormat("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                        }).format(response[i].valor_parcela) +
+                        "</td>" +
+                        `<td>PARCELA ${response[i].num_parcela}</td>` +
+                        "<td>" + '' + "</td>" +
+                        "<td>" +
+                        Intl.DateTimeFormat("pt-BR").format(
+                            new Date(response[i].dt_emissao)
+                        ) +
+                        "</td>" +
+                        "<td>" +
+                        Intl.DateTimeFormat("pt-BR").format(
+                            new Date(response[i].dt_vencimento)
+                        ) +
+                        "</td>" +
+                        `<td>${response[i].de_status_despesa}</td>` +
+                        `<td><a href="${url + response[i].id_parcela_despesa
+                        }" class='btn btn-primary' style='padding: 8px 12px;'><i class='bi bi-eye-fill'></i></a></td>`
+                    );
+                }
+            }
+        },
+    });
+ 
 }

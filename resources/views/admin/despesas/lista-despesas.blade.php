@@ -80,12 +80,12 @@
                     <thead>
                         <tr>
                             <th>NÚMERO</th>
-                            <th>VALOR</th>
+                            <th>VALOR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                             <th>PARCELAS</th>
                             <th>DESCRIÇÃO</th>
                             <th>DATA DE CADASTRO</th>
-                            <th>PROXIMO VENCIMENTO</th>
-                            <th>STATUS</th>
+                            <th>VENCIMENTO</th>
+                            <th>STATUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                             <th>AÇÃO</th>
                         </tr>
                     </thead>
@@ -93,13 +93,15 @@
                     <tbody>
                         @if(count($despesas) > 0)
                         @foreach($despesas as $despesa)
-                        <tr class="font-color-despesa">
+                        <tr class={{$despesa->de_status_despesa != 'EM ATRASO' ? "font-color-despesa" : "font-color-despesa-vencida"}}>
                             <td>{{$despesa->id_despesa}}</td>
                             <td>{{$mascara::maskMoeda($despesa->valor_total_despesa)}}</td>
                             <td>{{$despesa->qt_parcelas_despesa}}</td>
                             <td>{{ Str::limit($despesa->de_despesa, 20) }}</td>
                             <td>{{$despesa->dt_inicio != null ? date("d/m/Y", strtotime($despesa->dt_inicio)) : ''}}</td>
-                            <td>{{$despesa->dt_vencimento != null ? date("d/m/Y", strtotime($despesa->dt_vencimento)) : ''}}</td> 
+                            <td>
+
+                            </td> 
                             <td>{{$despesa->de_status_despesa}}</td>
                             <td class="d-flex justify-content-evenly">
                                 <div>

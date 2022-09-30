@@ -66,12 +66,12 @@
                     @else
                     <tr>
                         <th>NÚMERO</th>
-                        <th>VALOR</th>
+                        <th>VALOR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                         <th>PARCELAS</th>
                         <th>DESCRIÇÃO</th>
                         <th>DATA DE CADASTRO</th>
-                        <th>PROXIMO VENCIMENTO</th>
-                        <th>STATUS</th>
+                        <th>VENCIMENTO</th>
+                        <th>STATUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                         <th>AÇÃO</th>
                     </tr>
                     </thead>
@@ -83,7 +83,9 @@
                             <td>{{$lancamento->qt_parcelas_despesa}}</td>
                             <td>{{ Str::limit($lancamento->de_despesa, 20) }}</td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_inicio))}}</td>
-                            <td></td>
+                            <td>
+                               
+                            </td>
                             <td>{{$lancamento->de_status_despesa}}</td>
 
                             <td class="d-flex justify-content-evenly" style="padding-bottom:22px">

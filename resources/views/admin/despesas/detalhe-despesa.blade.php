@@ -11,7 +11,7 @@
                 <h1>DESPESA N°{{ $despesa->id_despesa }}</h1>
             </div>
             <div class="card-body" style="font-size: 18px;">
-                <div class="card-body">
+                <div class="card-body"></div>
                     <div class="d-flex">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -199,6 +199,25 @@
                                     </select>
                                 </div>
                             </div>
+
+
+                            <div class="d-flex mt-10" style="width: 100%">
+                                <div class="px-5 mb-1">
+                                    <strong>CLASSIFICAÇÃO</strong>
+                                    <input required class="form-control input-add" name="classificacao" id="classificacao_con" readonly style="cursor: pointer;"></input>
+                                <div id="itens_classificacao" class="input-style" style="cursor: pointer;"></div>
+                            </div>
+
+                            <div class="px-1 mb-1">
+                                <strong>TIPO</strong>
+                                <select required class="form-control input-add" name="tipo_classificacao" id="tipo_classificacao" style="cursor: pointer;">
+                                </select>
+                            </div>
+                    
+                    
+                    </div>
+
+
                         </form>
                         @if(count($rateios) == 0)
                         <div class="d-flex flex-column" id="div_rateio_gerado" style="width: 100%;">
@@ -227,8 +246,9 @@
                                 </div>
                             </div>
                         </div>
+                        
                         @endif
-                    </div>
+                    
 
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
@@ -305,7 +325,7 @@
                                 <i data-feather="check-circle"></i>ADICIONAR
                             </button>
                             <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal" aria-label="Close">
-                                CANCELAR
+                                VOLTAR
                             </button>
                         </div>
                     </div>
@@ -316,11 +336,20 @@
     <!-- Fim modal Rateio -->
 </div>
 
+<script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="{{ asset('assets/js/custom-js/rateio.js') }}"></script>
+
+
+<!-- javascript customizado -->
 <script src="{{ asset('assets/js/custom-js/despesa.js') }}"></script>
-<script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/validacao-only-number.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/rateio.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/parcelas.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/valida-cpf-cnpj.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/mascara-cnpj-cpf.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/mascara-telefone.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/valida-email.js') }}"></script>
 
 <script>
     $("#dt_emissao").on("change", function() {

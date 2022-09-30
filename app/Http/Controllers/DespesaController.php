@@ -214,7 +214,8 @@ class DespesaController extends Controller
 
             $despesa->id_despesa = $id;
             $despesa->fk_tab_centro_custo_id = $request->centro_custo;
-
+            $despesa->fk_plano_contas = $request->tipo_classificacao;
+            
             //caso haja rateio na despesa executa
             if ($request->empresa_rateio) {
                 $rateios = [];
@@ -247,10 +248,11 @@ class DespesaController extends Controller
                 $rateioRepository = new RateioRepository();
                 $rateioRepository->create($rateios, $id);
             }
-
+            
             Despesa::set($despesa);
 
             return redirect()->back()->with('success', 'Despesa Editada!');
+            return redirect('/despesas');
         } catch (\Exception $e) {
             return redirect()
                 ->back()
@@ -277,4 +279,5 @@ class DespesaController extends Controller
                 ->with('error', 'Não foi possível excluir a Despesa!');
         }
     }
+
 }
