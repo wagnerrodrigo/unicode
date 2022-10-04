@@ -94,6 +94,8 @@ class LancamentoController extends Controller
                 $lancamento->desconto = $request->desconto;
                 if($request->juros != null){
                     $lancamento->valor_pago = floatval($request->valor_pago) + (floatval($request->juros) + floatval($request->multa));
+                }else if($request->multa != null){
+                    $lancamento->valor_pago = floatval($request->valor_pago) + (floatval($request->juros) + floatval($request->multa));
                 }else if($request->juros == null){
                     $lancamento->valor_pago = floatval($request->valor_pago) - floatval($request->desconto);
                 }else if($request->juros == null && $request->desconto == null){
