@@ -88,6 +88,7 @@ var id_despesa = $("#id_despesa").val();
 var fk_condicao_pagamento_id_tela = $("#fk_condicao_pagamento_id_tela").val();
 var id_empresa = $("#id_empresa").val();
 
+
 var rateios_contas = [];
 
 var testeValor = 0;
@@ -205,6 +206,7 @@ function limparDescontoJurosMulta() {
 
 //adiciona valor total ao input acima do modal de rateio
 $("#adicionar_rateio").click(function () {
+
     if (
         $("#hiddemJuros").val() != "" &&
         $("#hiddemMulta").val() != "" &&
@@ -221,6 +223,7 @@ $("#adicionar_rateio").click(function () {
             juros = 0;
         }
 
+        
         valorTotalFinal = Number(juros) + Number(multa) + Number(valorTotalFinal);
 
         valorTotalFinal = Intl.NumberFormat("pt-BR", {
@@ -229,7 +232,50 @@ $("#adicionar_rateio").click(function () {
         }).format(valorTotalFinal);
 
         $("#modal_valor_total").val(valorTotalFinal);
-    } else if (
+    }else if (
+        $("#hiddemJuros").val() != "" &&
+        $("#hiddemJuros").val() != null 
+    ){
+        var juros = $("#hiddemJuros").val();
+        var valorTotalFinal = Number($("#valorTotal").val());
+
+        if(multa == '' || multa == null){
+            multa = 0;
+        }else if(juros == '' || juros == null){
+            juros = 0;
+        }
+
+        valorTotalFinal = Number(juros) + Number(valorTotalFinal);
+
+        valorTotalFinal = Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        }).format(valorTotalFinal);
+
+        $("#modal_valor_total").val(valorTotalFinal);
+    }else if(
+        $("#hiddemMulta").val() != "" &&
+        $("#hiddemMulta").val() != null 
+    ){
+
+        var multa = $("#hiddemMulta").val();
+        var valorTotalFinal = Number($("#valorTotal").val());
+
+        if(multa == '' || multa == null){
+            multa = 0;
+        }else if(juros == '' || juros == null){
+            juros = 0;
+        }
+
+        valorTotalFinal = Number(multa) + Number(valorTotalFinal);
+
+        valorTotalFinal = Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        }).format(valorTotalFinal);
+
+        $("#modal_valor_total").val(valorTotalFinal);
+    }else if (
         $("#hiddemDesconto").val() != "" &&
         $("#hiddemDesconto").val() != null
     ) {
@@ -244,7 +290,7 @@ $("#adicionar_rateio").click(function () {
         }).format(valorTotalFinal);
 
         $("#modal_valor_total").val(valorTotalFinal);
-    } else {
+    }else{
         var valorTotalFinal = Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
