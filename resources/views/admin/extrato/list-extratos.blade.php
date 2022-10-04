@@ -1,4 +1,4 @@
-<div id="" style="margin-top: 5px;" style="width: 50%">
+<div id="" style="margin-top: 5px;" style="width: 50%;">
     <div class="main-content container-fluid">
         <div class="">
             <div class="d-flex justify-content-between">

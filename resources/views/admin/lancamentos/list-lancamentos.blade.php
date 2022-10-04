@@ -7,7 +7,7 @@
     box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
 }
 </style>
-<div id="" style="margin-top: 5px;" style="width: 50%;">
+<div id="" style="margin-top: 5px;" style="width: 50%">
     <div class="main-content container-fluid">
         <div class="">
             <div class="card-header">

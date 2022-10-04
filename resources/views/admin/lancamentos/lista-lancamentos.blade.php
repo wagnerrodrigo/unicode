@@ -83,9 +83,7 @@
                             <td>{{$lancamento->qt_parcelas_despesa}}</td>
                             <td>{{ Str::limit($lancamento->de_despesa, 20) }}</td>
                             <td>{{date("d/m/Y", strtotime($lancamento->dt_inicio))}}</td>
-                            <td>
-                               
-                            </td>
+                            <td></td>
                             <td>{{$lancamento->de_status_despesa}}</td>
 
                             <td class="d-flex justify-content-evenly" style="padding-bottom:22px">

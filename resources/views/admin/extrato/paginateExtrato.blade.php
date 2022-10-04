@@ -12,11 +12,11 @@
 
 <div class="col-12 card" style="display: block">
 
-<div class="col-6" style="display: inline-block">
+<div class="col-6" style="display: inline-block;  position: absolute; top: 0; left: 0">
     <div class="card-lancamentos"></div>
 </div>
 
-<div class="col-4" style="display: inline-block;">
+<div class="col-4" style="display: inline-block;  position: absolute; top: 0; right: 250px">
         <div class="card-extratos"></div>
 </div>
 
