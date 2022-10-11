@@ -95,10 +95,9 @@ class Despesa extends Model
                 ->orderBy('id_despesa', 'desc')
                 ->paginate($results);
         } else if (!$dt_inicio && !$dt_fim && !$status && $filial) {
-
             $despesas = $query
                 ->where("intranet.tab_despesa.fk_empresa_id", '=', "$filial")
-                ->orderBy('de_status_despesa', 'desc')
+                ->orderBy('id_despesa', 'desc')
                 ->paginate($results);
         } else if ($dt_inicio && $dt_fim && $status && !$filial) {
             $despesas = $query
@@ -115,7 +114,6 @@ class Despesa extends Model
                 ->paginate($results);
         } else if (!$dt_inicio && !$dt_fim && $status && !$filial) {
             $despesas = $query
-                ->where('intranet.tab_parcela_despesa.dt_vencimento')
                 ->where("intranet.tab_despesa.fk_status_despesa_id", '=', "$status")
                 ->orderBy('id_despesa', 'desc')
                 ->paginate($results);

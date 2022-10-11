@@ -308,7 +308,7 @@
                             <i data-feather="check-circle"></i>ADICIONAR
                         </button>
                         <button type="button" class="close btn btn-secondary me-1 mb-1" data-bs-dismiss="modal" aria-label="Close">
-                            CANCELAR
+                            VOLTAR
                         </button>
                     </div>
                 </div>

@@ -18,27 +18,36 @@ class ExtratoController extends Controller
      */
     public function index(Request $request)
     {
-        return view('admin.extrato.paginateExtrato');
+        //return view('admin.extrato.paginateExtrato');
         $lancamentoRepository = new LancamentoRepository();
         $extratos = new Extrato();
         $extratos = $extratos->selectAll();
 
+        $agenciaConta = new Extrato();
+        $agenciaConta = $agenciaConta->selectAllConta();
+        
+
         $mascara = new Mascaras();
 
-        if ($request->has('dt_inicio') && $request->has('dt_fim')) {
-            $dt_lancamento = $request->input('dt_inicio');
-            $dt_vencimento = $request->input('dt_fim');
-
-            if (empty($dt_lancamento) && empty($dt_vencimento)) {
-                $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
-                return view('admin.extrato.paginateExtrato', compact('lancamentos', 'mascara', 'extratos'));
-            } else {
-                $lancamentos = $this->showPeriodDate($dt_lancamento, $dt_vencimento);
-                return view('admin.extrato.paginateExtrato', compact('lancamentos', 'mascara', 'extratos'));
-            }
-        } else {
-            $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
-            return view('admin.extrato.paginateExtrato', compact('lancamentos', 'mascara', 'extratos'));
+        $dt_lancamento = $request->input('dt_inicio');
+        $dt_vencimento = $request->input('dt_fim');
+        $n_conta = $request->input('conta');
+      
+       
+        if (!empty($dt_lancamento) && !empty($dt_vencimento) && !empty($n_conta)) {
+            $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO, $dt_lancamento, $dt_vencimento,  $n_conta);
+            return view('admin.extrato.paginateExtrato', compact('lancamentos', 'mascara', 'extratos', 'dt_lancamento', 'dt_vencimento', 'agenciaConta'));
+            
+        } else if (!empty($dt_lancamento) && !empty($dt_vencimento)) {
+            $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO, $dt_lancamento, $dt_vencimento, $n_conta = null);
+            return view('admin.extrato.paginateExtrato', compact('lancamentos', 'mascara', 'extratos', 'dt_lancamento', 'dt_vencimento', 'agenciaConta'));
+            
+        }else if(!empty($n_conta)){
+            $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO, $dt_lancamento = null, $dt_vencimento = null, $n_conta);
+            return view('admin.extrato.paginateExtrato', compact('lancamentos', 'mascara', 'extratos', 'agenciaConta'));
+        }else{
+            $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO, $dt_lancamento = null, $dt_vencimento = null, $n_conta = null);
+            return view('admin.extrato.paginateExtrato', compact('lancamentos', 'mascara', 'extratos', 'agenciaConta'));
         }
     }
 
@@ -48,12 +57,13 @@ class ExtratoController extends Controller
         return response()->json($extrato);
     }
 
-    public function showPeriodDate($dt_lancamento, $dt_vencimento)
-    {
-        $lancamentoRepository = new LancamentoRepository();
-        $lancamentos = $lancamentoRepository->findAccountingEntryByPeriod($dt_lancamento, $dt_vencimento);
-        return $lancamentos;
-    }
+    // public function showPeriodDate($dt_lancamento, $dt_vencimento)
+    // {
+    //     $lancamentoRepository = new LancamentoRepository();
+    //     $lancamentos = $lancamentoRepository->findAccountingEntryByPeriod($dt_lancamento, $dt_vencimento);
+       
+    //     return $lancamentos;
+    // }
 
     public function showExtract($id)
     {

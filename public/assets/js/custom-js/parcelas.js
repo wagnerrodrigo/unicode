@@ -327,8 +327,8 @@ function getParcelas(object, url) {
                             ) +
                             "</td>" +
                             `<td>${response[i].de_status_despesa}</td>` +
-                            `<td><a href="${url + response[i].id_parcela_despesa
-                            }" class='btn btn-primary' style='padding: 8px 12px;'><i class='bi bi-eye-fill'></i></a></td>`
+                            `<td><a href="${url + response[i].id_parcela_despesa}" 
+                            class='btn btn-primary' style='padding: 8px 12px;'><i class='bi bi-eye-fill'></i></a></td>`
                         );
                     }
                 } else {

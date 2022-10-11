@@ -36,6 +36,7 @@ class ConciliacaoController extends Controller
                 $conciliacao->id_lancamento = $request->lancamentos[$i]['id'];
                 $conciliacao->id_extrato = $request->extratos[0]['id'];
                 $conciliacao->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+         
                 Conciliacao::store($conciliacao);
             }
         } else if (count($request->lancamentos) < count($request->extratos)) {
@@ -68,7 +69,7 @@ class ConciliacaoController extends Controller
         $pagamento->dt_fim = null;
         $pagamento->fk_rateio_pagamento = null;
         $pagamento->fk_tab_conciliacao = null;
-
+        
         $pagamentoRepository->savePayment($pagamento);
 
         return response()->json(['success' => true]);

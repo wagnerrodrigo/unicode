@@ -12,9 +12,9 @@ class LancamentoRepository
         return Lancamento::findOne($id);
     }
 
-    function findAccountingEntryByStatus($status)
+    function findAccountingEntryByStatus($status, $dt_lancamento, $dt_vencimento, $n_conta)
     {
-        return Lancamento::findByStatus($status);
+        return Lancamento::findByStatus($status, $dt_lancamento, $dt_vencimento, $n_conta);
     }
 
     function findAccountingEntryByPeriod($dt_lancamento, $dt_vencimento)

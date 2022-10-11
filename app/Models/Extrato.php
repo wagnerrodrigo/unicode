@@ -21,11 +21,38 @@ class Extrato extends Model
     static function selectAll()
     {
         return DB::table('intranet.tab_extrato')
+        
             ->where('tab_extrato.trnamt', '<', '0')
-            ->join('intranet.tab_conta_bancaria', 'tab_extrato.fk_tab_conta_bancaria', '=', 'tab_conta_bancaria.id_conta_bancaria')
+
+            ->join('intranet.tab_conta_bancaria', 
+            'tab_extrato.fk_tab_conta_bancaria', 
+            '=', 
+            'tab_conta_bancaria.id_conta_bancaria')
+            
             ->orderBy('id_extrato', 'desc')
             ->paginate(10);
     }
+
+    static function selectAllConta()
+    {
+        return DB::table('intranet.tab_conta_bancaria')
+        ->distinct('id_conta_bancaria')
+            ->join(
+                'intranet.tab_inst_banco', 
+                'tab_inst_banco.id', 
+                '=', 
+                'tab_conta_bancaria.fk_tab_inst_banco_id')
+
+            ->join(
+                'intranet.tab_rateio_pagamento', 
+                'tab_rateio_pagamento.fk_tab_conta_bancaria', 
+                '=', 
+                'tab_conta_bancaria.id_conta_bancaria')
+
+            ->orderBy('id_conta_bancaria', 'desc')
+            ->paginate();
+    }
+    
 
     static function findByExtract($id)
     {

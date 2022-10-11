@@ -77,8 +77,9 @@ class LancamentoController extends Controller
                 'fk_tab_pix' => $request->numero_pix_fornecedor_empregado,
                 'dt_provisionamento' => $request->dt_efetivo_pagamento,
             ];
+            
             $parcelaDespesaRepository->addPayment($parcelas, $request->id_parcela_despesa);
-
+            
             $getParcela = $parcelaDespesaRepository->getParcela($request->id_parcela_despesa);
             if (!empty($request->valor_rateio_pagamento)) {
 
@@ -343,10 +344,9 @@ class LancamentoController extends Controller
     public function paginate()
     {
         $lancamentoRepository = new LancamentoRepository();
-        $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO);
-
         $mascara = new Mascaras();
-
-        return view('admin.lancamentos.list-lancamentos', compact('lancamentos', 'mascara'));
+        $lancamentos = $lancamentoRepository->findAccountingEntryByStatus(StatusDespesa::PROVISIONADO, $dt_lancamento = null, $dt_vencimento = null, $n_conta = null);
+       
+        return view('admin.lancamentos.list-lancamentos', compact('lancamentos', 'mascara', 'dt_lancamento', 'dt_vencimento', 'agenciaConta'));
     }
 }

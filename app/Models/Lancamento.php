@@ -22,11 +22,11 @@ class Lancamento extends Model
         if ($dt_inicio && $dt_fim && $status_despesa_id) {
             $lancamentos = $query
                 ->where('intranet.tab_despesa.fk_status_despesa_id', '=', $status_despesa_id)
-                ->whereRaw("intranet.tab_despesa.dt_vencimento >= ? and intranet.tab_despesa.dt_vencimento <= ?", [$dt_inicio, $dt_fim])->paginate(10);
+                ->whereRaw("intranet.tab_despesa.dt_inicio >= ? and intranet.tab_despesa.dt_inicio <= ?", [$dt_inicio, $dt_fim])->paginate(10);
         } else if ($dt_inicio && $dt_fim && !$status_despesa_id) {
             $lancamentos = $query
                 ->whereRaw('(intranet.tab_despesa.fk_status_despesa_id = 6 or intranet.tab_despesa.fk_status_despesa_id = 4)')
-                ->whereRaw("intranet.tab_despesa.dt_vencimento >= ? and intranet.tab_despesa.dt_vencimento <= ?", [$dt_inicio, $dt_fim])->paginate(10);
+                ->whereRaw("intranet.tab_despesa.dt_inicio >= ? and intranet.tab_despesa.dt_inicio <= ?", [$dt_inicio, $dt_fim])->paginate(10);
         } else if ($status_despesa_id && !$dt_inicio && !$dt_fim) {
             $lancamentos = $query->where('intranet.tab_despesa.fk_status_despesa_id', '=', $status_despesa_id)
                 ->paginate(10);
@@ -135,10 +135,11 @@ class Lancamento extends Model
         return $query;
     }
 
-
-    static function findByStatus($id_status)
+    //BUsca/Filtro de LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO da tela EXTRATO
+    static function findByStatus($id_status = null ,$dt_lancamento = null, $dt_vencimento = null, $n_conta = null)
     {
-        $data = DB::table('intranet.tab_lancamento')->join(
+        $data = DB::table('intranet.tab_lancamento')
+        ->join(
             'intranet.tab_parcela_despesa',
             'id_parcela_despesa',
             '=',
@@ -158,9 +159,44 @@ class Lancamento extends Model
             'fk_tab_conta_bancaria',
             '=',
             'id_conta_bancaria'
-        )->where("intranet.tab_parcela_despesa.fk_status_id", "=", $id_status)->orderBy('intranet.tab_lancamento.id_tab_lancamento', 'desc')->paginate(10);
+        )->join(
+            'intranet.tab_inst_banco',
+            'id',
+            '=',
+            'fk_tab_inst_banco_id'
+        )
+        
+   
+        ->where("intranet.tab_parcela_despesa.fk_status_id", "=", $id_status);
 
-        return $data;
+        if($dt_lancamento && $dt_vencimento && $n_conta){
+            $lancamentos = $data
+            ->where('intranet.tab_parcela_despesa.fk_status_id', '=', StatusDespesa::PROVISIONADO)
+            ->where('intranet.tab_lancamento.dt_efetivo_pagamento', '>=', $dt_lancamento)
+            ->where('intranet.tab_lancamento.dt_efetivo_pagamento', '<=', $dt_vencimento)
+            ->where('intranet.tab_conta_bancaria.nu_conta', '=', $n_conta)
+            ->orderBy('intranet.tab_lancamento.fk_tab_parcela_despesa_id', 'desc')
+            ->paginate(10);
+        }else if($dt_lancamento && $dt_vencimento){
+            $lancamentos = $data
+            ->where('intranet.tab_parcela_despesa.fk_status_id', '=', StatusDespesa::PROVISIONADO)
+            ->where('intranet.tab_lancamento.dt_efetivo_pagamento', '>=', $dt_lancamento)
+            ->where('intranet.tab_lancamento.dt_efetivo_pagamento', '<=', $dt_vencimento)
+            ->orderBy('intranet.tab_lancamento.fk_tab_parcela_despesa_id', 'desc')
+            ->paginate(10);
+        }else if($n_conta){
+            $lancamentos = $data
+            ->where('intranet.tab_parcela_despesa.fk_status_id', '=', StatusDespesa::PROVISIONADO)
+            ->where('intranet.tab_conta_bancaria.nu_conta', '=', $n_conta)
+            ->orderBy('intranet.tab_lancamento.fk_tab_parcela_despesa_id', 'desc')
+            ->paginate(10);
+        }else{
+            $lancamentos = $data
+            ->orderBy('intranet.tab_lancamento.id_tab_lancamento', 'desc')
+            ->paginate(10);
+        }
+        
+        return $lancamentos;
     }
 
     static function findPaymentCondition()
@@ -209,17 +245,40 @@ class Lancamento extends Model
         return DB::select("SELECT id_tab_lancamento FROM intranet.tab_lancamento WHERE dt_inicio = ?", [$timestamp]);
     }
 
+    //Filtro LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO / EXTRATO
     static function findByPeriod($dt_lancamento, $dt_vencimento)
     {
-
         $query = DB::table('intranet.tab_lancamento')
-            ->join('intranet.tab_despesa', 'intranet.tab_despesa.id_despesa', '=', 'intranet.tab_lancamento.fk_tab_despesa_id')
-            ->join('intranet.status_despesa', 'intranet.status_despesa.id_status_despesa', '=', 'intranet.tab_despesa.fk_status_despesa_id')
-            ->where('intranet.status_despesa.id_status_despesa', '=', StatusDespesa::PROVISIONADO)
+
+            ->join(
+                'intranet.tab_parcela_despesa', 
+                'intranet.tab_parcela_despesa.id_parcela_despesa', 
+                '=', 
+                'intranet.tab_lancamento.fk_tab_parcela_despesa_id')
+            ->join(
+                'intranet.status_despesa',
+                'id_status_despesa',
+                '=',
+                'intranet.tab_parcela_despesa.fk_status_id'
+            )->join(
+                'intranet.tab_rateio_pagamento',
+                'fk_tab_lancamento',
+                '=',
+                'id_tab_lancamento'
+            )->join(
+                'intranet.tab_conta_bancaria',
+                'fk_tab_conta_bancaria',
+                '=',
+                'id_conta_bancaria')
+
+            ->where('intranet.tab_parcela_despesa.fk_status_id', '=', StatusDespesa::PROVISIONADO)
             ->where('intranet.tab_lancamento.dt_efetivo_pagamento', '>=', $dt_lancamento)
             ->where('intranet.tab_lancamento.dt_efetivo_pagamento', '<=', $dt_vencimento)
+            ->orderBy('intranet.tab_lancamento.fk_tab_parcela_despesa_id', 'desc')
             ->paginate(10);
+        
         return $query;
+        
     }
 
     static function deleteLancamento($id, $timestamp)

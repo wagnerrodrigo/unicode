@@ -37,7 +37,7 @@ class DespesaController extends Controller
             $dt_fim = $request->input('dt_fim');
             $status_despesa = $request->input('status');
             $filial = $request->input('filial');
-
+            
             $empresaRepository = new EmpresaRepository();
             $empresas = $empresaRepository->getEmpresas();
 

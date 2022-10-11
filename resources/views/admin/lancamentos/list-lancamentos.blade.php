@@ -1,4 +1,6 @@
-
+<!-- ESSA TELA NAO ESTA MAIS EM USO
+    TUDO QUE ESTA AQUI FOI PARA A TELA 'paginateExtrato.blade.php' 
+    POR CAUSA DOS FILTROS-->
 <style>
     .table>:not(caption)>*>* {
     padding: 0.15rem 2rem;
@@ -11,32 +13,13 @@
     <div class="main-content container-fluid">
         <div class="">
             <div class="card-header">
-                <h1>LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO</h1>
+                <h2>LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO</h2>
             </div>
-<br><br><br><br>
+
             <div class="card-body">
-                <form action="{{ route('extrato') }}" method="GET">
-                    <div class="d-flex">
-                        <div class="col-md-5">
-                            <div class="input-group mb-3" style="width: 250px">
-                                <label class="input-group-text" info-data="Data inicio do Pagamento" for="inputDataInicio">DATA INICIO</label>
-                                <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="input-group mb-3" style="width: 240px" >
-                                <label class="input-group-text" info-data="Data fim do Pagamento" for="inputDataFim">DATA FIM</label>
-                                <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <button type="submit" id="btnSearch" class="btn btn-primary" style="padding: 8px 12px; display: inline-block">
-                                <i class="bi bi-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                <!-- <form action="{{ route('extrato') }}" method="GET">
+                   
+                </form> -->
 
                 <table class='table table-striped' id="table1">
                     <thead>
