@@ -227,6 +227,11 @@ class Despesa extends Model
                 "intranet.tab_departamento.id_departamento",
                 "=",
                 "intranet.tab_centro_custo.fk_tab_departamento"
+            )->join(
+                "intranet.tab_parcela_despesa",
+                "intranet.tab_parcela_despesa.fk_despesa",
+                "=",
+                "intranet.tab_despesa.id_despesa"
             );
         } else {
             $query = DB::table('intranet.tab_despesa')->join(
@@ -259,6 +264,11 @@ class Despesa extends Model
                 "intranet.tab_clasificacao_contabil.id_clasificacao_contabil",
                 "=",
                 "tab_plano_contas.fk_tab_clasificacao_contabil_id"
+            )->join(
+                "intranet.tab_parcela_despesa",
+                "intranet.tab_parcela_despesa.fk_despesa",
+                "=",
+                "intranet.tab_despesa.id_despesa"
             );
         }
 
@@ -285,14 +295,123 @@ class Despesa extends Model
 
     static function set($despesa)
     {
-        DB::update("UPDATE intranet.tab_despesa
-        SET fk_tab_centro_custo_id = ?, fk_plano_contas = ?
-        WHERE id_despesa = ?", [
-            $despesa->fk_tab_centro_custo_id,
-            $despesa->fk_plano_contas,
-            $despesa->id_despesa
-
-        ]);
+       
+        if(empty($despesa->de_despesa) && !empty($despesa->fk_tab_centro_custo_id) && !empty($despesa->fk_empresa_id) && !empty($despesa->fk_plano_contas)){
+            DB::update("UPDATE intranet.tab_despesa
+            SET fk_tab_centro_custo_id = ?, fk_empresa_id = ?, fk_plano_contas = ?
+            WHERE id_despesa = ?", [
+                $despesa->fk_tab_centro_custo_id,
+                $despesa->fk_empresa_id,
+                $despesa->fk_plano_contas,
+                $despesa->id_despesa,
+                
+            ]);
+        }
+        else if(!empty($despesa->de_despesa) && empty($despesa->fk_tab_centro_custo_id) && !empty($despesa->fk_empresa_id) && !empty($despesa->fk_plano_contas)){
+            DB::update("UPDATE intranet.tab_despesa
+            SET  de_despesa = ?, fk_empresa_id = ?, fk_plano_contas = ?
+            WHERE id_despesa = ?", [
+                $despesa->de_despesa,
+                $despesa->fk_empresa_id,
+                $despesa->fk_plano_contas,
+                $despesa->id_despesa,
+                
+            ]);
+        }
+        else if(!empty($despesa->de_despesa) && !empty($despesa->fk_tab_centro_custo_id) && empty($despesa->fk_empresa_id) && !empty($despesa->fk_plano_contas)){
+            DB::update("UPDATE intranet.tab_despesa
+            SET  de_despesa = ?, fk_tab_centro_custo_id = ?, fk_plano_contas = ?
+            WHERE id_despesa = ?", [
+                $despesa->de_despesa,
+                $despesa->fk_tab_centro_custo_id,
+                $despesa->fk_plano_contas,
+                $despesa->id_despesa,
+                
+            ]);
+        }
+        else if(!empty($despesa->de_despesa) && !empty($despesa->fk_tab_centro_custo_id) && !empty($despesa->fk_empresa_id) && empty($despesa->fk_plano_contas)){
+            DB::update("UPDATE intranet.tab_despesa
+            SET  de_despesa = ?, fk_tab_centro_custo_id = ?, fk_empresa_id = ?
+            WHERE id_despesa = ?", [
+                $despesa->de_despesa,
+                $despesa->fk_tab_centro_custo_id,
+                $despesa->fk_empresa_id,
+                $despesa->id_despesa,
+                
+            ]);
+        }
+        else if(empty($despesa->de_despesa) && empty($despesa->fk_tab_centro_custo_id) && !empty($despesa->fk_empresa_id) && !empty($despesa->fk_plano_contas)){
+            DB::update("UPDATE intranet.tab_despesa
+            SET fk_empresa_id = ?, fk_plano_contas = ?
+            WHERE id_despesa = ?", [
+                $despesa->fk_empresa_id,
+                $despesa->fk_plano_contas,
+                $despesa->id_despesa,
+                
+            ]);
+        }
+        else if(empty($despesa->de_despesa) && !empty($despesa->fk_tab_centro_custo_id) && empty($despesa->fk_empresa_id) && !empty($despesa->fk_plano_contas)){
+            DB::update("UPDATE intranet.tab_despesa
+            SET fk_tab_centro_custo_id = ?, fk_plano_contas = ?
+            WHERE id_despesa = ?", [
+                $despesa->fk_tab_centro_custo_id,
+                $despesa->fk_plano_contas,
+                $despesa->id_despesa,
+                
+            ]);
+        }
+        else if(empty($despesa->de_despesa) && !empty($despesa->fk_tab_centro_custo_id) && !empty($despesa->fk_empresa_id) && empty($despesa->fk_plano_contas)){
+            DB::update("UPDATE intranet.tab_despesa
+            SET fk_tab_centro_custo_id = ?, fk_empresa_id = ?
+            WHERE id_despesa = ?", [
+                $despesa->fk_tab_centro_custo_id,
+                $despesa->fk_empresa_id,
+                $despesa->id_despesa,
+            ]);
+        }
+        else if(!empty($despesa->de_despesa) && empty($despesa->fk_tab_centro_custo_id) && empty($despesa->fk_empresa_id) && !empty($despesa->fk_plano_contas)){
+            DB::update("UPDATE intranet.tab_despesa
+            SET  de_despesa = ?, fk_plano_contas = ?
+            WHERE id_despesa = ?", [
+                $despesa->de_despesa,
+                $despesa->fk_plano_contas,
+                $despesa->id_despesa,
+                
+            ]);
+        }
+        else if(!empty($despesa->de_despesa) && empty($despesa->fk_tab_centro_custo_id) && !empty($despesa->fk_empresa_id) && empty($despesa->fk_plano_contas)){
+            DB::update("UPDATE intranet.tab_despesa
+            SET  de_despesa = ?, fk_empresa_id = ?
+            WHERE id_despesa = ?", [
+                $despesa->de_despesa,
+                $despesa->fk_empresa_id,
+                $despesa->id_despesa,
+                
+            ]);
+        }
+         else if(!empty($despesa->de_despesa) && !empty($despesa->fk_tab_centro_custo_id) && empty($despesa->fk_empresa_id) && empty($despesa->fk_plano_contas)){
+            DB::update("UPDATE intranet.tab_despesa
+            SET  de_despesa = ?, fk_tab_centro_custo_id = ?
+            WHERE id_despesa = ?", [
+                $despesa->de_despesa,
+                $despesa->fk_tab_centro_custo_id,
+                $despesa->id_despesa,
+                
+            ]);
+        }
+        else{
+            DB::update("UPDATE intranet.tab_despesa
+            SET  de_despesa = ?, fk_tab_centro_custo_id = ?, fk_empresa_id = ?, fk_plano_contas = ?
+            WHERE id_despesa = ?", [
+                $despesa->de_despesa,
+                $despesa->fk_tab_centro_custo_id,
+                $despesa->fk_empresa_id,
+                $despesa->fk_plano_contas,
+                $despesa->id_despesa,
+                
+            ]);
+        }
+       
     }
 
     static function del($id, $dataFim)

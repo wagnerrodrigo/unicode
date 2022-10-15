@@ -2,8 +2,9 @@
 @section('title', 'Despesa')
 @section('content')
 
-<input type="hidden" id="valorTotal" value="{{str_replace('.', ',',$despesa->valor_total_despesa)}}" name="valor_total" />
+
 <input type="hidden" id="empresa" value="{{$despesa->fk_tab_centro_custo_id}}" name="empresa" />
+<input type="hidden" name="numero_processo" value="">
 <div id="main" style="margin-top: 5px;" onload="validaCentroCusto()">
     <div class="main-content container-fluid">
         <div class="card">
@@ -118,10 +119,35 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="d-flex">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>PARCELAS EM ABERTO</strong>
+                                </div>
+                                <span>
+                                  @foreach($quantidade as $quantidade)
+                                  {{$quantidade->num_parcela}}
+                                  @endforeach
+                                </span>
+                            </div>
+                        </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div>
+                                    <strong>VALOR TOTAL EM ABERTO</strong>
+                                </div>
+                                <span>
+                                  @foreach($parcelas as $parcelas)
+                                      {{$mascara::maskMoeda($parcelas->valor_parcela)}}
+                                  @endforeach
+                                </span>
+                            </div>
+                        </div>
                     </div>
+
 
 
                     @if(count($rateios) > 0)
@@ -158,6 +184,7 @@
                 <div class="card-footer">
                     @if($despesa->de_status_despesa == 'A PAGAR' ||$despesa->de_status_despesa == 'EM ATRASO')
                     <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
+                     <!-- <button class="btn btn-primary" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge1">Reparcelar</button> -->
                     @endif
 
                     <a href="{{ route('despesas') }}" class="btn btn-danger" style="padding: 8px 12px;">Voltar</a>
@@ -184,6 +211,14 @@
                             @csrf
                             <div id="hidden_inputs"></div>
                             <input type="hidden" name="valor_total" value="{{$despesa->valor_total_despesa}}">
+                            <input type="hidden" name="id_empresa_selecionada" id="id_busca_empresa" />
+                            <div id="hidden_inputs_parcelas"></div>
+                           
+                                    <div class="px-1 mb-1">
+                                        <strong>TITULO</strong>
+                                        <input required id="titulo" value="{{ $despesa->de_despesa }}" name="titulo_despesa" maxlength="100" class="form-control input-busca"></input>
+                                    </div>
+                                <br>
                             <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">
                                     <strong>CENTRO DE CUSTO</strong>
@@ -198,26 +233,33 @@
                                         @endforeach
                                     </select>
                                 </div>
+<br>
+                                    <div class="px-1 mb-1">
+                                        <strong>EMPRESA</strong>
+                                        <input required type="text" value="" style="width:500px;"  id="busca_empresa" value="" placeholder="Digite o nome da empresa" autocomplete="off" class="form-control input-busca" />
+                                        <div id="results_empresa" class="resultado-busca"></div>
+                                    </div>
                             </div>
-
 
                             <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-1">
                                     <strong>CLASSIFICAÇÃO</strong>
-                                    <input required class="form-control input-add" name="classificacao" id="classificacao_con" readonly style="cursor: pointer;"></input>
+                                    <input required class="form-control input-add" value="" name="classificacao" id="classificacao_con" readonly style="cursor: pointer;"></input>
                                 <div id="itens_classificacao" class="input-style" style="cursor: pointer;"></div>
                             </div>
 
                             <div class="px-1 mb-1">
                                 <strong>TIPO</strong>
-                                <select required class="form-control input-add" name="tipo_classificacao" id="tipo_classificacao" style="cursor: pointer;">
+                                <select required class="form-control input-add" name="tipo_classificacao"  id="tipo_classificacao" style="cursor: pointer;">
                                 </select>
                             </div>
-                    
-                    
+
                     </div>
+                    
 
 
+
+                    <hr>
                         </form>
                         @if(count($rateios) == 0)
                         <div class="d-flex flex-column" id="div_rateio_gerado" style="width: 100%;">
@@ -252,7 +294,7 @@
 
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="button" onclick="submit()" id="btnSalvar" class="btn btn-primary me-1 mb-1">
+                            <button type="button" onclick="submit()" id="btnSalvar" class="btn btn-primary me-1 mb-1 btn btn-success me-1 mb-1">
                                 <i data-feather="check-circle"></i>Salvar
                             </button>
                             <!-- mudar para produto -->
@@ -263,11 +305,11 @@
             </div>
         </div>
     </div>
-
+    </div>
     <!-- Inicio Modal Rateio-->
     <div class="me-1 mb-1 d-inline-block">
         <!--Extra Large Modal -->
-        <div class="modal fade text-left w-100" id="xrateio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+        <div class="modal fade text-left w-100" id="xrateio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true" style="background-color: black;">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -329,11 +371,93 @@
                             </button>
                         </div>
                     </div>
+                
+                 
                 </div>
             </div>
         </div>
     </div>
     <!-- Fim modal Rateio -->
+
+
+ <!-- Model Reparcelar -->
+ <div class="me-1 mb-1 d-inline-block">
+        
+        <div class="modal fade text-left w-100" id="xlarge1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel16">Editar Parcelas</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="bi bi-x" data-feather="x"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <form action="/despesas/{{ $despesa->id_despesa }}" method="POST" style="padding: 10px;" id="form_edit_despesa">
+                            @csrf
+                            <div id="hidden_inputs"></div>
+                            <input type="hidden" name="valor_total" value="{{$despesa->valor_total_despesa}}">
+                            <div class="d-flex mt-10" style="width: 100%">
+                                <div class="px-5 mb-3">                   
+
+                        <div class="px-5 mb-3">
+                            <strong>VALOR</strong>
+                            <input required disabled type="text" value="{{$mascara::maskMoeda($parcelas->valor_parcela)}}" placeholder="Informe o valor total" onkeyup="formataValor(this)" onblur="validaValor(this)" id="valorTotal" class="form-control input-add" name="valor_total" />
+                        </div>
+
+<br>
+                    <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+                        <div class="flex-column mt-10">
+                            <div class="px-5">
+                                <span><h3>PARCELAS FIXAS?</h3></span>
+                            </div>
+
+                            <div class="d-flex mt-10">
+                                <div class="px-5 " style="padding: 8px 12px;">
+                                    <strong for="input_parcela form-check-primary">NÃO</strong>
+                                    <input class="form-check-input" checked type="radio" name="tipo_parcela" id="parcela_variavel" value="nao">
+                                </div>
+
+                                <div class="px-5" style="padding: 8px 12px;">
+                                    <strong for="input_parcela_sim">SIM</strong>
+                                    <input class="form-check-input" type="radio" name="tipo_parcela" id="parcela_fixa" value="sim">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <strong>NUMERO DE PARCELAS</strong>
+                            <input required type="text" value="{{$quantidade->num_parcela}}" placeholder="Informe o numero de parcelas" id="numero_parcelas" class="form-control input-add" name="numero_parcelas" />
+                        </div>
+
+                        <div>
+                            <button class="btn btn-primary" id="adicionar_parcela" type="button" style="padding: 10px 14px;">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <br/>
+                    <br />
+
+                    <div id="parcelas_geradas" class="flex-column">
+                    </div>
+                                         
+                    <div class="modal-footer">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="button" onclick="atribuiValorAParcelaGerada()" class="btn btn-success me-1 mb-1">
+                                <i data-feather="check-circle"></i>ADICIONAR
+                            </button>
+                            <a href="" class="btn btn-secondary me-1 mb-1">CANCELAR</a>
+                        </div>
+                    </div>
+                    </form>   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ <!-- Fim Model Reparcelar -->
 </div>
 
 <script src="{{ asset('assets/js/feather-icons/feather.min.js') }}"></script>
@@ -380,9 +504,7 @@
             $("#btnSalvar").attr("disabled", false);
         }
     });
-</script>
 
-<script>
     var valor = document.getElementById("tipo_documento").value;
     window.onload = removeOption(valor);
 
@@ -414,6 +536,81 @@
         var form_edit_despesa = document.getElementById("form_edit_despesa");
         form_edit_despesa.submit();
     }
+
+
+    function validaForm() {
+        var dadoEmpresa = document.getElementById("busca_empresa");
+        var dadoCPFCNPJ = document.getElementById("input_cpf_cnpj");
+        var dadoClassificacao = document.getElementById("classificacao_con");
+        var dadoTipoClassificacao = document.getElementById("tipo_classificacao");
+        var dadoTitulo = document.getElementById("titulo");
+        var error = true;
+
+        if (
+            dadoEmpresa.value == '' ||
+            dadoEmpresa.value == null ||
+            dadoEmpresa.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma empresa",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        } else if (
+            dadoCPFCNPJ.value == '' ||
+            dadoCPFCNPJ.value == null ||
+            dadoCPFCNPJ.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma empresa ou funcionário",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        } else if (
+            dadoTipoClassificacao.value == '' ||
+            dadoTipoClassificacao.value == null ||
+            dadoTipoClassificacao.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma empresa ou funcionário",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        } else if (
+            dadoClassificacao.value == '' ||
+            dadoClassificacao.value == null ||
+            dadoClassificacao.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Selecione uma classificação",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        } else if (
+            dadoTitulo.value == '' ||
+            dadoTitulo.value == null ||
+            dadoTitulo.value == undefined
+        ) {
+            swal({
+                title: "Atenção",
+                text: "Preencha o título",
+                icon: "warning",
+                button: "OK",
+            });
+            return error;
+        }
+        error = false;
+        return error;
+    }
+
 </script>
 
 

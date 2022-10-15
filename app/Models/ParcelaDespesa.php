@@ -158,6 +158,17 @@ class ParcelaDespesa extends Model
         WHERE fk_despesa = ?", [$date, $id]);
     }
 
+    static function cancelarParcelasAntigas($id)
+    {
+        DB::table('intranet.tab_parcela_despesa')
+        ->where('fk_despesa', '=', $id)
+        ->where('fk_status_id', '!=', StatusDespesa::PROVISIONADO)
+        ->where('fk_status_id', '!=', StatusDespesa::PAGO)
+        ->update(['fk_status_id' => StatusDespesa::CANCELADO]);
+    }
+    
+
+
     static function addPayment($parcela, $idParcela)
     {
         DB::update(
@@ -183,4 +194,64 @@ class ParcelaDespesa extends Model
             [$id_parcela_despesa]
         );
     }
+
+    static function valorFaltante($id)
+    {
+        $parcela = DB::table('intranet.tab_parcela_despesa')
+        ->select(DB::raw('SUM(tab_parcela_despesa.valor_parcela) as valor_parcela'))
+        ->leftjoin(
+            'intranet.tab_despesa',
+            'intranet.tab_despesa.id_despesa',
+            '=',
+            'intranet.tab_parcela_despesa.fk_despesa'
+        )
+        
+        ->where('intranet.tab_parcela_despesa.fk_despesa', $id)
+        ->where('intranet.tab_parcela_despesa.dt_provisionamento', '=', null)
+        ->where('intranet.tab_parcela_despesa.fk_status_id', '!=', 3)
+        
+        ->get();
+        return $parcela;
+    }
+
+    static function parcelasFaltante($id)
+    {
+        $parcela = DB::table('intranet.tab_parcela_despesa')
+        ->select(DB::raw('count(tab_parcela_despesa.valor_parcela) as num_parcela'))
+        ->leftjoin(
+            'intranet.tab_despesa',
+            'intranet.tab_despesa.id_despesa',
+            '=',
+            'intranet.tab_parcela_despesa.fk_despesa'
+        )
+        
+        ->where('intranet.tab_parcela_despesa.fk_despesa', $id)
+        ->where('intranet.tab_parcela_despesa.dt_provisionamento', '=', null)
+        ->where('intranet.tab_parcela_despesa.fk_status_id', '!=', 3)
+        
+        ->get();
+        return $parcela;
+    }
+
+    static function TotalParcelas($id)
+    {
+        $parcela = DB::table('intranet.tab_parcela_despesa')
+        ->select(DB::raw('count(tab_parcela_despesa.valor_parcela) as num_parcela'))
+        ->leftjoin(
+            'intranet.tab_despesa',
+            'intranet.tab_despesa.id_despesa',
+            '=',
+            'intranet.tab_parcela_despesa.fk_despesa'
+        )
+        
+        ->where('intranet.tab_parcela_despesa.fk_despesa', $id)
+        
+        ->get();
+        if($parcela){
+            return $parcela[0];
+        }
+        return $parcela;
+    }
+
 }
+

@@ -15,6 +15,7 @@ use App\Repository\ItemDespesaRepository;
 use App\Repository\CostCenterRepository;
 use App\Repository\EmpresaRepository;
 use App\CustomError\CustomErrorMessage;
+use App\Models\ParcelaDespesa;
 use App\Repository\ParcelaDespesaRepository;
 
 class DespesaController extends Controller
@@ -77,10 +78,16 @@ class DespesaController extends Controller
             }
 
             $costCenter = $costCenterRepository->getCenterCostByIdCompany($despesa->fk_empresa_id);
+            
+            $parcelas = new ParcelaDespesa();
+            $parcelas = ParcelaDespesa::valorFaltante($id);
+
+            $quantidade = ParcelaDespesa::parcelasFaltante($id);
+            
 
             $mascara = new Mascaras();
             if ($despesa) {
-                return view('admin.despesas.detalhe-despesa', compact('despesa', 'rateios',  'mascara', 'tipo', 'costCenter'));
+                return view('admin.despesas.detalhe-despesa', compact('despesa', 'rateios',  'mascara', 'tipo', 'costCenter', 'parcelas', 'quantidade'));
             } else {
                 return view('admin.despesas.despesa-nao-encontrada');
             }
@@ -92,6 +99,7 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
+        
         try {
             $parcelaDespesaRepository = new ParcelaDespesaRepository();
             //instancia model Despesa
@@ -209,13 +217,18 @@ class DespesaController extends Controller
 
     public function edit($id, Request $request)
     {
+      
         try {
             $despesa = new Despesa();
-
             $despesa->id_despesa = $id;
+            $despesa->de_empresa = mb_convert_case($request->titulo_despesa, MB_CASE_UPPER, 'UTF-8');
             $despesa->fk_tab_centro_custo_id = $request->centro_custo;
+            $despesa->fk_empresa_id = $request->id_empresa_selecionada;
             $despesa->fk_plano_contas = $request->tipo_classificacao;
+            $despesa->fk_tab_tipo_despesa_id = $request->classificacao;
             
+        
+           
             //caso haja rateio na despesa executa
             if ($request->empresa_rateio) {
                 $rateios = [];
@@ -249,6 +262,7 @@ class DespesaController extends Controller
                 $rateioRepository->create($rateios, $id);
             }
             
+
             Despesa::set($despesa);
 
             return redirect()->back()->with('success', 'Despesa Editada!');
@@ -259,6 +273,64 @@ class DespesaController extends Controller
                 ->with('error', 'Não foi possível editar a Despesa' . $e->getMessage());
         }
     }
+
+   
+    public function reparcelar($id, Request $request)
+    {
+        
+        try {
+            $despesa = new Despesa();
+            $parcelaDespesaRepository = new ParcelaDespesaRepository();
+            $despesa->id_despesa = $id;
+            
+            //soma a quantidade de parcelas de antes com a
+            $qt_parcelas_despesa = $request->numero_parcelas;
+            $totalParcelas = ParcelaDespesa::TotalParcelas($id);
+            $totalParcelas = intval($totalParcelas->num_parcela);
+            
+
+            //se houver parcela, alterar para Cancelado as que nao estao pagas e criar novas
+            if ($request->parcelas >= 1) {
+                dd($request->parcelas);
+                $cancelarParcelasAntigas = new ParcelaDespesaRepository();
+                $cancelarParcelasAntigas->cancelarParcelasAntigas($id);
+
+                $parcelas = [];
+                for ($i = 0; $i < count($request->parcelas); $i++) {
+                    $parcelas[] = [
+                        'fk_despesa' => $id[0]->id_despesa,
+                        'num_parcela' => $i + 1,
+                        'dt_emissao' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
+                        'dt_vencimento' => $request->vencimento_parcela[$i],
+                        'dt_inicio' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
+                        'dt_fim' => null,
+                        'dt_provisionamento' => null,
+                        'valor_parcela' => $request->parcelas[$i],
+                        'fk_status_parcela_id' => StatusDespesa::A_PAGAR,
+                        'fk_forma_pagamento_id' => null,
+                        'fk_tipo_pagamento_id' => null,
+                        'fk_conta_bancaria_id' => null,
+                    ];
+                }
+                
+                $despesa->qt_parcelas_despesa = intval($qt_parcelas_despesa) + $totalParcelas;
+                $parcelaDespesaRepository->store($parcelas);
+            }
+
+
+            return redirect()->back()->with('success', 'Despesa Editada!');
+            return redirect('/despesas');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível editar a Despesa' . $e->getMessage());
+        }
+    }
+
+
+
+
+
 
     public function delete($id)
     {

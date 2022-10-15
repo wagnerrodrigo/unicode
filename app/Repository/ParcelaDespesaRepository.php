@@ -23,9 +23,17 @@ class ParcelaDespesaRepository {
             ParcelaDespesa::store($parcelaDespesa);
         }
     }
-
+    
     function getParcelasByDespesa($fk_despesa){
         return ParcelaDespesa::parcelasDespesa($fk_despesa);
+    }
+
+    function cancelarParcelasAntigas($id){
+        return ParcelaDespesa::cancelarParcelasAntigas($id);
+    }
+
+    function TotalParcelas($id){
+        return ParcelaDespesa::TotalParcelas($id);
     }
 
     function getParcela($idParcela){
