@@ -29,48 +29,48 @@ class ConciliacaoController extends Controller
      */
     public function create(Request $request)
     {
+        
         try {
         $conciliacao = new Conciliacao();
         if (count($request->lancamentos) >= count($request->extratos)) {
             for ($i = 0; $i < count($request->lancamentos); $i++) {
                 $conciliacao->id_lancamento = $request->lancamentos[$i]['id'];
                 $conciliacao->id_extrato = $request->extratos[0]['id'];
-                $conciliacao->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-         
-                Conciliacao::store($conciliacao);
+                $conciliacao->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();  
+                //Conciliacao::store($conciliacao);
             }
         } else if (count($request->lancamentos) < count($request->extratos)) {
             for ($i = 0; $i < count($request->lancamentos); $i++) {
                 $conciliacao->id_lancamento = $request->lancamentos[0]['id'];
                 $conciliacao->id_extrato = $request->extratos[$i]['id'];
                 $conciliacao->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                Conciliacao::store($conciliacao);
+                //Conciliacao::store($conciliacao);
             }
         } else {
             for ($i = 0; $i < count($request->extratos); $i++) {
                 $conciliacao->id_lancamento = $request->lancamentos[$i]['id'];
                 $conciliacao->id_extrato = $request->extratos[$i]['id'];
                 $conciliacao->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-                Conciliacao::store($conciliacao);
+                //Conciliacao::store($conciliacao);
             }
         }
 
-        $lancamentoRepository = new LancamentoRepository();
-        $lancamento = $lancamentoRepository->findAccountingEntryById($request->lancamentos[0]["id"]);
+        // $lancamentoRepository = new LancamentoRepository();
+        // $lancamento = $lancamentoRepository->findAccountingEntryById($request->lancamentos[0]["id"]);
 
-        $parcelaDespesaRepository = new ParcelaDespesaRepository();
-        $parcelaDespesaRepository->setStatusIfPaid($lancamento[0]->fk_tab_parcela_despesa_id);
+        // $parcelaDespesaRepository = new ParcelaDespesaRepository();
+        // $parcelaDespesaRepository->setStatusIfPaid($lancamento[0]->fk_tab_parcela_despesa_id);
 
-        $pagamento = new Pagamento();
-        $pagamentoRepository = new PagamentoRepository();
+        // $pagamento = new Pagamento();
+        // $pagamentoRepository = new PagamentoRepository();
 
-        $pagamento->fk_tab_lancamento_id = $request->id_lancamento;
-        $pagamento->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
-        $pagamento->dt_fim = null;
-        $pagamento->fk_rateio_pagamento = null;
-        $pagamento->fk_tab_conciliacao = null;
+        // $pagamento->fk_tab_lancamento_id = $request->id_lancamento;
+        // $pagamento->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
+        // $pagamento->dt_fim = null;
+        // $pagamento->fk_rateio_pagamento = null;
+        // $pagamento->fk_tab_conciliacao = null;
         
-        $pagamentoRepository->savePayment($pagamento);
+        // $pagamentoRepository->savePayment($pagamento);
 
         return response()->json(['success' => true]);
         } catch (\Exception $e) {

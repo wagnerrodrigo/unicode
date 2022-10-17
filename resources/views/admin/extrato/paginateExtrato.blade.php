@@ -252,7 +252,7 @@
                 },
                 dataType: "json",
                 success: function(response) {
-                    swal({
+                    swal.fire({
                         title: "Sucesso",
                         text: "Conciliação realizada com sucesso",
                         icon: "success",
@@ -261,7 +261,7 @@
                     });
                 },
                 fail: function(response) {
-                    swal({
+                    swal.fire({
                         title: "Atenção",
                         text: "Erro ao realizar a conciliação",
                         icon: "warning",
