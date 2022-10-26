@@ -182,7 +182,7 @@
                     </div>
             </div>
             <div class="card-footer col-sm-12 d-flex justify-content-end">
-
+            <input type="hidden" id="id_despesa" value="{{$lancamento->id_despesa}}" name="id_despesa" />
                 <button type="submit" class="btn btn-primary  me-1 mb-1" id="btnSalvar">SALVAR</button>
                 <a href="{{ route('lancamentos') }}" class="btn btn-danger  me-1 mb-1">Voltar</a>
             </div>

@@ -42,6 +42,8 @@
                                 {{ $lancamento->fk_tab_parcela_despesa_id }}
                                 <input type="checkbox" class="inputs_selecionandos" name="inputs_selecionandos[]" value="{{ $lancamento->fk_tab_parcela_despesa_id }}" id="radio_lancamento_{{ $lancamento->id_tab_lancamento }}">
                                 <input type="hidden" value="{{ $lancamento->id_tab_lancamento }}" id="id_lancamento_{{ $lancamento->fk_tab_parcela_despesa_id }}">
+                                {{ $lancamento->fk_despesa }}
+                                <input type="hidden" value="{{ $lancamento->fk_despesa }}" id="fk_despesa_{{ $lancamento->fk_tab_parcela_despesa_id }}">
                             </td>
                             <td id="data_efetivo_pagamento_{{ $lancamento->fk_tab_parcela_despesa_id }}">
                                 {{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}

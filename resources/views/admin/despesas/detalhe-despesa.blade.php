@@ -184,7 +184,7 @@
                 <div class="card-footer">
                     @if($despesa->de_status_despesa == 'A PAGAR' ||$despesa->de_status_despesa == 'EM ATRASO')
                     <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
-                     <!-- <button class="btn btn-primary" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge1">Reparcelar</button> -->
+                    <button class="btn btn-primary" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge1">Reparcelar</button>
                     @endif
 
                     <a href="{{ route('despesas') }}" class="btn btn-danger" style="padding: 8px 12px;">Voltar</a>
@@ -382,7 +382,6 @@
 
  <!-- Model Reparcelar -->
  <div class="me-1 mb-1 d-inline-block">
-        
         <div class="modal fade text-left w-100" id="xlarge1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
                 <div class="modal-content">

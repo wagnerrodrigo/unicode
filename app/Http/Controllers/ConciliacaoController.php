@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Conciliacao;
+use App\Models\Lancamento;
 use App\Models\Pagamento;
 use App\Repository\LancamentoRepository;
 use App\Repository\PagamentoRepository;
@@ -28,15 +29,14 @@ class ConciliacaoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {
-        
+    {  
         try {
         $conciliacao = new Conciliacao();
         if (count($request->lancamentos) >= count($request->extratos)) {
             for ($i = 0; $i < count($request->lancamentos); $i++) {
                 $conciliacao->id_lancamento = $request->lancamentos[$i]['id'];
                 $conciliacao->id_extrato = $request->extratos[0]['id'];
-                $conciliacao->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();  
+                $conciliacao->dt_inicio = Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString();
                 Conciliacao::store($conciliacao);
             }
         } else if (count($request->lancamentos) < count($request->extratos)) {
@@ -71,6 +71,28 @@ class ConciliacaoController extends Controller
         $pagamento->fk_tab_conciliacao = null;
         
         $pagamentoRepository->savePayment($pagamento);
+
+        //Verificar e Alterar Status
+            //verificar existe parcelas nao pagas
+            $idDespesa = new Lancamento();
+            $idDespesa->fk_despesa = $request->lancamentos[0]["fk_despesa"];
+            $id_inteiro = intval($idDespesa->fk_despesa);
+            $idDespesa = Lancamento::verificarDespesaPaga($id_inteiro);
+            $parcelas_a_pagar =  $idDespesa[0]->qt_parcela;
+
+            //verificar existe parcelas Provisionada
+            $verificaProvisionado = new Lancamento();
+            $verificaProvisionado->fk_despesa = $request->lancamentos[0]["fk_despesa"];
+            $idInteiro = intval($verificaProvisionado->fk_despesa);
+            $verificaProvisionado = Lancamento::verificarDespesaProvisionada($idInteiro);
+            $parcelas_provisionada =  $verificaProvisionado[0]->qt_parcela;
+        
+            //Alterar Status
+            $alterar = new Lancamento();
+            $alterar->fk_despesa = $request->lancamentos[0]["fk_despesa"];
+            $id_Inteiro = intval($alterar->fk_despesa);
+            $alterar = Lancamento::alteraStatusDespesa($id_Inteiro, $parcelas_a_pagar, $parcelas_provisionada);
+        //Fim //-// Verificar e Alterar Status
 
         return response()->json(['success' => true]);
         } catch (\Exception $e) {

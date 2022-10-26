@@ -67,6 +67,7 @@ class LancamentoController extends Controller
      */
     public function store(Request $request)
     {
+       
         try {
             //adiciona fk_condicao_pagamento_id, fk_tab_conta_bancaria, fk_tab_pix
             $parcelaDespesaRepository = new ParcelaDespesaRepository();
@@ -108,8 +109,7 @@ class LancamentoController extends Controller
 
                 $timeStamp = $lancamento->dt_inicio;
                 $idLancamento = Lancamento::findIdByTimeStamp($timeStamp);
-
-
+                
                 if ($request->valor_rateio_pagamento) {
                     $valor_rateio = trim(html_entity_decode($request->valor_rateio_pagamento), " \t\n\r\0\x0B\xC2\xA0");
                     $rateios[] = [
@@ -146,8 +146,31 @@ class LancamentoController extends Controller
                 Lancamento::create($lancamento);
                 // FIM requeste somente lancamento
             }
-
+            
             $parcelaDespesaRepository->setStatus($request->id_parcela_despesa);
+
+            //Verificar e Alterar Status
+                //verificar existe parcelas nao pagas
+                $idDespesa = new Lancamento();
+                $idDespesa->id_despesa = $request->id_despesa;
+                $id_inteiro = intval($idDespesa->id_despesa);
+                $idDespesa = Lancamento::verificarDespesaPaga($id_inteiro);
+                $parcelas_a_pagar =  $idDespesa[0]->qt_parcela;
+
+                //verificar existe parcelas Provisionada
+                $verificaProvisionado = new Lancamento();
+                $verificaProvisionado->id_despesa = $request->id_despesa;
+                $idInteiro = intval($verificaProvisionado->id_despesa);
+                $verificaProvisionado = Lancamento::verificarDespesaProvisionada($idInteiro);
+                $parcelas_provisionada =  $verificaProvisionado[0]->qt_parcela;
+                
+                //Alterar Status
+                $alterar = new Lancamento();
+                $alterar->id_despesa = $request->id_despesa;
+                $id_Inteiro = intval($alterar->id_despesa);
+                $alterar = Lancamento::alteraStatusDespesa($id_Inteiro, $parcelas_a_pagar, $parcelas_provisionada);
+
+            // Fim //-// Verificar e Alterar Status
 
             return redirect()->route('lancamentos')->with('success', 'Lançamento Cadastrado!');
         } catch (\Exception $e) {

@@ -293,6 +293,53 @@ class Lancamento extends Model
             ->update(['dt_efetivo_pagamento' => $date]);
     }
 
+    //Verifica se Todas as parcelas foram pagas ou provisionada e Altera o Status
+        //Verifica se a parcelas a pagar
+        static function verificarDespesaPaga($id_despesa){
+            $query = DB::table('intranet.tab_parcela_despesa')
+                ->select(DB::raw('count(tab_parcela_despesa.fk_despesa) as qt_parcela'))
+
+                ->where('intranet.tab_parcela_despesa.fk_despesa', $id_despesa)
+                ->where('intranet.tab_parcela_despesa.fk_status_id', '=', StatusDespesa::A_PAGAR)
+                ->get();
+
+            return $query;
+        }
+
+        //Verifica se a parcelas Provisionada
+        static function verificarDespesaProvisionada($id_despesa){
+            $query = DB::table('intranet.tab_parcela_despesa')
+                ->select(DB::raw('count(tab_parcela_despesa.fk_despesa) as qt_parcela'))
+                
+                ->where('intranet.tab_parcela_despesa.fk_despesa', $id_despesa)
+                ->where('intranet.tab_parcela_despesa.fk_status_id', '=', StatusDespesa::PROVISIONADO)
+                ->get();
+           
+            return $query;
+        }
+
+        //Altera o Status
+        static function alteraStatusDespesa($id_despesa, $parcelas_a_pagar, $parcelas_provisionada)
+        {
+        if($parcelas_a_pagar != 0){
+            DB::update("UPDATE intranet.tab_despesa
+            SET fk_status_despesa_id = 6
+            WHERE id_despesa = $id_despesa");
+        }
+        else if($parcelas_a_pagar == 0 && $parcelas_provisionada != 0){
+            DB::update("UPDATE intranet.tab_despesa
+            SET fk_status_despesa_id = 1
+            WHERE id_despesa = $id_despesa");
+        }
+        else if($parcelas_a_pagar == 0 && $parcelas_provisionada == 0){
+            DB::update("UPDATE intranet.tab_despesa
+            SET fk_status_despesa_id = 2
+            WHERE id_despesa = $id_despesa");
+        }  
+    }
+    //Fim //-//Verifica se Todas as parcelas foram pagas ou provisionada e Altera o Status
+
+
     static function updateExpenceBasedOnInstallmet($id_despesa){
         $query = (
             "UPDATE tab_despesa A
@@ -302,7 +349,7 @@ class Lancamento extends Model
                 qt_parcelas_despesa =
                 (SELECT COUNT(1) FROM tab_parcela_despesa B
             WHERE B.fk_status_id IN (1) AND fk_despesa = '". $id_despesa ."');");
-            // dd($query);
+            
               DB::table($query);
     }
 }
