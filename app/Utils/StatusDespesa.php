@@ -10,4 +10,5 @@ class StatusDespesa
     const EM_ATRASO = 4;
     const MIGRACAO = 5;
     const A_PAGAR = 6;
+    const REPARCELADO = 7;
 }

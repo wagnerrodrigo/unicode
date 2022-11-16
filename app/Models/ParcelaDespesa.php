@@ -59,6 +59,7 @@ class ParcelaDespesa extends Model
         ]);
     }
 
+
     static function parcelasDespesa($idDespesa)
     {
         return DB::table('intranet.tab_parcela_despesa')->select(
@@ -164,9 +165,15 @@ class ParcelaDespesa extends Model
         ->where('fk_despesa', '=', $id)
         ->where('fk_status_id', '!=', StatusDespesa::PROVISIONADO)
         ->where('fk_status_id', '!=', StatusDespesa::PAGO)
-        ->update(['fk_status_id' => StatusDespesa::CANCELADO]);
+        ->update(['fk_status_id' => StatusDespesa::REPARCELADO]);
     }
     
+    static function AlterarStatusDespesaReparcela($id)
+    {
+        DB::table('intranet.tab_despesa')
+        ->where('id_despesa', '=', $id)
+        ->update(['fk_status_despesa_id' => StatusDespesa::REPARCELADO]);
+    }
 
 
     static function addPayment($parcela, $idParcela)
@@ -228,6 +235,9 @@ class ParcelaDespesa extends Model
         ->where('intranet.tab_parcela_despesa.fk_despesa', $id)
         ->where('intranet.tab_parcela_despesa.dt_provisionamento', '=', null)
         ->where('intranet.tab_parcela_despesa.fk_status_id', '!=', 3)
+        ->where('intranet.tab_parcela_despesa.fk_status_id', '!=', 2)
+        ->where('intranet.tab_parcela_despesa.fk_status_id', '!=', 1)
+        ->where('intranet.tab_parcela_despesa.fk_status_id', '!=', 7)
         
         ->get();
         return $parcela;
@@ -245,6 +255,8 @@ class ParcelaDespesa extends Model
         )
         
         ->where('intranet.tab_parcela_despesa.fk_despesa', $id)
+        ->where('intranet.tab_parcela_despesa.fk_status_id', '=', 2)
+        ->where('intranet.tab_parcela_despesa.fk_status_id', '=', 1)
         
         ->get();
         if($parcela){
@@ -253,5 +265,11 @@ class ParcelaDespesa extends Model
         return $parcela;
     }
 
+    static function AlterarQuantidadeParcelaDespesa($id, $quantidadeParcela)
+    {
+        DB::table('intranet.tab_despesa')
+        ->where('id_despesa', '=', $id)
+        ->update(['qt_parcelas_despesa' => $quantidadeParcela]);
+    }
 }
 

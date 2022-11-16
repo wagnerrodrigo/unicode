@@ -184,7 +184,7 @@
                 <div class="card-footer">
                     @if($despesa->de_status_despesa == 'A PAGAR' ||$despesa->de_status_despesa == 'EM ATRASO')
                     <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
-                    <button class="btn btn-primary" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge1">Reparcelar</button>
+                    <!-- <button class="btn btn-primary" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge1">Reparcelar</button> -->
                     @endif
 
                     <a href="{{ route('despesas') }}" class="btn btn-danger" style="padding: 8px 12px;">Voltar</a>
@@ -386,17 +386,19 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel16">Editar Parcelas</h4>
+                        <h4 class="modal-title" id="myModalLabel16">Reparcelar</h4>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <i class="bi bi-x" data-feather="x"></i>
                         </button>
                     </div>
                     <div class="modal-body">
                         
-                        <form action="/despesas/{{ $despesa->id_despesa }}" method="POST" style="padding: 10px;" id="form_edit_despesa">
+                        <form action="/despesas/reparcelar/{{$despesa->id_despesa}}" method="POST" id="form_reparcela">
                             @csrf
+
                             <div id="hidden_inputs"></div>
                             <input type="hidden" name="valor_total" value="{{$despesa->valor_total_despesa}}">
+                            <input type="hidden" name="id_despesa" value="{{$despesa->id_despesa}}">
                             <div class="d-flex mt-10" style="width: 100%">
                                 <div class="px-5 mb-3">                   
 
@@ -437,19 +439,20 @@
                         </div>
                     </div>
                     <br/>
-                    <br />
+                    <br/>
 
                     <div id="parcelas_geradas" class="flex-column">
                     </div>
                                          
                     <div class="modal-footer">
                         <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="button" onclick="atribuiValorAParcelaGerada()" class="btn btn-success me-1 mb-1">
+                            <button type="button" onclick="atribuiValorAReparcelaGerada()" class="btn btn-success me-1 mb-1">
                                 <i data-feather="check-circle"></i>ADICIONAR
                             </button>
                             <a href="" class="btn btn-secondary me-1 mb-1">CANCELAR</a>
                         </div>
                     </div>
+                    
                     </form>   
                     </div>
                 </div>
@@ -469,6 +472,7 @@
 <script src="{{ asset('assets/js/custom-js/mascara-dinheiro.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/rateio.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/parcelas.js') }}"></script>
+<script src="{{ asset('assets/js/custom-js/reparcelas.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/valida-cpf-cnpj.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/mascara-cnpj-cpf.js') }}"></script>
 <script src="{{ asset('assets/js/custom-js/mascara-telefone.js') }}"></script>
@@ -537,78 +541,9 @@
     }
 
 
-    function validaForm() {
-        var dadoEmpresa = document.getElementById("busca_empresa");
-        var dadoCPFCNPJ = document.getElementById("input_cpf_cnpj");
-        var dadoClassificacao = document.getElementById("classificacao_con");
-        var dadoTipoClassificacao = document.getElementById("tipo_classificacao");
-        var dadoTitulo = document.getElementById("titulo");
-        var error = true;
 
-        if (
-            dadoEmpresa.value == '' ||
-            dadoEmpresa.value == null ||
-            dadoEmpresa.value == undefined
-        ) {
-            swal({
-                title: "Atenção",
-                text: "Selecione uma empresa",
-                icon: "warning",
-                button: "OK",
-            });
-            return error;
-        } else if (
-            dadoCPFCNPJ.value == '' ||
-            dadoCPFCNPJ.value == null ||
-            dadoCPFCNPJ.value == undefined
-        ) {
-            swal({
-                title: "Atenção",
-                text: "Selecione uma empresa ou funcionário",
-                icon: "warning",
-                button: "OK",
-            });
-            return error;
-        } else if (
-            dadoTipoClassificacao.value == '' ||
-            dadoTipoClassificacao.value == null ||
-            dadoTipoClassificacao.value == undefined
-        ) {
-            swal({
-                title: "Atenção",
-                text: "Selecione uma empresa ou funcionário",
-                icon: "warning",
-                button: "OK",
-            });
-            return error;
-        } else if (
-            dadoClassificacao.value == '' ||
-            dadoClassificacao.value == null ||
-            dadoClassificacao.value == undefined
-        ) {
-            swal({
-                title: "Atenção",
-                text: "Selecione uma classificação",
-                icon: "warning",
-                button: "OK",
-            });
-            return error;
-        } else if (
-            dadoTitulo.value == '' ||
-            dadoTitulo.value == null ||
-            dadoTitulo.value == undefined
-        ) {
-            swal({
-                title: "Atenção",
-                text: "Preencha o título",
-                icon: "warning",
-                button: "OK",
-            });
-            return error;
-        }
-        error = false;
-        return error;
-    }
+
+
 
 </script>
 

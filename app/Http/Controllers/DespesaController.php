@@ -16,6 +16,7 @@ use App\Repository\CostCenterRepository;
 use App\Repository\EmpresaRepository;
 use App\CustomError\CustomErrorMessage;
 use App\Models\ParcelaDespesa;
+use App\Models\ReparcelaDespesa;
 use App\Repository\ParcelaDespesaRepository;
 
 class DespesaController extends Controller
@@ -38,7 +39,7 @@ class DespesaController extends Controller
             $dt_fim = $request->input('dt_fim');
             $status_despesa = $request->input('status');
             $filial = $request->input('filial');
-            
+
             $empresaRepository = new EmpresaRepository();
             $empresas = $empresaRepository->getEmpresas();
 
@@ -78,12 +79,12 @@ class DespesaController extends Controller
             }
 
             $costCenter = $costCenterRepository->getCenterCostByIdCompany($despesa->fk_empresa_id);
-            
+
             $parcelas = new ParcelaDespesa();
             $parcelas = ParcelaDespesa::valorFaltante($id);
 
             $quantidade = ParcelaDespesa::parcelasFaltante($id);
-            
+
 
             $mascara = new Mascaras();
             if ($despesa) {
@@ -99,7 +100,7 @@ class DespesaController extends Controller
 
     public function store(Request $request)
     {
-        
+
         try {
             $parcelaDespesaRepository = new ParcelaDespesaRepository();
             //instancia model Despesa
@@ -204,6 +205,7 @@ class DespesaController extends Controller
                         'fk_conta_bancaria_id' => null,
                     ];
                 }
+               
                 $parcelaDespesaRepository->store($parcelas);
             }
 
@@ -215,9 +217,60 @@ class DespesaController extends Controller
         }
     }
 
+    public function storeReparcela(Request $request)
+    {
+        try {
+            $id_despesa = $request->id_despesa;
+            $parcelaDespesaRepository = new ParcelaDespesaRepository();
+            
+            $parcela = [];
+            for ($i = 0; $i < count($request->parcela); $i++) {
+                $parcela[] = [
+                    'fk_despesa' => $id_despesa,
+                    'num_parcela' => $i + 1,
+                    'dt_emissao' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
+                    'dt_vencimento' => $request->vencimento_parcela[$i],
+                    'dt_inicio' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
+                    'dt_fim' => null,
+                    'dt_provisionamento' => null,
+                    'valor_parcela' => $request->parcela[$i],
+                    'fk_status_id' => StatusDespesa::A_PAGAR,
+                    'fk_condicao_pagamento' => null,
+                    'fk_conta_bancaria' => null,
+                    'fk_pix_id' => null,
+                ];
+            }
+            $parcelaDespesaRepository->reparcelar($parcela);
+    
+            //se houver parcela, alterar para REPARCELADO as que nao estao pagas e criar novas
+            $cancelarParcelasAntigas = new ParcelaDespesaRepository();
+            // $cancelarParcelasAntigas->cancelarParcelasAntigas($id_despesa);
+
+            $AlterarStatusDespesaReparcela = new ParcelaDespesaRepository();
+            // $AlterarStatusDespesaReparcela->AlterarStatusDespesaReparcela($id_despesa);
+            
+
+             //soma a quantidade de parcelas pagas e provisionada e altera a nova quantidade de parcelas na Despesa
+             $qt_parcelas_despesa = $request->numero_parcelas;
+             $totalParcelas = ParcelaDespesa::TotalParcelas($id_despesa);
+             $totalParcelas = intval($totalParcelas->num_parcela);
+ 
+             $alterarQuantidade = intval($qt_parcelas_despesa) + $totalParcelas;
+            //  $alterarQuantidade = ParcelaDespesa::AlterarQuantidadeParcelaDespesa($id_despesa ,$alterarQuantidade);            
+          
+
+            return redirect()->route('despesas')->with('success', 'Despesa Reparcelada!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Não foi possível Reparcelas' . $e->getMessage());
+        }
+    }
+
+
     public function edit($id, Request $request)
     {
-      
+
         try {
             $despesa = new Despesa();
             $despesa->id_despesa = $id;
@@ -226,9 +279,9 @@ class DespesaController extends Controller
             $despesa->fk_empresa_id = $request->id_empresa_selecionada;
             $despesa->fk_plano_contas = $request->tipo_classificacao;
             $despesa->fk_tab_tipo_despesa_id = $request->classificacao;
-            
-        
-           
+
+
+
             //caso haja rateio na despesa executa
             if ($request->empresa_rateio) {
                 $rateios = [];
@@ -261,7 +314,7 @@ class DespesaController extends Controller
                 $rateioRepository = new RateioRepository();
                 $rateioRepository->create($rateios, $id);
             }
-            
+
 
             Despesa::set($despesa);
 
@@ -273,63 +326,6 @@ class DespesaController extends Controller
                 ->with('error', 'Não foi possível editar a Despesa' . $e->getMessage());
         }
     }
-
-   
-    public function reparcelar($id, Request $request)
-    {
-        
-        try {
-            $despesa = new Despesa();
-            $parcelaDespesaRepository = new ParcelaDespesaRepository();
-            $despesa->id_despesa = $id;
-            
-            //soma a quantidade de parcelas de antes com a
-            $qt_parcelas_despesa = $request->numero_parcelas;
-            $totalParcelas = ParcelaDespesa::TotalParcelas($id);
-            $totalParcelas = intval($totalParcelas->num_parcela);
-            
-
-            //se houver parcela, alterar para Cancelado as que nao estao pagas e criar novas
-            if ($request->parcelas >= 1) {
-                dd($request->parcelas);
-                $cancelarParcelasAntigas = new ParcelaDespesaRepository();
-                $cancelarParcelasAntigas->cancelarParcelasAntigas($id);
-
-                $parcelas = [];
-                for ($i = 0; $i < count($request->parcelas); $i++) {
-                    $parcelas[] = [
-                        'fk_despesa' => $id[0]->id_despesa,
-                        'num_parcela' => $i + 1,
-                        'dt_emissao' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
-                        'dt_vencimento' => $request->vencimento_parcela[$i],
-                        'dt_inicio' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
-                        'dt_fim' => null,
-                        'dt_provisionamento' => null,
-                        'valor_parcela' => $request->parcelas[$i],
-                        'fk_status_parcela_id' => StatusDespesa::A_PAGAR,
-                        'fk_forma_pagamento_id' => null,
-                        'fk_tipo_pagamento_id' => null,
-                        'fk_conta_bancaria_id' => null,
-                    ];
-                }
-                
-                $despesa->qt_parcelas_despesa = intval($qt_parcelas_despesa) + $totalParcelas;
-                $parcelaDespesaRepository->store($parcelas);
-            }
-
-
-            return redirect()->back()->with('success', 'Despesa Editada!');
-            return redirect('/despesas');
-        } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', 'Não foi possível editar a Despesa' . $e->getMessage());
-        }
-    }
-
-
-
-
 
 
     public function delete($id)
@@ -351,5 +347,4 @@ class DespesaController extends Controller
                 ->with('error', 'Não foi possível excluir a Despesa!');
         }
     }
-
 }

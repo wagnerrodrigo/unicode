@@ -91,6 +91,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/despesas')->group(function
     Route::get('/{id}', [DespesaController::class, 'show']);
     Route::post('/{id}', [DespesaController::class, 'edit']);
     Route::post('/delete/{id}', [DespesaController::class, 'delete']);
+    Route::post('/reparcelar/{id}', [DespesaController::class, 'storeReparcela']);
 });
 
 Route::middleware('autenticacaoMiddleware')->prefix('/parcelas')->group(function () {

@@ -30,8 +30,6 @@ class Pedido extends Model
 
     static function salvarPedido($purchase)
     {
-       //dd($purchase);
-
         DB::insert("INSERT INTO intranet.tab_solicitacao_compra
         (fk_tab_empregado_id,
          fk_tab_cargo_funcional_id,

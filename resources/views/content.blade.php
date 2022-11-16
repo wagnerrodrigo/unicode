@@ -23,7 +23,7 @@
                         </a>
                     </div>
 
-                    <div class="col-xl-4 col-md-6 col-sm-12 mb-5">
+                    <!-- <div class="col-xl-4 col-md-6 col-sm-12 mb-5">
                         <a href="{{route('home')}}">
                             <div class="card">
                                 <div class="card-content">
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
