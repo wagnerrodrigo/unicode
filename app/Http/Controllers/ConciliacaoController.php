@@ -99,7 +99,6 @@ class ConciliacaoController extends Controller
             //Fim //-// Verificar e Alterar Status
 
 
-
         }else{
             $lancamentoRepository = new LancamentoRepository();
             $lancamento = $lancamentoRepository->findAccountingEntryById($request->lancamentos[0]["id"]);
