@@ -51,6 +51,41 @@ class ExtratoController extends Controller
         }
     }
 
+    public function indexReparcela(Request $request)
+    {
+        //return view('admin.extrato.paginateExtrato');
+        $lancamentoRepository = new LancamentoRepository();
+        $extratos = new Extrato();
+        $extratos = $extratos->selectAll();
+
+        $agenciaConta = new Extrato();
+        $agenciaConta = $agenciaConta->selectAllConta();
+        
+
+        $mascara = new Mascaras();
+
+        $dt_lancamento = $request->input('dt_inicio');
+        $dt_vencimento = $request->input('dt_fim');
+        $n_conta = $request->input('conta');
+      
+       
+        if (!empty($dt_lancamento) && !empty($dt_vencimento) && !empty($n_conta)) {
+            $lancamentos = $lancamentoRepository->findAccountingEntryByStatusReparcela(StatusDespesa::PROVISIONADO, $dt_lancamento, $dt_vencimento,  $n_conta);
+            return view('admin.extrato.paginateExtratoReparela', compact('lancamentos', 'mascara', 'extratos', 'dt_lancamento', 'dt_vencimento', 'agenciaConta'));
+            
+        } else if (!empty($dt_lancamento) && !empty($dt_vencimento)) {
+            $lancamentos = $lancamentoRepository->findAccountingEntryByStatusReparcela(StatusDespesa::PROVISIONADO, $dt_lancamento, $dt_vencimento, $n_conta = null);
+            return view('admin.extrato.paginateExtratoReparela', compact('lancamentos', 'mascara', 'extratos', 'dt_lancamento', 'dt_vencimento', 'agenciaConta'));
+            
+        }else if(!empty($n_conta)){
+            $lancamentos = $lancamentoRepository->findAccountingEntryByStatusReparcela(StatusDespesa::PROVISIONADO, $dt_lancamento = null, $dt_vencimento = null, $n_conta);
+            return view('admin.extrato.paginateExtratoReparela', compact('lancamentos', 'mascara', 'extratos', 'agenciaConta'));
+        }else{
+            $lancamentos = $lancamentoRepository->findAccountingEntryByStatusReparcela(StatusDespesa::PROVISIONADO, $dt_lancamento = null, $dt_vencimento = null, $n_conta = null);
+            return view('admin.extrato.paginateExtratoReparela', compact('lancamentos', 'mascara', 'extratos', 'agenciaConta'));
+        }
+    }
+
     public function showCompany()
     {
         $extrato = Extrato::findByCompany();

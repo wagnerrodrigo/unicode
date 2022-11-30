@@ -53,6 +53,7 @@ Route::get('/teste', [TesteController::class, 'all'])->name('teste');
 Route::middleware('autenticacaoMiddleware')->prefix('/extrato')->group(function () {
     // Route::get('/', function () {return ;});
     Route::get('/', [ExtratoController::class, 'index'])->name('extrato');
+    Route::get('/ExtratoReparcela', [ExtratoController::class, 'indexReparcela'])->name('extrato-reparcela');
     Route::get('/lancamento/{id}', [ExtratoController::class, 'getExtractByBankAccount']);
     Route::get('/empresa', [ExtratoController::class, 'showCompany']);
     Route::get('/pesquisa/{dt_inicio}/{dt_fim}', [ExtratoController::class, 'showPeriodDate']);
@@ -97,8 +98,10 @@ Route::middleware('autenticacaoMiddleware')->prefix('/despesas')->group(function
 Route::middleware('autenticacaoMiddleware')->prefix('/parcelas')->group(function () {
     Route::get('/{id}', [ParcelaDespesaController::class, 'getDespesas']);
     Route::get('/detalhes/{id}', [ParcelaDespesaController::class, 'getParcela']);
+    Route::get('/detalhesr/{id}', [ParcelaDespesaController::class, 'getReparcela']);
     Route::post('/alterar/{id}', [ParcelaDespesaController::class, 'setParcelaDespesa']);
     Route::post('/edit/provision-date', [ParcelaDespesaController::class, 'setProvisionDate']);
+    Route::post('/edit/provision-date-reparcela', [ParcelaDespesaController::class, 'setProvisionDateREPARCELA']);
 });
 
 Route::middleware('autenticacaoMiddleware')->prefix('/classificacaoDocumento')->group(function () {
@@ -135,6 +138,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/lancamentos')->group(funct
     Route::get('/', [LancamentoController::class, 'index'])->name('lancamentos');
     Route::get('/{id}', [LancamentoController::class, 'show'])->name('lancamentos-show');
     Route::get('/provisionamento/{id}', [LancamentoController::class, 'provisionamento'])->name('lancamento-provisionamento');
+    Route::get('/provisionamentoR/{id}', [LancamentoController::class, 'provisionamentoR']);
     Route::post('/adicionar', [LancamentoController::class, 'store']);
     Route::post('/edit/{id}', [LancamentoController::class, 'update']);
 
@@ -150,6 +154,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/lancamentos')->group(funct
     Route::post('/delete/{id}', [LancamentoController::class, 'destroy']);
 
     Route::get('/paginate/parcelas', [LancamentoController::class, 'paginate'])->name('paginate-lancamento');
+    Route::get('/paginate/reparcelas', [LancamentoController::class, 'paginateReparcela'])->name('paginate-lancamento-reparcela');
 });
 
 //rotas Produto
@@ -228,6 +233,8 @@ Route::middleware('autenticacaoMiddleware')->prefix('/cep')->group(function () {
     Route::get('/pesquisaCNPJ/{cnpj}', [FornecedorController::class, 'webScraping'])->name(('webScraping'));
 });
 
+
+//Modulo Compras
 Route::middleware('autenticacaoMiddleware')->prefix('/compras')->group(function () {
     Route::get('/', [ComprasController::class, 'index'])->name('home');
     

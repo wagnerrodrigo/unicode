@@ -33,6 +33,7 @@
                                     <option value="6">A PAGAR</option>
                                     <option value="4">EM ATRASO</option>
                                     <option value="5">MIGRAÇÃO</option>
+                                    <option value="7">REPARCELADO</option>
                                     <option value="2">PAGO</option>
                                     <option value="1">PROVISIONADO</option>
                                 </select>
@@ -105,9 +106,17 @@
                             <td>{{$despesa->de_status_despesa}}</td>
                             <td class="d-flex justify-content-evenly">
                                 <div>
+                                    
+                                    @if($despesa->reparcelado == "Sim")
+                                    <i type="button" class="bi bi-caret-down" id="abrir_parcelas_{{$despesa->id_despesa}}" onclick="getParcelas(this, '/parcelas/detalhesr/')" data-bs-toggle="collapse" href="#collapseExample-{{$despesa->id_despesa}}" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size: 25px;">
+                        
+                                    </i>
+                                                                       
+                                    @else
                                     <i type="button" class="bi bi-caret-down" id="abrir_parcelas_{{$despesa->id_despesa}}" onclick="getParcelas(this, '/parcelas/detalhes/')" data-bs-toggle="collapse" href="#collapseExample-{{$despesa->id_despesa}}" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size: 25px;">
 
                                     </i>
+                                    @endif
                                 </div>
                                 <div>
                                     <a href="/despesas/{{$despesa->id_despesa}}" class="btn btn-primary" style="padding: 8px 12px;">

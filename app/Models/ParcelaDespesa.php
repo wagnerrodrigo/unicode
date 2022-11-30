@@ -83,6 +83,32 @@ class ParcelaDespesa extends Model
             ->where('tab_parcela_despesa.fk_despesa', $idDespesa)->orderBy('num_parcela', 'asc')->get();
     }
 
+
+    static function reparcelasDespesa($idDespesa)
+    {
+        return DB::table('intranet.tab_reparcela_despesa')->select(
+            'tab_reparcela_despesa.id_reparcela_despesa',
+            'tab_reparcela_despesa.fk_despesa',
+            'tab_reparcela_despesa.num_reparcela',
+            'tab_reparcela_despesa.valor_reparcela',
+            'tab_reparcela_despesa.dt_emissao',
+            'tab_reparcela_despesa.dt_vencimento',
+            'tab_reparcela_despesa.dt_provisionamento',
+            'status_despesa.de_status_despesa',
+            'tab_reparcela_despesa.fk_condicao_pagamento',
+            'tab_reparcela_despesa.fk_conta_bancaria',
+            'tab_reparcela_despesa.fk_pix_id'
+        )->join(
+            'intranet.status_despesa',
+            'tab_reparcela_despesa.fk_status_id',
+            '=',
+            'intranet.status_despesa.id_status_despesa'
+        )
+            ->where('tab_reparcela_despesa.fk_despesa', $idDespesa)->orderBy('num_reparcela', 'asc')->get();
+    }
+
+
+
     static function parcela($idParcela)
     {
         return DB::table('intranet.tab_parcela_despesa')
@@ -112,6 +138,36 @@ class ParcelaDespesa extends Model
             ->where('id_parcela_despesa', $idParcela)->first();
     }
 
+    static function reparcela($idParcela)
+    {
+        return DB::table('intranet.tab_reparcela_despesa')
+            ->select(
+                "tab_reparcela_despesa.id_reparcela_despesa",
+                "tab_reparcela_despesa.fk_despesa",
+                "tab_reparcela_despesa.num_reparcela",
+                "tab_reparcela_despesa.valor_reparcela",
+                "tab_reparcela_despesa.dt_emissao",
+                "tab_reparcela_despesa.dt_vencimento",
+                "tab_reparcela_despesa.dt_provisionamento",
+                "status_despesa.de_status_despesa",
+                "tab_reparcela_despesa.fk_condicao_pagamento",
+                "tab_reparcela_despesa.fk_conta_bancaria",
+                "tab_reparcela_despesa.fk_pix_id",
+                "tab_reparcela_despesa.dt_inicio",
+                "tab_reparcela_despesa.dt_fim"
+            )
+            ->join(
+                'intranet.status_despesa',
+                'tab_reparcela_despesa.fk_status_id',
+                '=',
+                'intranet.status_despesa.id_status_despesa'
+            )
+            ->where('fk_status_id', '!=', StatusDespesa::PROVISIONADO)
+            ->where('fk_status_id', '!=', StatusDespesa::PAGO)
+            ->where('id_reparcela_despesa', $idParcela)->first();
+    }
+
+
     static function setParcela(ParcelaDespesa $parcela)
     {
         DB::table('intranet.tab_parcela_despesa')
@@ -132,6 +188,13 @@ class ParcelaDespesa extends Model
             ->update(['dt_provisionamento' => $date]);
     }
 
+    static function setProvisionDateREPARCELA($id, $date)
+    {
+        DB::table('intranet.tab_reparcela_despesa')
+            ->where('id_reparcela_despesa', '=', $id)
+            ->update(['dt_provisionamento' => $date]);
+    }
+
     static function findByDueDate($date)
     {
         return DB::table('intranet.tab_parcela_despesa')
@@ -149,6 +212,13 @@ class ParcelaDespesa extends Model
     {
         DB::table('intranet.tab_parcela_despesa')
             ->where('id_parcela_despesa', '=', $id)
+            ->update(['fk_status_id' => StatusDespesa::PAGO]);
+    }
+
+    static function setStatusIfPaidReparcela($id)
+    {
+        DB::table('intranet.tab_reparcela_despesa')
+            ->where('id_reparcela_despesa', '=', $id)
             ->update(['fk_status_id' => StatusDespesa::PAGO]);
     }
 
@@ -192,6 +262,22 @@ class ParcelaDespesa extends Model
         );
     }
 
+    static function addPaymentReparcela($parcela, $idParcela)
+    {
+        DB::update(
+            "UPDATE intranet.tab_reparcela_despesa
+        SET fk_condicao_pagamento = ?, fk_conta_bancaria = ?, fk_pix_id = ?, dt_provisionamento = ?
+        WHERE id_reparcela_despesa = ?",
+            [
+                $parcela->fk_condicao_pagamento,
+                $parcela->fk_tab_conta_bancaria,
+                $parcela->fk_pix_id,
+                $parcela->dt_provisionamento,
+                $idParcela
+            ]
+        );
+    }
+
     static function setStatus($id_parcela_despesa)
     {
         DB::update(
@@ -199,6 +285,16 @@ class ParcelaDespesa extends Model
             SET fk_status_id = 1
             WHERE id_parcela_despesa = ?",
             [$id_parcela_despesa]
+        );
+    }
+
+    static function setStatusReparcela($id_reparcela_despesa)
+    {
+        DB::update(
+            "UPDATE intranet.tab_reparcela_despesa
+            SET fk_status_id = 1
+            WHERE id_reparcela_despesa = ?",
+            [$id_reparcela_despesa]
         );
     }
 
@@ -243,6 +339,28 @@ class ParcelaDespesa extends Model
         return $parcela;
     }
 
+    static function reparcelasFaltante($id)
+    {
+        $parcela = DB::table('intranet.tab_reparcela_despesa')
+        ->select(DB::raw('count(tab_reparcela_despesa.valor_reparcela) as num_reparcela'))
+        ->leftjoin(
+            'intranet.tab_despesa',
+            'intranet.tab_despesa.id_despesa',
+            '=',
+            'intranet.tab_reparcela_despesa.fk_despesa'
+        )
+        
+        ->where('intranet.tab_reparcela_despesa.fk_despesa', $id)
+        ->where('intranet.tab_reparcela_despesa.dt_provisionamento', '=', null)
+        ->where('intranet.tab_reparcela_despesa.fk_status_id', '!=', 3)
+        ->where('intranet.tab_reparcela_despesa.fk_status_id', '!=', 2)
+        ->where('intranet.tab_reparcela_despesa.fk_status_id', '!=', 1)
+        ->where('intranet.tab_reparcela_despesa.fk_status_id', '!=', 7)
+        
+        ->get();
+        return $parcela;
+    }
+
     static function TotalParcelas($id)
     {
         $parcela = DB::table('intranet.tab_parcela_despesa')
@@ -270,6 +388,13 @@ class ParcelaDespesa extends Model
         DB::table('intranet.tab_despesa')
         ->where('id_despesa', '=', $id)
         ->update(['qt_parcelas_despesa' => $quantidadeParcela]);
+    }
+
+    static function AlterarESTATUSParcelaDespesa($id, $alterarstatus)
+    {
+        DB::table('intranet.tab_despesa')
+        ->where('id_despesa', '=', $id)
+        ->update(['reparcelado' => $alterarstatus]);
     }
 }
 

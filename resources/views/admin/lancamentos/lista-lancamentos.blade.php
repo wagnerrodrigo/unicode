@@ -43,6 +43,7 @@
                                     <option value="" selected></option>
                                     <option name="a_pagar" value="6">A PAGAR</option>
                                     <option name="em_atraso" value="4">EM ATRASO</option>
+                                    <option name="Reparcelado" value="7">REPARCELADO</option>
                                 </select>
                             </div>
                         </div>
@@ -88,9 +89,17 @@
 
                             <td class="d-flex justify-content-evenly" style="padding-bottom:22px">
                                 <div>
+                                    @if($lancamento->reparcelado == "Sim")
+                                    <i type="button" class="bi bi-caret-down" id="abrir_parcelas_{{$lancamento->id_despesa}}" onclick="getParcelas(this, '/lancamentos/provisionamentoR/')" data-bs-toggle="collapse" href="#collapseExample-{{$lancamento->id_despesa}}" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size: 25px;">
+
+                                    </i>
+
+                                    @else
+
                                     <i type="button" class="bi bi-caret-down" id="abrir_parcelas_{{$lancamento->id_despesa}}" onclick="getParcelas(this, '/lancamentos/provisionamento/')" data-bs-toggle="collapse" href="#collapseExample-{{$lancamento->id_despesa}}" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size: 25px;">
 
                                     </i>
+                                    @endif
                                 </div>
                                 <div>
                                     <button data-bs-toggle="modal" data-bs-target="#delete{{$lancamento->id_despesa}}" class="btn btn-danger" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button>
@@ -98,10 +107,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <tbody id="parcela_{{$lancamento->id_despesa}}">
+                    <tbody id="parcela_{{$lancamento->id_despesa}}">
 
-                            </tbody>
-                        </tr>
+                    </tbody>
+                    </tr>
                     <div class="modal fade text-left" id="delete{{$lancamento->id_despesa}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                             <div class="modal-content">

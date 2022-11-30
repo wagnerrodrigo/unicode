@@ -28,7 +28,8 @@ class ReparcelaDespesa extends Model
 
     static function reparcelar($reparcelaDespesa)
     {
-        DB::insert("INSERT INTO intranet.tab_reparcela_despesa
+    
+         DB::insert("INSERT INTO intranet.tab_reparcela_despesa
         (fk_despesa, 
         num_reparcela, 
         valor_reparcela,
@@ -55,7 +56,7 @@ class ReparcelaDespesa extends Model
             $reparcelaDespesa->dt_inicio,
             $reparcelaDespesa->dt_fim
 
-        ]);         
+        ]);   
     }
 
 

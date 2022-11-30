@@ -156,7 +156,11 @@
         <div class="main-content container-fluid">
             <div class="card">
                 <div class="card-header">
+                    @if(isset($parcela->num_reparcela))
+                    <h1>INFORMAÇÕES DA PARCELA N°{{ $parcela->num_reparcela }}</h1>
+                    @else
                     <h1>INFORMAÇÕES DA PARCELA N°{{ $parcela->num_parcela }}</h1>
+                    @endif
                 </div>
                 <div class="card-body" style="font-size: 18px;">
                     <div class="card-body">
@@ -166,7 +170,11 @@
                                     <div>
                                         <strong>VALOR PARCELA</strong>
                                     </div>
+                                    @if(isset($parcela->valor_reparcela))
+                                    <span>{{ $mascara::maskMoeda($parcela->valor_reparcela) }}</span>
+                                    @else
                                     <span>{{ $mascara::maskMoeda($parcela->valor_parcela) }}</span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -219,7 +227,7 @@
                     </div>
 
                     <div class="card-footer">
-                        @if($despesa->de_status_despesa == 'A PAGAR' ||$despesa->de_status_despesa == 'EM ATRASO')
+                        @if($despesa->de_status_despesa == 'A PAGAR' ||$despesa->de_status_despesa == 'EM ATRASO'||$despesa->de_status_despesa == 'REPARCELADO')
                         <button class="btn btn-success" style="padding: 8px 12px;" data-bs-toggle="modal" data-bs-target="#xlarge">Editar</button>
                         @endif
 
@@ -241,12 +249,16 @@
                                 <i class="bi bi-x" data-feather="x"></i>
                             </button>
                         </div>
+
+
+                        @if(isset($parcela->id_reparcela_despesa))
                         <div class="modal-body">
-                            <form action="/parcelas/edit/provision-date" method="POST" style="padding: 10px;">
+                            <form action="/parcelas/edit/provision-date-reparcela" method="POST" style="padding: 10px;">
                                 @csrf
                                 <div class="d-flex mt-10" style="width: 100%">
                                     <div class="px-5 mb-3">
-                                        <input type="hidden" name="ids[]" value="{{$parcela->id_parcela_despesa}}">
+                                        <input type="hidden" name="ids[]" value="{{$parcela->id_reparcela_despesa}}">
+                                       
                                         <strong>DATA DE PROVISIONAMENTO</strong>
                                         <input type="date" required class="form-control input-add" value="{{ $parcela->dt_provisionamento }}" id="data_provisionamento" name="date" style="width: 358px" />
                                         <span id="erro_dt_emissao"></span>
@@ -264,6 +276,34 @@
                             </div>
                             </form>
                         </div>
+
+
+                        @else
+                        <div class="modal-body">
+                            <form action="/parcelas/edit/provision-date" method="POST" style="padding: 10px;">
+                                @csrf
+                                <div class="d-flex mt-10" style="width: 100%">
+                                    <div class="px-5 mb-3">                                     
+                                        <input type="hidden" name="ids[]" value="{{$parcela->id_parcela_despesa}}">
+                                       
+                                        <strong>DATA DE PROVISIONAMENTO</strong>
+                                        <input type="date" required class="form-control input-add" value="{{ $parcela->dt_provisionamento }}" id="data_provisionamento" name="date" style="width: 358px" />
+                                        <span id="erro_dt_emissao"></span>
+                                    </div>
+                                </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" id="btnSalvar" class="btn btn-primary me-1 mb-1">
+                                    <i data-feather="check-circle"></i>Salvar
+                                </button>
+                                <!-- mudar para produto -->
+                                <a href="" class="btn btn-secondary me-1 mb-1">Cancelar</a>
+                            </div>
+                            </form>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
