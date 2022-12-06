@@ -8,7 +8,7 @@
 
 <form action="" id="form_paginacao_lancamento">
     <div class="card-header">
-        <h1>CONCILIAÇÃO DE LANÇAMENTOS COM EXTRATOS</h1>
+        <h1>CONCILIAÇÃO DE LANÇAMENTOS REPARCELADOS COM EXTRATOS</h1>
         <div class="d-flex">
             <div class="col-md-2">
                 <div class="input-group mb-3" style="width: 250px">
