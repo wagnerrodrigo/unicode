@@ -22,15 +22,24 @@
                     </ul>
                 </li>
 
-                <!-- <li class="nav-item dropdown space-item-navbar" style="padding: 10px;">
+                <li class="nav-item dropdown space-item-navbar" style="padding: 10px;">
                     <a class="nav-link dropdown-toggle" href="/#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         COMPRAS
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="compras">
-                        <li><a class="dropdown-item" href="{{route('home')}}">SOLICITAR</a></li>
+                        <li><a class="dropdown-item" href="{{route('homeCompras')}}">SOLICITAR</a></li>
                         <li><a class="dropdown-item" href="{{route('total')}}">SOLITAÇÕES</a></li>
                     </ul>
-                </li> -->
+                </li>
+
+                <li class="nav-item dropdown space-item-navbar" style="padding: 10px;">
+                    <a class="nav-link dropdown-toggle" href="/#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        POLITICAS
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="politicas">
+                        <li><a class="dropdown-item" href="{{route('homePoliticas')}}">ADICIONAR POLITICA</a></li>
+                    </ul>
+                </li>
             </ul>
             <!-- Left links -->
         </div>

@@ -23,8 +23,8 @@
                         </a>
                     </div>
 
-                    <!-- <div class="col-xl-4 col-md-6 col-sm-12 mb-5">
-                        <a href="{{route('home')}}">
+                    <div class="col-xl-4 col-md-6 col-sm-12 mb-5">
+                        <a href="{{route('homeCompras')}}">
                             <div class="card">
                                 <div class="card-content">
                                     <img src="https://res.cloudinary.com/pedroenrick/image/upload/v1632145575/compras-min_aqooub.jpg" style="width: 100%; height: 415px;" class="card-img-top img-fluid" alt="singleminded">
@@ -37,7 +37,23 @@
                                 </div>
                             </div>
                         </a>
-                    </div> -->
+                    </div>
+
+                    <div class="col-xl-4 col-md-6 col-sm-12 mb-5">
+                        <a href="{{route('homePoliticas')}}">
+                            <div class="card">
+                                <div class="card-content">
+                                    <img src="https://res.cloudinary.com/dgcxgjk7p/image/upload/v1673958828/Politica-empresarial-de-colombia_rlpavm.jpg" style="width: 100%; height: 415px;" class="card-img-top img-fluid" alt="singleminded">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Politicas da Empresa</h5>
+                                        <p class="card-text">
+                                            Acessar Módulo Politicas da Empresa
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -118,6 +118,9 @@ class Pedido extends Model
                 '=',
                 'intranet.tab_solicitacao_compra.fk_tab_empresa_id'
             )
+
+            ->distinct('id_solicitacao_compra')
+
             ->where('intranet.tab_solicitacao_compra.fim_pedido', '=', null);
            
         if ($nome && $titulo && $setor || $fim_data && $status) {

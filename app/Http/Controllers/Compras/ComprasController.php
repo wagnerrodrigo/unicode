@@ -15,26 +15,10 @@ class ComprasController extends Controller
     public function index()
     {   
         $pedidos =  Pedido::selectAll(20);
+        // $produtos =  Pedido::selectAll(20);
         return view('admin.compras.compraHome', compact('pedidos'));
     }
 
-    // public function show($id)
-    // {
-    //     try {
-    //         $pedido = Pedido::findOne($id);
-          
-    //         if ($pedido) {
-    //             $mascara = new Mascaras();
-
-    //             return view('admin.compras.compraHome', compact('pedido'));
-    //         } else {
-    //             $error = CustomErrorMessage::ERROR_FORNECEDOR;
-    //             return view('error', compact('error'));
-    //         }
-    //     } catch (\Exception $e) {
-    //         $error = CustomErrorMessage::ERROR_FORNECEDOR;
-    //         return view('error', compact('error'));
-    //     }
-    // }
+ 
 
 }

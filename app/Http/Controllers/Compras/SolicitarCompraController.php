@@ -20,10 +20,11 @@ class SolicitarCompraController extends Controller
 
     public function store(Request $request)
     {
-        
+        dd($request);
         $empresaRepository = new EmpresaRepository();
         $empresa = $empresaRepository->getEmpresas();
 
+        
         $purchase = new Pedido();
         $purchase->fk_tab_empregado_id        = 6;
         $purchase->fk_tab_cargo_funcional_id  = 5;

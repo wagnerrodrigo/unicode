@@ -22,14 +22,16 @@ use App\Http\Controllers\EmpregadoController;
 use App\Http\Controllers\CondicaoPagamentoController;
 use App\Http\Controllers\ExtratoController;
 use App\Http\Controllers\PagamentoController;
-use App\Http\Controllers\Compras\ComprasController;
 use App\Http\Controllers\PixController;
 use App\Http\Controllers\ClassificacaoDocumentoController;
 use App\Http\Controllers\ParcelaDespesaController;
+use App\Http\Controllers\Compras\ComprasController;
 use App\Http\Controllers\Compras\SolicitarCompraController;
 use App\Http\Controllers\Compras\CotacaoCompraController;
 use App\Http\Controllers\Compras\CompraTotalController;
 use App\Http\Controllers\Compras\DiretoriaController;
+use App\Http\Controllers\Politicas\AddPoliticaController;
+use App\Http\Controllers\Politicas\HomePoliticaController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -236,7 +238,7 @@ Route::middleware('autenticacaoMiddleware')->prefix('/cep')->group(function () {
 
 //Modulo Compras
 Route::middleware('autenticacaoMiddleware')->prefix('/compras')->group(function () {
-    Route::get('/', [ComprasController::class, 'index'])->name('home');
+    Route::get('/', [ComprasController::class, 'index'])->name('homeCompras');
     
     //Solicitar Compra
     Route::post('/solicitar', [SolicitarCompraController::class, 'store']);
@@ -252,4 +254,15 @@ Route::middleware('autenticacaoMiddleware')->prefix('/compras')->group(function 
     //Analise Diretoria
     Route::get('/diretoria', [DiretoriaController::class, 'index'])->name('diretoria');
     Route::get('/diretoria/{id}', [DiretoriaController::class, 'show'])->name('showDiretoria');
+});
+
+
+
+//Modulo COMPLIANCE - Políticas 
+Route::middleware('autenticacaoMiddleware')->prefix('/politicas')->group(function () {
+    Route::get('/', [HomePoliticaController::class, 'index'])->name('homePoliticas');
+
+    //Adicionar Nova Politica
+    Route::get('/adicionar', [AddPoliticaController::class, 'index'])->name('adicionarPolitica');
+    Route::post('/adicionar/salvar', [AddPoliticaController::class, 'store'])->name('salvarPolitica');
 });
