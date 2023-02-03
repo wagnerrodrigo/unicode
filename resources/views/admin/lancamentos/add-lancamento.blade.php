@@ -39,7 +39,11 @@
                                 <div>
                                     <strong>VALOR</strong>
                                 </div>
+                                @if(isset($parcela->id_reparcela_despesa))
+                                <span>{{ $mascara::maskMoeda($parcela->valor_reparcela) }}</span>
+                                @else
                                 <span>{{ $mascara::maskMoeda($parcela->valor_parcela) }}</span>
+                                @endif
                             </div>
                         </div>
 
@@ -60,7 +64,11 @@
                     <div class="d-flex">
                         <div class="col-md-3">
                             <div class="form-group">
+                                @if(isset($parcela->id_reparcela_despesa))
+                                <h2>PARCELA NUMERO: <strong>{{$parcela->num_reparcela}}</strong> </h2>
+                                @else
                                 <h2>PARCELA NUMERO: <strong>{{$parcela->num_parcela}}</strong> </h2>
+                                @endif
                             </div>
 
                             <div class="form-group">
@@ -80,7 +88,11 @@
                                 <div>
                                     <strong>VALOR DA PARCELA</strong>
                                 </div>
+                                @if(isset($parcela->id_reparcela_despesa))
+                                <span>{{ $mascara::maskMoeda($parcela->valor_reparcela) }}</span>
+                                @else
                                 <span>{{ $mascara::maskMoeda($parcela->valor_parcela) }}</span>
+                                @endif
                             </div>
                         </div>
 
@@ -151,6 +163,20 @@
 
                     <div id="hidden_inputs_itens"></div>
                     <div id="hiddenInputs"></div>
+                    @if(isset($parcela->id_reparcela_despesa))
+                    <input type="hidden" name="id_reparcela_despesa" id="id_despesa" value="{{ $parcela->id_reparcela_despesa }}">
+                    <input type="hidden" name="fk_condicao_pagamento_id" id="fk_condicao_pagamento_id" value="{{ $lancamento->fk_condicao_pagamento_id }}">
+                    <input type="hidden" name="id_empresa" id="id_empresa" value="{{ $lancamento->id_empresa }}">
+                    <input type="hidden" name="valor_total_despesa" id="valor_total_despesa" value="{{ $lancamento->valor_total_despesa }}" />
+                    <input type="hidden" name="dt_vencimento" id="dt_vencimento" value="{{ $lancamento->dt_vencimento }}" />
+                    <input type="hidden" name="dt_efetivo_pagamento" id="hidden_dt_efetivo_pagamento" value="" />
+                    <input type="hidden" name="numero_pix_fornecedor_empregado" value="" />
+                    <input type="hidden" name="numero_conta_bancaria_fornecedor_empregado" value="" />
+                    <input type="hidden" name="" id="valorTotal" value="{{ $parcela->valor_reparcela }}">
+                    
+                    
+                
+                    @else
                     <input type="hidden" name="id_parcela_despesa" id="id_despesa" value="{{ $parcela->id_parcela_despesa }}">
                     <input type="hidden" name="fk_condicao_pagamento_id" id="fk_condicao_pagamento_id" value="{{ $lancamento->fk_condicao_pagamento_id }}">
                     <input type="hidden" name="id_empresa" id="id_empresa" value="{{ $lancamento->id_empresa }}">
@@ -160,6 +186,10 @@
                     <input type="hidden" name="numero_pix_fornecedor_empregado" value="" />
                     <input type="hidden" name="numero_conta_bancaria_fornecedor_empregado" value="" />
                     <input type="hidden" name="" id="valorTotal" value="{{ $parcela->valor_parcela }}">
+                    
+                    
+                    @endif
+
 
                     <div class="d-flex" style="width: 100%;  margin: 15px;">
                         <div class="px-1 mb-3">
@@ -182,7 +212,7 @@
                     </div>
             </div>
             <div class="card-footer col-sm-12 d-flex justify-content-end">
-            <input type="hidden" id="id_despesa" value="{{$lancamento->id_despesa}}" name="id_despesa" />
+                <input type="hidden" id="id_despesa" value="{{$lancamento->id_despesa}}" name="id_despesa" />
                 <button type="submit" class="btn btn-primary  me-1 mb-1" id="btnSalvar">SALVAR</button>
                 <a href="{{ route('lancamentos') }}" class="btn btn-danger  me-1 mb-1">Voltar</a>
             </div>

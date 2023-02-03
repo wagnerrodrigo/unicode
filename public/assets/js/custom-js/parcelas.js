@@ -300,36 +300,70 @@ function getParcelas(object, url) {
             success: function (response) {
                 if (response.length > 0) {
                     for (i = 0; i < response.length; i++) {
-                        $(`#parcela_${id}`).append(
-                            `<tr class="table-dark tr_generated_${id} ${response[i].de_status_despesa == "EM ATRASO"
-                                ? "font-color-despesa-vencida"
-                                : "font-color-despesa"
-                            }">` +
-                            `<td><input style="margin-right: 5px" type="checkbox" name="ids_despesas" value="${response[i].id_parcela_despesa}">` +
-                            response[i].id_parcela_despesa +
-                            "</td>" +
-                            "<td>" +
-                            Intl.NumberFormat("pt-BR", {
-                                style: "currency",
-                                currency: "BRL",
-                            }).format(response[i].valor_parcela) +
-                            "</td>" +
-                            `<td>PARCELA ${response[i].num_parcela}</td>` +
-                            "<td>" + '' + "</td>" +
-                            "<td>" +
-                            Intl.DateTimeFormat("pt-BR").format(
-                                new Date(response[i].dt_emissao)
-                            ) +
-                            "</td>" +
-                            "<td>" +
-                            Intl.DateTimeFormat("pt-BR").format(
-                                new Date(response[i].dt_vencimento)
-                            ) +
-                            "</td>" +
-                            `<td>${response[i].de_status_despesa}</td>` +
-                            `<td><a href="${url + response[i].id_parcela_despesa}" 
+                        if (response[i].id_reparcela_despesa != null) {
+                            console.log(response[i])
+                            $(`#parcela_${id}`).append(
+                                `<tr class="table-dark tr_generated_${id} ${response[i].de_status_despesa == "EM ATRASO"
+                                    ? "font-color-despesa-vencida"
+                                    : "font-color-despesa"
+                                }">` +
+                                `<td><input style="margin-right: 5px" type="checkbox" name="ids_despesas" value="${response[i].id_reparcela_despesa}">` +
+                                response[i].id_reparcela_despesa +
+                                "</td>" +
+                                "<td>" +
+                                Intl.NumberFormat("pt-BR", {
+                                    style: "currency",
+                                    currency: "BRL",
+                                }).format(response[i].valor_reparcela) +
+                                "</td>" +
+                                `<td>REPARCELA ${response[i].num_reparcela}</td>` +
+                                "<td>" + '' + "</td>" +
+                                "<td>" +
+                                Intl.DateTimeFormat("pt-BR").format(
+                                    new Date(response[i].dt_emissao)
+                                ) +
+                                "</td>" +
+                                "<td>" +
+                                Intl.DateTimeFormat("pt-BR").format(
+                                    new Date(response[i].dt_vencimento)
+                                ) +
+                                "</td>" +
+                                `<td>${response[i].de_status_despesa}</td>` +
+                                `<td><a href="${url + response[i].id_reparcela_despesa}" 
                             class='btn btn-primary' style='padding: 8px 12px;'><i class='bi bi-eye-fill'></i></a></td>`
-                        );
+                            );
+                        } else {
+                            $(`#parcela_${id}`).append(
+                                `<tr class="table-dark tr_generated_${id} ${response[i].de_status_despesa == "EM ATRASO"
+                                    ? "font-color-despesa-vencida"
+                                    : "font-color-despesa"
+                                }">` +
+                                `<td><input style="margin-right: 5px" type="checkbox" name="ids_despesas" value="${response[i].id_parcela_despesa}">` +
+                                response[i].id_parcela_despesa +
+                                "</td>" +
+                                "<td>" +
+                                Intl.NumberFormat("pt-BR", {
+                                    style: "currency",
+                                    currency: "BRL",
+                                }).format(response[i].valor_parcela) +
+                                "</td>" +
+                                `<td>PARCELA ${response[i].num_parcela}</td>` +
+                                "<td>" + '' + "</td>" +
+                                "<td>" +
+                                Intl.DateTimeFormat("pt-BR").format(
+                                    new Date(response[i].dt_emissao)
+                                ) +
+                                "</td>" +
+                                "<td>" +
+                                Intl.DateTimeFormat("pt-BR").format(
+                                    new Date(response[i].dt_vencimento)
+                                ) +
+                                "</td>" +
+                                `<td>${response[i].de_status_despesa}</td>` +
+                                `<td><a href="${url + response[i].id_parcela_despesa}" 
+                            class='btn btn-primary' style='padding: 8px 12px;'><i class='bi bi-eye-fill'></i></a></td>`
+                            );
+                        }
                     }
                 } else {
                     $(`#parcela_${id}`).append(
@@ -399,5 +433,5 @@ function getProximaData(object, url) {
             }
         },
     });
- 
+
 }

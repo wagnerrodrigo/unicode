@@ -25,7 +25,7 @@ class Lancamento extends Model
                 ->whereRaw("intranet.tab_despesa.dt_inicio >= ? and intranet.tab_despesa.dt_inicio <= ?", [$dt_inicio, $dt_fim])->paginate(10);
         } else if ($dt_inicio && $dt_fim && !$status_despesa_id) {
             $lancamentos = $query
-                ->whereRaw('(intranet.tab_despesa.fk_status_despesa_id = 6 or intranet.tab_despesa.fk_status_despesa_id = 4)')
+                ->whereRaw('(intranet.tab_despesa.fk_status_despesa_id = 6 or intranet.tab_despesa.fk_status_despesa_id = 4 or intranet.tab_despesa.fk_status_despesa_id = 7)')
                 ->whereRaw("intranet.tab_despesa.dt_inicio >= ? and intranet.tab_despesa.dt_inicio <= ?", [$dt_inicio, $dt_fim])->paginate(10);
         } else if ($status_despesa_id && !$dt_inicio && !$dt_fim) {
             $lancamentos = $query->where('intranet.tab_despesa.fk_status_despesa_id', '=', $status_despesa_id)
@@ -33,7 +33,9 @@ class Lancamento extends Model
         } else {
             $lancamentos = $query
                 ->where('intranet.tab_despesa.fk_status_despesa_id', '=', 6)
-                ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)->orderBy('intranet.tab_despesa.id_despesa', 'desc')
+                ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 4)
+                ->orWhere('intranet.tab_despesa.fk_status_despesa_id', '=', 7)
+                ->orderBy('intranet.tab_despesa.id_despesa', 'desc')
                 ->paginate($results);
         }
         return $lancamentos;
@@ -51,6 +53,37 @@ class Lancamento extends Model
             ->get();
     }
 
+    static function findOneReparcela($id)
+    {
+        return DB::table('intranet.tab_lancamento')
+            ->join('intranet.tab_reparcela_despesa', 
+            'intranet.tab_lancamento.fk_tab_reparcela_despesa_id', 
+            '=', 
+            'intranet.tab_reparcela_despesa.id_reparcela_despesa')
+
+            ->join('intranet.tab_despesa', 
+            'intranet.tab_reparcela_despesa.fk_despesa', 
+            '=', 
+            'intranet.tab_despesa.id_despesa')
+
+            ->join('intranet.tab_centro_custo', 
+            'intranet.tab_despesa.fk_tab_centro_custo_id', 
+            '=', 
+            'intranet.tab_centro_custo.id_centro_custo')
+
+            ->join('intranet.status_despesa', 
+            'intranet.status_despesa.id_status_despesa', 
+            '=', 
+            'intranet.tab_despesa.fk_status_despesa_id')
+
+            ->join('intranet.tab_empresa', 
+            'intranet.tab_empresa.id_empresa', 
+            '=', 
+            'intranet.tab_centro_custo.fk_empresa_id')
+
+            ->where('intranet.tab_lancamento.id_tab_lancamento', '=', $id)
+            ->get();
+    }
 
     static function showInfoAccount($info)
     {
@@ -199,6 +232,77 @@ class Lancamento extends Model
         return $lancamentos;
     }
 
+
+
+    //BUsca/Filtro de LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO da tela EXTRATO de Reparcela
+    static function findByStatusReparcela($id_status = null ,$dt_lancamento = null, $dt_vencimento = null, $n_conta = null)
+    {
+        $data = DB::table('intranet.tab_lancamento')
+        ->join(
+            'intranet.tab_reparcela_despesa',
+            'id_reparcela_despesa',
+            '=',
+            'intranet.tab_lancamento.fk_tab_reparcela_despesa_id'
+        )->join(
+            'intranet.status_despesa',
+            'id_status_despesa',
+            '=',
+            'intranet.tab_reparcela_despesa.fk_status_id'
+        )->join(
+            'intranet.tab_rateio_pagamento',
+            'fk_tab_lancamento',
+            '=',
+            'id_tab_lancamento'
+        )->join(
+            'intranet.tab_conta_bancaria',
+            'fk_tab_conta_bancaria',
+            '=',
+            'id_conta_bancaria'
+        )->join(
+            'intranet.tab_inst_banco',
+            'id',
+            '=',
+            'fk_tab_inst_banco_id'
+        )->join(
+            'intranet.tab_despesa',
+            'id_despesa',
+            '=',
+            'fk_despesa'
+        )
+        
+   
+        ->where("intranet.tab_reparcela_despesa.fk_status_id", "=", $id_status);
+
+        if($dt_lancamento && $dt_vencimento && $n_conta){
+            $lancamentos = $data
+            ->where('intranet.tab_reparcela_despesa.fk_status_id', '=', StatusDespesa::PROVISIONADO)
+            ->where('intranet.tab_lancamento.dt_efetivo_pagamento', '>=', $dt_lancamento)
+            ->where('intranet.tab_lancamento.dt_efetivo_pagamento', '<=', $dt_vencimento)
+            ->where('intranet.tab_conta_bancaria.nu_conta', '=', $n_conta)
+            ->orderBy('intranet.tab_lancamento.fk_tab_reparcela_despesa_id', 'desc')
+            ->paginate(10);
+        }else if($dt_lancamento && $dt_vencimento){
+            $lancamentos = $data
+            ->where('intranet.tab_reparcela_despesa.fk_status_id', '=', StatusDespesa::PROVISIONADO)
+            ->where('intranet.tab_lancamento.dt_efetivo_pagamento', '>=', $dt_lancamento)
+            ->where('intranet.tab_lancamento.dt_efetivo_pagamento', '<=', $dt_vencimento)
+            ->orderBy('intranet.tab_lancamento.fk_tab_reparcela_despesa_id', 'desc')
+            ->paginate(10);
+        }else if($n_conta){
+            $lancamentos = $data
+            ->where('intranet.tab_reparcela_despesa.fk_status_id', '=', StatusDespesa::PROVISIONADO)
+            ->where('intranet.tab_conta_bancaria.nu_conta', '=', $n_conta)
+            ->orderBy('intranet.tab_lancamento.fk_tab_reparcela_despesa_id', 'desc')
+            ->paginate(10);
+        }else{
+            $lancamentos = $data
+            ->orderBy('intranet.tab_lancamento.id_tab_lancamento', 'desc')
+            ->paginate(10);
+        }
+        
+        return $lancamentos;
+    }
+
     static function findPaymentCondition()
     {
         $data = DB::table('intranet.tab_lancamento')->join(
@@ -228,6 +332,35 @@ class Lancamento extends Model
         )
         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
             $lancamento->id_parcela_despesa,
+            $lancamento->dt_lancamento,
+            $lancamento->dt_vencimento,
+            $lancamento->dt_inicio,
+            $lancamento->dt_efetivo_pagamento,
+            $lancamento->juros,
+            $lancamento->multa,
+            $lancamento->desconto,
+            $lancamento->valor_pago,
+            $lancamento->dt_fim
+        ]);
+    }
+
+    static function createReparcela($lancamento)
+    {
+        DB::insert("INSERT INTO intranet.tab_lancamento
+        (
+            fk_tab_reparcela_despesa_id,
+            dt_lancamento,
+            dt_vencimento,
+            dt_inicio,
+            dt_efetivo_pagamento,
+            juros,
+            multa,
+            desconto,
+            valor_pago,
+            dt_fim
+        )
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+            $lancamento->id_reparcela_despesa,
             $lancamento->dt_lancamento,
             $lancamento->dt_vencimento,
             $lancamento->dt_inicio,
@@ -306,6 +439,18 @@ class Lancamento extends Model
             return $query;
         }
 
+        // //Verifica se a Reparcelas a pagar
+        static function verificarDespesaPagaReparcela($id_despesa){
+            $query = DB::table('intranet.tab_reparcela_despesa')
+                ->select(DB::raw('count(tab_reparcela_despesa.fk_despesa) as qt_reparcela'))
+
+                ->where('intranet.tab_reparcela_despesa.fk_despesa', $id_despesa)
+                ->where('intranet.tab_reparcela_despesa.fk_status_id', '=', StatusDespesa::A_PAGAR)
+                ->get();
+
+            return $query;
+        }
+
         //Verifica se a parcelas Provisionada
         static function verificarDespesaProvisionada($id_despesa){
             $query = DB::table('intranet.tab_parcela_despesa')
@@ -313,6 +458,18 @@ class Lancamento extends Model
                 
                 ->where('intranet.tab_parcela_despesa.fk_despesa', $id_despesa)
                 ->where('intranet.tab_parcela_despesa.fk_status_id', '=', StatusDespesa::PROVISIONADO)
+                ->get();
+           
+            return $query;
+        }
+
+        //Verifica se a Reparcelas Provisionada 
+        static function verificarDespesaProvisionadaReparcela($id_despesa){
+            $query = DB::table('intranet.tab_reparcela_despesa')
+                ->select(DB::raw('count(tab_reparcela_despesa.fk_despesa) as qt_reparcela'))
+                
+                ->where('intranet.tab_reparcela_despesa.fk_despesa', $id_despesa)
+                ->where('intranet.tab_reparcela_despesa.fk_status_id', '=', StatusDespesa::PROVISIONADO)
                 ->get();
            
             return $query;

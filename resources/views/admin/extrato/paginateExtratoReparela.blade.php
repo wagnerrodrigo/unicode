@@ -1,4 +1,3 @@
-
 @extends('layouts.templates.template')
 @section('title', 'Extrato')
 @section('content')
@@ -9,39 +8,39 @@
 
 <form action="" id="form_paginacao_lancamento">
     <div class="card-header">
-        <h1>CONCILIAÇÃO DE LANÇAMENTOS COM EXTRATOS</h1>
-    <div class="d-flex">
-        <div class="col-md-2">
+        <h1>CONCILIAÇÃO DE LANÇAMENTOS REPARCELADOS COM EXTRATOS</h1>
+        <div class="d-flex">
+            <div class="col-md-2">
+                <div class="input-group mb-3" style="width: 250px">
+                    <label class="input-group-text" info-data="Data inicio do Pagamento" for="inputDataInicio">DATA INICIO</label>
+                    <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
+                </div>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="col-md-2">
+                <div class="input-group mb-3" style="width: 240px">
+                    <label class="input-group-text" info-data="Data fim do Pagamento" for="inputDataFim">DATA FIM</label>
+                    <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
+                </div>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
             <div class="input-group mb-3" style="width: 250px">
-                <label class="input-group-text" info-data="Data inicio do Pagamento" for="inputDataInicio">DATA INICIO</label>
-                <input class="form-control" type="date" max="" name="dt_inicio" id="inputDataInicio">
+                <label class="input-group-text" info-data="Agencia e Conta" for="inputConta">AG/Conta</label>
+                <select class="form-select" id="inputConta" name="conta">
+                    <option selected value=""></option>
+                    @foreach($agenciaConta as $agenciaConta)
+                    <option value="{{$agenciaConta->nu_conta}}">{{$agenciaConta->de_banco}} &nbsp;&nbsp; A:{{$agenciaConta->nu_agencia}} &nbsp;&nbsp; C:{{$agenciaConta->nu_conta}}</option>
+                    @endforeach
+                </select>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+            <div class="col-md-2">
+                <button type="submit" id="btnSearch" class="btn btn-primary" style="padding: 8px 24px; display: inline-block">
+                    <i class="bi bi-search"></i>
+                </button>
             </div>
-        </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <div class="col-md-2">
-            <div class="input-group mb-3" style="width: 240px" >
-                <label class="input-group-text" info-data="Data fim do Pagamento" for="inputDataFim">DATA FIM</label>
-                <input class="form-control" type="date" min="" name="dt_fim" id="inputDataFim">
-            </div>
-        </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       
+        </div>
 
-        <div class="input-group mb-3" style="width: 250px">
-            <label class="input-group-text" info-data="Agencia e Conta" for="inputConta">AG/Conta</label>
-            <select class="form-select" id="inputConta" name="conta">
-                <option selected value=""></option>
-                @foreach($agenciaConta as $agenciaConta)
-                <option value="{{$agenciaConta->nu_conta}}">{{$agenciaConta->de_banco}} &nbsp;&nbsp; A:{{$agenciaConta->nu_agencia}}  &nbsp;&nbsp; C:{{$agenciaConta->nu_conta}}</option>
-                @endforeach
-            </select>
-        </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-        <div class="col-md-2">
-            <button type="submit" id="btnSearch" class="btn btn-primary" style="padding: 8px 24px; display: inline-block">
-                <i class="bi bi-search"></i>
-            </button>
-        </div>        
-    </div>
-    
     </div>
 
     <input type="hidden" id="page_lancamento" name="page" value="0">
@@ -49,76 +48,75 @@
 
 <div class="col-12 card" style="display: block">
 
-<div class="col-6" style="display: inline-block;  position: absolute; top: 0; left: 0">
-    <div class="card-lancamentos">
-    <div id="" style="margin-top: 5px;" style="width: 50%">
-    <div class="main-content container-fluid">
-        <div class="">
-            <div class="card-header">
-                <h2>LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO</h2>
-            </div>
+    <div class="col-6" style="display: inline-block;  position: absolute; top: 0; left: 0">
+        <div class="card-lancamentos">
+            <div id="" style="margin-top: 5px;" style="width: 50%">
+                <div class="main-content container-fluid">
+                    <div class="">
+                        <div class="card-header">
+                            <h2>LANÇAMENTOS DISPONIVEIS PARA CONCILIAÇÃO</h2>
+                        </div>
 
-            <div class="card-body">
-                <!-- <form action="{{ route('extrato') }}" method="GET">
+                        <div class="card-body">
+                            <!-- <form action="{{ route('extrato') }}" method="GET">
                    
                 </form> -->
 
-                <table class='table table-striped' id="table1">
-                    <thead>
-                        <tr>
-                            <th style="padding: 10px;">ID PARCELA</th>
-                            <th style="padding: 10px;">DATA DO PAGAMENTO</th>
-                            <th style="padding: 10px;">DESCRIÇÃO</th>
-                            <th style="padding: 10px;">VALOR</th>
-                            <!-- <th style="padding:1px">AGENCIA/CONTA</th> -->
-                            <!-- <th>STATUS</th> -->
-                            <th style="padding: 10px;">AÇÕES</th>
-                        </tr>
-                    </thead>
+                            <table class='table table-striped' id="table1">
+                                <thead>
+                                    <tr>
+                                        <th style="padding: 10px;">ID PARCELA</th>
+                                        <th style="padding: 10px;">DATA DO PAGAMENTO</th>
+                                        <th style="padding: 10px;">DESCRIÇÃO</th>
+                                        <th style="padding: 10px;">VALOR</th>
+                                        <!-- <th style="padding:1px">AGENCIA/CONTA</th> -->
+                                        <!-- <th>STATUS</th> -->
+                                        <th style="padding: 10px;">AÇÕES</th>
+                                    </tr>
+                                </thead>
 
-                    <tbody>
-                        @if ($lancamentos != null || !empty($lancamentos))
-                        @foreach ($lancamentos as $lancamento)
-                        <tr>
-                            <td style="padding:3px;">
-                                {{ $lancamento->fk_tab_parcela_despesa_id }}
-                                <input type="checkbox" class="inputs_selecionandos" name="inputs_selecionandos[]" value="{{ $lancamento->fk_tab_parcela_despesa_id }}" id="radio_lancamento_{{ $lancamento->id_tab_lancamento }}">
-                                <input type="hidden" value="{{ $lancamento->id_tab_lancamento }}" id="id_lancamento_{{ $lancamento->fk_tab_parcela_despesa_id }}">
-                                <input type="hidden" value="{{ $lancamento->fk_despesa }}" name="fk_despesa" id="fk_despesa_{{ $lancamento->fk_tab_parcela_despesa_id }}">
-                            </td>
-                            <td style="padding:3px;" id="data_efetivo_pagamento_{{ $lancamento->fk_tab_parcela_despesa_id }}">
-                                {{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}
-                                <input type="hidden" value="{{ $lancamento->dt_efetivo_pagamento }}" id="data_{{ $lancamento->fk_tab_parcela_despesa_id }}">
-                            </td>
-                            <td style="padding:3px;">PARCELA {{ $lancamento->num_parcela }}</td>
-                            <td style="padding:3px;">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->valor_pago}}" /></td>
-                            <!-- <td>A:{{ $lancamento->nu_agencia }} C:{{$lancamento->nu_conta }}</td> -->
-                            <!-- <td>{{ $lancamento->de_status_despesa }}</td> -->
-                            <input type="hidden" id="conta_bancaria_lancamento{{$lancamento->fk_tab_parcela_despesa_id}}" value="{{$lancamento->fk_tab_conta_bancaria}}">
-                            <td style="padding:3px;" id="btn_abrir_extratos">
-                                <div class="d-flex justify-content-space-between">
-                                    <button id="{{ $lancamento->id_tab_lancamento }}" onclick="editLancamento(this.id)" class="btn btn-warning" style="padding: 3px 6px; color: black;"><i class="bi bi-pencil-fill"></i></button>
-                                    <!-- <button id="{{ $lancamento->id_tab_lancamento }}" onclick="deleteLancamento(this.id)" class="btn btn-danger ms-2" style="padding: 8px 12px;"><i class="bi bi-trash-fill"></i></button> -->
-                                </div>
+                                <tbody>
+                                    @if ($lancamentos != null || !empty($lancamentos))
+                                    @foreach ($lancamentos as $lancamento)
+                                    <tr>
+                                        <td style="padding:3px;">
+                                            {{ $lancamento->fk_tab_reparcela_despesa_id }}
+                                            <input type="checkbox" class="inputs_selecionandos" name="inputs_selecionandos[]" value="{{ $lancamento->fk_tab_reparcela_despesa_id }}" id="radio_lancamento_{{ $lancamento->id_tab_lancamento }}">
+                                            <input type="hidden" value="{{ $lancamento->id_tab_lancamento }}" id="id_lancamento_{{ $lancamento->fk_tab_reparcela_despesa_id }}">
+                                            <input type="hidden" value="{{ $lancamento->fk_despesa }}" name="fk_despesa" id="fk_despesa_{{ $lancamento->fk_tab_reparcela_despesa_id }}">
+                                            <input type="hidden" value="{{ $lancamento->reparcelado }}" name="reparcelado" id="reparcelado_{{ $lancamento->fk_tab_reparcela_despesa_id }}">
+                                        </td>
+                                        <td style="padding:3px;" id="data_efetivo_pagamento_{{ $lancamento->fk_tab_reparcela_despesa_id }}">
+                                            {{date("d/m/Y", strtotime($lancamento->dt_efetivo_pagamento))}}
+                                            <input type="hidden" value="{{ $lancamento->dt_efetivo_pagamento }}" id="data_{{ $lancamento->fk_tab_reparcela_despesa_id }}">
+                                        </td>
+                                        <td style="padding:3px;">PARCELA {{ $lancamento->num_reparcela }}</td>
+                                        <td style="padding:3px;">{{ $mascara::maskMoeda($lancamento->valor_pago) }}<input type="hidden" id="valorDespesa{{$lancamento->fk_tab_reparcela_despesa_id}}" value="{{$lancamento->valor_pago}}" /></td>
 
-                            </td>
-                        </tr>
-                        @endforeach
-                        @endif
-                    </tbody>
-                </table>
-                <!-- <div id="pagination_lancamentos">{{ $lancamentos->links() }}</div> -->
-                <div {{ $lancamentos->links() }}</div>
+                                        <input type="hidden" id="conta_bancaria_lancamento{{$lancamento->fk_tab_reparcela_despesa_id}}" value="{{$lancamento->fk_tab_conta_bancaria}}">
+                                        <td style="padding:3px;" id="btn_abrir_extratos">
+                                            <div class="d-flex justify-content-space-between">
+                                                <button id="{{ $lancamento->id_tab_lancamento }}" onclick="editLancamento(this.id)" class="btn btn-warning" style="padding: 3px 6px; color: black;"><i class="bi bi-pencil-fill"></i></button>
+
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
+                            <div>{{ $lancamentos->links() }}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-    </div>
-</div>
 
-<div class="col-4" style="display: inline-block;  position: absolute; top: 0; right: 250px">
+    <div class="col-4" style="display: inline-block;  position: absolute; top: 0; right: 250px">
         <div class="card-extratos"></div>
-</div>
+    </div>
 
 
 </div>
@@ -126,7 +124,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
-
     var pageExtrato = 1;
     var pageLancamento = 1;
     var contaBancaria = null;
@@ -140,13 +137,13 @@
         pageExtrato = $(this).attr('href').split('page=')[1];
         var url = $(this).attr('href').split('extrato')[1];
         url = url.split('/');
-        if(url[1] == 'filter'){
+        if (url[1] == 'filter') {
             loadTableExtratoWithId(contaBancaria, pageExtrato);
-        }else{
+        } else {
             loadTableExtrato(pageExtrato);
         }
     });
-    
+
     $(document).on('click', '#pagination_lancamentos a', function(event) {
         event.preventDefault();
         pageLancamento = $(this).attr('href').split('/parcelas?page=')[1];
@@ -165,7 +162,7 @@
         if ($(this).prop("checked") == true) {
             contaBancaria = $(`#conta_bancaria_lancamento${$(this).val()}`).val();
             loadTableExtratoWithId(contaBancaria, pageExtrato);
-        }else{
+        } else {
             contaBancaria = null;
             loadTableExtrato(pageExtrato);
         }
@@ -187,22 +184,20 @@
         $('#page_extrato').val(page);
         var dados = $('#form_paginacao_extrato').serialize();
         $.ajax({
-            url: "extrato/filter/account/" + id,
+            url: "filter/account/" + id,
             type: 'GET',
             data: dados,
-            
         }).done(function(data) {
             $('.card-extratos').html(data);
         });
     }
 
 
-
     function loadTableLancamentos(page) {
         $('#page_lancamento').val(page);
         var dados = $('#form_paginacao_lancamento').serialize();
         $.ajax({
-            url: "{{ route('paginate-lancamento') }}",
+            url: "{{ route('paginate-lancamento-reparcela') }}",
             type: 'GET',
             data: dados,
         }).done(function(data) {
@@ -261,7 +256,7 @@
                         text: "Conciliação realizada com sucesso",
                         icon: "success",
                     }).then(function() {
-                        window.location.href = "/extrato";
+                        window.location.href = "/lancamentos";
                     });
                 },
                 fail: function(response) {
@@ -388,6 +383,7 @@
                 conta_bancaria: $(`#conta_bancaria_lancamento${$(this).val()}`).val(),
                 data: $(`#data_${$(this).val()}`).val(),
                 fk_despesa: $(`#fk_despesa_${$(this).val()}`).val(),
+                reparcelado: $(`#reparcelado_${$(this).val()}`).val(),
             }
 
             if (lancamentos.length < 1) {

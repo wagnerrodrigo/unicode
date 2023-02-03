@@ -83,12 +83,13 @@ class DespesaController extends Controller
             $parcelas = new ParcelaDespesa();
             $parcelas = ParcelaDespesa::valorFaltante($id);
 
+            $quantidadeReparcela = ParcelaDespesa::reparcelasFaltante($id);
             $quantidade = ParcelaDespesa::parcelasFaltante($id);
 
 
             $mascara = new Mascaras();
             if ($despesa) {
-                return view('admin.despesas.detalhe-despesa', compact('despesa', 'rateios',  'mascara', 'tipo', 'costCenter', 'parcelas', 'quantidade'));
+                return view('admin.despesas.detalhe-despesa', compact('despesa', 'rateios',  'mascara', 'tipo', 'costCenter', 'parcelas', 'quantidade', 'quantidadeReparcela'));
             } else {
                 return view('admin.despesas.despesa-nao-encontrada');
             }
@@ -205,7 +206,7 @@ class DespesaController extends Controller
                         'fk_conta_bancaria_id' => null,
                     ];
                 }
-               
+
                 $parcelaDespesaRepository->store($parcelas);
             }
 
@@ -222,7 +223,7 @@ class DespesaController extends Controller
         try {
             $id_despesa = $request->id_despesa;
             $parcelaDespesaRepository = new ParcelaDespesaRepository();
-            
+
             $parcela = [];
             for ($i = 0; $i < count($request->parcela); $i++) {
                 $parcela[] = [
@@ -233,31 +234,39 @@ class DespesaController extends Controller
                     'dt_inicio' => Carbon::now()->setTimezone('America/Sao_Paulo')->toDateTimeString(),
                     'dt_fim' => null,
                     'dt_provisionamento' => null,
-                    'valor_parcela' => $request->parcela[$i],
+                    'valor_parcela' => str_replace('R$', '', $request->parcela[$i]),
                     'fk_status_id' => StatusDespesa::A_PAGAR,
                     'fk_condicao_pagamento' => null,
                     'fk_conta_bancaria' => null,
                     'fk_pix_id' => null,
                 ];
+
             }
+
+      
             $parcelaDespesaRepository->reparcelar($parcela);
-    
+
+
             //se houver parcela, alterar para REPARCELADO as que nao estao pagas e criar novas
             $cancelarParcelasAntigas = new ParcelaDespesaRepository();
-            // $cancelarParcelasAntigas->cancelarParcelasAntigas($id_despesa);
+            $cancelarParcelasAntigas->cancelarParcelasAntigas($id_despesa);
 
             $AlterarStatusDespesaReparcela = new ParcelaDespesaRepository();
-            // $AlterarStatusDespesaReparcela->AlterarStatusDespesaReparcela($id_despesa);
-            
+            $AlterarStatusDespesaReparcela->AlterarStatusDespesaReparcela($id_despesa);
 
-             //soma a quantidade de parcelas pagas e provisionada e altera a nova quantidade de parcelas na Despesa
-             $qt_parcelas_despesa = $request->numero_parcelas;
-             $totalParcelas = ParcelaDespesa::TotalParcelas($id_despesa);
-             $totalParcelas = intval($totalParcelas->num_parcela);
- 
-             $alterarQuantidade = intval($qt_parcelas_despesa) + $totalParcelas;
-            //  $alterarQuantidade = ParcelaDespesa::AlterarQuantidadeParcelaDespesa($id_despesa ,$alterarQuantidade);            
-          
+
+            //soma a quantidade de parcelas pagas e provisionada e altera a nova quantidade de parcelas na Despesa
+            $qt_parcelas_despesa = $request->numero_parcelas;
+            $totalParcelas = ParcelaDespesa::TotalParcelas($id_despesa);
+            $totalParcelas = intval($totalParcelas->num_parcela);
+
+            $alterarQuantidade = intval($qt_parcelas_despesa) + $totalParcelas;
+            $alterarQuantidade = ParcelaDespesa::AlterarQuantidadeParcelaDespesa($id_despesa ,$alterarQuantidade);  
+            
+            //Mudar Status para reparcela
+            $alterarstatus = "Sim";
+            $alterarstatus = ParcelaDespesa::AlterarESTATUSParcelaDespesa($id_despesa ,$alterarstatus);
+
 
             return redirect()->route('despesas')->with('success', 'Despesa Reparcelada!');
         } catch (\Exception $e) {
@@ -280,16 +289,23 @@ class DespesaController extends Controller
             $despesa->fk_plano_contas = $request->tipo_classificacao;
             $despesa->fk_tab_tipo_despesa_id = $request->classificacao;
 
-
-
+            
+           
             //caso haja rateio na despesa executa
             if ($request->empresa_rateio) {
+                
+
                 $rateios = [];
 
                 $soma_porcentagem_rateio = 0;
                 $soma_valor_rateio = 0;
                 //percorre os arrays de centro_custo, valor, e porcentagem do rateio recebidos pelo request e os une em um array chamado $rateios[]
                 for ($i = 0; $i < count($request->empresa_rateio); $i++) {
+
+                    if($despesa->fk_empresa_id == null){
+                        return redirect()->back()->with('error', 'Preencha todos os campos');
+                    }
+
                     $rateios[] = [
                         'centro_custo_rateio' => $request->custo_rateio[$i],
                         'valor_rateio' => trim(html_entity_decode($request->valor_rateio[$i]), " \t\n\r\0\x0B\xC2\xA0"),
